@@ -25,7 +25,7 @@ int ft_strlen(char *line)
 }
 int is_char(int c )
 {
-        return (c > 32 && c <= 127 && c != '|' && c != '&' && c != '<' && c != '>' && c != ')' && c != '(');
+        return (c > 32 && c <= 127 && c != '|' && c != '&' && c != '<' && c != '>' && c != ')' );
 }
 int     valid_pipe(char *line)
 {
@@ -99,7 +99,30 @@ int     new_line(char *line)
 }
 int     parentheses(line)
 {
-    
+    int i;
+    int first_flag;
+    int second_flag;
+    int len;
+
+    second_flag = 0; 
+    len = ft_strlen(line);
+
+    first_flag = 0;
+    i = -1;
+    while(len-- >= 0)
+    {
+        if(is_char(line[len]))
+            first_flag = 1;
+    }
+    if(first_flag)
+        return (ft_error(6),0)
+    while(line[++i])
+    {
+        if(is_char(line[i]))
+            second_flag = 1;
+        if()
+    }
+
 }
 int     check_line(char *line)
 {   
@@ -134,6 +157,8 @@ void ft_error(int type)
         ft_putstr_fd("bash: syntax error near unexpected token `&&'\n", 2);
     else if(type == 5)
         ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", 2);
+    else if(type == 6)
+        ft_putstr_fd("bash: syntax error near unexpected token `)'\n", 2);
     else 
         ft_putstr_fd("bash: syntax error \n", 2);
 }
