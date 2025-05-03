@@ -97,7 +97,7 @@ int     new_line(char *line)
     }
     return 1;
 }
-int     parentheses(line)
+int     parentheses(char *line)
 {
     int i;
     int first_flag;
@@ -116,12 +116,12 @@ int     parentheses(line)
     }
     if(first_flag)
         return (ft_error(6),0)
-    while(line[++i])
-    {
-        if(is_char(line[i]))
-            second_flag = 1;
-        if()
-    }
+    // while(line[++i])
+    // {
+    //     if(is_char(line[i]))
+    //         second_flag = 1;
+        
+    // }
 
 }
 int     check_line(char *line)
