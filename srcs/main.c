@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 00:37:18 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/04 16:22:08 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/04 16:55:11 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ int     new_line(char *line)
             second_flag = 1; 
         len--;
     }
-    if(!second_flag) // need to fix 
-         return(ft_error(4), 0);
+   // if(!second_flag) // need to fix 
+      //   return(ft_error(4), 0);
     while(line[++i])
     {
 
@@ -127,8 +127,8 @@ int     parentheses(char *line)
         if(is_char(line[len]))
             first_flag = 1;
     }
-    if(first_flag)
-        return (ft_error(6),0);
+   // if(first_flag)
+      //  return (ft_error(6),0);
     // while(line[++i])
     // {
     //     if(is_char(line[i]))
@@ -203,5 +203,5 @@ int main(void)
         int type;
         node *next;
     }
-sdf
+
 */
