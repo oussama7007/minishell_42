@@ -6,8 +6,13 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/04 15:31:48 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/04 17:22:09 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int main (int ac, char **av, char **env)
+{
+	
+}
