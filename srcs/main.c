@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 00:37:18 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/04 00:37:32 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/04 15:23:47 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,3 +189,19 @@ int main(void)
         free(arg->line);
     }
 }
+
+/// ls -al <input1 <intpu2 arg1 arg2 arg3 >output1 | grep 
+
+/*
+    #define COMMAND 0
+    #define PIPE    1
+    
+    node{
+        char **args;
+        char **red_in;
+        char **red_out;
+        int type;
+        node *next;
+    }
+
+*/
