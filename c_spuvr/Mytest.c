@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/05 18:25:24 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/05 18:26:14 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,19 @@ int main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 
-    my_shell_envp = init_environment(env);
-	if (!my_shell_envp)
+    copy_envp = init_environment(env);
+	if (!copy_envp)
 	{
 	    write(2, "Error: Failed to initialize environment\n", 40);
 	    return (1);
 	}
 
-	while(my_shell_envp[j])
+	while(copy_envp[j])
 	{
 		i = 0;
-		while(my_shell_envp[j][i])
+		while(copy_envp[j][i])
 		{
-			write(1, &my_shell_envp[j][i], 1);
+			write(1, &copy_envp[j][i], 1);
 			i++;
 		}
 		write(1, "\n", 1);
