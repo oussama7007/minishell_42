@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:18:20 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/05 17:35:11 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/05 17:42:26 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,3 +52,12 @@ typedef struct s_node
 }   t_node;
 
 #endif // MINISHELL_STRUCTS_H
+
+
+
+
+
+
+
+
+
