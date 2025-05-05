@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:18:20 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/05 17:42:26 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/05 17:44:16 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,18 @@ typedef struct s_node
 
 #endif // MINISHELL_STRUCTS_H
 
-
-
-
-
-
-
-
-
+// --- Environment Variable Node ---
+// this is a linked list of environment variables
+// each node has a name and a value
+// the last node is NULL
+// this is used for the export command
+// and for the environment variables in general
+// the name is the key, the value is the value
+// the name is a string, the value is a string
+// the name is the key, the value is the value
+// the name is a string, the value is a string
+// the name is the key, the value is the value
+// the name is a string, the value is a string
+// the name is the key, the value is the value
+// the name is a string, the value is a string
+// the name is the key, the value is the value
