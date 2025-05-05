@@ -6,13 +6,14 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:18:20 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/05 17:44:58 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/05 18:13:34 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_STRUCTS_H
 # define MINISHELL_STRUCTS_H
-
+# include <unistd.h>
+# include <stdlib.h>
 // --- Redirection Types ---
 // gotta know if its < > << >> right? enum is clean.
 typedef enum e_redir_type
@@ -50,6 +51,9 @@ typedef struct s_node
     t_redir           *redirections;// head of the linked list of t_redir for *this* command node
     struct s_node     *next;        // the next node in the chain (pipe or command)
 }   t_node;
+
+
+char	*ft_strdup(const char *s);
 
 #endif // MINISHELL_STRUCTS_H
 // --- End of File ---
