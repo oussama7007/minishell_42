@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/05 18:17:43 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/05 18:18:10 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,3 @@ int main(int ac, char **av, char **env)
 
 	return (0);
 }
-
-// --- Function Implementations Go Here (or in other .c files) ---
-
-// You will implement this function now:
-// char **init_environment(char **system_envp) {
-//     // ... your code to count, malloc, loop, strdup, null-terminate ...
-// }
