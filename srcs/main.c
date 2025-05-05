@@ -6,19 +6,11 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 00:37:18 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/04 16:55:11 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/04 18:26:15 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <unistd.h>
-#include <stdbool.h>
-
+#include "../includes/header.h"
 
 void ft_error(int type);
 typedef struct s_parscmd 
