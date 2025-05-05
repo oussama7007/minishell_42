@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/05 17:45:17 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/05 17:54:19 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ char    **init_environment(char **system_envp);
 
 int main(int ac, char **av, char **env)
 {
-    char **my_shell_envp; // This will hold YOUR shell's copy of the env vars
+	char	**my_shell_envp; // This will hold YOUR shell's copy of the env vars
 
-    (void)ac; // Shut up compiler warnings for now
-    (void)av; // Shut up compiler warnings for now
+	(void)ac;
+	(void)av;
 
     // --- Your VERY FIRST STEP ---
     // Before you can run commands, handle 'cd', 'export', 'unset', or even find
