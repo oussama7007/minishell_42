@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:00:09 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/06 16:00:39 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/06 16:01:17 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,3 +31,7 @@ char	*my_getenv(const char *name, char **envp)
 	return (NULL);
 }
 
+int	my_setenv(char *name, char *value, char ***env_ptr)
+{
+	
+}
