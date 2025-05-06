@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/06 16:00:33 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/06 17:16:42 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ char	**init_environment(char **system_envp)
 
 int main(int ac, char **av, char **env)
 {
-	char	**copy_envp;
+	char	**my_envp;
 	(void)ac;
 	(void)av;
 
-    copy_envp = init_environment(env);
-	if (!copy_envp)
+    my_envp = init_environment(env);
+	if (!my_envp)
 	{
 	    write(2, "Error: Failed to initialize environment\n", 40);
 	    return (1);
