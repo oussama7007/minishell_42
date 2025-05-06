@@ -6,11 +6,12 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:00:09 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/06 17:55:48 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/06 18:26:58 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_structs.h"
+#include "built_functions.h"
 
 char	*my_getenv(const char *name, char **envp)
 {
@@ -31,7 +32,7 @@ char	*my_getenv(const char *name, char **envp)
 	return (NULL);
 }
 
-static char	create_env_data(char *name, char *value)
+char	*create_env_data(char *name, char *value)
 {
 	int		n_len;
 	int		v_len;
@@ -47,7 +48,7 @@ static char	create_env_data(char *name, char *value)
 	return (entry);
 }
 
-static int	find_var_index(char *str, char**envp)
+int	find_var_index(char *str, char**envp)
 {
 	int	i;
 	int	len;
@@ -65,10 +66,9 @@ static int	find_var_index(char *str, char**envp)
 
 int	my_setenv(char *name, char *value, char ***env_ptr)
 {
-	int		i;
 	int		var;
 	char	*new_value;
-	char	*new_data;
+	char	**new_data;
 
 	if (!name || !value || !env_ptr)
 		return (-1);
@@ -84,9 +84,11 @@ int	my_setenv(char *name, char *value, char ***env_ptr)
 	}
 	var = ft_arrlen(*env_ptr);
 	if (!(new_data = malloc((var + 2) * sizeof(char *))))
-	{
-		free(new_value);
-		return (-1);
-	}
-	
+		return (free(new_value), -1);
+	ft_memcpy(new_data, *env_ptr, var * sizeof(char *));
+	new_data[var] = new_value;
+	new_data[var + 1] = NULL;
+	free(*env_ptr);
+	*env_ptr = new_data;
+	return (0);
 }

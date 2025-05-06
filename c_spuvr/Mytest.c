@@ -6,11 +6,12 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/06 17:16:42 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/06 18:19:07 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_structs.h"
+#include "built_functions.h"
 
 char	**init_environment(char **system_envp)
 {
