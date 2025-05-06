@@ -6,36 +6,14 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 15:05:30 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/06 18:18:51 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/06 18:39:51 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_structs.h"
 #include "built_functions.h"
 
-int		ft_strlen(char *s)
-{
-	int	i;
 
-	i = 0;
-	if (s[i] == '\0')
-		return (i);
-	while (s[i])
-		i++;
-	return (i);
-}
-
-int		ft_arrlen(char **arr)
-{
-	int i;
-
-	i = 0;
-	if (arr[i] == NULL)
-		return (i);
-	while (arr[i])
-		i++;
-	return (i);
-}
 
 char	*ft_strdup(char *s)
 {

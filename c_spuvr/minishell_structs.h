@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:18:20 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/06 18:18:57 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/06 18:41:02 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include "built_functions.h"
+# include "LIBFT/libft.h"
 
 // --- Redirection Types ---
 // gotta know if its < > << >> right? enum is clean.

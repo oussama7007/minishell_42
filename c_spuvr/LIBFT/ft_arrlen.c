@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_arrlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 20:27:07 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/06 18:40:14 by oadouz           ###   ########.fr       */
+/*   Created: 2025/05/06 18:40:05 by oadouz            #+#    #+#             */
+/*   Updated: 2025/05/06 18:41:09 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_arrlen(char **arr)
 {
-	size_t	i;
+	int i;
 
 	i = 0;
-	if (s[i] == '\0')
+	if (arr[i] == NULL)
 		return (i);
-	while (s[i])
-	{
+	while (arr[i])
 		i++;
-	}
 	return (i);
 }
