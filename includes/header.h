@@ -3,16 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/05/05 18:31:51 by oait-si-         ###   ########.fr       */
-=======
-/*   Updated: 2025/05/05 14:40:18 by oadouz           ###   ########.fr       */
->>>>>>> 8d14088bb8cbcc455fb53adaab66dcdb5aa0e1b1
+/*   Updated: 2025/05/06 13:28:33 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include <stdio.h>
 #include <unistd.h>
@@ -79,19 +76,12 @@ typedef struct s_command {
 #define pipe 0
 typedef struct s_command
 {
-<<<<<<< HEAD
-    char **args;
-    char *output_file; //for <
-    char *input_file; // for > or >> 
-    struct s_command *next; // Pointer to the next command for pipes (struct s_command*).
-}   t_command;
-=======
+
     char                **args;
     char                *output_file;
     char                *input_file;
     struct s_command    *next;
 }               t_command;
->>>>>>> 8d14088bb8cbcc455fb53adaab66dcdb5aa0e1b1
 
 
 
