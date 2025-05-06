@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:00:09 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/06 17:07:19 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/06 17:32:00 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,31 @@ char	*my_getenv(const char *name, char **envp)
 	return (NULL);
 }
 
+static char	create_env_data(char *name, char *value)
+{
+	int		i;
+	int		j;
+	int		n_len;
+	int		v_len;
+	char	*entry;
 
+	1 && (i = 0, j = 0, n_len = ft_strlen(name), v_len = ft_strlen(value));
+	entry = malloc(n_len + v_len + 2);	// Allocate memory for "name=value\0" string  || // +1 for '=', +1 for '\0'
+	if (!entry)
+		return (NULL);
+	while (i++ < n_len)
+		entry[i] = name[i];
+	entry[i] = '=';
+	while (j++ < v_len)
+		entry[i + j] = value[j];
+	entry[i + j] = '\0';
+	return (entry);
+}
+
+static int	find_var_index(char *str, char**envp)
+{
+	
+}
 
 int	my_setenv(char *name, char *value, char ***env_ptr)
 {
@@ -41,5 +65,6 @@ int	my_setenv(char *name, char *value, char ***env_ptr)
 
 	if (!name || !value || !env_ptr)
 		return (-1);
+	var = find_var_index(name, *env_ptr);
 	new_data = create_env_data(name, value);
 }

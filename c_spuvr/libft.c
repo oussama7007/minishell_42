@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 15:05:30 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/06 15:11:27 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/06 17:26:49 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,23 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	if (i < n)
 		return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 	return (0);
+}
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+{
+	size_t	len;
+	size_t	i;
+
+	len = ft_strlen(src);
+	i = 0;
+	if (dstsize != 0)
+	{
+		while (src[i] != '\0' && i < dstsize - 1)
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
+	}
+	return (len);
 }
