@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/06 13:28:33 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:24:01 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 
+// ana ankhedm bhadi 
 
 
 
@@ -57,31 +58,6 @@ typedef struct s_command {
 } t_command;
 
 /// ls -al <input1 <intpu2 arg1 arg2 arg3 >output1 | grep 
-
-/*
-    #define COMMAND 0
-    #define PIPE    1
-    
-    node{
-        char **args;
-        char **red_in;
-        char **red_out;
-        int type;
-        node *next;
-    }
-
-*/
-
-#define command 0
-#define pipe 0
-typedef struct s_command
-{
-
-    char                **args;
-    char                *output_file;
-    char                *input_file;
-    struct s_command    *next;
-}               t_command;
 
 
 
