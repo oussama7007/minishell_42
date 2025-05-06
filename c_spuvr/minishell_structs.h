@@ -6,7 +6,11 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:18:20 by oadouz            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/05/06 13:48:28 by oait-si-         ###   ########.fr       */
+=======
+/*   Updated: 2025/05/06 15:11:42 by oadouz           ###   ########.fr       */
+>>>>>>> e69e8a110f5b186faa515dc0095747138752ca29
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +59,7 @@ typedef struct s_node
 
 
 char	*ft_strdup(char *s);
+int	    ft_strncmp(const char *s1, const char *s2, size_t n);
 
 #endif // MINISHELL_STRUCTS_H
 // --- End of File ---
