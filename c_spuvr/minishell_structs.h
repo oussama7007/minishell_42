@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:18:20 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/05 18:27:56 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/06 15:11:42 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_node
 
 
 char	*ft_strdup(char *s);
+int	    ft_strncmp(const char *s1, const char *s2, size_t n);
 
 #endif // MINISHELL_STRUCTS_H
 // --- End of File ---
