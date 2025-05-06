@@ -1,12 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/04 15:31:56 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/04 15:31:57 by oadouz           ###   ########.fr       */
+/*   Created: 2025/05/05 18:08:03 by oadouz            #+#    #+#             */
+/*   Updated: 2025/05/05 18:27:41 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell_structs.h"
+
+int		ft_strlen(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (s[i] == '\0')
+		return (i);
+	while (s[i])
+		i++;
+	return (i);
+}
+
+char	*ft_strdup(char *s)
+{
+	int		i;
+	char	*d;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	d = malloc(sizeof(char) * (ft_strlen(s) + 1));
+	while (s[i])
+	{
+		d[i] = s[i];
+		i++;
+	}
+	d[i] = '\0';
+	return (d);
+}
