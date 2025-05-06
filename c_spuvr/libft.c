@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 15:05:30 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/06 17:26:49 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/06 17:46:21 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,18 @@ int		ft_strlen(char *s)
 	if (s[i] == '\0')
 		return (i);
 	while (s[i])
+		i++;
+	return (i);
+}
+
+int		ft_arrlen(char **arr)
+{
+	int i;
+
+	i = 0;
+	if (arr[i] == NULL)
+		return (i);
+	while (arr[i])
 		i++;
 	return (i);
 }
