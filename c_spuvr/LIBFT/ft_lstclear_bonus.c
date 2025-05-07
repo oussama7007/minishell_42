@@ -1,14 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 18:08:03 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/07 09:47:20 by oadouz           ###   ########.fr       */
+/*   Created: 2024/11/08 06:14:46 by oadouz            #+#    #+#             */
+/*   Updated: 2024/11/17 04:12:26 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_structs.h"
+#include "libft.h"
 
+void	ft_lstclear(t_list **lst, void (*del)(void*))
+{
+	t_list	*n;
+	t_list	*temp;
+
+	if (!lst || !del)
+		return ;
+	n = *lst;
+	while (n != NULL)
+	{
+		temp = n;
+		n = n->next;
+		del(temp->content);
+		free(temp);
+	}
+	*lst = NULL;
+}

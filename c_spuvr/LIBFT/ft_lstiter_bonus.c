@@ -1,14 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_lstiter_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 18:08:03 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/07 09:47:20 by oadouz           ###   ########.fr       */
+/*   Created: 2024/11/08 16:38:36 by oadouz            #+#    #+#             */
+/*   Updated: 2024/11/17 04:13:35 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_structs.h"
+#include "libft.h"
 
+void	ft_lstiter(t_list *lst, void (*f)(void *))
+{
+	if (!lst || !f)
+		return ;
+	while (lst != NULL)
+	{
+		f (lst->content);
+		lst = lst->next;
+	}
+}

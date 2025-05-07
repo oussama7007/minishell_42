@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_structs.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:18:20 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/06 16:07:32 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/07 09:51:12 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,48 +14,40 @@
 # define MINISHELL_STRUCTS_H
 # include <unistd.h>
 # include <stdlib.h>
+# include "built_functions.h"
+# include "LIBFT/libft.h"
 
-// --- Redirection Types ---
-// gotta know if its < > << >> right? enum is clean.
-typedef enum e_redir_type
-{
-    REDIR_IN,       // <
-    REDIR_OUT,      // >
-    REDIR_HEREDOC,  // <<
-    REDIR_APPEND    // >>
-}   t_redir_type;
+#define TOKEN_WORD 0
+#define TOKEN_PIPE 1
+#define TOKEN_RED_IN 2
+#define TOKEN_RED_OUT 3
+#define TOKEN_RED_APPEND 4
+#define TOKEN_RED_HEREDOC 5
+#define TOKEN_SEMICOLON 6
 
-// --- Redirection Node ---
-// commands can have loads of these, so link em up
-typedef struct s_redir
-{
-    t_redir_type      type;       // which one from the enum?
-    char              *filename;  // the file name, or the word for <<
-    struct s_redir    *next;      // next redir for the *same* command
-}   t_redir;
-
-// --- Command Node Types ---
-// gotta know if its a command or just a pipe symbol
-typedef enum e_node_type
-{
-    NODE_COMMAND,   // somethin' to run, like 'ls'
-    NODE_PIPE       // just the '|' symbol connectin' things
-    // NODE_AND, NODE_OR // maybe later if needed
-}   t_node_type;
-
-// --- Main Command/Pipe Node ---
-// this is the main chain: cmd -> pipe -> cmd -> ...
-typedef struct s_node
-{
-    t_node_type       type;         // command or pipe? check the enum
-    char              **args;       // the actual command and its flags/args, like {"ls", "-l", NULL}. NULL if its just a pipe node.
-    t_redir           *redirections;// head of the linked list of t_redir for *this* command node
-    struct s_node     *next;        // the next node in the chain (pipe or command)
-}   t_node;
+#define ERR_PIPE 1
+#define ERR_RED 2
+#define ERR_NEWLINE 5
+#define ERR_QUOTE 6
+#define ERR_SEMICOLON 7
 
 
-char	*ft_strdup(char *s);
-int	    ft_strncmp(const char *s1, const char *s2, size_t n);
+typedef struct s_token {
+    int type;              // Token type (e.g., TOKEN_WORD, TOKEN_PIPE)
+    char *value;           // Token string (e.g., "ls", "|")
+    struct s_token *next;  // Pointer to next token
+} t_token;
 
-#endif // MINISHELL_STRUCTS_H
-// --- End of File ---
+typedef struct s_command {
+    char *cmd;             // Command name (e.g., "ls")
+    char **args;           // Array of arguments (e.g., {"ls", "-l"})
+    char **red_in;         // Array of input redirection files
+    char **red_out;        // Array of output redirection files
+    int *append;           // Array of flags (1 for >>, 0 for >)
+    char *heredoc_delimiter;// Delimiter for << (e.g., "EOF")
+    struct s_command *next;// Next command (for pipes)
+} t_command;
+
+/// ls -al <input1 <intpu2 arg1 arg2 arg3 >output1 | grep 
+
+#endif

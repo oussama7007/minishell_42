@@ -1,14 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 18:08:03 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/07 09:47:20 by oadouz           ###   ########.fr       */
+/*   Created: 2024/11/07 22:49:03 by oadouz            #+#    #+#             */
+/*   Updated: 2024/11/14 01:06:01 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_structs.h"
+#include "libft.h"
 
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	i;
+
+	if (s == NULL)
+		return ;
+	if (fd >= 0)
+	{
+		i = 0;
+		while (s[i] != '\0')
+		{
+			write(fd, &s[i], 1);
+			i++;
+		}
+	}
+	return ;
+}
