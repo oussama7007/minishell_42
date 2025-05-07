@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/07 09:49:48 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/07 09:50:50 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@
 #define TOKEN_RED_APPEND 4
 #define TOKEN_RED_HEREDOC 5
 #define TOKEN_SEMICOLON 6
-
-
 
 #define ERR_PIPE 1
 #define ERR_RED 2
