@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:00:09 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/07 09:46:26 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/07 18:17:20 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,37 @@ int	my_setenv(char *name, char *value, char ***env_ptr)
 	new_data[var + 1] = NULL;
 	free(*env_ptr);
 	*env_ptr = new_data;
+	return (0);
+}
+
+int	my_unsetenv(const char *name, char ***env_ptr)
+{
+	int		i;
+	int		j;
+	int		var_id;
+	char	*new_env;
+	int		env_size;
+
+	if (!name || !env_ptr || !(*env_ptr))
+		return (-1);
+	var_id = find_var_index((char *)name, *env_ptr);
+	if (var_id == -1)
+		return (0);
+	env_size = ft_arrlen(*env_ptr);
+	new_env = malloc(sizeof(char *) * env_size);
+	if (!new_env)
+		return (-1);
+	1 && (i = 0, j = 0);
+	while ((*env_ptr)[i])
+	{
+		if (i != var_id)
+			new_env[j++] = (*env_ptr)[i];
+		else
+			free ((*env_ptr)[i]);
+		i++;
+	}
+	new_env[i] = NULL;
+	free((*env_ptr));
+	(*env_ptr) = new_env;
 	return (0);
 }
