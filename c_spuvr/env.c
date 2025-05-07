@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:00:09 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/07 09:45:24 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/07 09:46:26 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*create_env_data(char *name, char *value)
 	return (entry);
 }
 
-int	find_var_index(char *str, char**envp)
+int	find_var_index(char *str, char **envp)
 {
 	int	i;
 	int	len;
