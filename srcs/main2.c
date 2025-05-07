@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/07 17:56:13 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/07 21:22:50 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,18 @@ int     check_exit(char *line)
         i += 4;
         while(line[i] && is_space(line[i]))
             i++;
-        if(line[i] == '\0')
+        if(line[i] != '\0')
+        {
+            write(1,"Minishell: exit: ", 17);
+            while(line[i] && !is_space(line[i]))
+            {
+                write(1, &line[i], 1);
+                i++;
+            }
+            write(1, ": numeric argument required\n", 29);
+            return 0;
+        }
+        else 
             return 0;
     }
     return 1;
