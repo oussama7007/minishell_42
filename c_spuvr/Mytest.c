@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/07 18:51:57 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/08 14:50:12 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,33 @@ char	**init_environment(char **system_envp)
 	return (copy);
 }
 
+void	free_environment(char **envp_ptr)
+{
+	int	j;
+
+	if (!envp_ptr || !(*envp_ptr))
+		return ;
+	j = ft_arrlen(envp_ptr);
+	while (j >= 0)
+	{
+		free(envp_ptr[j]);
+		j--;	
+	}
+	free(envp_ptr);
+}
+
 int main(int ac, char **av, char **env)
 {
 	char	**my_envp;
 	(void)ac;
 	(void)av;
 
-    my_envp = init_environment(env);
+	my_envp = init_environment(env);
 	if (!my_envp)
 	{
 		write(2, "Error: Failed to initialize environment\n", 40);
 		return (1);
 	}
-	
+	free_environment(my_envp);
 	return (0);
 }
