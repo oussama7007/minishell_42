@@ -6,12 +6,28 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:20:01 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/08 17:36:52 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/08 17:54:31 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_structs.h"
 #include "built_functions.h"
+
+static int	is_n_option(const char *arg)
+{
+	int	j;
+
+	if (!arg || arg[0] != '-' || arg[1] != 'n')
+		return (0);
+	j = 2;
+	while (arg[j])
+	{
+		if (arg[j] != 2)
+			return (0);
+		j++;
+	}
+	return (1);
+}
 
 int	ft_echo(char **args)
 {
@@ -20,7 +36,7 @@ int	ft_echo(char **args)
 
 	i = 1;
 	n = 1;
-	while (args[i] && ft_strcmp(args[i], "-n") == 0)
+	while (args[i] && is_n_option(args[i]))
 	{
 		n = 0;
 		i++;
