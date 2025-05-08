@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 18:08:03 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/08 14:44:51 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/08 16:28:14 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*create_env_data(char *name, char *value)
 		return (NULL);
 	ft_strlcpy(entry, name, n_len + 1);
 	entry[n_len] = '=';
-	ft_strlcpy(entry + n_len + 1, value, v_len + 1);	
+	ft_strlcpy(entry + n_len + 1, value, v_len + 1);
 	return (entry);
 }
 
@@ -45,4 +45,3 @@ int	find_var_index(char *str, char **envp)
 	}
 	return (-1);
 }
-
