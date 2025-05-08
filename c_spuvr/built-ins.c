@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:20:01 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/08 16:38:00 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/08 17:28:56 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,20 @@ int	ft_echo(char **args)
 	int	n;
 
 	i = 1;
-	n = 0;
-	if (args[i] && ft_strncmp(args[i], "-n", 2) == 0)
-		n = 1;
-	while (args[++i])
+	n = 1;
+	while (args[i] && ft_strcmp(args[i], "-n") == 0)
+	{
+		n = 0;
+		i++;
+	}
+	while (args[i])
 	{
 		ft_putstr_fd(args[i], STDOUT_FILENO);
 		if (args[i + 1])
 			ft_putchar_fd(' ', STDOUT_FILENO);
+		i++;
 	}
-	if (!n)
+	if (n)
 		ft_putchar_fd("\n", STDOUT_FILENO);
 	return (0);
 }
@@ -70,3 +74,4 @@ int	ft_cd(char **args, char ***env_ptr)
 		return (ft_putstr_fd("minishell: cd: path not set\n", 2), 1);
 	return (change_directory(target_dir, curr_dir, env_ptr, args));
 }
+

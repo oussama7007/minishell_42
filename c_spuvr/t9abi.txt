@@ -1,0 +1,5 @@
+ECHO t9abi
+{
+echo -n -n -n hello or even things like echo -nnnnn hello
+echo -nn hello or echo hello -n
+}
