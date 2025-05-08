@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 18:08:03 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/07 18:22:57 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/08 13:58:03 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ char	*create_env_data(char *name, char *value)
 
 	n_len = ft_strlen(name);
 	v_len = ft_strlen(value);
-	entry = malloc(n_len + v_len + 2);	// Allocate memory for "name=value\0" string  || // +1 for '=', +1 for '\0'
+	// Allocate memory for "name=value\0" string  || // +1 for '=', +1 for '\0'
+	entry = malloc(n_len + v_len + 2);
 	if (!entry)
 		return (NULL);
 	ft_strlcpy(entry, name, n_len + 1);
