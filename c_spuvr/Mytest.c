@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/08 14:50:12 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/08 15:18:40 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	free_environment(char **envp_ptr)
 {
 	int	j;
 
-	if (!envp_ptr || !(*envp_ptr))
+	if (!envp_ptr)
 		return ;
 	j = ft_arrlen(envp_ptr);
 	while (j >= 0)
