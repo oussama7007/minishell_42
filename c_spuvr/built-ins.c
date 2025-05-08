@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:20:01 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/08 17:28:56 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/08 17:36:52 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,3 +75,16 @@ int	ft_cd(char **args, char ***env_ptr)
 	return (change_directory(target_dir, curr_dir, env_ptr, args));
 }
 
+int	ft_pwd(void)
+{
+	char	buffer[1024];
+
+	if (getcwd(buffer, sizeof(buffer)) == NULL)
+	{
+		perror("minishell: pwd");
+		return (1);
+	}
+	ft_putstr_fd(buffer, STDOUT_FILENO);
+	ft_putchar_fd('\n', STDOUT_FILENO);
+	return (0);
+}
