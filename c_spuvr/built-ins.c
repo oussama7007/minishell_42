@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:20:01 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/08 16:26:02 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/08 16:32:31 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,15 @@ int	ft_cd(char **args, char ***env_ptr)
 	if (!args[1] || ft_strcmp(args[1], "~") == 0)
 		target_dir = my_getenv("HOME", *env_ptr);
 	else if (ft_strcmp(args[1], "-") == 0)
+		target_dir = my_getenv("OLDPWD", *env_ptr);
+	else
+		target_dir = args[1];
+	if (!target_dir)
+		return (ft_putstr_fd("minishell: cd: path not set\n", 2), 1);
+	if (chdir(target_dir) != 0)
+	{
+		ft_putstr_fd("minishell: cd: ", STDOUT_FILENO);
+		perror(args[1]);
+		return (1);
+	}
 }
