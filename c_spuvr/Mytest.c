@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/08 15:18:58 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/09 09:40:48 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,10 @@ int main(int ac, char **av, char **env)
 	{
 		write(2, "Error: Failed to initialize environment\n", 40);
 		return (1);
+	}
+	while (1)
+	{
+		
 	}
 	free_environment(my_envp);
 	return (0);
