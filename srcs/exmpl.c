@@ -15,8 +15,6 @@
 #include "../includes/header.h"
 
 
-
-
 char *ft_strdup(const char *s1)
 {
     int i = 0;
@@ -52,15 +50,13 @@ size_t ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
     size_t i = 0;
 
-    // First, count length of src
+    
     while (src[i])
         i++;
 
-    // If dstsize is 0, just return the length of src
     if (dstsize == 0)
         return i;
 
-    // Copy up to dstsize - 1 characters
     size_t j = 0;
     while (j < dstsize - 1 && src[j])
     {
@@ -68,9 +64,9 @@ size_t ft_strlcpy(char *dst, const char *src, size_t dstsize)
         j++;
     }
 
-    dst[j] = '\0'; // Null-terminate the destination
+    dst[j] = '\0'; 
 
-    return i; // Return total length of src (not how much was copied!)
+    return i; 
 }
 char *ft_strndup( char *s, size_t n)
 {
@@ -86,23 +82,14 @@ char *ft_strndup( char *s, size_t n)
     ft_strlcpy(dup, s, len + 1);
     return (dup);
 }
-void free_tokens(t_token *tokens)
-{
-    t_token *tmp;
-
-    while (tokens)
-    {
-        tmp = tokens;
-        tokens = tokens->next;
-        free(tmp->value);
-        free(tmp);
-    }
-}
+void    free_tokens(t_token *tokens);
 // Helper: Create a new token
 static t_token *new_token(int type, char *value)
 {
 
-    t_token *token = malloc(sizeof(t_token));
+    t_token *token;
+    
+    token = malloc(sizeof(t_token));
     if (!token)
         return (NULL);
     token->type = type;
@@ -194,8 +181,17 @@ t_token *tokenize(char *line)
 }
 
 // Free token list
-
-
+void    free_tokens(t_token *tokens)
+{
+    t_token *tmp ;
+    while(tokens)
+    {
+        tmp = tokens;
+        tokens = tokens->next;
+        free(tmp->value);
+        free(tmp);       
+    }
+}
 // Debug: Print tokens
 static void print_tokens(t_token *tokens)
 {
@@ -205,12 +201,15 @@ static void print_tokens(t_token *tokens)
         tokens = tokens->next;
     }
 }
-
+void    t()
+{
+    system("leaks a.out");
+}
 int main(void)
 {
     char *line;
     t_token *tokens;
-
+    atexit(t);
     while (1)
     {
         line = readline("Minishell$ ");
@@ -227,9 +226,10 @@ int main(void)
             free(line);
             continue;
         }
-        print_tokens(tokens); // For debugging
+        print_tokens(tokens); // for dubg
         free_tokens(tokens);
         free(line);
     }
+    
     return (0);
 }
