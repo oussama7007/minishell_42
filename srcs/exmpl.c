@@ -14,9 +14,94 @@
 
 #include "../includes/header.h"
 
+
+
+
+char *ft_strdup(const char *s1)
+{
+    int i = 0;
+    char *copy;
+
+    while (s1[i])
+        i++;
+
+    copy = (char *)malloc(sizeof(char) * (i + 1));
+    if (!copy)
+        return NULL;
+
+    i = 0;
+    while (s1[i])
+    {
+        copy[i] = s1[i];
+        i++;
+    }
+    copy[i] = '\0';
+
+    return copy;
+}
+int ft_strlen(char *line)
+{
+    int i;
+
+    i = 0;
+    while(line[i])
+        i++;
+    return i;
+}
+size_t ft_strlcpy(char *dst, const char *src, size_t dstsize)
+{
+    size_t i = 0;
+
+    // First, count length of src
+    while (src[i])
+        i++;
+
+    // If dstsize is 0, just return the length of src
+    if (dstsize == 0)
+        return i;
+
+    // Copy up to dstsize - 1 characters
+    size_t j = 0;
+    while (j < dstsize - 1 && src[j])
+    {
+        dst[j] = src[j];
+        j++;
+    }
+
+    dst[j] = '\0'; // Null-terminate the destination
+
+    return i; // Return total length of src (not how much was copied!)
+}
+char *ft_strndup( char *s, size_t n)
+{
+    char *dup;
+    size_t len;
+
+    len = ft_strlen(s);
+    if (len > n)
+        len = n;
+    dup = malloc(len + 1);
+    if (!dup)
+        return (NULL);
+    ft_strlcpy(dup, s, len + 1);
+    return (dup);
+}
+void free_tokens(t_token *tokens)
+{
+    t_token *tmp;
+
+    while (tokens)
+    {
+        tmp = tokens;
+        tokens = tokens->next;
+        free(tmp->value);
+        free(tmp);
+    }
+}
 // Helper: Create a new token
 static t_token *new_token(int type, char *value)
 {
+
     t_token *token = malloc(sizeof(t_token));
     if (!token)
         return (NULL);
@@ -28,6 +113,7 @@ static t_token *new_token(int type, char *value)
         return (NULL);
     }
     token->next = NULL;
+
     return (token);
 }
 
@@ -50,17 +136,17 @@ static void add_token(t_token **list, t_token *new)
 // Helper: Check token type for substring
 static int get_token_type(char *str)
 {
-    if (str[0] == '|' && str[1] == '\0')
+    if (str[0] == '|')
         return (TOKEN_PIPE);
-    if (str[0] == '>' && str[1] == '>' && str[2] == '\0')
+    if (str[0] == '>' && str[1] == '>' )
         return (TOKEN_RED_APPEND);
-    if (str[0] == '>' && str[1] == '\0')
+    if (str[0] == '>' )
         return (TOKEN_RED_OUT);
-    if (str[0] == '<' && str[1] == '<' && str[2] == '\0')
+    if (str[0] == '<' && str[1] == '<')
         return (TOKEN_RED_HEREDOC);
-    if (str[0] == '<' && str[1] == '\0')
+    if (str[0] == '<')
         return (TOKEN_RED_IN);
-    if (str[0] == ';' && str[1] == '\0')
+    if (str[0] == ';')
         return (TOKEN_SEMICOLON);
     return (TOKEN_WORD);
 }
@@ -108,18 +194,7 @@ t_token *tokenize(char *line)
 }
 
 // Free token list
-void free_tokens(t_token *tokens)
-{
-    t_token *tmp;
 
-    while (tokens)
-    {
-        tmp = tokens;
-        tokens = tokens->next;
-        free(tmp->value);
-        free(tmp);
-    }
-}
 
 // Debug: Print tokens
 static void print_tokens(t_token *tokens)

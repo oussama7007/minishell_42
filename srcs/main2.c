@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/07 23:33:13 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/09 15:06:17 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,44 @@ int is_space(int  c)
 t_token     *tokenize(char *line)
 {
     t_token *tokens = NULL;
-    char 
+    char *start;
+    char *end;
+    char *word;
+    t_token *token;
+    
+    start = &line;
+    while(*start)
+    {
+        while(*start == ' ')
+            start++;
+        if(!*start)
+            break;
+        end = start;
+        if(*start == '|' || *start == ';' || *start == '<' || *start == '>')
+        {
+            if(*start == '<' && *(start + 1) == '<')
+                end +=2;
+            if(*start == '>' && *(start + 1) == '>')
+                end +=2;
+            else 
+                end++;
+        }
+        else 
+            while(*start && *start != '|' || *start != ';' || *start != '<' || *start != '>')
+                end++;
+        if(end > start)
+        {
+            word = ft_strndup(start, end ,line);
+            if(!word)
+                return(NULL);
+            token = new_token(get_token_type(word), word);
+            free(word);
+            if(!token)  
+                retrun(free_token(tokens))
+            add_token(&token, NULL);
+                    
+        }
+    }
 }
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
@@ -45,35 +82,6 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return (0);
 }
-// int     check_exit(char *line)
-// {
-//     int i;
-
-//     i = 0;
-//     while(line[i] && is_space(line[i]))
-//         i++;
-//     if(line[i] == '\0')
-//         return 1;
-//     if(ft_strncmp(line, "exit", 4) == 0)
-//     {
-//         i += 4;
-//         while(line[i] && is_space(line[i]))
-//             i++;
-//         if(line[i] != '\0')
-//         {
-//             write(1,"Minishell: exit: ", 17);
-//             while(line[i] && !is_space(line[i]))
-//             {
-//                 write(1, &line[i], 1);
-//                 i++;
-//             }
-//             write(1, ": numeric argument required\n", 29);
-//             return 1;
-//         } 
-//         return 0;
-//     }
-//     return 1;
-// }
 void    t()
 {
     system("leaks a.out");
