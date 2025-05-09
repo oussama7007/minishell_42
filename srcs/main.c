@@ -1,23 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/04 00:37:18 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/04 18:26:15 by oait-si-         ###   ########.fr       */
+/*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
+/*   Updated: 2025/05/09 23:09:36 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
-
-void ft_error(int type);
-typedef struct s_parscmd 
+char *ft_strdup(const char *s1)
 {
-        char *line;
-}   t_parscmd;
+    int i = 0;
+    char *copy;
 
+    while (s1[i])
+        i++;
+
+    copy = (char *)malloc(sizeof(char) * (i + 1));
+    if (!copy)
+        return NULL;
+
+    i = 0;
+    while (s1[i])
+    {
+        copy[i] = s1[i];
+        i++;
+    }
+    copy[i] = '\0';
+
+    return copy;
+}
+void    free_tokens(t_token *tokens)
+{
+    t_token *tmp;
+    while(tokens)
+    {
+        tmp = tokens;
+        tokens = tokens->next;
+        free(tmp->value);
+        free(tmp);
+    }
+}
 int ft_strlen(char *line)
 {
     int i;
@@ -27,173 +53,189 @@ int ft_strlen(char *line)
         i++;
     return i;
 }
-int is_char(int c )
+
+int is_space(int  c)
 {
-        return (c > 32 && c <= 127 && c != '|' && c != '&' && c != '<' && c != '>' && c != ')' );
+    return(c >= 9 && c <= 32);
 }
-int     valid_pipe(char *line)
+int     get_token_type(char *line)
 {
-    int i;
-    int pipe_flag;
-    int len;
-
-    len = ft_strlen(line);
-    pipe_flag = 0;
-
-    i = -1;
-    while(line[++i])
+    if(line[0] == '|')
+        return (TOKEN_PIPE);
+    if(line[0] == '<' && line[1] == '<')
+        return (TOKEN_RED_HEREDOC);
+    if(line[0] == '>' && line[1] == '>')
+        return (TOKEN_RED_APPEND);
+    if(line[0] == '<')
+        return (TOKEN_RED_IN);
+    if(line[0] == '>')
+        return (TOKEN_RED_OUT);
+    if(line[0] == ';')
+        return (TOKEN_SEMICOLON);
+    return(TOKEN_WORD);
+}
+void    add_token(t_token **tokens, t_token *token)
+{
+    t_token *tmp;
+    if(!*tokens)
+        *tokens = token;
+    else 
     {
-        if(line[i] == '|'  && line[i + 1] == '|' && !pipe_flag)
-             return (ft_error(2),0);
-        if(is_char(line[i]))
-            pipe_flag = 1;
-        if(line[i] == '|' && !pipe_flag)
-            return (ft_error(1),0);
+        tmp = *tokens;
+        while(tmp)
+            tmp = tmp->next;
+        tmp->next = token;
     }
-    return 1;
-}
-int     and_operator(char *line)     
+} 
+t_token     *new_token(int type, char *word)
 {
-        int i;
-        int and_flag;
+    t_token *new;
 
-        i = -1;
-        and_flag = 0;
-        while(line[++i])
+    new = malloc(sizeof(t_token));
+    if(!new)
+        return (NULL);
+    new->value = ft_strdup(word);
+    if(!new->value)
+        return (NULL);
+    new->type = type;
+    new->next = NULL;
+    return new;
+}
+size_t ft_strlcpy(char *dst, const char *src, size_t dstsize)
+{
+    size_t i = 0;
+
+    
+    while (src[i])
+        i++;
+
+    if (dstsize == 0)
+        return i;
+
+    size_t j = 0;
+    while (j < dstsize - 1 && src[j])
+    {
+        dst[j] = src[j];
+        j++;
+    }
+
+    dst[j] = '\0'; 
+
+    return i; 
+}
+char *ft_strndup( char *s, size_t n)
+{
+    char *dup;
+    size_t len;
+
+    len = ft_strlen(s);
+    if (len > n)
+        len = n;
+    dup = malloc(len + 1);
+    if (!dup)
+        return (NULL);
+    ft_strlcpy(dup, s, len + 1);
+    return (dup);
+}
+
+t_token     *tokenize(char *line)
+{
+    t_token *tokens = NULL;
+    char *start;
+    char *end;
+    char *word;
+    t_token *token;
+    
+    start = line;
+    while(*start)
+    {
+        while(*start == ' ')
+            start++;
+        if(!*start)
+            break;
+        end = start;
+        if(*start == '|' || *start == ';' || *start == '<' || *start == '>')
         {
-                if(is_char(line[i]))
-                    and_flag = 1;
-                if(line[i] == '&' && !and_flag)
-                {
-                    if(line[i + 1] == '&')
-                        return(ft_error(4), 0);
-                    return (ft_error(3), 0);
-                }
+            if(*start == '<' && *(start + 1) == '<')
+                end +=2;
+            if(*start == '>' && *(start + 1) == '>')
+                end +=2;
+            else 
+                end++;
         }
-        return 1;
+        else 
+            while(*end && *end != '|' && *end != ';' && *end != '<' && *end != ' ' && *end != '>')
+                end++;
+        if(end > start)
+        {
+            word = ft_strndup(line, end - start);
+            if(!word)
+                return(free_tokens(tokens),NULL);
+            token = new_token(get_token_type(word), word);
+            free(word);
+            if(!token)  
+                return(free_tokens(tokens), NULL);
+            add_token(&tokens, token);
+        }
+        start = end;
+    }
+    return(tokens);
 }
-int     new_line(char *line)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-    int i;
-    int first_flag;
-    int second_flag;
-    int len;
+	size_t	i;
+
+	i = 0;
+	if (n == 0)
+		return (0);
+	while ((i < n) && (s1[i] || s2[i]))
+	{
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
+	return (0);
+}
+void    print_tokens(t_token *tokens)
+{
+    while(tokens)
+    {
+        printf(" type : %d, value %s \n", tokens->type, tokens->value);
+        tokens = tokens->next;
+    }
     
-    first_flag = 0;
-    second_flag = 0;
-    len = ft_strlen(line);
-    i = -1;
-    while(len >= 0 && (line[len] != '<' ||  line[len] != '>')) // need to fix 
-    {
-        if(is_char(line[len]))
-            second_flag = 1; 
-        len--;
-    }
-   // if(!second_flag) // need to fix 
-      //   return(ft_error(4), 0);
-    while(line[++i])
-    {
-
-        if(is_char(line[i]))
-            first_flag = 0;
-        if((line[i] == '<' || line[i] == '>') && !first_flag)
-            return(ft_error(4), 0);
-    }
-    return 1;
 }
-// need update 
-int     parentheses(char *line)
+void    t()
 {
-    int i;
-    int first_flag;
-    int second_flag;
-    int len;
-
-    second_flag = 0; 
-    len = ft_strlen(line);
-
-    first_flag = 0;
-    i = -1;
-    while(len-- >= 0)
-    {
-        if(is_char(line[len]))
-            first_flag = 1;
-    }
-   // if(first_flag)
-      //  return (ft_error(6),0);
-    // while(line[++i])
-    // {
-    //     if(is_char(line[i]))
-    //         second_flag = 1;
-        
-    // }
-    return 1;
-
+    system("leaks a.out");
 }
-int     check_line(char *line)
-{   
-    if(!and_operator(line))
-        return (0);
-    else if(!valid_pipe(line))
-        return(0);
-    else if(!new_line(line))
-        return(0);
-    else if(!parentheses(line))
-        return(0);
-    else 
-        return 1;
-}
-void ft_putstr_fd(char *line, int fd)
+int main()
 {
-    int i;
-
-    i = -1;
-    while(line[++i])
-        write(2, &line[i], 1);
-}
-void ft_error(int type)
-{
-    if(type == 1)
-        ft_putstr_fd("bash: syntax error near unexpected token `|'\n", 2);
-    else if(type == 2)
-        ft_putstr_fd("bash: syntax error near unexpected token `||'\n", 2);
-    else if(type == 3)
-        ft_putstr_fd("bash: syntax error near unexpected token `&'\n", 2);
-    else if(type == 4)
-        ft_putstr_fd("bash: syntax error near unexpected token `&&'\n", 2);
-    else if(type == 5)
-        ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", 2);
-    else if(type == 6)
-        ft_putstr_fd("bash: syntax error near unexpected token `)'\n", 2);
-    else 
-        ft_putstr_fd("bash: syntax error \n", 2);
-}
-int main(void)  
-{
-    t_parscmd arguse;
-    t_parscmd *arg = &arguse; 
+    
+    char *line;
+    t_token *tokens;
+    atexit(t);
+   
     while(1)
-    { 
-        (*arg).line = readline("minishell$ ");
-    
-        if(!check_line((*arg).line))
-            // return(free((*arg).line), 1);
-        free(arg->line);
+    {
+        line = readline("Minishell$ ");
+        if(!line )
+        {
+            write(1,"exit\n",5);
+            exit(0);
+        }
+        if(*line)
+            add_history(line);
+        tokens = tokenize(line);
+        if(!tokens)
+        {
+            free(line);
+            continue;
+        }
+       print_tokens(tokens); // for dubg
+        free_tokens(tokens);
+        free(line);
+        
     }
+    return 0;
 }
-
-/// ls -al <input1 <intpu2 arg1 arg2 arg3 >output1 | grep 
-
-/*
-    #define COMMAND 0
-    #define PIPE    1
-    
-    node{
-        char **args;
-        char **red_in;
-        char **red_out;
-        int type;
-        node *next;
-    }
-
-*/
