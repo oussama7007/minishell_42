@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arrlen.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/06 18:40:05 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/08 16:27:03 by oadouz           ###   ########.fr       */
+/*   Created: 2025/05/08 16:23:52 by oadouz            #+#    #+#             */
+/*   Updated: 2025/05/08 16:27:31 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_arrlen(char **arr)
+int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
 
 	i = 0;
-	if (arr[i] == NULL)
-		return (i);
-	while (arr[i])
+	while ((s1[i] == s2[i]) && s1[i] && s2[i])
 		i++;
-	return (i);
+	return (s1[i] - s2[i]);
 }
