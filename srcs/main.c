@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/09 23:15:15 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/10 00:53:55 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,23 +105,15 @@ size_t ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
     size_t i = 0;
 
-    
-    while (src[i])
-        i++;
-
     if (dstsize == 0)
-        return i;
-
-    size_t j = 0;
-    while (j < dstsize - 1 && src[j])
+        return (ft_strlen(src));
+    while (i < dstsize - 1 && src[i])
     {
-        dst[j] = src[j];
-        j++;
+        dst[i] = src[i];
+        i++;
     }
-
-    dst[j] = '\0'; 
-
-    return i; 
+    dst[i] = '\0';
+    return (ft_strlen(src));
 }
 char *ft_strndup( char *s, size_t n)
 {
@@ -196,6 +188,14 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return (0);
 }
+int     validate_syntax(t_token *tokens)
+{
+    
+    
+    if(tokens->type == TOKEN_PIPE)
+        return(error(ERR_PIPE), 0);
+    if(tokens->type == TOKEN_WORD && tokens->next->type == TOKEN_PIPE && tokens->next->next ==   )
+}
 void    print_tokens(t_token *tokens)
 {
     while(tokens)
@@ -232,10 +232,17 @@ int main()
             free(line);
             continue;
         }
-       print_tokens(tokens); // for dubg
+        print_tokens(tokens); // for dubg
         free_tokens(tokens);
         free(line);
         
     }
      exit(0);
 }
+
+
+// Tokenizes input (done). 
+// Validates syntax (missing).
+// Builds commands (t_command) for execution (missing).
+// Handles quotes and expansions (missing).
+// Reports syntax errors with minishell: prefix and sets $? = 2 (missing).
