@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/10 00:53:55 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/10 17:22:30 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,11 +190,21 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 }
 int     validate_syntax(t_token *tokens)
 {
-    
-    
-    if(tokens->type == TOKEN_PIPE)
-        return(error(ERR_PIPE), 0);
-    if(tokens->type == TOKEN_WORD && tokens->next->type == TOKEN_PIPE && tokens->next->next ==   )
+    int type;
+    t_token *next;
+    while(tokens)
+    {
+        type = tokens->type;
+        next = tokens->next;
+        if(type == TOKEN_PIPE)
+            return(error(ERR_PIPE), 0);
+        if((type >= TOKEN_PIPE && type <= TOKEN_SEMICOLON ) && !next)
+            return(error(ERR_NEWLINE), 0);
+        if(next && (type >= TOKEN_PIPE && type <= TOKEN_SEMICOLON ) && (next->type >= TOKEN_PIPE && next->type <= TOKEN_SEMICOLON))
+            return(error(ERR_SYNTAX), 0);
+        tokens = tokens->next;
+    }
+    return 1;
 }
 void    print_tokens(t_token *tokens)
 {
@@ -232,6 +242,8 @@ int main()
             free(line);
             continue;
         }
+        if(!validate_syntax(tokens))
+            return(free_toknes(tokens), 0);
         print_tokens(tokens); // for dubg
         free_tokens(tokens);
         free(line);

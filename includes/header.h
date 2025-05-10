@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/08 15:06:51 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/10 17:20:41 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 
 #define TOKEN_WORD 0
 #define TOKEN_PIPE 1
-#define TOKEN_RED_IN 2
-#define TOKEN_RED_OUT 3
-#define TOKEN_RED_APPEND 4
-#define TOKEN_RED_HEREDOC 5
+#define TOKEN_RED_IN 2 //<
+#define TOKEN_RED_OUT 3//>
+#define TOKEN_RED_APPEND 4 // >>
+#define TOKEN_RED_HEREDOC 5 //<<
 #define TOKEN_SEMICOLON 6
 
 #define ERR_PIPE 1
@@ -32,7 +32,7 @@
 #define ERR_NEWLINE 5
 #define ERR_QUOTE 6
 #define ERR_SEMICOLON 7
-
+#define ERR_SYNTAX 8 
 
 typedef struct s_token {
     int type;              // Token type (e.g., TOKEN_WORD, TOKEN_PIPE)
