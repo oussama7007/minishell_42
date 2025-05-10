@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 18:17:50 by oadouz            #+#    #+#             */
-/*   Updated: 2024/10/30 21:38:27 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/10 15:58:25 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 int	ft_isalnum(int c)
 {
-	if ((c >= '0' && c <= '9')
-		|| (c >= 'A' && c <= 'Z')
-		|| (c >= 'a' && c <= 'z'))
-		return (1);
+	if (ft_isalpha(c) || ft_isdigit(c))
+		return (c);
 	else
 		return (0);
 }

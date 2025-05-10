@@ -2,6 +2,7 @@
 	"files.associations": {
 		"minishell_structs.h": "c",
 		"libft.h": "c",
-		"built_functions.h": "c"
+		"built_functions.h": "c",
+		"history.h": "c"
 	}
 }
