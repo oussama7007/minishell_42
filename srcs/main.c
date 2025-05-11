@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/11 01:04:43 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/11 17:47:07 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void    add_token(t_token **tokens, t_token *token)
         while(tmp->next)
             tmp = tmp->next;
         tmp->next = token;
-        return ;
     }
 } 
 
@@ -103,7 +102,7 @@ t_token     *new_token(int type, char *word)
     new->next = NULL;
     return new;
 }
-size_t ft_strlcpy(char *dst, const char *src, size_t dstsize)
+size_t ft_strlcpy(char *dst, char *src, size_t dstsize)
 {
     size_t i = 0;
 
@@ -131,7 +130,41 @@ char *ft_strndup( char *s, size_t n)
     ft_strlcpy(dup, s, len + 1);
     return (dup);
 }
+void    free_args(t_command *command)
+{
+    int i;
 
+    i = 0;
+    while(command->next)
+    {
+        free(command->cmd);
+        while(!command->args[i])
+            free(command->args[i++]);
+        i = 0;
+        while(!command->red_in[i])
+            free(command->red_in[i++]);
+        i = 0;
+        while(command->red_out[i])
+            free(command->red_out[i++]);
+        free(command->append);
+        free(command->heredoc_delimiter);
+        free(command);
+        command = command->next;
+    }
+}
+int     add_args(t_token  *token, t_command *command)
+int     build_command(t_token *token, t_command **commands)
+{
+    t_command *tmp;
+    tmp = *commands;
+    
+    while(token->next)
+    {
+        if(!add_args(token, tmp))
+            return(free_toknes(token),free_args(tmp), 0);
+        token = token->next;
+    } 
+}
 t_token     *tokenize(char *line)
 {
     t_token *tokens;
@@ -212,7 +245,7 @@ int     validate_syntax(t_token *tokens)
     {
         type = tokens->type;
         next = tokens->next;
-        if(type == TOKEN_PIPE)
+        if(type == TOKEN_PIPE && next == NULL)
             return(error(ERR_PIPE), 0);
         if((type >= TOKEN_PIPE && type <= TOKEN_SEMICOLON ) && !next)
             return(error(ERR_NEWLINE), 0);
@@ -245,7 +278,7 @@ int main()
     while(1)
     {
         line = readline("Minishell$ ");
-        if(!line )
+        if(!line)
         {
             write(1,"exit\n",5);
             exit(0);
