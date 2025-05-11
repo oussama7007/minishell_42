@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/10 17:22:30 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/11 01:04:43 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,13 @@ void    add_token(t_token **tokens, t_token *token)
     else 
     {
         tmp = *tokens;
-        while(tmp)
+        while(tmp->next)
             tmp = tmp->next;
         tmp->next = token;
+        return ;
     }
 } 
+
 t_token     *new_token(int type, char *word)
 {
     t_token *new;
@@ -96,7 +98,7 @@ t_token     *new_token(int type, char *word)
         return (NULL);
     new->value = ft_strdup(word);
     if(!new->value)
-        return (NULL);
+        return (free(new), NULL); // test this line 
     new->type = type;
     new->next = NULL;
     return new;
@@ -132,12 +134,13 @@ char *ft_strndup( char *s, size_t n)
 
 t_token     *tokenize(char *line)
 {
-    t_token *tokens = NULL;
+    t_token *tokens;
     char *start;
     char *end;
     char *word;
     t_token *token;
     
+    tokens = NULL;
     start = line;
     while(*start)
     {
@@ -150,7 +153,7 @@ t_token     *tokenize(char *line)
         {
             if(*start == '<' && *(start + 1) == '<')
                 end +=2;
-            if(*start == '>' && *(start + 1) == '>')
+            else if(*start == '>' && *(start + 1) == '>')
                 end +=2;
             else 
                 end++;
@@ -160,7 +163,7 @@ t_token     *tokenize(char *line)
                 end++;
         if(end > start)
         {
-            word = ft_strndup(line, end - start);
+            word = ft_strndup(start, end - start);
             if(!word)
                 return(free_tokens(tokens),NULL);
             token = new_token(get_token_type(word), word);
@@ -187,6 +190,19 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		i++;
 	}
 	return (0);
+}
+
+
+void    error(int type)
+{
+    if (type == ERR_PIPE)
+        write(2, "Minishell: syntax error near unexpected token `|'\n", 50);
+    else if (type == ERR_SEMICOLON)
+        write(2, "Minishell: syntax error near unexpected token `;'\n", 51);
+    else if (type == ERR_NEWLINE)
+        write(2, "Minishell: syntax error near unexpected token `newline'\n", 57);
+    else if (type == ERR_SYNTAX)
+        write(2, "Minishell: syntax error \n", 26);
 }
 int     validate_syntax(t_token *tokens)
 {
@@ -236,25 +252,28 @@ int main()
         }
         if(*line)
             add_history(line);
-        tokens = tokenize(line);
+        tokens = tokenize(line); 
         if(!tokens)
         {
             free(line);
             continue;
         }
         if(!validate_syntax(tokens))
-            return(free_toknes(tokens), 0);
+        {
+            free(line),free_tokens(tokens);
+            continue;
+        }
         print_tokens(tokens); // for dubg
         free_tokens(tokens);
         free(line);
-        
     }
+    
      exit(0);
 }
 
 
 // Tokenizes input (done). 
-// Validates syntax (missing).
+// Validates syntax (done).
 // Builds commands (t_command) for execution (missing).
 // Handles quotes and expansions (missing).
 // Reports syntax errors with minishell: prefix and sets $? = 2 (missing).
