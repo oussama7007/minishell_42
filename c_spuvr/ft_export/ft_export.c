@@ -6,13 +6,14 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:44 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/12 15:09:24 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/12 15:15:10 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell_structs.h"
 #include "../built_functions.h"
 
+// to valid identifier
 static int	is_valid_identifier(const char *name)
 {
 	if (!name || (!ft_isalpha(*name) && *name != '_'))
@@ -27,6 +28,7 @@ static int	is_valid_identifier(const char *name)
 	return (1);
 }
 
+// print variables sorted
 static void	print_export_var(char *env_var)
 {
 	char	*eq_ptr;
@@ -59,6 +61,7 @@ static void	print_export_env(char **envp)
 	}
 }
 
+// print error 
 void	export_print_1(char *arg)
 {
 	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
@@ -66,6 +69,7 @@ void	export_print_1(char *arg)
 	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 }
 
+//print error
 static int	handle_name_value(char *arg, char ***env_ptr)
 {
 	char	*eq_ptr;
@@ -101,7 +105,7 @@ static int	handle_name_only(char *arg, char ***env_ptr)
 		return (1);
 	}
 	if (!my_getenv(arg, *env_ptr))
-		my_setenv(arg, "", env_ptr);
+		return (my_setenv(arg, "", env_ptr));
 	return (0);
 }
 
