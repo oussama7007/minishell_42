@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/08 18:26:27 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/12 15:22:03 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ int		ft_echo(char **args);
 int		ft_cd(char **args, char ***env_ptr);
 int		ft_pwd(void);
 int		ft_export(char ***env_ptr);
+int		handle_name_only(char *arg, char ***env_ptr);
 
 #endif
