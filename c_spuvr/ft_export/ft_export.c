@@ -6,12 +6,12 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:44 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/12 15:06:33 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/12 15:09:24 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_structs.h"
-#include "built_functions.h"
+#include "../minishell_structs.h"
+#include "../built_functions.h"
 
 static int	is_valid_identifier(const char *name)
 {
@@ -59,19 +59,22 @@ static void	print_export_env(char **envp)
 	}
 }
 
+void	export_print_1(char *arg)
+{
+	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+	ft_putstr_fd(arg, STDERR_FILENO);
+	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+}
+
 static int	handle_name_value(char *arg, char ***env_ptr)
 {
 	char	*eq_ptr;
 	char	*name;
+	int		status;
 
 	eq_ptr = ft_strchr(arg, '=');
 	if (eq_ptr == arg)
-	{
-		ft_putstr_fd("minishell: export: `", STDERR_FILENO);
-		ft_putstr_fd(arg, STDERR_FILENO);
-		ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
-		return (1);
-	}
+		return (export_print_1(arg), 1);
 	name = ft_strdup(arg);
 	if (!name)
 		return (1);
@@ -84,8 +87,8 @@ static int	handle_name_value(char *arg, char ***env_ptr)
 		free(name);
 		return (1);
 	}
-	my_setenv(name, eq_ptr + 1, env_ptr);
-	return (free(name), 0);
+	status = my_setenv(name, eq_ptr + 1, env_ptr);
+	return (free(name), status);
 }
 
 static int	handle_name_only(char *arg, char ***env_ptr)
