@@ -6,272 +6,17 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/12 01:36:57 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/12 02:24:53 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
-char *ft_strdup(const char *s1)
-{
-    int i = 0;
-    char *copy;
 
-    while (s1[i])
-        i++;
 
-    copy = (char *)malloc(sizeof(char) * (i + 1));
-    if (!copy)
-        return NULL;
 
-    i = 0;
-    while (s1[i])
-    {
-        copy[i] = s1[i];
-        i++;
-    }
-    copy[i] = '\0';
 
-    return copy;
-}
-void    free_tokens(t_token *tokens)
-{
-    t_token *tmp;
-    while(tokens)
-    {
-        tmp = tokens;
-        tokens = tokens->next;
-        free(tmp->value);
-        free(tmp);
-    }
-}
-int ft_strlen(char *line)
-{
-    int i;
 
-    i = 0;
-    while(line[i])
-        i++;
-    return i;
-}
 
-int is_space(int  c)
-{
-    return(c >= 9 && c <= 32);
-}
-int     get_token_type(char *line)
-{
-    if(line[0] == '|')
-        return (TOKEN_PIPE);
-    if(line[0] == '<' && line[1] == '<')
-        return (TOKEN_RED_HEREDOC);
-    if(line[0] == '>' && line[1] == '>')
-        return (TOKEN_RED_APPEND);
-    if(line[0] == '<')
-        return (TOKEN_RED_IN);
-    if(line[0] == '>')
-        return (TOKEN_RED_OUT);
-    if(line[0] == ';')
-        return (TOKEN_SEMICOLON);
-    return(TOKEN_WORD);
-}
-void    add_token(t_token **tokens, t_token *token)
-{
-    t_token *tmp;
-    if(!*tokens)
-        *tokens = token;
-    else 
-    {
-        tmp = *tokens;
-        while(tmp->next)
-            tmp = tmp->next;
-        tmp->next = token;
-    }
-} 
-
-t_token     *new_token(int type, char *word)
-{
-    t_token *new;
-
-    new = malloc(sizeof(t_token));
-    if(!new)
-        return (NULL);
-    new->value = ft_strdup(word);
-    if(!new->value)
-        return (free(new), NULL); // test this line 
-    new->type = type;
-    new->next = NULL;
-    return new;
-}
-size_t ft_strlcpy(char *dst, char *src, size_t dstsize)
-{
-    size_t i = 0;
-
-    if (dstsize == 0)
-        return (ft_strlen(src));
-    while (i < dstsize - 1 && src[i])
-    {
-        dst[i] = src[i];
-        i++;
-    }
-    dst[i] = '\0';
-    return (ft_strlen(src));
-}
-char *ft_strndup( char *s, size_t n)
-{
-    char *dup;
-    size_t len;
-
-    len = ft_strlen(s);
-    if (len > n)
-        len = n;
-    dup = malloc(len + 1);
-    if (!dup)
-        return (NULL);
-    ft_strlcpy(dup, s, len + 1);
-    return (dup);
-}
-void    free_args(t_command *command)
-{
-    int i;
-    t_command *next;
-    i = 0;
-    while(command)
-    {
-        free(command->cmd);
-        if(command->args)
-        {
-            while(command->args[i])
-                free(command->args[i++]);
-            free(command->args);
-        }
-        free(command->args);
-        i = 0;
-        if(command->red_in)
-        {
-            while (command->red_in[i])
-                free(command->red_in[i++]);
-            free(command->red_in);
-        }
-        i = 0;
-        if(command->red_out)
-        {
-            while (command->red_out[i])
-                free(command->red_out[i++]);
-            free(command->red_out);
-        }
-     
-        free(command->append);
-        free(command->heredoc_delimiter);
-        next = command->next;
-        free(command);
-        command = next;
-    }
-}
-// int     add_args(t_token  *token, t_command *command)
-// {
-    
-// }
-
-int     assigne_values(t_command *command, t_token *token)
-{
-    if(token->type == 0)
-    {
-        command->cmd = ft_strdup(token->value);
-        command->args[0] = ft_strdup(token->value);
-        if(!command->cmd || !command->args[0])
-            return 0;
-        if(token->next->type == 0)
-        {
-            command->args[1] = ft_strdup(token->next->type);
-            command->args[2] = NULL;
-            if(!command->args[1])
-                return 0;
-        }
-        else 
-            command->args[1] = NULL;
-    }
-    if(token->type == )
-}
-t_command      *new_command(t_token *token)
-{
-    t_command *command;
-
-    command = malloc(sizeof(t_command));
-    if(!command)
-        return(NULL);
-    if(!assigne_values(command, token))
-        return(NULL);
-    return command;
-}
-t_command     build_command(t_token *token)
-{
-    t_command *commands;
-    t_command *command;
-    command = NULL;
-    while(token)
-    {
-        command = new_command(token);
-    } 
-}
-t_token     *tokenize(char *line)
-{
-    t_token *tokens;
-    char *start;
-    char *end;
-    char *word;
-    t_token *token;
-    
-    tokens = NULL;
-    start = line;
-    while(*start)
-    {
-        while(*start == ' ')
-            start++;
-        if(!*start)
-            break;
-        end = start;
-        if(*start == '|' || *start == ';' || *start == '<' || *start == '>')
-        {
-            if(*start == '<' && *(start + 1) == '<')
-                end +=2;
-            else if(*start == '>' && *(start + 1) == '>')
-                end +=2;
-            else 
-                end++;
-        }
-        else 
-            while(*end && *end != '|' && *end != ';' && *end != '<' && *end != ' ' && *end != '>')
-                end++;
-        if(end > start)
-        {
-            word = ft_strndup(start, end - start);
-            if(!word)
-                return(free_tokens(tokens),NULL);
-            token = new_token(get_token_type(word), word);
-            free(word);
-            if(!token)  
-                return(free_tokens(tokens), NULL);
-            add_token(&tokens, token);
-        }
-        start = end;
-    }
-    return(tokens);
-}
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	if (n == 0)
-		return (0);
-	while ((i < n) && (s1[i] || s2[i]))
-	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
-	}
-	return (0);
-}
 
 
 void    error(int type)
@@ -312,6 +57,7 @@ void    print_tokens(t_token *tokens)
     }
     
 }
+
 void    t()
 {
     system("leaks a.out");
@@ -320,10 +66,9 @@ int main()
 {
     char *line;
     t_token *tokens;
-    t_command commands;
+    t_command *commands;
     
     atexit(t);
-   
     while(1)
     {
         line = readline("Minishell$ ");
