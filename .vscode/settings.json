@@ -3,6 +3,8 @@
 		"minishell_structs.h": "c",
 		"libft.h": "c",
 		"built_functions.h": "c",
-		"history.h": "c"
+		"history.h": "c",
+		"stdio.h": "c",
+		"readline.h": "c"
 	}
 }

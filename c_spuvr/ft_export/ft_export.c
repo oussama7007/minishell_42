@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:44 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/12 16:29:29 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/12 17:04:27 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	exec_export_plus_equal(const char *arg, char ***env_ptr)
 		return (1);
 	if (!is_valid_identifier(name))
 	{
-		report_invalid_identifier_err(name);
+		print_err_111(name);
 		return (free(name), 1);
 	}
 	val_to_append += 2; // Skip "+=" to get to the value part
@@ -75,7 +75,7 @@ void	display_sorted_environment(char **envp)
 	count = count_env_vars(envp);
 	if (count == 0)
 		return ;
-	env_copy = duplicate_env_for_sort(envp, count, &malloc_error);
+	env_copy = duplicate_env_sort(envp, count, &malloc_error);
 	if (malloc_error || !env_copy)
 		return ;
 	ft_bubble_sort_str_array(env_copy, count);

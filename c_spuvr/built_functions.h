@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/12 16:27:54 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/12 17:05:06 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,8 @@ int		exec_export_name_only(const char *name_arg, char ***env_ptr);
 void	display_sorted_environment(char **envp);
 void	free_env_copy(char **env_copy);
 int		count_env_vars(char **envp);
+int		is_valid_identifier(const char *name);
+char	**duplicate_env_sort(char **envp, int count, int *error_flag);
+void	print_one_export_var(char *env_var_copy);
 
 #endif

@@ -6,29 +6,12 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:55 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/12 16:28:00 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/12 17:06:23 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell_structs.h"
 #include "../built_functions.h"
-
-int	is_valid_identifier(const char *name)
-{
-	int	i;
-
-	i = 0;
-	if (!name || name[0] == '\0' || (!ft_isalpha(name[i]) && name[i] != '_'))
-		return (0);
-	i++;
-	while (name[i])
-	{
-		if (!ft_isalnum(name[i]) && name[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 // --- Printing Logic (Sorted) ---
 
@@ -60,7 +43,7 @@ int	exec_export_name_only(const char *name_arg, char ***env_ptr)
 		return (1);
 	}
 	if (!my_getenv(name_arg, *env_ptr))
-		return (my_setenv(name_arg, "", env_ptr));
+		return (my_setenv((char *)name_arg, "", env_ptr));
 	return (0);
 }
 
@@ -88,13 +71,6 @@ int	exec_export_value(const char *arg, char ***env_ptr)
 	status = my_setenv(name, value_ptr + 1, env_ptr);
 	free(name);
 	return (status);
-}
-
-char	*build_appended_value(const char *old_val, const char *val_to_append)
-{
-	if (!old_val)
-		return (ft_strdup(val_to_append));
-	return (ft_strjoin(old_val, val_to_append));
 }
 
 int	process_export_arguments(char **args, char ***env_ptr)
