@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/12 02:27:02 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/12 02:31:38 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ typedef struct s_command {
 } t_command;
 
 /// ls -al <input1 <intpu2 arg1 arg2 arg3 >output1 | grep 
-
+void    error(int type);
+int     validate_syntax(t_token *tokens);
 t_token     *tokenize(char *line);
 int ft_strlen(char *line);
 char *ft_strdup(const char *s1);

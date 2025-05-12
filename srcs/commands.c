@@ -6,11 +6,11 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:22:51 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/12 02:23:51 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/12 03:07:54 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/header.h"
+#include "header.h"
 
 // int     add_args(t_token  *token, t_command *command)
 // {

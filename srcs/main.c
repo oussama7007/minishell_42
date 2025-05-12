@@ -6,18 +6,11 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/12 02:24:53 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/12 03:08:32 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/header.h"
-
-
-
-
-
-
-
+#include "header.h"
 
 void    error(int type)
 {
@@ -48,7 +41,7 @@ int     validate_syntax(t_token *tokens)
     }
     return 1;
 }
-void    print_tokens(t_token *tokens)
+static void    print_tokens(t_token *tokens)
 {
     while(tokens)
     {
@@ -58,7 +51,7 @@ void    print_tokens(t_token *tokens)
     
 }
 
-void    t()
+static void    t()
 {
     system("leaks a.out");
 }
@@ -66,7 +59,7 @@ int main()
 {
     char *line;
     t_token *tokens;
-    t_command *commands;
+   // t_command *commands;
     
     atexit(t);
     while(1)

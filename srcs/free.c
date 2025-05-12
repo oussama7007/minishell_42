@@ -6,11 +6,11 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:20:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/12 02:21:38 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/12 03:07:58 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/header.h"
+#include "header.h"
 
 void    free_tokens(t_token *tokens)
 {

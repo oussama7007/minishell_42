@@ -6,12 +6,11 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:13:30 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/12 02:19:53 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/12 03:08:11 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/header.h"
-
+#include "header.h"
 char *ft_strdup(const char *s1)
 {
     int i = 0;
