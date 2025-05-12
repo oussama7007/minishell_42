@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/11 17:47:07 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/12 01:36:57 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,36 +133,84 @@ char *ft_strndup( char *s, size_t n)
 void    free_args(t_command *command)
 {
     int i;
-
+    t_command *next;
     i = 0;
-    while(command->next)
+    while(command)
     {
         free(command->cmd);
-        while(!command->args[i])
-            free(command->args[i++]);
+        if(command->args)
+        {
+            while(command->args[i])
+                free(command->args[i++]);
+            free(command->args);
+        }
+        free(command->args);
         i = 0;
-        while(!command->red_in[i])
-            free(command->red_in[i++]);
+        if(command->red_in)
+        {
+            while (command->red_in[i])
+                free(command->red_in[i++]);
+            free(command->red_in);
+        }
         i = 0;
-        while(command->red_out[i])
-            free(command->red_out[i++]);
+        if(command->red_out)
+        {
+            while (command->red_out[i])
+                free(command->red_out[i++]);
+            free(command->red_out);
+        }
+     
         free(command->append);
         free(command->heredoc_delimiter);
+        next = command->next;
         free(command);
-        command = command->next;
+        command = next;
     }
 }
-int     add_args(t_token  *token, t_command *command)
-int     build_command(t_token *token, t_command **commands)
-{
-    t_command *tmp;
-    tmp = *commands;
+// int     add_args(t_token  *token, t_command *command)
+// {
     
-    while(token->next)
+// }
+
+int     assigne_values(t_command *command, t_token *token)
+{
+    if(token->type == 0)
     {
-        if(!add_args(token, tmp))
-            return(free_toknes(token),free_args(tmp), 0);
-        token = token->next;
+        command->cmd = ft_strdup(token->value);
+        command->args[0] = ft_strdup(token->value);
+        if(!command->cmd || !command->args[0])
+            return 0;
+        if(token->next->type == 0)
+        {
+            command->args[1] = ft_strdup(token->next->type);
+            command->args[2] = NULL;
+            if(!command->args[1])
+                return 0;
+        }
+        else 
+            command->args[1] = NULL;
+    }
+    if(token->type == )
+}
+t_command      *new_command(t_token *token)
+{
+    t_command *command;
+
+    command = malloc(sizeof(t_command));
+    if(!command)
+        return(NULL);
+    if(!assigne_values(command, token))
+        return(NULL);
+    return command;
+}
+t_command     build_command(t_token *token)
+{
+    t_command *commands;
+    t_command *command;
+    command = NULL;
+    while(token)
+    {
+        command = new_command(token);
     } 
 }
 t_token     *tokenize(char *line)
@@ -270,9 +318,10 @@ void    t()
 }
 int main()
 {
-    
     char *line;
     t_token *tokens;
+    t_command commands;
+    
     atexit(t);
    
     while(1)
@@ -293,15 +342,16 @@ int main()
         }
         if(!validate_syntax(tokens))
         {
-            free(line),free_tokens(tokens);
+            free(line);
+            free_tokens(tokens);
             continue;
         }
         print_tokens(tokens); // for dubg
+        //commands = build_command(tokens);
         free_tokens(tokens);
         free(line);
     }
-    
-     exit(0);
+    exit(0);
 }
 
 
