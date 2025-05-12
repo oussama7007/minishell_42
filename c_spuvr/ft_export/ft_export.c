@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:44 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/12 16:08:42 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/12 16:10:42 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,7 @@ static char	**dup_and_sort_env(char **envp)
 		i++;
 	}
 	dup_env[count] = NULL;
-	bubble_sort_env(dup_env, count);
-	return (dup_env);
+	return (bubble_sort_env(dup_env, count), dup_env);
 }
 
 static void	print_sorted_env(char **envp)
@@ -142,28 +141,20 @@ static int	handle_append(char *arg, char ***env_ptr)
 	if (!name)
 		return (1);
 	if (!is_valid_identifier(name))
-	{
-		print_invalid_identifier(arg);
-		free(name);
-		return (1);
-	}
+		return (print_invalid_identifier(arg), free(name), 1);
 	value = eq_ptr + 1;
 	old_value = my_getenv(name, *env_ptr);
 	if (old_value)
 	{
 		new_value = ft_strjoin(old_value, value);
 		if (!new_value)
-		{
-			free(name);
-			return (1);
-		}
+			return (free(name), 1);
 		my_setenv(name, new_value, env_ptr);
 		free(new_value);
 	}
 	else
 		my_setenv(name, value, env_ptr);
-	free(name);
-	return (0);
+	return (free(name), 0);
 }
 
 static int	handle_name_value(char *arg, char ***env_ptr)
