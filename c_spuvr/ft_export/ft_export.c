@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:44 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/13 14:47:46 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/13 16:34:22 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	exec_export_plus_equal(const char *arg, char ***env_ptr)
 	char	*new_val;
 	int		status;
 
-	val_to_append = ft_strnstr(arg, "+=", ft_strlen(arg)); // Points to '+'
+	val_to_append = ft_strnstr(arg, "+=", ft_strlen(arg));
 	name = ft_substr(arg, 0, val_to_append - arg);
 	if (!name)
 		return (1);
@@ -56,7 +56,7 @@ int	exec_export_plus_equal(const char *arg, char ***env_ptr)
 		print_err_111(name);
 		return (free(name), 1);
 	}
-	val_to_append += 2; // Skip "+=" to get to the value part
+	val_to_append += 2;
 	old_val = my_getenv(name, *env_ptr);
 	new_val = build_appended_value(old_val, val_to_append);
 	if (!new_val)
@@ -80,7 +80,6 @@ void	display_sorted_environment(char **envp)
 		return ;
 	ft_bubble_sort_str_array(env_copy, count);
 	i = 0;
-	// printf("%s", env_copy[3]);
 	while (i < count)
 	{
 		print_one_export_var(env_copy[i]);
