@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:55 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/13 14:50:32 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/13 18:05:01 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,16 @@ void	print_one_export_var(char *env_var_copy)
 
 int	exec_export_name_only(const char *name_arg, char ***env_ptr)
 {
-	if (!is_valid_identifier(name_arg))
+	if (!(name_arg && name_arg[0] != '\0' && ft_strchr(name_arg, '=') == NULL))
 	{
 		print_err_111(name_arg);
 		return (1);
 	}
+	// if (!is_valid_identifier(name_arg))
+	// {
+	// 	print_err_111(name_arg);
+	// 	return (1);
+	// }
 	if (!my_getenv(name_arg, *env_ptr))
 		return (my_setenv((char *)name_arg, NULL, env_ptr));
 	return (0);

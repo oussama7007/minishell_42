@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:44 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/13 16:34:22 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/13 16:49:16 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int	exec_export_plus_equal(const char *arg, char ***env_ptr)
 	name = ft_substr(arg, 0, val_to_append - arg);
 	if (!name)
 		return (1);
+	if (name[0] == '\0')
+		return (print_err_111(arg), free(name), 1);
 	if (!is_valid_identifier(name))
 	{
 		print_err_111(name);
