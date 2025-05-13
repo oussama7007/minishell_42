@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:20:01 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/12 17:01:27 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/13 14:01:34 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,25 @@ static int	is_n_option(const char *arg)
 	return (1);
 }
 
+static int	is_nn_option(const char *arg)
+{
+	size_t	i;
+
+	i = 0;
+	if (!arg)
+		return (0);
+	if (arg[i] == '-')
+	{
+		i++;
+		while (arg[i] == 'n')
+			i++;
+		if (arg[i])
+			return (0);
+		return (1);
+	}
+	return (0);
+}
+
 int	ft_echo(char **args)
 {
 	int	i;
@@ -36,7 +55,7 @@ int	ft_echo(char **args)
 
 	i = 1;
 	n = 1;
-	while (args[i] && is_n_option(args[i]))
+	while ((args[i] && is_n_option(args[i])) || (args[i] && is_nn_option(args[i])))
 	{
 		n = 0;
 		i++;

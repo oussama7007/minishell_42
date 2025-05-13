@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/12 17:17:56 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/13 13:51:03 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,15 +139,9 @@ int main(int ac, char **av, char **env)
 				exit_status = ft_export(args, &my_envp);
 				// printf("export status: %d\n", exit_status); // Optional debug
 			}
-			else if (ft_strcmp(args[0], "env") == 0) // Basic env for testing
+			else if (ft_strcmp(args[0], "echo") == 0)
 			{
-                int k = 0;
-                while(my_envp[k]) {
-                    ft_putstr_fd(my_envp[k], STDOUT_FILENO);
-                    ft_putchar_fd('\n', STDOUT_FILENO);
-                    k++;
-                }
-				exit_status = 0;
+                ft_echo(args);
             }
 			else if (ft_strcmp(args[0], "exit") == 0)
 			{
