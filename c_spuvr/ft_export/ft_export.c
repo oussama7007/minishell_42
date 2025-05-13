@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:44 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/12 17:04:27 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/13 14:47:46 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	display_sorted_environment(char **envp)
 		return ;
 	ft_bubble_sort_str_array(env_copy, count);
 	i = 0;
+	// printf("%s", env_copy[3]);
 	while (i < count)
 	{
 		print_one_export_var(env_copy[i]);

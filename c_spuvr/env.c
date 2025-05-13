@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:00:09 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/07 18:24:56 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/13 14:58:00 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	my_setenv(char *name, char *value, char ***env_ptr)
 	char	*new_value;
 	char	**new_data;
 
-	if (!name || !value || !env_ptr)
+	if (!name || !env_ptr)
 		return (-1);
 	var = find_var_index(name, *env_ptr);
 	new_value = create_env_data(name, value);

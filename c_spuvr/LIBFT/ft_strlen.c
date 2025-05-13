@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 20:27:07 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/06 18:40:14 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/13 14:58:49 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
-	if (s[i] == '\0')
+	if (!s)
 		return (i);
 	while (s[i])
 	{

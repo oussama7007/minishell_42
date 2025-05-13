@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:55 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/12 17:06:23 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/13 14:50:32 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	exec_export_name_only(const char *name_arg, char ***env_ptr)
 		return (1);
 	}
 	if (!my_getenv(name_arg, *env_ptr))
-		return (my_setenv((char *)name_arg, "", env_ptr));
+		return (my_setenv((char *)name_arg, NULL, env_ptr));
 	return (0);
 }
 
