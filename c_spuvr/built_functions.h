@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/08 18:26:27 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/12 17:05:06 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,18 @@ int		my_unsetenv(const char *name, char ***env_ptr);
 int		ft_echo(char **args);
 int		ft_cd(char **args, char ***env_ptr);
 int		ft_pwd(void);
-int		ft_export(char ***env_ptr);
+int		ft_export(char **args, char ***env_ptr);
+int		process_export_arguments(char **args, char ***env_ptr);
+int		exec_export_plus_equal(const char *arg, char ***env_ptr);
+char	*build_appended_value(const char *old_val, const char *val_to_append);
+int		exec_export_value(const char *arg, char ***env_ptr);
+void	print_err_111(const char *arg_part);
+int		exec_export_name_only(const char *name_arg, char ***env_ptr);
+void	display_sorted_environment(char **envp);
+void	free_env_copy(char **env_copy);
+int		count_env_vars(char **envp);
+int		is_valid_identifier(const char *name);
+char	**duplicate_env_sort(char **envp, int count, int *error_flag);
+void	print_one_export_var(char *env_var_copy);
 
 #endif

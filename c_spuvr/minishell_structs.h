@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:18:20 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/07 09:51:12 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/12 17:00:58 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MINISHELL_STRUCTS_H
 # include <unistd.h>
 # include <stdlib.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "built_functions.h"
 # include "LIBFT/libft.h"
 

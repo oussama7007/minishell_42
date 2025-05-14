@@ -6,7 +6,7 @@
 #    By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/16 23:42:48 by oadouz            #+#    #+#              #
-#    Updated: 2025/05/08 16:24:29 by oadouz           ###   ########.fr        #
+#    Updated: 2025/05/12 16:29:39 by oadouz           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRC = ft_atoi.c ft_isdigit.c ft_memchr.c ft_putendl_fd.c ft_striteri.c ft_strncm
 	ft_isascii.c ft_putchar_fd.c ft_strdup.c ft_strmapi.c ft_toupper.c ft_tolower.c\
 	ft_lstadd_back_bonus.c ft_lstadd_front_bonus.c ft_lstclear_bonus.c \
 	ft_lstdelone_bonus.c ft_lstiter_bonus.c ft_lstlast_bonus.c ft_lstmap_bonus.c \
-	ft_lstnew_bonus.c ft_lstsize_bonus.c ft_strcmp.c
+	ft_lstnew_bonus.c ft_lstsize_bonus.c ft_strcmp.c ft_swap.c
 
 OBJ = $(SRC:.c=.o)
 

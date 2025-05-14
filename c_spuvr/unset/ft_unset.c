@@ -1,27 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 20:27:07 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/13 14:58:49 by oadouz           ###   ########.fr       */
+/*   Created: 2025/05/13 16:33:39 by oadouz            #+#    #+#             */
+/*   Updated: 2025/05/13 16:42:41 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell_structs.h"
+#include "../built_functions.h"
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	if (!s)
-		return (i);
-	while (s[i])
-	{
-		i++;
-	}
-	return (i);
-}

@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:52:13 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/08 16:24:42 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/12 16:29:52 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int		ft_isalnum(int c);
 char	*ft_strchr(const char *s, int c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);
+void	ft_swap(char **s1, char **s2);
 size_t	ft_strlen(const char *s);
 int		ft_arrlen(char **arr);
 void	*ft_memset(void *s, int c, size_t n);
