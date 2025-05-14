@@ -5,6 +5,7 @@
 		"built_functions.h": "c",
 		"history.h": "c",
 		"stdio.h": "c",
-		"readline.h": "c"
+		"readline.h": "c",
+		"stdlib.h": "c"
 	}
 }
