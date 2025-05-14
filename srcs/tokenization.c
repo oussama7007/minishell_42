@@ -6,38 +6,117 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/12 03:08:05 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/14 22:45:26 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
+// t_token     *tokenize(char *line)
+// {
+//     t_token *tokens;
+//     char *start;
+//     char *end;
+//     char *word;
+//     t_token *token;
+    
+//     tokens = NULL;
+//     start = line;
+//     while(*start)
+//     {
+//         while(*start == ' ')
+//             start++;
+//         if(!*start)
+//             break;
+//         end = start;
+//         if(*start == '|' || *start == ';' || *start == '<' || *start == '>')
+//         {
+//             if(*start == '<' && *(start + 1) == '<')
+//                 end +=2;
+//             else if(*start == '>' && *(start + 1) == '>')
+//                 end +=2;
+//             else
+//                 end++;
+//         }
+//         else
+//             while(*end && *end != '|' && *end != ';' && *end != '<' && *end != ' ' && *end != '>')
+//                 end++;
+//         if(end > start)
+//         {
+//             word = ft_strndup(start, end - start);
+//             if(!word)
+//                 return(free_tokens(tokens),NULL);
+//             token = new_token(get_token_type(word), word);
+//             free(word);
+//             if(!token)  
+//                 return(free_tokens(tokens), NULL);
+//             add_token(&tokens, token);
+//         }
+//         start = end;
+//     }
+//     return(tokens);
+// }
+//  need to handles quotes 
 t_token     *tokenize(char *line)
 {
-    t_token *tokens;
-    char *start;
-    char *end;
-    char *word;
+ 
     t_token *token;
+    char    *start;
+    char    *end;
+    char *word;
+    t_token *tokens;
     
-    tokens = NULL;
     start = line;
     while(*start)
     {
-        while(*start == ' ')
+        while(*start == ' ' && *start != '\'' && *start != '"')
             start++;
         if(!*start)
             break;
         end = start;
+        if(*start == '\'' || *start == '"')
+        {
+            if(*start == '"')
+            {
+                end++;
+                printf("if *start == \" \n");
+                while( *end && *end != '"')
+                    end++;
+            }
+            else 
+            {
+                printf("else\" \n");
+                end++;
+                while(*end && *end != '\'')
+                    end++;
+            }
+            printf("end : '%s' ---- start '%s'\n" , end, start);
+            if(end > start)
+            {
+                printf("ente the condition of end > start");
+                word = ft_strndup(start, end - start);
+            
+                if(!word)
+                    return(free_tokens(tokens), NULL);
+                token = new_token(get_token_type(word),word);
+                printf("after tokne\n");
+                if(!token)
+                    return(free_tokens(tokens), NULL);
+                free(word);
+                add_token(&tokens, token);
+                printf("after add tokne\n");
+                start = end;
+            }
+        }
         if(*start == '|' || *start == ';' || *start == '<' || *start == '>')
         {
             if(*start == '<' && *(start + 1) == '<')
                 end +=2;
             else if(*start == '>' && *(start + 1) == '>')
                 end +=2;
-            else 
+            else
                 end++;
         }
-        else 
+        else
             while(*end && *end != '|' && *end != ';' && *end != '<' && *end != ' ' && *end != '>')
                 end++;
         if(end > start)
