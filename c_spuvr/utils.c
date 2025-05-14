@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 18:08:03 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/13 15:07:21 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/14 16:46:28 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,31 @@ char	*create_env_data(char *name, char *value)
 	return (entry);
 }
 
-int	find_var_index(char *str, char **envp)
+int	find_var_index(const char *name_to_find, char **envp)
 {
 	int	i;
-	int	len;
+	int	name_len;
 
-	len = ft_strlen(str);
+	if (!name_to_find || !envp || name_to_find[0] == '\0')
+		return (-1); // Invalid input or empty name
+	name_len = 0;
+	while (name_to_find[name_len]) // ft_strlen, basically
+		name_len++;
 	i = 0;
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], str, len) == 0 && envp[i][len] == '=')
-			return (i);
+		// Check if the current env var starts with name_to_find
+		if (ft_strncmp(envp[i], name_to_find, name_len) == 0)
+		{
+			// If it matches up to name_len, check what comes after:
+			// It must be either the end of the string (for "NAME" type)
+			// OR an '=' (for "NAME=value" type)
+			if (envp[i][name_len] == '\0' || envp[i][name_len] == '=')
+			{
+				return (i); // Found it!
+			}
+		}
 		i++;
 	}
-	return (-1);
+	return (-1); // Not found
 }

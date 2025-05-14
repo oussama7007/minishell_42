@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRCS = Mytest.c env.c utils.c built-ins1.c built-ins.c \
+SRCS = main.c env.c utils.c built-ins1.c built-ins.c ft_export/utils2.c \
 		ft_export/ft_export.c ft_export/ft_export1.c ft_export/utils.c
 
 CFLAGS = -fsanitize=address -g -Wall -Werror -Wextra

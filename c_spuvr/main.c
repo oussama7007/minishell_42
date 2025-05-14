@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Mytest.c                                           :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/13 13:51:03 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/14 14:54:19 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,10 +139,6 @@ int main(int ac, char **av, char **env)
 				exit_status = ft_export(args, &my_envp);
 				// printf("export status: %d\n", exit_status); // Optional debug
 			}
-			else if (ft_strcmp(args[0], "echo") == 0)
-			{
-                ft_echo(args);
-            }
 			else if (ft_strcmp(args[0], "exit") == 0)
 			{
 				free(line_read);
