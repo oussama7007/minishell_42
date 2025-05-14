@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:55 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/14 16:36:57 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/14 18:27:10 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,79 +30,14 @@ g_shell_status should be your global variable for exit status.
 // Strips a single layer of outermost matching quotes ("" or '')
 // Returns a new string that caller must free.
 // Returns ft_strdup(str) if no surrounding quotes or if str is NULL/empty.
-char	*strip_outer_quotes(const char *str)
-{
-	size_t	len;
-
-	if (!str)
-		return (NULL);
-	len = ft_strlen(str);
-	if (len >= 2)
-	{
-		if ((str[0] == '"' && str[len - 1] == '"') || \
-			(str[0] == '\'' && str[len - 1] == '\''))
-		{
-			return (ft_substr(str, 1, len - 2));
-		}
-	}
-	return (ft_strdup(str)); // Duplicate if no surrounding quotes to strip
-}
-
-int	is_valid_identifier(const char *name)
-{
-	int	i;
-
-	i = 0;
-	if (!name || name[0] == '\0' || (!ft_isalpha(name[i]) && name[i] != '_'))
-		return (0);
-	i++;
-	while (name[i])
-	{
-		if (!ft_isalnum(name[i]) && name[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 // Forward declaration if not in a header yet:
 // char	*strip_outer_quotes(const char *str);
 // void	print_one_export_var(char *env_var_copy); // Assuming this exists and is correct
 // void	display_sorted_environment(char **envp); // Assuming this exists
 
-void	print_err_export(const char *context, const char *specific_arg)
-{
-	ft_putstr_fd("minishell: export: ", STDERR_FILENO);
-	if (context && context[0] != '\0')
-	{
-		ft_putstr_fd("`", STDERR_FILENO);
-		ft_putstr_fd((char *)context, STDERR_FILENO);
-		ft_putstr_fd("': ", STDERR_FILENO);
-	}
-	ft_putstr_fd("`", STDERR_FILENO);
-	ft_putstr_fd((char *)specific_arg, STDERR_FILENO);
-	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
-}
 
 
-// For 'export NAME' (no '=' or '+=')
-int	exec_export_name_only(const char *name_arg, char ***env_ptr)
-{
-	// For 'export NAME', bash allows almost anything that doesn't contain '='
-	// as long as it's not empty. The strict is_valid_identifier is for NAME in NAME=VALUE.
-	if (!name_arg || name_arg[0] == '\0' || ft_strchr(name_arg, '='))
-	{
-		print_err_export(NULL, name_arg);
-		return (1);
-	}
-	if (!my_getenv(name_arg, *env_ptr)) // If not set at all (even without value)
-	{
-		// Set it with NULL value, meaning it's exported but has no assigned value.
-		// my_setenv should handle this to store just 'name_arg' for 'declare -x name_arg'
-		return (my_setenv((char *)name_arg, NULL, env_ptr));
-	}
-	return (0); // Already exists (maybe with or without value), nothing to do
-}
+
 
 // For 'export NAME=VALUE'
 int	exec_export_value(const char *arg, char ***env_ptr)
