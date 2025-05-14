@@ -1,6 +1,6 @@
 NAME = MINISHELL
 
-SRCS = $(addprefix srcs/, main.c  utils.c utils2.c free.c tokenization.c ) 
+SRCS = $(addprefix srcs/, main.c commands.c utils.c utils2.c free.c tokenization.c ) 
 LINKER = -lreadline
 INCLUDES = -I includes 
 
@@ -12,14 +12,14 @@ all :$(NAME)
 $(NAME) : $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(LINKER) $(OBJS) -o $(NAME)
 
-%.o: %.c
+%.o: %.c includes/header.h
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean :
-	rm $(OBJS)
+	rm -f $(OBJS)
 
 fclean : clean
-	rm -rf &(NAME)
+	rm  -f $(NAME)
 
 re : fclean all
 

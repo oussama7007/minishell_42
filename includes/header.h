@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/12 02:31:38 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/13 15:40:38 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,11 @@ void    add_token(t_token **tokens, t_token *token);
 int     get_token_type(char *line);
 void    add_token(t_token **tokens, t_token *token);
 
-
-
+t_command *build_command(t_token *tokens);
+void add_command(t_command **commands, t_command *command);
+//static int populate_command(t_command *cmd, t_token *tokens, int arg_c, int in_c, int out_c);
+void free_command(t_command *cmd);
+t_command *new_command(void);
 
 
 #endif

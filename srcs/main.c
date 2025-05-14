@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/12 03:08:32 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/14 01:52:55 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,92 @@ int     validate_syntax(t_token *tokens)
     }
     return 1;
 }
-static void    print_tokens(t_token *tokens)
-{
-    while(tokens)
-    {
-        printf(" type : %d, value %s \n", tokens->type, tokens->value);
-        tokens = tokens->next;
-    }
+// static void    print_tokens(t_token *tokens)
+// {
+//     while(tokens)
+//     {
+//         printf(" type : %d, value %s \n", tokens->type, tokens->value);
+//         tokens = tokens->next;
+//     }
     
-}
+// }
 
+
+static void print_commands(t_command *commands)
+{
+    while (commands)
+    {
+        printf("cmd : %s\n", commands->cmd);
+        printf("-------------------------------------------------------------cmd\n");
+
+        int i = -1;
+        while (commands->args && commands->args[++i])
+            printf(" --- args --- : %s\n", commands->args[i]);
+
+        printf("-------------------------------------------------------------args\n");
+        i = -1;
+        while (commands->red_in && commands->red_in[++i])
+            printf("+++ red_in : %s\n", commands->red_in[i]);
+
+        printf("-------------------------------------------------------------red_in\n");
+        i = -1;
+        while (commands->red_out && commands->red_out[++i])
+        {
+            printf("-- red_out-- : %s", commands->red_out[i]);
+            if (commands->append)
+                printf("  (append: %s)\n", commands->append[i] ? "yes" : "no");
+            else
+                printf("\n");
+        }
+
+        if (commands->heredoc_delimiter)
+            printf("<<< heredoc delimiter : %s\n", commands->heredoc_delimiter);
+
+        printf("=============================================================\n\n");
+        commands = commands->next;
+    }
+}
+int     check_single_quotes(char *line, int *i)
+{
+    (*i)++;
+    while(line[*i])
+    {
+        if(line[*i] == '\'')
+            return 1;
+        (*i)++;
+    }
+    return 0;
+}
+int     check_double_quotes(char *line, int *i)
+{
+    (*i)++;
+    while(line[*i])
+    {
+        if(line[*i] == '"')
+            return 1;
+        (*i)++;
+    }
+    return 0;
+}
+int     handle_quotes(char *line)
+{
+    int i;
+    i = -1;
+    while(line[++i])
+    {
+        if(line[i] == '\'')
+        {
+                if(!check_single_quotes(line, &i))
+                    return(0);
+        }
+        if(line[i] == '"')
+        { 
+            if(!check_double_quotes(line, &i))
+                return 0;
+        }
+    }
+    return 1;
+}
 static void    t()
 {
     system("leaks a.out");
@@ -59,7 +135,7 @@ int main()
 {
     char *line;
     t_token *tokens;
-   // t_command *commands;
+    t_command *commands;
     
     atexit(t);
     while(1)
@@ -72,6 +148,12 @@ int main()
         }
         if(*line)
             add_history(line);
+        if(!handle_quotes(line))
+        {
+            free(line);
+            printf("error\n");
+            continue;
+        }
         tokens = tokenize(line); 
         if(!tokens)
         {
@@ -84,15 +166,16 @@ int main()
             free_tokens(tokens);
             continue;
         }
-        print_tokens(tokens); // for dubg
-        //commands = build_command(tokens);
+        //print_tokens(tokens); // for dubg
+        commands = build_command(tokens);
+        print_commands(commands);
         free_tokens(tokens);
         free(line);
     }
     exit(0);
 }
 
-
+// need to handle  quotes " " ''
 // Tokenizes input (done). 
 // Validates syntax (done).
 // Builds commands (t_command) for execution (missing).

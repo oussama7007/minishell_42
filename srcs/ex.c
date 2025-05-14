@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   commands.c                                         :+:      :+:    :+:   */
+/*   ex.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 02:22:51 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/14 00:35:44 by oait-si-         ###   ########.fr       */
+/*   Created: 2025/05/12 23:46:06 by oait-si-          #+#    #+#             */
+/*   Updated: 2025/05/13 15:20:10 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "header.h"
 
@@ -36,22 +37,19 @@ void free_command(t_command *cmd)
     free(cmd->cmd);
     if (cmd->args)
     {
-        i = -1;
-        while(cmd->args[++i])
+        for (i = 0; cmd->args[i]; i++)
             free(cmd->args[i]);
         free(cmd->args);
     }
     if (cmd->red_in)
     {
-        i = -1;
-        while(cmd->red_in[++i])
+        for (i = 0; cmd->red_in[i]; i++)
             free(cmd->red_in[i]);
         free(cmd->red_in);
     }
     if (cmd->red_out)
     {
-        i = -1;
-        while(cmd->red_out[++i])
+        for (i = 0; cmd->red_out[i]; i++)
             free(cmd->red_out[i]);
         free(cmd->red_out);
     }
