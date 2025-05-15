@@ -6,11 +6,13 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/14 17:43:58 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/15 18:01:52 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
+#include "c_spuvr/built_functions.h"
+#include "c_spuvr/minishell_structs.h"
 
 void    error(int type)
 {
@@ -131,12 +133,16 @@ static void    t()
 {
     system("leaks a.out");
 }
-int main()
+int main(int ac, char **av, char **env)
 {
+    char	**my_envp;
     char *line;
     t_token *tokens;
     t_command *commands;
-    
+
+    (void)ac;
+    (void)av;
+    my_envp = init_environment(env);
     atexit(t);
     while(1)
     {
@@ -166,6 +172,8 @@ int main()
             free_tokens(tokens);
             continue;
         }
+        if (ft_strcmp(line[0], "export") == 0)
+            ft_export(line, &my_envp);
         //print_tokens(tokens); // for dubg
         commands = build_command(tokens);
         print_commands(commands);
