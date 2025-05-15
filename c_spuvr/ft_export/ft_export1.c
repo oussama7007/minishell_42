@@ -6,37 +6,12 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:55 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/14 18:27:10 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/15 12:03:30 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell_structs.h"
 #include "../built_functions.h"
-
-/*
-NB: Ensure your libft (or equivalent) provides:
-ft_strlen, ft_strchr, ft_strncmp, ft_strdup, ft_substr, ft_strjoin_gnl (robust),
-ft_putstr_fd, ft_putchar_fd, ft_strcmp.
-And your environment manipulation functions (my_setenv, my_getenv)
-and display_sorted_environment are implemented as described above.
-g_shell_status should be your global variable for exit status.
-*/
-
-// --- Assumed global for exit status ---
-// extern int g_shell_status; // You need to manage this
-
-// --- Utility Functions (Norminette Compliant) ---
-
-// Strips a single layer of outermost matching quotes ("" or '')
-// Returns a new string that caller must free.
-// Returns ft_strdup(str) if no surrounding quotes or if str is NULL/empty.
-// Forward declaration if not in a header yet:
-// char	*strip_outer_quotes(const char *str);
-// void	print_one_export_var(char *env_var_copy); // Assuming this exists and is correct
-// void	display_sorted_environment(char **envp); // Assuming this exists
-
-
-
 
 
 // For 'export NAME=VALUE'
@@ -56,30 +31,19 @@ int	exec_export_value(const char *arg, char ***env_ptr)
 		val_for_err = strip_outer_quotes(value_ptr + 1);
 		err_str = ft_strjoin("=", val_for_err);
 		print_err_export(NULL, err_str);
-		free(val_for_err);
-		free(err_str);
-		return (1);
+		return (free(val_for_err), free(err_str), 1);
 	}
 	name = ft_substr(arg, 0, value_ptr - arg);
 	if (!name)
-		return (1); // Malloc error
-	if (!is_valid_identifier(name))
-	{
-		print_err_export(NULL, name);
-		free(name);
 		return (1);
-	}
+	if (!is_valid_identifier(name))
+		return (print_err_export(NULL, name), free(name), 1);
 	actual_value = value_ptr + 1;
 	stripped_value = strip_outer_quotes(actual_value);
 	if (!stripped_value)
-	{
-		free(name);
-		return (1); // Malloc error in strip_outer_quotes
-	}
+		return (free(name), 1);
 	status = my_setenv(name, stripped_value, env_ptr);
-	free(name);
-	free(stripped_value);
-	return (status);
+	return (free(name), free(stripped_value), status);
 }
 
 // For 'export NAME+=VALUE'
