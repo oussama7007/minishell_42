@@ -1,9 +1,11 @@
 NAME = minishell
 
-SRCS = main.c env.c utils.c built-ins1.c built-ins.c ft_export/utils2.c \
-		ft_export/ft_export.c ft_export/ft_export1.c ft_export/utils.c
+SRCS = main.c env.c utils.c built-ins1.c built-ins.c ft_export/ft_export2.c \
+		ft_export/ft_export.c ft_export/ft_export1.c ft_export/utils.c ft_export/utils2.c
 
-CFLAGS = -fsanitize=address -g -Wall -Werror -Wextra
+#CFLAGS = -fsanitize=address -g -Wall -Werror -Wextra
+
+CFLAGS = -g -Wall -Werror -Wextra
 
 CC = cc
 

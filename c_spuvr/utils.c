@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 18:08:03 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/14 16:46:28 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/15 17:54:13 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,48 @@ int	find_var_index(const char *name_to_find, char **envp)
 		i++;
 	}
 	return (-1); // Not found
+}
+
+char	**init_environment(char **system_envp)
+{
+	int		i;
+	int		count;
+	char	**copy;
+
+	count = 0;
+	while (system_envp[count])
+		count++;
+	copy = malloc((count + 1) * sizeof(char *));
+	if (!copy)
+		return (NULL);
+	i = 0;
+	while (i < count)
+	{
+		copy[i] = ft_strdup(system_envp[i]);
+		if (!copy[i])
+		{
+			while (--i >= 0)
+				free(copy[i]);
+			free(copy);
+			return(NULL);
+		}
+		i++;
+	}
+	copy[count] = NULL;
+	return (copy);
+}
+
+void	free_environment(char **envp_ptr)
+{
+	int	j;
+
+	if (!envp_ptr)
+		return ;
+	j = ft_arrlen(envp_ptr);
+	while (j >= 0)
+	{
+		free(envp_ptr[j]);
+		j--;	
+	}
+	free(envp_ptr);
 }

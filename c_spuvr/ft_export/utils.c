@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 16:26:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/14 18:26:10 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/15 17:38:56 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,23 @@ int	is_valid_identifier(const char *name)
 char	*strip_outer_quotes(const char *str)
 {
 	size_t	len;
+	int		has_quotes;
 
 	if (!str)
 		return (NULL);
 	len = ft_strlen(str);
+	has_quotes = 0;
 	if (len >= 2)
 	{
-		if ((str[0] == '"' && str[len - 1] == '"') || \
+		if ((str[0] == '"' && str[len - 1] == '"') || 
 			(str[0] == '\'' && str[len - 1] == '\''))
 		{
-			return (ft_substr(str, 1, len - 2));
+			has_quotes = 1;
 		}
 	}
-	return (ft_strdup(str)); // Duplicate if no surrounding quotes to strip
+	if (has_quotes)
+		return (ft_substr(str, 1, len - 2));
+	return (ft_strdup(str));
 }
 
 void	print_err_export(const char *context, const char *specific_arg)
