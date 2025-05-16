@@ -6,13 +6,12 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/15 18:01:52 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/16 13:47:04 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "includes/header.h"
 #include "c_spuvr/built_functions.h"
-#include "c_spuvr/minishell_structs.h"
 
 void    error(int type)
 {
@@ -172,8 +171,8 @@ int main(int ac, char **av, char **env)
             free_tokens(tokens);
             continue;
         }
-        if (ft_strcmp(line[0], "export") == 0)
-            ft_export(line, &my_envp);
+        // if (ft_strcmp(line[0], "export") == 0)
+        //     ft_export(line, &my_envp);
         //print_tokens(tokens); // for dubg
         commands = build_command(tokens);
         print_commands(commands);

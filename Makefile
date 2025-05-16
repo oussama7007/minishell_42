@@ -1,6 +1,7 @@
 NAME = MINISHELL
 
-SRCS = $(addprefix srcs/, main.c commands.c utils.c utils2.c free.c tokenization.c ) 
+
+SRCS =  
 LINKER = -lreadline
 INCLUDES = -I includes 
 
