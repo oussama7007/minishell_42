@@ -1,27 +1,49 @@
-NAME = MINISHELL
+NAME        := minishell
+CC          := cc
+CFLAGS      := -Wall -Wextra -Werror
+LINKER      := -lreadline
+INCLUDES    := -I srcs/includes
 
+# === Directories ===
+C_HAMOU_DIR := srcs/c_hamou
+C_SPUVR_DIR := srcs/c_spuvr
 
-SRCS =  
-LINKER = -lreadline
-INCLUDES = -I includes 
+INCDIR      := srcs/includes
 
-CFLAGS = -Wall -Werror -Wextra
-CC = cc 
-OBJS = $(SRCS:.c=.o)
-all :$(NAME)
+# === Source files ===
+HAMOU_SRC := \
+	$(C_HAMOU_DIR)/commands.c $(C_HAMOU_DIR)/ex.c $(C_HAMOU_DIR)/free.c $(C_HAMOU_DIR)/tokenization.c \
+	$(C_HAMOU_DIR)/utils.c $(C_HAMOU_DIR)/utils2.c
 
-$(NAME) : $(OBJS)
-	$(CC) $(CFLAGS) $(INCLUDES) $(LINKER) $(OBJS) -o $(NAME)
+SPUVR_SRC := \
+	$(C_SPUVR_DIR)/built-ins.c $(C_SPUVR_DIR)/built-ins1.c $(C_SPUVR_DIR)/env.c $(C_SPUVR_DIR)/main.c $(C_SPUVR_DIR)/utils.c \
+	$(C_SPUVR_DIR)/ft_chdir/ft_cd.c $(C_SPUVR_DIR)/ft_chdir/ft_cd_1.c $(C_SPUVR_DIR)/ft_chdir/ft_cd_utils.c \
+	$(C_SPUVR_DIR)/ft_export/ft_export.c $(C_SPUVR_DIR)/ft_export/ft_export1.c $(C_SPUVR_DIR)/ft_export/ft_export2.c \
+	$(C_SPUVR_DIR)/ft_export/utils.c $(C_SPUVR_DIR)/ft_export/utils2.c \
+	$(C_SPUVR_DIR)/unset/ft_unset.c
 
-%.o: %.c includes/header.h
+SRCS := $(HAMOU_SRC) $(SPUVR_SRC)
+OBJS := $(SRCS:.c=.o)
+
+# === Build ===
+all: $(NAME)
+
+$(NAME): $(OBJS)
+	$(MAKE) -C $(LIBFT_DIR)
+	$(CC) $(CFLAGS) $(INCLUDES) $(LINKER) $(OBJS) $(LIBFT_DIR)/libft.a -o $(NAME)
+
+%.o: %.c $(INCDIR)/header.h
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-clean :
+# === Clean ===
+clean:
 	rm -f $(OBJS)
+	$(MAKE) -C $(LIBFT_DIR) clean
 
-fclean : clean
-	rm  -f $(NAME)
+fclean: clean
+	rm -f $(NAME)
+	$(MAKE) -C $(LIBFT_DIR) fclean
 
-re : fclean all
+re: fclean all
 
-.PHONY : clean
+.PHONY: all clean fclean re
