@@ -6,10 +6,9 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:33:39 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/13 16:42:41 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/16 14:15:14 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell_structs.h"
 #include "../built_functions.h"
 

@@ -6,11 +6,10 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:55 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/15 17:36:43 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/16 14:14:58 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell_structs.h"
 #include "../built_functions.h"
 
 int	handle_equal_start(const char *value_ptr, int *status)

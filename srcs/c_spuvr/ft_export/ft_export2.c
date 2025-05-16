@@ -6,11 +6,10 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:37:18 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/15 17:38:41 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/16 14:15:02 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell_structs.h"
 #include "../built_functions.h"
 
 int	handle_plus_equal_error(const char *plus_equal_ptr, char *name)

@@ -6,11 +6,10 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 16:26:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/15 17:38:56 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/16 14:15:04 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell_structs.h"
 #include "../built_functions.h"
 
 int	is_valid_identifier(const char *name)

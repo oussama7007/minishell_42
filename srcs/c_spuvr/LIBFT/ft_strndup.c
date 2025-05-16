@@ -1,14 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built-ins1.c                                       :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 17:54:48 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/16 14:13:53 by oadouz           ###   ########.fr       */
+/*   Created: 2025/05/16 14:09:33 by oadouz            #+#    #+#             */
+/*   Updated: 2025/05/16 14:11:25 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "built_functions.h"
+#include "libft.h"
 
+char    *ft_strndup( char *s, size_t n)
+{
+    char    *dup;
+    size_t  len;
+
+    len = ft_strlen(s);
+    if (len > n)
+        len = n;
+    dup = malloc(len + 1);
+    if (!dup)
+        return (NULL);
+    ft_strlcpy(dup, s, len + 1);
+    return (dup);
+}

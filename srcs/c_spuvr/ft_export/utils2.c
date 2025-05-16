@@ -6,11 +6,10 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:40:41 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/15 17:48:06 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/16 14:15:06 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell_structs.h"
 #include "../built_functions.h"
 
 static void	ms_sort_env_array(char **arr_to_sort, int count)

@@ -6,11 +6,10 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:20:01 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/14 14:29:49 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/16 14:13:48 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_structs.h"
 #include "built_functions.h"
 
 static int	is_n_option(const char *arg)

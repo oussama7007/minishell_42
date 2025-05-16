@@ -6,11 +6,10 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:00:09 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/13 14:58:00 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/16 14:14:00 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_structs.h"
 #include "built_functions.h"
 
 char	*my_getenv(const char *name, char **envp)

@@ -6,11 +6,11 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 18:08:03 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/15 17:54:13 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/16 14:14:16 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_structs.h"
+#include "built_functions.h"
 
 char	*create_env_data(char *name, char *value)
 {

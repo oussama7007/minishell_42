@@ -6,12 +6,20 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/15 17:54:24 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/16 14:14:39 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILT_FUNCTIONS_H
 # define BUILT_FUNCTIONS_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include "../c_spuvr/LIBFT/libft.h"
+#include <unistd.h>
+#include <stdbool.h>
 
 char	**init_environment(char **system_envp);
 void	free_environment(char **envp_ptr);
