@@ -1,0 +1,184 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
+/*   Updated: 2025/05/16 11:38:30 by oait-si-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "header.h"
+
+void    error(int type)
+{
+    if (type == ERR_PIPE)
+        write(2, "Minishell: syntax error near unexpected token `|'\n", 50);
+    else if (type == ERR_SEMICOLON)
+        write(2, "Minishell: syntax error near unexpected token `;'\n", 51);
+    else if (type == ERR_NEWLINE)
+        write(2, "Minishell: syntax error near unexpected token `newline'\n", 57);
+    else if (type == ERR_SYNTAX)
+        write(2, "Minishell: syntax error \n", 26);
+}
+int     validate_syntax(t_token *tokens)
+{
+    int type;
+    t_token *next;
+    while(tokens)
+    {
+        type = tokens->type;
+        next = tokens->next;
+        if(type == TOKEN_PIPE && next == NULL)
+            return(error(ERR_PIPE), 0);
+        if((type >= TOKEN_PIPE && type <= TOKEN_SEMICOLON ) && !next)
+            return(error(ERR_NEWLINE), 0);
+        if(next && (type >= TOKEN_PIPE && type <= TOKEN_SEMICOLON ) && (next->type >= TOKEN_PIPE && next->type <= TOKEN_SEMICOLON))
+            return(error(ERR_SYNTAX), 0);
+        tokens = tokens->next;
+    }
+    return 1;
+}
+// static void    print_tokens(t_token *tokens)
+// {
+//     while(tokens)
+//     {
+//         printf(" type : %d, value %s \n", tokens->type, tokens->value);
+//         tokens = tokens->next;
+//     }
+    
+// }
+
+
+static void print_commands(t_command *commands)
+{
+    while (commands)
+    {
+        printf("cmd : %s\n", commands->cmd);
+        printf("-------------------------------------------------------------cmd\n");
+
+        int i = -1;
+        while (commands->args && commands->args[++i])
+            printf(" --- args --- : %s\n", commands->args[i]);
+
+        printf("-------------------------------------------------------------args\n");
+        i = -1;
+        while (commands->red_in && commands->red_in[++i])
+            printf("+++ red_in : %s\n", commands->red_in[i]);
+
+        printf("-------------------------------------------------------------red_in\n");
+        i = -1;
+        while (commands->red_out && commands->red_out[++i])
+        {
+            printf("-- red_out-- : %s", commands->red_out[i]);
+            if (commands->append)
+                printf("  (append: %s)\n", commands->append[i] ? "yes" : "no");
+            else
+                printf("\n");
+        }
+
+        if (commands->heredoc_delimiter)
+            printf("<<< heredoc delimiter : %s\n", commands->heredoc_delimiter);
+
+        printf("=============================================================\n\n");
+        commands = commands->next;
+    }
+}
+int     check_single_quotes(char *line, int *i)
+{
+    (*i)++;
+    while(line[*i])
+    {
+        if(line[*i] == '\'')
+            return 1;
+        (*i)++;
+    }
+    return 0;
+}
+int     check_double_quotes(char *line, int *i)
+{
+    (*i)++;
+    while(line[*i])
+    {
+        if(line[*i] == '"')
+            return 1;
+        (*i)++;
+    }
+    return 0;
+}
+int     handle_quotes(char *line)
+{
+    int i;
+    i = -1;
+    while(line[++i])
+    {
+        if(line[i] == '\'')
+        {
+                if(!check_single_quotes(line, &i))
+                    return(0);
+        }
+        if(line[i] == '"')
+        { 
+            if(!check_double_quotes(line, &i))
+                return 0;
+        }
+    }
+    return 1;
+}
+static void    t()
+{
+    system("leaks a.out");
+}
+int main()
+{
+    char *line;
+    t_token *tokens;
+    t_command *commands;
+    
+    atexit(t);
+    while(1)
+    {
+        line = readline("Minishell$ ");
+        if(!line)
+        {
+            write(1,"exit\n",5);
+            exit(0);
+        }
+        if(*line)
+            add_history(line);
+        if(!handle_quotes(line))
+        {
+            free(line);
+            printf("error\n");
+            continue;
+        }
+        tokens = tokenize(line); 
+        if(!tokens)
+        {
+            free(line);
+            continue;
+        }
+        if(!validate_syntax(tokens))
+        {
+            free(line);
+            free_tokens(tokens);
+            continue;
+        }
+        
+        //print_tokens(tokens); // for dubg
+        commands = build_command(tokens);
+        print_commands(commands);
+        free_tokens(tokens);
+        free(line);
+    }
+    exit(0);
+}
+
+// need to handle  quotes " " ''
+// Tokenizes input (done). 
+// Validates syntax (done).
+// Builds commands (t_command) for execution (missing).
+// Handles quotes and expansions (missing).
+// Reports syntax errors with minishell: prefix and sets $? = 2 (missing).
