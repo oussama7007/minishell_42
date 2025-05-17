@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/17 16:19:29 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/17 18:46:28 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int		find_var_index(const char *name_to_find, char **envp);
 int		my_setenv(char *name, char *value, char ***env_ptr);
 int		my_unsetenv(const char *name, char ***env_ptr);
 int		ft_export(char **args, char ***env_ptr);
+int		ft_pwd(void);
 void	display_sorted_environment(char **envp);
 int		process_export_arguments(char **args, char ***env_ptr);
 int		is_standalone_name(const char *arg);
