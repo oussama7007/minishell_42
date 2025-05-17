@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/16 13:47:04 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/17 14:49:27 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,8 @@ int main(int ac, char **av, char **env)
             printf("error\n");
             continue;
         }
-        tokens = tokenize(line); 
+        tokens = tokenize(line);
+        
         if(!tokens)
         {
             free(line);

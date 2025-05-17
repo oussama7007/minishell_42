@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/14 22:45:26 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/17 15:16:50 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@
 //  need to handles quotes 
 t_token     *tokenize(char *line)
 {
- 
     t_token *token;
     char    *start;
     char    *end;
@@ -134,6 +133,17 @@ t_token     *tokenize(char *line)
     }
     return(tokens);
 }
+
+
+
+
+
+
+
+
+
+
+
 t_token     *new_token(int type, char *word)
 {
     t_token *new;
