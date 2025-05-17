@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:44 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/16 14:14:55 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/17 14:46:33 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	ft_export(char **args, char ***env_ptr)
 {
 	if (!env_ptr || !(*env_ptr))
 		return (1);
+	printf("ana hena 1 \n");
 	if (!args[1])
 	{
 		display_sorted_environment(*env_ptr);
