@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/17 17:47:22 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/17 18:28:07 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,11 +154,6 @@ int main(int ac, char **av, char **env)
         }
         if(*line)
             add_history(line);
-        else
-        {
-            free(line);
-            continue;
-        }
         if(!handle_quotes(line))
         {
             free(line);
@@ -166,7 +161,7 @@ int main(int ac, char **av, char **env)
             continue;
         }
         tokens = tokenize(line); 
-        if(!tokens)
+        if(!tokens || !*line)
         {
             free(line);
             continue;
