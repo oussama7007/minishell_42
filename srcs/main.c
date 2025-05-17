@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/17 15:21:31 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/17 16:19:03 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,11 +171,11 @@ int main(int ac, char **av, char **env)
             free_tokens(tokens);
             continue;
         }
-        // if (ft_strcmp(line[0], "export") == 0)
-        //     ft_export(line, &my_envp);
-        //print_tokens(tokens); // for dubg
+        
         commands = build_command(tokens);
-        print_commands(commands);
+        is_built_ins(commands->args, &my_envp);
+        //print_tokens(tokens); // for dubg
+        // print_commands(commands);
         free_tokens(tokens);
         free(line);
     }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/16 11:38:30 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/17 16:20:11 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ typedef struct s_command {
 void        error(int type);
 int         validate_syntax(t_token *tokens);
 t_token     *tokenize(char *line);
-int         ft_strlen(char *line);
+// int         ft_strlen(char *line);
 char        *ft_strdup(const char *s1);
 int         is_space(int  c);
-size_t      ft_strlcpy(char *dst, char *src, size_t dstsize);
+// size_t      ft_strlcpy(char *dst, char *src, size_t dstsize);
 char        *ft_strndup( char *s, size_t n);
 int	        ft_strncmp(const char *s1, const char *s2, size_t n);
 void        free_tokens(t_token *tokens);

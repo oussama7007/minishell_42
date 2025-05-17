@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:40:41 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/16 14:15:06 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/17 15:51:53 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static void	ms_print_one_env_declare(char *env_str)
 			// Basic quoting for a double quote inside the value.
 			// Bash does more extensive escaping, this is a simplification.
 			if (env_str[i] == '"')
-				ft_putstr_fd("\\\"", STDOUT_FILENO);
+				ft_putstr_fd("\\\"", STDOUT_FILENO);	
 			else
 				ft_putchar_fd(env_str[i], STDOUT_FILENO);
 			i++;
@@ -120,7 +120,6 @@ void	display_sorted_environment(char **envp)
 	env_copy = ms_duplicate_env(envp, count);
 	if (!env_copy)
 	{
-		// Handle malloc error, maybe print to stderr or set global error
 		return;
 	}
 	ms_sort_env_array(env_copy, count);

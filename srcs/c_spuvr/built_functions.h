@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/16 14:14:39 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/17 16:19:29 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include "../../includes/header.h"
 #include "../c_spuvr/LIBFT/libft.h"
 #include <unistd.h>
 #include <stdbool.h>
@@ -41,7 +42,7 @@ int		is_valid_identifier(const char *name);
 int		handle_plus_equal_error(const char *plus_equal_ptr, char *name);
 char	*strip_outer_quotes(const char *str);
 int		create_append_value(char *name, char *append_val, char ***env_ptr);
-
+int		is_built_ins(char **cmd, char ***env_ptr);
 
 #endif
 
