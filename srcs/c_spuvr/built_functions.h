@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/17 18:46:28 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/17 20:02:53 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #include "../c_spuvr/LIBFT/libft.h"
 #include <unistd.h>
 #include <stdbool.h>
+#include <errno.h>
+#include <string.h>
 
 char	**init_environment(char **system_envp);
 void	free_environment(char **envp_ptr);
@@ -44,6 +46,7 @@ int		handle_plus_equal_error(const char *plus_equal_ptr, char *name);
 char	*strip_outer_quotes(const char *str);
 int		create_append_value(char *name, char *append_val, char ***env_ptr);
 int		is_built_ins(char **cmd, char ***env_ptr);
+int		ft_chdir(char **args, char ***env_ptr);
 
 #endif
 

@@ -8,6 +8,7 @@
 		"readline.h": "c",
 		"stdlib.h": "c",
 		"cstdlib": "c",
-		"header.h": "c"
+		"header.h": "c",
+		"string.h": "c"
 	}
 }
