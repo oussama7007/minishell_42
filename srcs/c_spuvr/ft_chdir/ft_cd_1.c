@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:04:45 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/17 19:57:15 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/18 13:37:12 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int ft_chdir(char **args, char ***env_ptr)
     char *target_path;
     char *old_pwd = NULL;
     char *new_pwd = NULL;
-    int ret;
+    int ret = 0;
     
     // Get current working directory for OLDPWD before changing it
     old_pwd = getcwd(NULL, 0);
@@ -36,7 +36,7 @@ int ft_chdir(char **args, char ***env_ptr)
         if (!target_path || target_path[0] == '\0')
         {
             ft_putendl_fd("minishell: cd: HOME not set", 2);
-            // Don't free old_pwd here - will free at end
+            free(old_pwd); // Free here before early return
             return (1);
         }
     }
@@ -47,7 +47,7 @@ int ft_chdir(char **args, char ***env_ptr)
         if (!target_path || target_path[0] == '\0')
         {
             ft_putendl_fd("minishell: cd: OLDPWD not set", 2);
-            // Don't free old_pwd here - will free at end
+            free(old_pwd); // Free here before early return
             return (1);
         }
         // Print the directory we're changing to when using 'cd -'
@@ -67,7 +67,7 @@ int ft_chdir(char **args, char ***env_ptr)
         ft_putstr_fd(target_path, 2);
         ft_putstr_fd(": ", 2);
         ft_putendl_fd(strerror(errno), 2);
-        // Don't free old_pwd here - will free at end
+        free(old_pwd); // Free here before early return
         return (1);
     }
     
@@ -89,11 +89,8 @@ int ft_chdir(char **args, char ***env_ptr)
     {
         ft_putstr_fd("minishell: cd: error retrieving new directory: ", 2);
         ft_putendl_fd(strerror(errno), 2);
-        // This is unlikely but possible - we've changed directory but can't get path
-        // Don't free old_pwd here - will free it at end
-        if (old_pwd)
-            free(old_pwd);
-        return (0); // Still return success as cd worked
+        free(old_pwd); // Free old_pwd here ONLY - removed the duplicate free
+        return (0);    // Still return success as cd worked
     }
     
     if (my_setenv("PWD", new_pwd, env_ptr) != 0)
@@ -102,11 +99,8 @@ int ft_chdir(char **args, char ***env_ptr)
         // Non-fatal
     }
     
-    // Free allocated memory - do this only once at the end
-    if (old_pwd)
-        free(old_pwd);
-    if (new_pwd)
-        free(new_pwd);
-    
+    // Free allocated memory
+    free(old_pwd);
+    free(new_pwd);
     return (0); // Success
 }
