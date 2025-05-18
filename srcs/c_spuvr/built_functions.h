@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/18 16:49:45 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/18 17:23:12 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int		ft_export(char **args, char ***env_ptr);
 int		ft_pwd(void);
 int		ft_unset(char **args, char ***env_ptr);
 int		ft_env(char **args, char ***env_ptr);
+int		ft_exit(char **args, t_shell_data *data);
 void	display_sorted_environment(char **envp);
 int		process_export_arguments(char **args, char ***env_ptr);
 int		is_standalone_name(const char *arg);
