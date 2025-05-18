@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -7,12 +6,10 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/17 15:16:50 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/18 16:28:30 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-=======
->>>>>>> ff410c67dbdea7e2c3110b278df675aa6bd523d2
 #include "header.h"
 // t_token     *tokenize(char *line)
 // {
@@ -61,11 +58,11 @@
 //  need to handles quotes 
 t_token     *tokenize(char *line)
 {
-    t_token *token;
+    t_token *token = NULL;
     char    *start;
     char    *end;
     char *word;
-    t_token *tokens;
+    t_token *tokens = NULL;
     
     start = line;
     while(*start)
@@ -83,6 +80,7 @@ t_token     *tokenize(char *line)
                 printf("if *start == \" \n");
                 while( *end && *end != '"')
                     end++;
+                end++;
             }
             else 
             {
@@ -90,6 +88,7 @@ t_token     *tokenize(char *line)
                 end++;
                 while(*end && *end != '\'')
                     end++;
+                end++;
             }
             printf("end : '%s' ---- start '%s'\n" , end, start);
             if(end > start)
@@ -137,16 +136,6 @@ t_token     *tokenize(char *line)
     return(tokens);
 }
 
-
-
-
-
-
-
-
-
-
-
 t_token     *new_token(int type, char *word)
 {
     t_token *new;
@@ -179,12 +168,13 @@ int     get_token_type(char *line)
 }
 void    add_token(t_token **tokens, t_token *token)
 {
-    t_token *tmp;
+    t_token *tmp =  NULL;
     if(!*tokens)
         *tokens = token;
     else 
     {
         tmp = *tokens;
+        
         while(tmp->next)
             tmp = tmp->next;
         tmp->next = token;

@@ -6,13 +6,10 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/05/17 14:49:27 by oait-si-         ###   ########.fr       */
-=======
-/*   Updated: 2025/05/17 18:28:58 by oadouz           ###   ########.fr       */
->>>>>>> ff410c67dbdea7e2c3110b278df675aa6bd523d2
+/*   Updated: 2025/05/18 15:50:16 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "includes/header.h"
 #include "c_spuvr/built_functions.h"
@@ -164,14 +161,9 @@ int main(int ac, char **av, char **env)
             printf("error\n");
             continue;
         }
-<<<<<<< HEAD
-        tokens = tokenize(line);
-        
-        if(!tokens)
-=======
+
         tokens = tokenize(line); 
         if(!tokens || !*line)
->>>>>>> ff410c67dbdea7e2c3110b278df675aa6bd523d2
         {
             free(line);
             continue;
@@ -188,7 +180,7 @@ int main(int ac, char **av, char **env)
             is_built_ins(commands->args, &my_envp);
         }
         //print_tokens(tokens); // for dubg
-        // print_commands(commands);
+        print_commands(commands);
         free_tokens(tokens);
         free(line);
     }

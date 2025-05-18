@@ -10,5 +10,6 @@
 		"cstdlib": "c",
 		"header.h": "c",
 		"string.h": "c"
-	}
+	},
+	"C_Cpp.errorSquiggles": "disabled"
 }
