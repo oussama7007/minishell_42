@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:54:48 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/17 20:03:05 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/18 14:17:31 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	is_built_ins(char **cmd, char ***env_ptr)
 	else if ((ft_strcmp(cmd[0], "cd")) == 0)
 		ft_chdir(cmd, env_ptr);
 	// else if ((ft_strcmp(cmd[0], "env")) == 0)
-	// 	ft_export(cmd, env_ptr);
+	// 	ft_unset(cmd, env_ptr);
 	// else if ((ft_strcmp(cmd[0], "echo")) == 0)
 	// 	ft_echo(cmd);
 	
