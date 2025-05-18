@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:44 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/16 14:14:55 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/17 18:29:25 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ int	process_export_arguments(char **args, char ***env_ptr)
 		current_arg = args[i];
 		if (is_standalone_name(current_arg))
 			ret_status |= exec_export_name_only(current_arg, env_ptr);
-		else if (ft_strnstr(current_arg, "+=", ft_strlen(current_arg)))
-			ret_status |= exec_export_plus_equal(current_arg, env_ptr);
 		else if (ft_strchr(current_arg, '='))
 			ret_status |= exec_export_value(current_arg, env_ptr);
+		else if (ft_strnstr(current_arg, "+=", ft_strlen(current_arg)))
+			ret_status |= exec_export_plus_equal(current_arg, env_ptr);
 		else
 			ret_status |= exec_export_name_only(current_arg, env_ptr);
 		i++;

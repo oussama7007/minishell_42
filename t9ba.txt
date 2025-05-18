@@ -1,0 +1,7 @@
+export z=+=hello // fixed
+
+
+
+
+export # env --> lfer9 expor kaykon fiha chi haja mafihach l value , env kaikon fiha ghire variable w value
+

@@ -6,7 +6,11 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/05/17 14:49:27 by oait-si-         ###   ########.fr       */
+=======
+/*   Updated: 2025/05/17 18:28:58 by oadouz           ###   ########.fr       */
+>>>>>>> ff410c67dbdea7e2c3110b278df675aa6bd523d2
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +153,7 @@ int main(int ac, char **av, char **env)
         if(!line)
         {
             write(1,"exit\n",5);
+            free_environment(my_envp);
             exit(0);
         }
         if(*line)
@@ -159,9 +164,14 @@ int main(int ac, char **av, char **env)
             printf("error\n");
             continue;
         }
+<<<<<<< HEAD
         tokens = tokenize(line);
         
         if(!tokens)
+=======
+        tokens = tokenize(line); 
+        if(!tokens || !*line)
+>>>>>>> ff410c67dbdea7e2c3110b278df675aa6bd523d2
         {
             free(line);
             continue;
@@ -172,11 +182,13 @@ int main(int ac, char **av, char **env)
             free_tokens(tokens);
             continue;
         }
-        // if (ft_strcmp(line[0], "export") == 0)
-        //     ft_export(line, &my_envp);
-        //print_tokens(tokens); // for dubg
         commands = build_command(tokens);
-        print_commands(commands);
+        if (commands)
+        {
+            is_built_ins(commands->args, &my_envp);
+        }
+        //print_tokens(tokens); // for dubg
+        // print_commands(commands);
         free_tokens(tokens);
         free(line);
     }

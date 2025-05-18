@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:22:51 by oait-si-          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/05/17 15:17:38 by oait-si-         ###   ########.fr       */
+=======
+/*   Updated: 2025/05/17 16:33:33 by oadouz           ###   ########.fr       */
+>>>>>>> ff410c67dbdea7e2c3110b278df675aa6bd523d2
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +131,8 @@ t_command *build_command(t_token *tokens)
     t_token *tmp = tokens;
     int arg_count = 0, red_in_count = 0, red_out_count = 0;
 
+    if (tokens == NULL)
+        return 0;
     while (tmp)
     {
         if (!current)
