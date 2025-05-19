@@ -19,8 +19,8 @@ SPUVR_SRC := \
 	$(C_SPUVR_DIR)/built-ins.c $(C_SPUVR_DIR)/built-ins1.c $(C_SPUVR_DIR)/env.c $(C_SPUVR_DIR)/mainxxx.c $(C_SPUVR_DIR)/utils.c \
 	$(C_SPUVR_DIR)/ft_chdir/ft_cd.c $(C_SPUVR_DIR)/ft_chdir/ft_cd_1.c $(C_SPUVR_DIR)/ft_chdir/ft_cd_utils.c \
 	$(C_SPUVR_DIR)/ft_export/ft_export.c $(C_SPUVR_DIR)/ft_export/ft_export1.c $(C_SPUVR_DIR)/ft_export/ft_export2.c \
-	$(C_SPUVR_DIR)/ft_export/utils.c $(C_SPUVR_DIR)/ft_export/utils2.c \
-	$(C_SPUVR_DIR)/unset/ft_unset.c
+	$(C_SPUVR_DIR)/ft_export/utils.c $(C_SPUVR_DIR)/ft_export/utils2.c  $(C_SPUVR_DIR)/unset_exit/ft_exit.c\
+	$(C_SPUVR_DIR)/unset_exit/ft_unset.c $(C_SPUVR_DIR)/ft_env/ft_env.c
 
 SRCS := $(HAMOU_SRC) $(SPUVR_SRC)
 OBJS := $(SRCS:.c=.o)

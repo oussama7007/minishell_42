@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/05/19 16:37:35 by oait-si-         ###   ########.fr       */
+=======
+/*   Updated: 2025/05/18 16:50:16 by oadouz           ###   ########.fr       */
+>>>>>>> 4a4c5d1c2e30ff4296497563a7c83f26aeee629b
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +186,7 @@ int main(int ac, char **av, char **env)
             is_built_ins(commands->args, &my_envp);
         }
         //print_tokens(tokens); // for dubg
-        print_commands(commands);
+        // print_commands(commands);
         free_tokens(tokens);
         free(line);
     }
