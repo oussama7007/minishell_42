@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/18 15:50:16 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/19 16:37:35 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,9 @@ int main(int ac, char **av, char **env)
     t_token *tokens;
     t_command *commands;
 
+
+    printf("%s\n", env[0]);
+
     (void)ac;
     (void)av;
     my_envp = init_environment(env);
@@ -161,7 +164,6 @@ int main(int ac, char **av, char **env)
             printf("error\n");
             continue;
         }
-
         tokens = tokenize(line); 
         if(!tokens || !*line)
         {

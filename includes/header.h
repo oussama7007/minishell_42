@@ -3,16 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/17 16:20:11 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/19 11:43:24 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HEADER_H
 #define HEADER_H
 
+
+#include "../../includes/header.h"
+#include "../c_spuvr/LIBFT/libft.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>

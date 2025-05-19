@@ -1,6 +1,6 @@
 NAME        := minishell
 CC          := cc
-# CFLAGS      := -Wall -Wextra -Werror
+# CFLAGS      := -Wall -Wextra -Werro
 LINKER      := -lreadline
 INCLUDES    := -I srcs/includes
 

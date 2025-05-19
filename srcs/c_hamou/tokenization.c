@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/18 16:28:30 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:35:09 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,10 @@ t_token     *tokenize(char *line)
     char    *end;
     char *word;
     t_token *tokens = NULL;
+    char    *accumulator = NULL;// To merge consecutive quoted strings
+    char    quote_type;
+    char *joined;
+    
     
     start = line;
     while(*start)
@@ -74,39 +78,21 @@ t_token     *tokenize(char *line)
         end = start;
         if(*start == '\'' || *start == '"')
         {
-            if(*start == '"')
-            {
+            accumulator = NULL;
+            quote_type = *start;
+            while(*end != quote_type)
                 end++;
-                printf("if *start == \" \n");
-                while( *end && *end != '"')
-                    end++;
-                end++;
-            }
+            word = ft_strndup(start, end - start);
+            if(!word)
+                return(free(accumulator), free_tokens(tokens), NULL);// test it;
+            if(!accumulator)
+                joined = ft_strdup(word);
             else 
-            {
-                printf("else\" \n");
-                end++;
-                while(*end && *end != '\'')
-                    end++;
-                end++;
-            }
-            printf("end : '%s' ---- start '%s'\n" , end, start);
-            if(end > start)
-            {
-                printf("ente the condition of end > start");
-                word = ft_strndup(start, end - start);
-            
-                if(!word)
-                    return(free_tokens(tokens), NULL);
-                token = new_token(get_token_type(word),word);
-                printf("after tokne\n");
-                if(!token)
-                    return(free_tokens(tokens), NULL);
-                free(word);
-                add_token(&tokens, token);
-                printf("after add tokne\n");
-                start = end;
-            }
+                joined = ft_strjoin(accumulator, word);
+            free(accumulator);
+            accumulator = joined;
+            if(!accumulator)
+                return (free_tokens(tokens), NULL);
         }
         if(*start == '|' || *start == ';' || *start == '<' || *start == '>')
         {
