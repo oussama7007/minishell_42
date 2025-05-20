@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:22:45 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/20 15:49:59 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/20 16:02:20 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int ft_exit(char **args, char ***env_ptr, t_token *tokens, t_command *commands, 
         // No arguments - exit with last status
         rl_clear_history();
         free_environment(*env_ptr);
-        free_tokens(tokens);
+        n_free_tokens(tokens);
         free_commands(commands);
         exit(last_status);
     }
@@ -116,7 +116,7 @@ int ft_exit(char **args, char ***env_ptr, t_token *tokens, t_command *commands, 
         
         rl_clear_history();
         free_environment(*env_ptr);
-        free_tokens(tokens);
+        n_free_tokens(tokens);
         free_commands(commands);
         exit(255);
     }
@@ -132,7 +132,7 @@ int ft_exit(char **args, char ***env_ptr, t_token *tokens, t_command *commands, 
     
     rl_clear_history();
     free_environment(*env_ptr);
-    free_tokens(tokens);
+    n_free_tokens(tokens);
     free_commands(commands);
     exit((int)exit_code);
 }
