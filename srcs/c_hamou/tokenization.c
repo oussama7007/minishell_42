@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/20 17:51:21 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/20 18:20:09 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,9 @@ t_token *tokenize(char *line)
 
     while (*start)
     {
-        while (*start == ' ' || *start == '\t')
+        while (*start == ' ')
             start++; // Skip spaces
-        if (!*start) // test it 
+        if (!*start)
             break;
         end = start;
         if (*start == '\'' || *start == '"')
@@ -160,7 +160,7 @@ t_token *tokenize(char *line)
         }
         else // Handle unquoted words
         {
-            while (*end && *end != ' ' && *end != '\t' && *end != '|' && *end != ';' && *end != '<' && *end != '>' && *end != '\'' && *end != '"')
+            while (*end && *end != ' ' && *end != '|' && *end != ';' && *end != '<' && *end != '>' && *end != '\'' && *end != '"')
                 end++;
         }
         if (end > start)
