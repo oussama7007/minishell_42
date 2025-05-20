@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/20 17:18:35 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/20 17:36:56 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,9 @@ t_token *tokenize(char *line)
 
     while (*start)
     {
-        while (*start == ' ')
+        while (*start == ' ' || *start == '\t')
             start++; // Skip spaces
-        if (!*start)
+        if (!*start) // test it 
             break;
         end = start;
         if (*start == '\'' || *start == '"')
@@ -160,7 +160,7 @@ t_token *tokenize(char *line)
         }
         else // Handle unquoted words
         {
-            while (*end && *end != ' ' && *end != '|' && *end != ';' && *end != '<' && *end != '>' && *end != '\'' && *end != '"')
+            while (*end && *end != ' ' && *end != '\t' && *end != '|' && *end != ';' && *end != '<' && *end != '>' && *end != '\'' && *end != '"')
                 end++;
         }
         if (end > start)
