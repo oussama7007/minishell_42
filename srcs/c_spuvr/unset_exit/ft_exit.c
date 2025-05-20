@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:22:45 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/20 16:02:20 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/20 16:43:47 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,12 @@ int ft_exit(char **args, char ***env_ptr, t_token *tokens, t_command *commands, 
 {
     long long exit_code;
     
-    ft_putendl_fd("exit", 2);
+    //ft_putendl_fd("exit", 2);
     
     if (!args[1])
     {
         // No arguments - exit with last status
-        rl_clear_history();
+        //rl_clear_history();
         free_environment(*env_ptr);
         n_free_tokens(tokens);
         free_commands(commands);
@@ -114,7 +114,7 @@ int ft_exit(char **args, char ***env_ptr, t_token *tokens, t_command *commands, 
         ft_putstr_fd(args[1], 2);
         ft_putendl_fd(": numeric argument required", 2);
         
-        rl_clear_history();
+        //rl_clear_history();
         free_environment(*env_ptr);
         n_free_tokens(tokens);
         free_commands(commands);
@@ -130,7 +130,7 @@ int ft_exit(char **args, char ***env_ptr, t_token *tokens, t_command *commands, 
     
     exit_code = ft_atoi(args[1]) % 256;
     
-    rl_clear_history();
+    //rl_clear_history();
     free_environment(*env_ptr);
     n_free_tokens(tokens);
     free_commands(commands);
