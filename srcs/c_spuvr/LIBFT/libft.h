@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:52:13 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/16 14:11:35 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/20 17:47:02 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int		ft_isprint(int c);
 void	ft_swap(char **s1, char **s2);
 size_t	ft_strlen(const char *s);
 int		ft_arrlen(char **arr);
+int		ft_isspace(int c);
 void	*ft_memset(void *s, int c, size_t n);
 void	ft_bzero(void *s, size_t n);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
