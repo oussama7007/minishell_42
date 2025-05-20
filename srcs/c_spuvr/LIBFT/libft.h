@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:52:13 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/20 17:47:02 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/20 17:55:05 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_putnbr_fd(int n, int fd);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_strcmp(char *s1, char *s2);
-char    *ft_strndup( char *s, size_t n);
+char	*ft_strndup( char *s, size_t n);
 typedef struct s_list
 {
 	void			*content;
