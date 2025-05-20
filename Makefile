@@ -7,7 +7,8 @@ INCLUDES    := -I srcs/includes
 # === Directories ===
 C_HAMOU_DIR := srcs/c_hamou
 C_SPUVR_DIR := srcs/c_spuvr
-
+LIBFT_DIR = srcs/c_spuvr/LIBFT
+LIBFT = $(LIBFT_DIR)/libft.a
 INCDIR      := srcs/includes
 
 # === Source files ===
@@ -27,7 +28,10 @@ OBJS := $(SRCS:.c=.o)
 
 LIBFT_DIR = $(C_SPUVR_DIR)/LIBFT
 # === Build ===
-all: $(NAME)
+all: $(LIBFT) $(NAME)
+
+$(LIBFT):
+	$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT_DIR)/libft.a $(LINKER) -o $(NAME)
@@ -38,9 +42,10 @@ $(NAME): $(OBJS)
 # === Clean ===
 clean:
 	rm -f $(OBJS)
-
+	$(MAKE) -C $(LIBFT_DIR) clean
 fclean: clean
 	rm -f $(NAME)
+	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 

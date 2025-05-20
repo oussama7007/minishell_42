@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_functions.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/20 14:29:48 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/20 15:27:24 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "../../includes/header.h"
+#include "../includes/header.h"
 #include "../c_spuvr/LIBFT/libft.h"
 #include <unistd.h>
 #include <stdbool.h>

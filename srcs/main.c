@@ -6,17 +6,14 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/05/20 15:15:03 by oait-si-         ###   ########.fr       */
-=======
-/*   Updated: 2025/05/20 14:38:53 by oadouz           ###   ########.fr       */
->>>>>>> ab62b90f547eb93252a86f853e5f13baa648a514
+/*   Updated: 2025/05/20 15:28:46 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 
-#include "includes/header.h"
+
+#include "header.h"
 #include "c_spuvr/built_functions.h"
 
 void    error(int type)
@@ -55,7 +52,6 @@ int     validate_syntax(t_token *tokens)
 //         printf(" type : %d, value %s \n", tokens->type, tokens->value);
 //         tokens = tokens->next;
 //     }
-    
 // }
 
 
