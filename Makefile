@@ -1,7 +1,7 @@
 NAME        := minishell
 CC          := cc
-# CFLAGS      := -Wall -Wextra -Werro
-LINKER      := -lreadline
+CFLAGS      := -fsanitize=address #-Wall -Wextra -Werro
+LINKER      := -lreadline -lncurses
 INCLUDES    := -I srcs/includes
 
 # === Directories ===
@@ -30,7 +30,7 @@ LIBFT_DIR = $(C_SPUVR_DIR)/LIBFT
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(INCLUDES) $(LINKER) $(OBJS) $(LIBFT_DIR)/libft.a -o $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT_DIR)/libft.a $(LINKER) -o $(NAME)
 
 %.o: %.c $(INCDIR)/header.h
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
