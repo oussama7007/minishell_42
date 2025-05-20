@@ -6,7 +6,11 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/05/20 15:15:03 by oait-si-         ###   ########.fr       */
+=======
+/*   Updated: 2025/05/20 14:38:53 by oadouz           ###   ########.fr       */
+>>>>>>> ab62b90f547eb93252a86f853e5f13baa648a514
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,9 +145,6 @@ int main(int ac, char **av, char **env)
     t_token *tokens;
     t_command *commands;
 
-
-    
-
     (void)ac;
     (void)av;
     my_envp = init_environment(env);
@@ -182,7 +183,12 @@ int main(int ac, char **av, char **env)
         {
             is_built_ins(commands->args, &my_envp);
         }
+
         print_commands(commands);
+
+        // print_tokens(tokens); // for dubg
+        // print_commands(commands);
+
         free_tokens(tokens);
         free(line);
     }
