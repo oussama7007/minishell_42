@@ -6,203 +6,83 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/20 15:25:12 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/20 16:39:47 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-// t_token     *tokenize(char *line)
-// {
-//     t_token *tokens;
-//     char *start;
-//     char *end;
-//     char *word;
-//     t_token *token;
-    
-//     tokens = NULL;
-//     start = line;
-//     while(*start)
-//     {
-//         while(*start == ' ')
-//             start++;
-//         if(!*start)
-//             break;
-//         end = start;
-//         if(*start == '|' || *start == ';' || *start == '<' || *start == '>')
-//         {
-//             if(*start == '<' && *(start + 1) == '<')
-//                 end +=2;
-//             else if(*start == '>' && *(start + 1) == '>')
-//                 end +=2;
-//             else
-//                 end++;
-//         }
-//         else
-//             while(*end && *end != '|' && *end != ';' && *end != '<' && *end != ' ' && *end != '>')
-//                 end++;
-//         if(end > start)
-//         {
-//             word = ft_strndup(start, end - start);
-//             if(!word)
-//                 return(free_tokens(tokens),NULL);
-//             token = new_token(get_token_type(word), word);
-//             free(word);
-//             if(!token)  
-//                 return(free_tokens(tokens), NULL);
-//             add_token(&tokens, token);
-//         }
-//         start = end;
-//     }
-//     return(tokens);
-// }
-//  need to handles quotes 
-// t_token     *tokenize(char *line)
-// {
-//     t_token *token = NULL;
-//     char    *start;
-//     char    *end;
-//     char *word;
-//     t_token *tokens = NULL;
-//     char    *accumulator = NULL;// To merge consecutive quoted strings
-//     char    quote_type;
-//     char *joined;
-    
-    
-//     start = line;
-//     while(*start)
-//     {
-//         while(*start == ' ' && *start != '\'' && *start != '"')
-//             start++;
-//         if(!*start)
-//             break;
-//         end = start;
-//         if(*start == '\'' || *start == '"')
-//         {
-//             accumulator = NULL;
-//             quote_type = *start;
-//             while(*end != quote_type)
-//                 end++;
-//             word = ft_strndup(start, end - start);
-//             if(!word)
-//                 return(free_tokens(tokens), NULL);// test it;
-//             if(!accumulator)
-//                 joined = ft_strdup(word);
-//             else 
-//                 joined = ft_strjoin(accumulator, word);
-//             free(accumulator);
-//             accumulator = joined;
-//             if(!accumulator)
-//                 return (free_tokens(tokens), NULL);
-//         }
-//         if(*start == '|' || *start == ';' || *start == '<' || *start == '>')
-//         {
-//             if(*start == '<' && *(start + 1) == '<')
-//                 end +=2;
-//             else if(*start == '>' && *(start + 1) == '>')
-//                 end +=2;
-//             else
-//                 end++;
-//         }
-//         else
-//             while(*end && *end != '|' && *end != ';' && *end != '<' && *end != ' ' && *end != '>')
-//                 end++;
-//         if(end > start)
-//         {
-//             word = ft_strndup(start, end - start);
-//             if(!word)
-//                 return(free_tokens(tokens),NULL);
-//             token = new_token(get_token_type(word), word);
-//             free(word);
-//             if(!token)  
-//                 return(free_tokens(tokens), NULL);
-//             add_token(&tokens, token);
-//         }
-//         start = end;
-//     }
-//     return(tokens);
-// }
 
-
-t_token *tokenize(char *line)
+t_token     *tokenize(char *line)
 {
-    t_token *tokens = NULL;
-    char *start = line;
-    char *end;
+    t_token *token = NULL;
+    char    *start;
+    char    *end;
     char *word;
-    t_token *token;
-    char quote_type;
-    char *accumulator;
-    char *joined;
-
-    while (*start)
+    t_token *tokens = NULL;
+    char    *accumulator = NULL; // To merge consecutive quoted strings
+    char    quote_type;
+    char *tmp;
+    
+    
+    start = line;
+    while(*start)
     {
-        // Skip whitespace
-        while (*start == ' ')
+        while(*start == ' ' && *start != '\'' && *start != '"')
             start++;
-        if (!*start)
+        if(!*start)
             break;
-
-        accumulator = NULL;
-
-        // Handle quoted string
-        if (*start == '\'' || *start == '"')
+        end = start;
+        if(*start == '\'' || *start == '"')
         {
-            quote_type = *start++;
-            end = start;
-            while (*end && *end != quote_type)
-                end++;
-
-            if (!*end) // missing closing quote
-                return (free_tokens(tokens), NULL);
-
-            word = ft_strndup(start, end - start);
-            if (!word)
-                return (free_tokens(tokens), NULL);
-
-            joined = ft_strdup(word);
-            free(word);
-            if (!joined)
-                return (free_tokens(tokens), NULL);
-
-            token = new_token(TOKEN_WORD, joined);
-            free(joined);
-            if (!token)
-                return (free_tokens(tokens), NULL);
-            add_token(&tokens, token);
-            start = end + 1;
-            continue;
+            accumulator = NULL;
+            quote_type = *start;
+            while(1)
+            {    
+                start++;
+                end = start;
+                while(*end != quote_type)
+                    end++;
+                word = ft_strndup(start, end - start);
+                if(!word)
+                    return(free(accumulator), free_tokens(tokens), NULL);// test it;
+                tmp = accumulator;
+                accumulator = ft_strjoin(tmp ? tmp : "", word);
+                free(tmp);
+                free(word);
+                accumulator = tmp;
+                if(!accumulator)
+                    return (free_tokens(tokens), NULL);
+                start = end + 1;
+                if (*start != quote_type)
+                    break;
+            }
         }
-
-        // Handle operators: | ; < > << >>
-        if (*start == '|' || *start == ';' || *start == '<' || *start == '>')
+        if(*start == '|' || *start == ';' || *start == '<' || *start == '>')
         {
-            if (*start == '<' && *(start + 1) == '<')
-                end = start + 2;
-            else if (*start == '>' && *(start + 1) == '>')
-                end = start + 2;
+            if(*start == '<' && *(start + 1) == '<')
+                end +=2;
+            else if(*start == '>' && *(start + 1) == '>')
+                end +=2;
             else
-                end = start + 1;
+                end++;
         }
         else
-        {
-            end = start;
-            while (*end && *end != ' ' && *end != '|' && *end != ';' && *end != '<' && *end != '>')
+            while(*end && *end != '|' && *end != ';' && *end != '<' && *end != ' ' && *end != '>')
                 end++;
+        if(end > start)
+        {
+            word = ft_strndup(start, end - start);
+            if(!word)
+                return(free_tokens(tokens),NULL);
+            token = new_token(get_token_type(word), word);
+            free(word);
+            if(!token)  
+                return(free_tokens(tokens), NULL);
+            add_token(&tokens, token);
         }
-
-        word = ft_strndup(start, end - start);
-        if (!word)
-            return (free_tokens(tokens), NULL);
-
-        token = new_token(get_token_type(word), word);
-        free(word);
-        if (!token)
-            return (free_tokens(tokens), NULL);
-
-        add_token(&tokens, token);
         start = end;
     }
-    return tokens;
+    return(tokens);
 }
 
 t_token     *new_token(int type, char *word)
