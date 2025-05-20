@@ -6,12 +6,9 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/20 15:28:46 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/20 22:27:49 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
-
 
 #include "header.h"
 #include "c_spuvr/built_functions.h"
