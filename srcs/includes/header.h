@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/20 15:49:33 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/21 00:32:24 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 #define TOKEN_RED_OUT 3//>
 #define TOKEN_RED_APPEND 4 // >>
 #define TOKEN_RED_HEREDOC 5 //<<
-#define TOKEN_SEMICOLON 6
+
 
 #define ERR_PIPE 1
 #define ERR_RED 2
