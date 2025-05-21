@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/20 23:01:24 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/21 02:07:57 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,14 @@ t_token *tokenize(char *line)
     t_token *token;
     char    *accumulator = NULL;
     char    *tmp;
-
+    char quote_type;
     while (*start)
     {
         // Skip leading spaces
         while (*start == ' ' || *start == '\t')
             start++;
-        if (!*start)
-            break;
-
         // Check if it's an operator
-        if (*start == '|' || *start == ';' || *start == '<' || *start == '>')
+        if (*start == '|'  || *start == '<' || *start == '>')
         {
             end = start;
             if (*start == '<' && *(start + 1) == '<')
@@ -55,23 +52,23 @@ t_token *tokenize(char *line)
             // Accumulate a word (unquoted + quoted parts)
             accumulator = NULL;
             while (*start && *start != ' ' && *start != '\t' &&
-                   *start != '|' && *start != ';' && *start != '<' && *start != '>')
+                   *start != '|' && *start != '<' && *start != '>')
             {
                 if (*start == '\'' || *start == '"')
                 {
                     // Handle quoted string
-                    char quote_type = *start;
+                    quote_type = *start;
                     start++; // Skip opening quote
                     end = start;
                     while (*end && *end != quote_type)
                         end++;
-                    if (*end != quote_type)
-                    {
-                        write(2, "minishell: syntax error: unmatched quote\n", 40);
-                        free(accumulator);
-                        free_tokens(tokens);
-                        return NULL;
-                    }
+                    // if (*end != quote_type)
+                    // {
+                    //     write(2, "minishell: syntax error: unmatched quote\n", 40);
+                    //     free(accumulator);
+                    //     free_tokens(tokens);
+                    //     return NULL;
+                    // }
                     word = ft_strndup(start, end - start);
                     if (!word)
                     {
@@ -80,7 +77,7 @@ t_token *tokenize(char *line)
                         return NULL;
                     }
                     tmp = accumulator;
-                    accumulator = ft_strjoin(tmp ? tmp : "", word);
+                    accumulator = ft_strjoin(tmp, word);
                     free(tmp);
                     free(word);
                     if (!accumulator)
@@ -95,7 +92,7 @@ t_token *tokenize(char *line)
                     // Handle unquoted part
                     end = start;
                     while (*end && *end != ' ' && *end != '\t' &&
-                           *end != '|' && *end != ';' && *end != '<' && *end != '>' &&
+                           *end != '|' && *end != '<' && *end != '>' &&
                            *end != '\'' && *end != '"')
                         end++;
                     word = ft_strndup(start, end - start);
@@ -106,7 +103,7 @@ t_token *tokenize(char *line)
                         return NULL;
                     }
                     tmp = accumulator;
-                    accumulator = ft_strjoin(tmp ? tmp : "", word);
+                    accumulator = ft_strjoin(tmp, word);
                     free(tmp);
                     free(word);
                     if (!accumulator)
@@ -158,8 +155,6 @@ int     get_token_type(char *line)
         return (TOKEN_RED_IN);
     if(line[0] == '>')
         return (TOKEN_RED_OUT);
-    if(line[0] == ';')
-        return (TOKEN_SEMICOLON);
     return(TOKEN_WORD);
 }
 void    add_token(t_token **tokens, t_token *token)

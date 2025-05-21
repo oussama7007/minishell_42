@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/20 22:27:49 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/21 01:46:01 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void    error(int type)
         write(2, "Minishell: syntax error near unexpected token `newline'\n", 57);
     else if (type == ERR_SYNTAX)
         write(2, "Minishell: syntax error \n", 26);
+    else 
+        write(2, "Minishell: syntax error \n", 26);
 }
 int     validate_syntax(t_token *tokens)
 {
@@ -34,9 +36,9 @@ int     validate_syntax(t_token *tokens)
         next = tokens->next;
         if(type == TOKEN_PIPE && next == NULL)
             return(error(ERR_PIPE), 0);
-        if((type >= TOKEN_PIPE && type <= TOKEN_SEMICOLON ) && !next)
+        if(type >= TOKEN_PIPE  && !next)
             return(error(ERR_NEWLINE), 0);
-        if(next && (type >= TOKEN_PIPE && type <= TOKEN_SEMICOLON ) && (next->type >= TOKEN_PIPE && next->type <= TOKEN_SEMICOLON))
+        if(next && type >= TOKEN_PIPE   && next->type >= TOKEN_PIPE )
             return(error(ERR_SYNTAX), 0);
         tokens = tokens->next;
     }
@@ -131,6 +133,17 @@ static void    t()
 {
     system("leaks a.out");
 }
+int     check_invalid_char(char *line)
+{
+    int i;
+    i = -1;
+    while(line[++i])
+    {
+        if(line[i] == ';' || line[i] == 92)
+            return 0;
+    }
+    return 1;
+}
 int main(int ac, char **av, char **env)
 {
     char	**my_envp;
@@ -153,10 +166,14 @@ int main(int ac, char **av, char **env)
         }
         if(*line)
             add_history(line);
-        if(!handle_quotes(line))
+        if(!handle_quotes(line) || !check_invalid_char(line))
         {
+            
+            if(!handle_quotes(line))
+                write(2, "Minishell: Quotes aren't closed\n", 33);
+            else
+                write(2, "Minishell: Invalid character\n", 30);
             free(line);
-            printf("error\n");
             continue;
         }
         tokens = tokenize(line); 
@@ -194,3 +211,4 @@ int main(int ac, char **av, char **env)
 // Builds commands (t_command) for execution (missing).
 // Handles quotes and expansions (missing).
 // Reports syntax errors with minishell: prefix and sets $? = 2 (missing).
+ 
