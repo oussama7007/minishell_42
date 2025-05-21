@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/21 02:07:57 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:30:54 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ t_token *tokenize(char *line)
             }
             if (accumulator)
             {
-                token = new_token(TOKEN_WORD, accumulator);
+                token = new_token(get_token_type(accumulator), accumulator);
                 free(accumulator);
                 if (!token)
                 {
