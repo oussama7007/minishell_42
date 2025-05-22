@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/21 00:32:24 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:26:56 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,19 @@ typedef struct s_command {
     struct s_command *next;// Next command (for pipes)
 } t_command;
 
+typedef struct s_gc_list
+{
+    void *ptr;
+    struct s_gc_list *next;
+}t_gc_list;
+
+typedef struct s_head_list
+{
+    t_gc_list *head;
+} t_head_list;
+// garbage collecter 
+void    add_ptr_node(t_head_list **head, void *ptr);
+void *gc_malloc(t_head_list **head,int size);
 /// ls -al <input1 <intpu2 arg1 arg2 arg3 >output1 | grep 
 void        error(int type);
 int         validate_syntax(t_token *tokens);

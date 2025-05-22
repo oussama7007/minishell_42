@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/21 01:46:01 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:29:21 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,13 +144,36 @@ int     check_invalid_char(char *line)
     }
     return 1;
 }
+void    add_ptr_node(t_head_list **head, void *ptr)
+{
+    t_gc_list *node;
+
+    node = malloc(sizeo(t_gc_list));
+    if(!node)
+        return;
+    node->ptr = ptr;
+    node->next = *head;
+    (*head) = node;
+}
+void *gc_malloc(t_head_list **head,int size)
+{
+    void *ptr;
+
+    ptr = malloc(size);
+    if(!ptr)
+        return NULL;
+    add_ptr_node(head, ptr);
+    return ptr;
+}
+void    free_gc(t_head_list **)
 int main(int ac, char **av, char **env)
 {
     char	**my_envp;
     char *line;
     t_token *tokens;
     t_command *commands;
-
+    t_head_list *head = NULL;
+    
     (void)ac;
     (void)av;
     my_envp = init_environment(env);
@@ -176,7 +199,7 @@ int main(int ac, char **av, char **env)
             free(line);
             continue;
         }
-        tokens = tokenize(line); 
+        tokens = tokenize(&head, line); 
         if(!tokens || !*line)
         {
             free(line);
