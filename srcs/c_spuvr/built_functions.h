@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_functions.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/20 15:27:24 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/22 17:29:26 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <readline/history.h>
 #include "../includes/header.h"
 #include "../c_spuvr/LIBFT/libft.h"
+#include "../includes/header.h"
 #include <unistd.h>
 #include <stdbool.h>
 #include <errno.h>
@@ -32,10 +33,17 @@ int		find_var_index(const char *name_to_find, char **envp);
 int		my_setenv(char *name, char *value, char ***env_ptr);
 int		my_unsetenv(const char *name, char ***env_ptr);
 int		ft_export(char **args, char ***env_ptr);
-int		ft_pwd(void);
+int		ft_pwd(char ***env_ptr);
 int		ft_unset(char **args, char ***env_ptr);
 int		ft_env(char **args, char ***env_ptr);
 // int		ft_exit(char **args, t_shell_data *data);
+int		ft_execute_command_list(t_command *command_list, char ***env_ptr);
+// int		ft_execute_external(t_command *cmd, char **envp);
+char	*find_executable_path(char *cmd, char **envp);
+int		wait_for_child(pid_t pid);
+void	ft_free_array(char **array);
+int		handle_command_not_found(char *cmd);
+void	execute_child_process(char *cmd_path, char **args, char **envp);
 int		ft_echo(char **args);
 void	display_sorted_environment(char **envp);
 int		process_export_arguments(char **args, char ***env_ptr);

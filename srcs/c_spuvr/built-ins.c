@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:20:01 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/16 14:13:48 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/21 17:39:44 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,29 @@ int	ft_echo(char **args)
 	return (0);
 }
 
-int	ft_pwd(void)
+int	ft_pwd(char ***env_ptr)
 {
-	char	buffer[1024];
+	char	*current_pwd;
+	char	buffer[4096];
 
-	if (getcwd(buffer, sizeof(buffer)) == NULL)
+	current_pwd = my_getenv("PWD", *env_ptr);
+	if (current_pwd && *current_pwd) // Check if PWD exists and is not empty
 	{
-		perror("minishell: pwd");
-		return (1);
+		ft_putstr_fd(current_pwd, STDOUT_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		free(current_pwd);
+		return (0);
 	}
-	ft_putstr_fd(buffer, STDOUT_FILENO);
-	ft_putchar_fd('\n', STDOUT_FILENO);
-	return (0);
+	else
+	{
+		if (getcwd(buffer, sizeof(buffer)) == NULL)
+		{
+			ft_putstr_fd("minishell: pwd: ", STDERR_FILENO);
+			ft_putendl_fd(strerror(errno), STDERR_FILENO);
+			return (1);
+		}
+		ft_putstr_fd(buffer, STDOUT_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		return (0);
+	}
 }

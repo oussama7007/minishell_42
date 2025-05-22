@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/05/22 16:29:21 by oait-si-         ###   ########.fr       */
+=======
+/*   Updated: 2025/05/21 18:30:17 by oadouz           ###   ########.fr       */
+>>>>>>> c0409ee6f6cd7e1f0547a39a9320aa57dcff44ce
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +174,7 @@ int main(int ac, char **av, char **env)
 {
     char	**my_envp;
     char *line;
+    int     ex_status;
     t_token *tokens;
     t_command *commands;
     t_head_list *head = NULL;
@@ -214,10 +219,10 @@ int main(int ac, char **av, char **env)
         commands = build_command(tokens);
         if (commands)
         {
-            is_built_ins(commands->args, &my_envp);
+            ex_status = ft_execute_command_list(commands, &my_envp);
         }
 
-        print_commands(commands);
+        // print_commands(commands);
 
         // print_tokens(tokens); // for dubg
         // print_commands(commands);
@@ -228,7 +233,7 @@ int main(int ac, char **av, char **env)
     exit(0);
 }
 
-// need to handle  quotes " " ''
+// need to handle  quotes " " '' 
 // Tokenizes input (done). 
 // Validates syntax (done).
 // Builds commands (t_command) for execution (missing).

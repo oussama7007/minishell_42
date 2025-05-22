@@ -1,0 +1,74 @@
+Minishell$ touch ls
+Minishell$ chmod 000 ls
+Minishell$ ls -la ls 
+---------- 1 oadouz 2024_khouribga 0 May 22 18:15 ls
+Minishell$ ./ls 
+minishell: ./ls: command not found
+Minishell$ chmod +x ls
+Minishell$ ./ls
+minishell: ./ls: Exec format error
+sh: 1: leaks: not found
+
+=================================================================
+==933376==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 448 byte(s) in 8 object(s) allocated from:
+    #0 0x7ffa16e84887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x55c2b182657e in new_command (/home/oadouz/Desktop/minishell_42/minishell+0x357e)
+    #2 0x55c2b182759d in build_command (/home/oadouz/Desktop/minishell_42/minishell+0x459d)
+    #3 0x55c2b1829e03 in main (/home/oadouz/Desktop/minishell_42/minishell+0x6e03)
+    #4 0x7ffa16b22d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 224 byte(s) in 9 object(s) allocated from:
+    #0 0x7ffa16e84887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x55c2b1826b89 in populate_command (/home/oadouz/Desktop/minishell_42/minishell+0x3b89)
+    #2 0x55c2b182781c in build_command (/home/oadouz/Desktop/minishell_42/minishell+0x481c)
+    #3 0x55c2b1829e03 in main (/home/oadouz/Desktop/minishell_42/minishell+0x6e03)
+    #4 0x7ffa16b22d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 77 byte(s) in 19 object(s) allocated from:
+    #0 0x7ffa16e84887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x55c2b182f7ee in ft_strdup (/home/oadouz/Desktop/minishell_42/minishell+0xc7ee)
+    #2 0x55c2b1826de3 in populate_command (/home/oadouz/Desktop/minishell_42/minishell+0x3de3)
+    #3 0x55c2b182781c in build_command (/home/oadouz/Desktop/minishell_42/minishell+0x481c)
+    #4 0x55c2b1829e03 in main (/home/oadouz/Desktop/minishell_42/minishell+0x6e03)
+    #5 0x7ffa16b22d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 72 byte(s) in 9 object(s) allocated from:
+    #0 0x7ffa16e84887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x55c2b1826bcd in populate_command (/home/oadouz/Desktop/minishell_42/minishell+0x3bcd)
+    #2 0x55c2b182781c in build_command (/home/oadouz/Desktop/minishell_42/minishell+0x481c)
+    #3 0x55c2b1829e03 in main (/home/oadouz/Desktop/minishell_42/minishell+0x6e03)
+    #4 0x7ffa16b22d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 72 byte(s) in 9 object(s) allocated from:
+    #0 0x7ffa16e84887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x55c2b1826c11 in populate_command (/home/oadouz/Desktop/minishell_42/minishell+0x3c11)
+    #2 0x55c2b182781c in build_command (/home/oadouz/Desktop/minishell_42/minishell+0x481c)
+    #3 0x55c2b1829e03 in main (/home/oadouz/Desktop/minishell_42/minishell+0x6e03)
+    #4 0x7ffa16b22d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 56 byte(s) in 1 object(s) allocated from:
+    #0 0x7ffa16e84887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x55c2b182657e in new_command (/home/oadouz/Desktop/minishell_42/minishell+0x357e)
+    #2 0x55c2b182759d in build_command (/home/oadouz/Desktop/minishell_42/minishell+0x459d)
+    #3 0x55c2b1829e03 in main (/home/oadouz/Desktop/minishell_42/minishell+0x6e03)
+    #4 0x7ffa16b22d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 44 byte(s) in 9 object(s) allocated from:
+    #0 0x7ffa16e84887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x55c2b182f7ee in ft_strdup (/home/oadouz/Desktop/minishell_42/minishell+0xc7ee)
+    #2 0x55c2b1826d46 in populate_command (/home/oadouz/Desktop/minishell_42/minishell+0x3d46)
+    #3 0x55c2b182781c in build_command (/home/oadouz/Desktop/minishell_42/minishell+0x481c)
+    #4 0x55c2b1829e03 in main (/home/oadouz/Desktop/minishell_42/minishell+0x6e03)
+    #5 0x7ffa16b22d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 9 byte(s) in 9 object(s) allocated from:
+    #0 0x7ffa16e84887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x55c2b1826c52 in populate_command (/home/oadouz/Desktop/minishell_42/minishell+0x3c52)
+    #2 0x55c2b182781c in build_command (/home/oadouz/Desktop/minishell_42/minishell+0x481c)
+    #3 0x55c2b1829e03 in main (/home/oadouz/Desktop/minishell_42/minishell+0x6e03)
+    #4 0x7ffa16b22d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+SUMMARY: AddressSanitizer: 1002 byte(s) leaked in 73 allocation(s).
+Minishell$ 

@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/05/22 16:26:56 by oait-si-         ###   ########.fr       */
+=======
+/*   Updated: 2025/05/22 16:53:13 by oadouz           ###   ########.fr       */
+>>>>>>> c0409ee6f6cd7e1f0547a39a9320aa57dcff44ce
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +22,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "../c_spuvr/LIBFT/libft.h"
+#include <sys/wait.h>
 #include <unistd.h>
 #include <stdbool.h>
 
