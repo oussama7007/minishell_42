@@ -17,7 +17,7 @@ HAMOU_SRC := \
 	$(C_HAMOU_DIR)/utils.c $(C_HAMOU_DIR)/utils2.c srcs/main.c
 
 SPUVR_SRC := \
-	$(C_SPUVR_DIR)/built-ins.c $(C_SPUVR_DIR)/built-ins1.c $(C_SPUVR_DIR)/env.c $(C_SPUVR_DIR)/mainxxx.c $(C_SPUVR_DIR)/utils.c \
+	$(C_SPUVR_DIR)/built-ins.c $(C_SPUVR_DIR)/built-ins1.c $(C_SPUVR_DIR)/env.c $(C_SPUVR_DIR)/execute_heart.c $(C_SPUVR_DIR)/utils.c \
 	$(C_SPUVR_DIR)/ft_chdir/ft_cd.c $(C_SPUVR_DIR)/ft_chdir/ft_cd_1.c $(C_SPUVR_DIR)/ft_chdir/ft_cd_utils.c \
 	$(C_SPUVR_DIR)/ft_export/ft_export.c $(C_SPUVR_DIR)/ft_export/ft_export1.c $(C_SPUVR_DIR)/ft_export/ft_export2.c \
 	$(C_SPUVR_DIR)/ft_export/utils.c $(C_SPUVR_DIR)/ft_export/utils2.c  $(C_SPUVR_DIR)/unset_exit/ft_exit.c\
