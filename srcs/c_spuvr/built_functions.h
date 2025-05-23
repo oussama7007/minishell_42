@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/22 17:29:26 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/23 16:22:27 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include <stdbool.h>
 #include <errno.h>
 #include <string.h>
+#include <fcntl.h>
 
 char	**init_environment(char **system_envp);
 void	free_environment(char **envp_ptr);
@@ -38,7 +39,6 @@ int		ft_unset(char **args, char ***env_ptr);
 int		ft_env(char **args, char ***env_ptr);
 // int		ft_exit(char **args, t_shell_data *data);
 int		ft_execute_command_list(t_command *command_list, char ***env_ptr);
-// int		ft_execute_external(t_command *cmd, char **envp);
 char	*find_executable_path(char *cmd, char **envp);
 int		wait_for_child(pid_t pid);
 void	ft_free_array(char **array);
