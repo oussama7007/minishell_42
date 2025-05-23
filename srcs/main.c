@@ -6,13 +6,13 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/23 19:41:08 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/23 23:20:04 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 #include "c_spuvr/built_functions.h"
-
+ 
 void    error(int type)
 {
     if (type == ERR_PIPE)
