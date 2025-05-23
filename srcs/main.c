@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/23 01:51:19 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/23 19:41:08 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,23 @@ int     check_invalid_char(char *line)
 //     add_ptr_node(head, ptr);
 //     return ptr;
 // }
-//void    free_gc(t_head_list **)
+// void    free_gc(t_head_list **head)
+// {
+//     t_head_list *tmp;
+//     t_head_list *next;
+//     if(head)
+//     {
+//         tmp = *head;
+//         while(tmp)
+//         {
+//             next = tmp->next;
+//             free(tmp->ptr);
+//             free(tmp);
+//             tmp = next;
+//         }
+//         head = NULL;
+//     }
+// }
 int main(int ac, char **av, char **env)
 {
     char	**my_envp;
@@ -173,7 +189,8 @@ int main(int ac, char **av, char **env)
     int     ex_status;
     t_token *tokens;
     t_command *commands;
-    t_head_list *head = NULL;
+   // t_head_list *head = NULL;
+    
     
     (void)ac;
     (void)av;
