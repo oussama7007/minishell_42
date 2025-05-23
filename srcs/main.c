@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/05/22 16:29:21 by oait-si-         ###   ########.fr       */
-=======
-/*   Updated: 2025/05/21 18:30:17 by oadouz           ###   ########.fr       */
->>>>>>> c0409ee6f6cd7e1f0547a39a9320aa57dcff44ce
+/*   Updated: 2025/05/23 01:51:19 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,28 +144,28 @@ int     check_invalid_char(char *line)
     }
     return 1;
 }
-void    add_ptr_node(t_head_list **head, void *ptr)
-{
-    t_gc_list *node;
+// void    add_ptr_node(t_head_list **head, void *ptr)
+// {
+//     t_gc_list *node;
 
-    node = malloc(sizeo(t_gc_list));
-    if(!node)
-        return;
-    node->ptr = ptr;
-    node->next = *head;
-    (*head) = node;
-}
-void *gc_malloc(t_head_list **head,int size)
-{
-    void *ptr;
+//     node = malloc(sizeof(t_gc_list));
+//     if(!node)
+//         return;
+//     node->ptr = ptr;
+//     node->next = *head;
+//     (*head) = node;
+// }
+// void *gc_malloc(t_head_list **head,int size)
+// {
+//     void *ptr;
 
-    ptr = malloc(size);
-    if(!ptr)
-        return NULL;
-    add_ptr_node(head, ptr);
-    return ptr;
-}
-void    free_gc(t_head_list **)
+//     ptr = malloc(size);
+//     if(!ptr)
+//         return NULL;
+//     add_ptr_node(head, ptr);
+//     return ptr;
+// }
+//void    free_gc(t_head_list **)
 int main(int ac, char **av, char **env)
 {
     char	**my_envp;
@@ -204,7 +200,7 @@ int main(int ac, char **av, char **env)
             free(line);
             continue;
         }
-        tokens = tokenize(&head, line); 
+        tokens = tokenize( line); 
         if(!tokens || !*line)
         {
             free(line);
