@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/21 16:07:27 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/23 16:40:46 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_token *tokenize(char *line)
     char    *accumulator = NULL;
     char    *tmp;
     char quote_type;
-    while (*start)
+    while (*start) 
     {
         // Skip leading spaces
         while (*start == ' ' || *start == '\t')
@@ -54,9 +54,8 @@ t_token *tokenize(char *line)
             while (*start && *start != ' ' && *start != '\t' &&
                    *start != '|' && *start != '<' && *start != '>')
             {
-                if (*start == '\'' || *start == '"')
+                if (*start == '\'' || *start == '"') // Handle quoted string
                 {
-                    // Handle quoted string
                     quote_type = *start;
                     start++; // Skip opening quote
                     end = start;
