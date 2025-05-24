@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:20:01 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/21 17:39:44 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/24 18:33:39 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	ft_echo(char **args)
 int	ft_pwd(char ***env_ptr)
 {
 	char	*current_pwd;
-	char	buffer[4096];
+	char	*buffer;
 
 	current_pwd = my_getenv("PWD", *env_ptr);
 	if (current_pwd && *current_pwd) // Check if PWD exists and is not empty
@@ -97,3 +97,4 @@ int	ft_pwd(char ***env_ptr)
 		return (0);
 	}
 }
+

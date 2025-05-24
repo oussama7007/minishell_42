@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/24 16:26:05 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/24 18:26:55 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ int		ft_execute_command_list(t_command *command_list, char ***env_ptr);
 char	*find_executable_path(char *cmd, char **envp);
 int		wait_for_child(pid_t pid);
 int		is_direct_path(const char *cmd_name);
+
+//cd 
+void	up_env_cd(char *old_pwd_val, const char *path_arg, char ***env_ptr);
+char	*target_path(char **args, char **envp, int *frree);
+
 
 // erro.c
 void	ft_free_array(char **array);

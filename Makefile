@@ -1,6 +1,6 @@
 NAME        := minishell
 CC          := cc
-#CFLAGS      := #-fsanitize=address #-Wall -Wextra -Werro
+CFLAGS      := -fsanitize=address -g #-Wall -Wextra -Werro
 LINKER      := -lreadline -lncurses
 INCLUDES    := -I srcs/includes
 
