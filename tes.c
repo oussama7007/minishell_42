@@ -14,7 +14,7 @@ typedef struct s_command {
 typedef struct s_gc_list
 {
     void *ptr;
-    struct t_gc_list *next;
+    struct  s_gc_list *next;
 }t_gc_list;
 
 typedef struct s_head_list
@@ -44,25 +44,25 @@ void *gc_malloc(t_head_list *head,int size)
 }
 void    free_gc(t_head_list *head)
 {
-    t_head_list *tmp;
-    t_head_list *next;
+    t_gc_list *tmp;
+    t_gc_list *next;
     if(head)
     {
-        tmp = head;
+        tmp = head->head;
         while(tmp)
         {
             next = tmp->next;
-
+            free(tmp->ptr);
             free(tmp);
             tmp = next;
         }
-        head = NULL;
+        head->head = NULL;
     }
 }
 
 void    f()
 {
-    system("leak a.out");
+    system("leaks a.out");
 }
 int main()
 {
