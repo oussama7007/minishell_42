@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/23 16:22:27 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/24 16:26:05 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,15 @@ int		ft_env(char **args, char ***env_ptr);
 int		ft_execute_command_list(t_command *command_list, char ***env_ptr);
 char	*find_executable_path(char *cmd, char **envp);
 int		wait_for_child(pid_t pid);
+int		is_direct_path(const char *cmd_name);
+
+// erro.c
 void	ft_free_array(char **array);
 int		handle_command_not_found(char *cmd);
 void	execute_child_process(char *cmd_path, char **args, char **envp);
+int		ft_print_exec_error(char *cmd_name, int err_no);
+int		handle_fork_error(char *cmd_to_free);
+
 int		ft_echo(char **args);
 void	display_sorted_environment(char **envp);
 int		process_export_arguments(char **args, char ***env_ptr);
