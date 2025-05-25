@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/25 01:42:49 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/25 16:38:36 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,10 +179,7 @@ void    free_gc(t_head_list *head)
         head->head = NULL;
     }
 }
-static void    t()
-{
-    system("leaks Minishell$");
-}
+
 int main(int ac, char **av, char **env)
 {
     char	**my_envp;
@@ -195,8 +192,7 @@ int main(int ac, char **av, char **env)
     
     (void)ac;
     (void)av;
-    my_envp = init_environment(&head ,env);
-    // atexit(t);
+    // my_envp = init_environment(&head ,env);
     while(1)
     {
         memset(&head, 0, sizeof(head));
@@ -208,7 +204,7 @@ int main(int ac, char **av, char **env)
             // free_environment(my_envp);
             free_gc(&head);
             free(line);
-            sleep(2);// 3la 9ibal bach n9ra leaks
+            // 3la 9ibal bach n9ra leaks
             clear_history();
             exit(0);
         }
@@ -250,7 +246,7 @@ int main(int ac, char **av, char **env)
         // print_tokens(tokens); // for dubg
         // print_commands(commands);
 
-       // free_tokens(tokens);
+        //free_tokens(tokens);
         free_gc(&head);
         free(line);
         

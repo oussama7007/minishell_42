@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:44 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/25 00:50:42 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/25 16:38:36 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	process_export_arguments(t_head_list *head, char **args, char ***env_ptr)
 		current_arg = args[i];
 		if (is_standalone_name(current_arg))
 			ret_status |= exec_export_name_only(head ,current_arg, env_ptr);
-		// else if (ft_strnstr(current_arg, "+=", ft_strlen(current_arg)))
-		// 	ret_status |= exec_export_plus_equal(current_arg, env_ptr); // hadi mal9itch fin definiti liha func dialha 
+		else if (ft_strnstr(current_arg, "+=", ft_strlen(current_arg)))
+			ret_status |= exec_export_plus_equal(current_arg, env_ptr); // hadi mal9itch fin definiti liha func dialha 
 		else if (ft_strchr(current_arg, '='))
 			ret_status |= exec_export_value(head,current_arg, env_ptr); // re |= x --> 999
 		else

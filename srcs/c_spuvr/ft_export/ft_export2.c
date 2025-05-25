@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:37:18 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/24 16:55:45 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/25 16:38:32 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	create_append_value(t_head_list *head, char *name, char *append_val, char **
 	return (status);
 }
 
-int	exec_export_plus0_equal(t_head_list *head, const char *arg, char ***env_ptr)
+int	exec_export_plus_equal(t_head_list *head, const char *arg, char ***env_ptr)
 {
 	char	*name;
 	char	*plus_equal_ptr;
@@ -71,7 +71,7 @@ int	exec_export_plus0_equal(t_head_list *head, const char *arg, char ***env_ptr)
 		return (handle_plus_equal_error(head ,plus_equal_ptr, name));
 	if (!is_valid_identifier(name))
 	{
-		print_err_export(NULL, name);
+		print_err0_export(NULL, name);
 		//free(name); maareftch ach kadir had func
 		return (1);
 	}

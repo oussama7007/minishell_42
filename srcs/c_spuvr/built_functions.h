@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/25 00:49:00 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/25 16:38:36 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	display_sorted_environment(t_head_list *head,char **envp);
 int		process_export_arguments(t_head_list *head, char **args, char ***env_ptr);
 int		is_standalone_name(const char *arg);
 int		exec_export_name_only(t_head_list *head ,const char *name_arg, char ***env_ptr);
-// int		exec_export_plus_equal(const char *arg, char ***env_ptr);
+int	exec_export_plus_equal(t_head_list *head, const char *arg, char ***env_ptr);
 int		exec_export_value(t_head_list *head,const char *arg, char ***env_ptr);
 // int		exec_export_name_only(const char *name_arg, char ***env_ptr);
 void	print_err_export(const char *context, const char *specific_arg);
