@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:52:13 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/20 17:55:05 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/24 15:33:24 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,25 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+
+
+typedef struct s_gc_list
+{
+    void *ptr;
+    struct s_gc_list *next;
+}t_gc_list;
+
+typedef struct s_head_list
+{
+    t_gc_list *head;
+} t_head_list;
+
+
+// garbage collecter 
+void    add_ptr_node(t_head_list *head, void *ptr);
+void *gc_malloc(t_head_list *head,int size);
+void    free_gc(t_head_list *head);
+
 
 int		ft_toupper(int c);
 int		ft_tolower(int c);
@@ -39,12 +58,14 @@ void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 int		ft_atoi(const char *str);
 void	*ft_calloc(size_t nmemb, size_t size);
-char	*ft_strdup(const char *s1);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_strjoin(char const *s1, char const *s2);
+// char	*ft_strdup(const char *s1);
+char	*ft_strdup(t_head_list *head, char *s1);
+char	*ft_substr(t_head_list *head ,char const *s, unsigned int start, size_t len);
+// char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(t_head_list *head,char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
-char	**ft_split(char const *s, char c);
-char	*ft_itoa(int n);
+char	**ft_split(t_head_list *head, char const *s, char c);
+char	*ft_itoa(t_head_list *head, int n);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 void	ft_putchar_fd(char c, int fd);
@@ -54,7 +75,9 @@ void	ft_putnbr_fd(int n, int fd);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_strcmp(char *s1, char *s2);
-char	*ft_strndup( char *s, size_t n);
+// char	*ft_strndup( char *s, size_t n);
+char	*ft_strndup(t_head_list *head, char *s, size_t n);
+
 typedef struct s_list
 {
 	void			*content;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 13:37:57 by oadouz            #+#    #+#             */
-/*   Updated: 2024/11/17 00:22:21 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/24 14:36:18 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ static void	ft_fillstr(char *str, int n, int len)
 	}
 }
 
-char	*ft_itoa(int n)
+char	*ft_itoa(t_head_list *head, int n)
 {
 	int		len;
 	char	*str;
 	int		is_negative;
 
 	if (n == -2147483648)
-		return (ft_strdup("-2147483648"));
+		return (ft_strdup(head, "-2147483648"));
 	is_negative = (n < 0);
 	len = ft_count_digits(n) + is_negative;
 	str = (char *)malloc(sizeof(char) * (len + 1));

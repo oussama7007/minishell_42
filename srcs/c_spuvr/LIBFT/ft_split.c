@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 17:28:04 by oadouz            #+#    #+#             */
-/*   Updated: 2024/11/17 00:42:51 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/24 14:37:07 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,26 +36,28 @@ static size_t	ft_count_wd(const char *s, char c)
 	return (wd);
 }
 
-static int	ft_pick_place(char **arr, int pos, size_t buffer)
+
+static int	ft_pick_place(t_head_list *head, char **arr, int pos, size_t buffer)
 {
 	int	i;
 
 	i = 0;
-	arr[pos] = malloc(buffer);
+	arr[pos] = gc_malloc(head,buffer);
 	if (arr[pos] == NULL)
 	{
-		while (i < pos)
-		{
-			free(arr[i]);
-			i++;
-		}
-		free(arr);
+		// while (i < pos)
+		// {
+		// 	free(arr[i]);
+		// 	i++;
+		// }
+		// free(arr);
+		free_gc(head);
 		return (1);
 	}
 	return (0);
 }
 
-static int	ft_fill_strs(char **arr, const char *s, char c)
+static int	ft_fill_strs(t_head_list *head, char **arr, const char *s, char c)
 {
 	size_t	len;
 	size_t	i;
@@ -73,7 +75,7 @@ static int	ft_fill_strs(char **arr, const char *s, char c)
 		}
 		if (len > 0)
 		{
-			if (ft_pick_place(arr, i, len + 1))
+			if (ft_pick_place(head, arr, i, len + 1))
 				return (1);
 			ft_strlcpy(arr[i], s - len, len + 1);
 			i++;
@@ -82,7 +84,7 @@ static int	ft_fill_strs(char **arr, const char *s, char c)
 	return (0);
 }
 
-char	**ft_split(const char *s, char c)
+char	**ft_split(t_head_list *head,const char *s, char c)
 {
 	size_t	word_count;
 	char	**arr;
@@ -90,11 +92,11 @@ char	**ft_split(const char *s, char c)
 	if (s == NULL)
 		return (NULL);
 	word_count = ft_count_wd(s, c);
-	arr = malloc((word_count + 1) * sizeof(char *));
+	arr = gc_malloc(head ,(word_count + 1) * sizeof(char *));
 	if (arr == NULL)
 		return (NULL);
 	arr[word_count] = NULL;
-	if (ft_fill_strs(arr, s, c))
+	if (ft_fill_strs(head, arr, s, c))
 		return (NULL);
 	return (arr);
 }

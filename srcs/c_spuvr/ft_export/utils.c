@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 16:26:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/16 14:15:04 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/24 16:56:59 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	is_valid_identifier(const char *name)
 	return (1);
 }
 
-char	*strip_outer_quotes(const char *str)
+char	*strip_outer_quotes(t_head_list *head, const char *str)
 {
 	size_t	len;
 	int		has_quotes;
@@ -47,8 +47,8 @@ char	*strip_outer_quotes(const char *str)
 		}
 	}
 	if (has_quotes)
-		return (ft_substr(str, 1, len - 2));
-	return (ft_strdup(str));
+		return (ft_substr(head, str, 1, len - 2));
+	return (ft_strdup(head, str));
 }
 
 void	print_err_export(const char *context, const char *specific_arg)

@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/23 23:20:04 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/25 01:42:49 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,10 +129,7 @@ int     handle_quotes(char *line)
     }
     return 1;
 }
-static void    t()
-{
-    system("leaks a.out");
-}
+
 int     check_invalid_char(char *line)
 {
     int i;
@@ -144,44 +141,48 @@ int     check_invalid_char(char *line)
     }
     return 1;
 }
-// void    add_ptr_node(t_head_list **head, void *ptr)
-// {
-//     t_gc_list *node;
+void    add_ptr_node(t_head_list *head, void *ptr)
+{
+    t_gc_list *node;
 
-//     node = malloc(sizeof(t_gc_list));
-//     if(!node)
-//         return;
-//     node->ptr = ptr;
-//     node->next = *head;
-//     (*head) = node;
-// }
-// void *gc_malloc(t_head_list **head,int size)
-// {
-//     void *ptr;
+    node = malloc(sizeof(t_gc_list));
+    if(!node)
+        return;
+    node->ptr = ptr;
+    node->next = head->head;
+    head->head = node;
+}
+void *gc_malloc(t_head_list *head,int size)
+{
+    void *ptr;
 
-//     ptr = malloc(size);
-//     if(!ptr)
-//         return NULL;
-//     add_ptr_node(head, ptr);
-//     return ptr;
-// }
-// void    free_gc(t_head_list **head)
-// {
-//     t_head_list *tmp;
-//     t_head_list *next;
-//     if(head)
-//     {
-//         tmp = *head;
-//         while(tmp)
-//         {
-//             next = tmp->next;
-//             free(tmp->ptr);
-//             free(tmp);
-//             tmp = next;
-//         }
-//         head = NULL;
-//     }
-// }
+    ptr = malloc(size);
+    if(!ptr)
+        return NULL;
+    add_ptr_node(head, ptr);
+    return ptr;
+}
+void    free_gc(t_head_list *head)
+{
+    t_gc_list *tmp;
+    t_gc_list *next;
+    if(head)
+    {
+        tmp = head->head;
+        while(tmp)
+        {
+            next = tmp->next;
+            free(tmp->ptr);
+            free(tmp);
+            tmp = next;
+        }
+        head->head = NULL;
+    }
+}
+static void    t()
+{
+    system("leaks Minishell$");
+}
 int main(int ac, char **av, char **env)
 {
     char	**my_envp;
@@ -189,20 +190,26 @@ int main(int ac, char **av, char **env)
     int     ex_status;
     t_token *tokens;
     t_command *commands;
-   // t_head_list *head = NULL;
+    t_head_list head;
     
     
     (void)ac;
     (void)av;
-    my_envp = init_environment(env);
-    atexit(t);
+    my_envp = init_environment(&head ,env);
+    // atexit(t);
     while(1)
     {
-        line = readline("Minishell$ ");
+        memset(&head, 0, sizeof(head));
+     
+        line = readline("Minishell$");
         if(!line)
         {
             write(1,"exit\n",5);
-            free_environment(my_envp);
+            // free_environment(my_envp);
+            free_gc(&head);
+            free(line);
+            sleep(2);// 3la 9ibal bach n9ra leaks
+            clear_history();
             exit(0);
         }
         if(*line)
@@ -215,24 +222,27 @@ int main(int ac, char **av, char **env)
             else
                 write(2, "Minishell: Invalid character\n", 30);
             free(line);
+            free_gc(&head);
             continue;
         }
-        tokens = tokenize( line); 
+        tokens = tokenize(&head,line); 
         if(!tokens || !*line)
         {
             free(line);
+            free_gc(&head);
             continue;
         }
         if(!validate_syntax(tokens))
         {
             free(line);
-            free_tokens(tokens);
+            //free_tokens(tokens);
+            free_gc(&head);
             continue;
         }
-        commands = build_command(tokens);
+        commands = build_command(&head, tokens);
         if (commands)
         {
-            ex_status = ft_execute_command_list(commands, &my_envp);
+            ex_status = ft_execute_command_list(&head,commands, &my_envp);
         }
 
         // print_commands(commands);
@@ -240,9 +250,12 @@ int main(int ac, char **av, char **env)
         // print_tokens(tokens); // for dubg
         // print_commands(commands);
 
-        free_tokens(tokens);
+       // free_tokens(tokens);
+        free_gc(&head);
         free(line);
+        
     }
+    clear_history();
     exit(0);
 }
 

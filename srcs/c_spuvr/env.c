@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:00:09 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/16 14:14:00 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/25 00:59:42 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*my_getenv(const char *name, char **envp)
 	return (NULL);
 }
 
-int	my_setenv(char *name, char *value, char ***env_ptr)
+int	my_setenv(t_head_list *head, char *name, char *value, char ***env_ptr)
 {
 	int		var;
 	char	*new_value;
@@ -40,7 +40,7 @@ int	my_setenv(char *name, char *value, char ***env_ptr)
 	if (!name || !env_ptr)
 		return (-1);
 	var = find_var_index(name, *env_ptr);
-	new_value = create_env_data(name, value);
+	new_value = create_env_data(head, name, value);
 	if (!new_value)
 		return (-1);
 	if (var != -1)
@@ -50,8 +50,8 @@ int	my_setenv(char *name, char *value, char ***env_ptr)
 		return (0);
 	}
 	var = ft_arrlen(*env_ptr);
-	if (!(new_data = malloc((var + 2) * sizeof(char *))))
-		return (free(new_value), -1);
+	if (!(new_data = gc_malloc(head, (var + 2) * sizeof(char *))))
+		return (free_gc(head), -1);
 	ft_memcpy(new_data, *env_ptr, var * sizeof(char *));
 	new_data[var] = new_value;
 	new_data[var + 1] = NULL;
@@ -78,7 +78,7 @@ static void	copy_indexes(char ***env_ptr, char **new_env, int skip_idx)
 	new_env[j] = NULL;
 }
 
-int	my_unsetenv(const char *name, char ***env_ptr)
+int	my_unsetenv(t_head_list *head, const char *name, char ***env_ptr)
 {
 	int		var_id;
 	char	**new_env;
@@ -90,7 +90,7 @@ int	my_unsetenv(const char *name, char ***env_ptr)
 	if (var_id == -1)
 		return (0);
 	env_size = ft_arrlen(*env_ptr);
-	new_env = malloc(sizeof(char *) * env_size);
+	new_env = gc_malloc(head, sizeof(char *) * env_size);
 	if (!new_env)
 		return (-1);
 	copy_indexes(env_ptr, new_env, var_id);

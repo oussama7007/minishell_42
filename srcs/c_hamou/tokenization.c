@@ -6,13 +6,13 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/23 16:40:46 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:27:06 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-t_token *tokenize(char *line)
+t_token *tokenize(t_head_list *head,char *line)
 {
     t_token *tokens = NULL;
     char    *start = line;
@@ -37,13 +37,20 @@ t_token *tokenize(char *line)
                 end += 2;
             else
                 end++;
-            word = ft_strndup(start, end - start);
+            //word = ft_strndup(start, end - start);
+            word = ft_strndup(head, start, end - start);
             if (!word)
-                return free_tokens(tokens), NULL;
-            token = new_token(get_token_type(word), word);
-            free(word);
+            {
+                //return free_tokens(tokens), NULL;
+                return free_gc(head), NULL;
+            }
+            token = new_token(head, get_token_type(word), word);
+            //free(word);
             if (!token)
-                return free_tokens(tokens), NULL;
+            {
+                //return free_tokens(tokens), NULL;
+                return(free_gc(head), NULL);
+            }
             add_token(&tokens, token);
             start = end;
         }
@@ -68,21 +75,21 @@ t_token *tokenize(char *line)
                     //     free_tokens(tokens);
                     //     return NULL;
                     // }
-                    word = ft_strndup(start, end - start);
+                    word = ft_strndup(head ,start, end - start);
                     if (!word)
                     {
-                        free(accumulator);
-                        free_tokens(tokens);
-                        return NULL;
+                        //free(accumulator);
+                        //free_tokens(tokens);
+                        return(free_gc(head), NULL);
                     }
                     tmp = accumulator;
-                    accumulator = ft_strjoin(tmp, word);
-                    free(tmp);
-                    free(word);
+                    accumulator = ft_strjoin(head,tmp, word);
+                    // free(tmp);
+                    // free(word);
                     if (!accumulator)
                     {
-                        free_tokens(tokens);
-                        return NULL;
+                       // free_tokens(tokens);
+                        return(free_gc(head),NULL);
                     }
                     start = end + 1; // Skip closing quote
                 }
@@ -94,33 +101,33 @@ t_token *tokenize(char *line)
                            *end != '|' && *end != '<' && *end != '>' &&
                            *end != '\'' && *end != '"')
                         end++;
-                    word = ft_strndup(start, end - start);
+                    word = ft_strndup(head,start, end - start);
                     if (!word)
                     {
-                        free(accumulator);
-                        free_tokens(tokens);
-                        return NULL;
+                        // free(accumulator);
+                        // free_tokens(tokens);
+                        return(free_gc(head),NULL);
                     }
                     tmp = accumulator;
-                    accumulator = ft_strjoin(tmp, word);
-                    free(tmp);
-                    free(word);
+                    accumulator = ft_strjoin(head,tmp, word);
+                    // free(tmp);
+                    // free(word);
                     if (!accumulator)
                     {
-                        free_tokens(tokens);
-                        return NULL;
+                        // free_tokens(tokens);
+                        return(free_gc(head), NULL);
                     }
                     start = end;
                 }
             }
             if (accumulator)
             {
-                token = new_token(get_token_type(accumulator), accumulator);
-                free(accumulator);
+                token = new_token(head, get_token_type(accumulator), accumulator);
+                //free(accumulator);
                 if (!token)
                 {
-                    free_tokens(tokens);
-                    return NULL;
+                          // free_tokens(tokens);
+                        return(free_gc(head), NULL);
                 }
                 add_token(&tokens, token);
             }
@@ -128,16 +135,20 @@ t_token *tokenize(char *line)
     }
     return tokens;
 }
-t_token     *new_token(int type, char *word)
+t_token     *new_token(t_head_list *head, int type, char *word)
 {
     t_token *new;
 
-    new = malloc(sizeof(t_token));
+    new = gc_malloc(head,sizeof(t_token));
     if(!new)
         return (NULL);
-    new->value = ft_strdup(word);
+    new->value = ft_strdup(head, word);
     if(!new->value)
-        return (free(new), NULL); // test this line 
+    {
+       // return (free(new), NULL); // test this line 
+       //return (free_gc(head));
+       return NULL;
+    }   
     new->type = type;
     new->next = NULL;
     return new;

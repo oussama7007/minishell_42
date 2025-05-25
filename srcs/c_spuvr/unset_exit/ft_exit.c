@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:22:45 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/20 16:43:47 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/24 18:46:21 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,70 +29,70 @@ static int is_numeric_arg(char *str)
 }
 
 // Free your token linked list
-static void n_free_tokens(t_token *tokens)
-{
-    t_token *current;
-    t_token *next;
+// static void n_free_tokens(t_token *tokens)
+// {
+//     t_token *current;
+//     t_token *next;
 
-    current = tokens;
-    while (current)
-    {
-        next = current->next;
-        free(current->value);
-        free(current);
-        current = next;
-    }
-}
+//     current = tokens;
+//     while (current)
+//     {
+//         next = current->next;
+//         free(current->value);
+//         free(current);
+//         current = next;
+//     }
+// }
 
 // Free your command linked list
-static void free_commands(t_command *cmd)
-{
-    t_command *current;
-    t_command *next;
-    int i;
+// static void free_commands(t_command *cmd)
+// {
+//     t_command *current;
+//     t_command *next;
+//     int i;
 
-    current = cmd;
-    while (current)
-    {
-        next = current->next;
+//     current = cmd;
+//     while (current)
+//     {
+//         next = current->next;
         
-        // Free command name
-        free(current->cmd);
+//         // Free command name
+//         free(current->cmd);
         
-        // Free args array
-        i = 0;
-        if (current->args)
-        {
-            while (current->args[i])
-                free(current->args[i++]);
-            free(current->args);
-        }
+//         // Free args array
+//         i = 0;
+//         if (current->args)
+//         {
+//             while (current->args[i])
+//                 free(current->args[i++]);
+//             free(current->args);
+//         }
         
-        // Free redirections
-        i = 0;
-        if (current->red_in)
-        {
-            while (current->red_in[i])
-                free(current->red_in[i++]);
-            free(current->red_in);
-        }
+//         // Free redirections
+//         i = 0;
+//         if (current->red_in)
+//         {
+//             while (current->red_in[i])
+//                 free(current->red_in[i++]);
+//             free(current->red_in);
+//         }
         
-        i = 0;
-        if (current->red_out)
-        {
-            while (current->red_out[i])
-                free(current->red_out[i++]);
-            free(current->red_out);
-        }
+//         i = 0;
+//         if (current->red_out)
+//         {
+//             while (current->red_out[i])
+//                 free(current->red_out[i++]);
+//             free(current->red_out);
+//         }
         
-        free(current->append);
-        free(current->heredoc_delimiter);
-        free(current);
-        current = next;
-    }
-}
+//         free(current->append);
+//         free(current->heredoc_delimiter);
+//         free(current);
+//         current = next;
+//     }
+// }
 
-int ft_exit(char **args, char ***env_ptr, t_token *tokens, t_command *commands, int last_status)
+int ft_exit(t_head_list *head,char **args, char ***env_ptr, t_token *tokens, t_command *commands, int last_status)
 {
     long long exit_code;
     
@@ -102,9 +102,10 @@ int ft_exit(char **args, char ***env_ptr, t_token *tokens, t_command *commands, 
     {
         // No arguments - exit with last status
         //rl_clear_history();
-        free_environment(*env_ptr);
-        n_free_tokens(tokens);
-        free_commands(commands);
+        // free_environment(*env_ptr);
+        // n_free_tokens(tokens);
+        // free_commands(commands);
+        free_gc(head);
         exit(last_status);
     }
     
@@ -115,9 +116,10 @@ int ft_exit(char **args, char ***env_ptr, t_token *tokens, t_command *commands, 
         ft_putendl_fd(": numeric argument required", 2);
         
         //rl_clear_history();
-        free_environment(*env_ptr);
-        n_free_tokens(tokens);
-        free_commands(commands);
+        // free_environment(*env_ptr);
+        // n_free_tokens(tokens);
+        // free_commands(commands);
+        free_gc(head);
         exit(255);
     }
     
@@ -131,8 +133,9 @@ int ft_exit(char **args, char ***env_ptr, t_token *tokens, t_command *commands, 
     exit_code = ft_atoi(args[1]) % 256;
     
     //rl_clear_history();
-    free_environment(*env_ptr);
-    n_free_tokens(tokens);
-    free_commands(commands);
+    // free_environment(*env_ptr);
+    // n_free_tokens(tokens);
+    // free_commands(commands);
+    free_gc(head);
     exit((int)exit_code);
 }

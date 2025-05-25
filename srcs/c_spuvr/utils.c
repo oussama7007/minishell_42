@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 18:08:03 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/16 14:14:16 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/25 01:51:15 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_functions.h"
 
-char	*create_env_data(char *name, char *value)
+// char	*create_env_data(char *name, char *value)
+char	*create_env_data(t_head_list *head, char *name, char *value)
 {
 	int		n_len;
 	int		v_len;
@@ -22,14 +23,14 @@ char	*create_env_data(char *name, char *value)
 	v_len = ft_strlen(value);
 	if (value == NULL)
 	{
-		entry = malloc (n_len + 1);
+		entry = gc_malloc(head,n_len + 1);
 		if (!entry)
 			return (NULL);
 		ft_strlcpy(entry, name, n_len + 1);
 	}
 	else
 	{
-		entry = malloc(n_len + v_len + 2);
+		entry = gc_malloc(head,n_len + v_len + 2);
 		if (!entry)
 			return (NULL);
 		ft_strlcpy(entry, name, n_len + 1);
@@ -68,7 +69,7 @@ int	find_var_index(const char *name_to_find, char **envp)
 	return (-1); // Not found
 }
 
-char	**init_environment(char **system_envp)
+char	**init_environment(t_head_list *head, char **system_envp)
 {
 	int		i;
 	int		count;
@@ -77,19 +78,24 @@ char	**init_environment(char **system_envp)
 	count = 0;
 	while (system_envp[count])
 		count++;
-	copy = malloc((count + 1) * sizeof(char *));
+	copy = gc_malloc(head, (count + 1) * sizeof(char *));
 	if (!copy)
 		return (NULL);
 	i = 0;
 	while (i < count)
 	{
-		copy[i] = ft_strdup(system_envp[i]);
+		copy[i] = ft_strdup(head, system_envp[i]);
+		// if (!copy[i])
+		// {
+		// 	while (--i >= 0)
+		// 		free(copy[i]);
+		// 	free(copy);
+		// 	return(NULL);
+		// }
+		// i++;
 		if (!copy[i])
 		{
-			while (--i >= 0)
-				free(copy[i]);
-			free(copy);
-			return(NULL);
+			return(free_gc(head),NULL);
 		}
 		i++;
 	}
@@ -97,17 +103,17 @@ char	**init_environment(char **system_envp)
 	return (copy);
 }
 
-void	free_environment(char **envp_ptr)
-{
-	int	j;
+// void	free_environment(char **envp_ptr)
+// {
+// 	int	j;
 
-	if (!envp_ptr)
-		return ;
-	j = ft_arrlen(envp_ptr);
-	while (j >= 0)
-	{
-		free(envp_ptr[j]);
-		j--;	
-	}
-	free(envp_ptr);
-}
+// 	if (!envp_ptr)
+// 		return ;
+// 	j = ft_arrlen(envp_ptr);
+// 	while (j >= 0)
+// 	{
+// 		free(envp_ptr[j]);
+// 		j--;	
+// 	}
+// 	free(envp_ptr);
+// }

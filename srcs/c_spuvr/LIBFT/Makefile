@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+         #
+#    By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/16 23:42:48 by oadouz            #+#    #+#              #
-#    Updated: 2025/05/20 17:46:54 by oadouz           ###   ########.fr        #
+#    Updated: 2025/05/24 17:30:09 by oait-si-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 NAME = libft.a
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -I../../includes
 
 SRC = ft_atoi.c ft_isdigit.c ft_memchr.c ft_putendl_fd.c ft_striteri.c ft_strncmp.c \
 	ft_bzero.c ft_isprint.c ft_memcmp.c ft_putnbr_fd.c ft_strjoin.c ft_strnstr.c \
@@ -29,12 +29,11 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-
+	ar -rcs $(NAME) $(OBJ)
 
 %.o: %.c libft.h
-	$(CC) $(CFLAGS) -c $< -o $@
-	ar -rcs $(NAME) $@
-
+	$(CC) $(CFLAGS) -c $< -o $@ 
+		ar -rcs $(NAME) $@
 clean:
 	rm -f $(OBJ)
 

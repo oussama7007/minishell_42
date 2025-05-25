@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:40:41 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/17 15:51:53 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/25 00:36:13 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,28 +43,37 @@ static void	ms_sort_env_array(char **arr_to_sort, int count)
 	}
 }
 
-static char	**ms_duplicate_env(char **original_env, int count)
+static char	**ms_duplicate_env(t_head_list *head, char **original_env, int count)
 {
 	char	**new_env;
 	int		i;
-
-	new_env = (char **)malloc(sizeof(char *) * (count + 1));
+	// if (original_env == NULL)
+	// 	return (NULL);
+	printf("here\n");
+	new_env = gc_malloc(head, sizeof(char *) * (count + 1));
 	if (!new_env)
 		return (NULL); // Malloc error
 	i = 0;
 	while (i < count)
 	{
-		new_env[i] = ft_strdup(original_env[i]);
+		printf("here before  strdup \n");
+		
+		if(original_env)
+		{
+			printf("-------%p----\n" , original_env);
+			new_env[i] = ft_strdup(head, original_env[i]);
+		}
+		printf("here after strdup \n");
 		if (!new_env[i])
 		{
 			// Malloc error during strdup, free previously duplicated strings
-			while (i > 0)
-			{
-				i--;
-				free(new_env[i]);
-			}
-			free(new_env);
-			return (NULL);
+			// while (i > 0)
+			// {
+			// 	i--;
+			// 	free(new_env[i]);
+			// }
+			// free(new_env);
+			return (free_gc(head),NULL);
 		}
 		i++;
 	}
@@ -106,18 +115,19 @@ static void	ms_print_one_env_declare(char *env_str)
 	ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
-void	display_sorted_environment(char **envp)
+void	display_sorted_environment(t_head_list *head, char **envp)
 {
 	char	**env_copy;
 	int		count;
 	int		i;
 
-	if (!envp)
+	if (!envp || !*(envp + 1))
 		return;
+
 	count = ft_arrlen(envp);
 	if (count == 0)
 		return;
-	env_copy = ms_duplicate_env(envp, count);
+	env_copy = ms_duplicate_env(head, envp, count);
 	if (!env_copy)
 	{
 		return;
@@ -127,8 +137,8 @@ void	display_sorted_environment(char **envp)
 	while (i < count)
 	{
 		ms_print_one_env_declare(env_copy[i]);
-		free(env_copy[i]); // Free the strduped string
+		//free(env_copy[i]); // Free the strduped string
 		i++;
 	}
-	free(env_copy); // Free the array of pointers
+	//free(env_copy); // Free the array of pointers
 }

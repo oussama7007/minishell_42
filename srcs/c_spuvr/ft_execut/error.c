@@ -3,29 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:24:16 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/22 17:27:40 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/24 03:21:07 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../built_functions.h"
 
-void	ft_free_array(char **array)
-{
-	int	i;
+// void	ft_free_array(char **array)
+// {
+// 	int	i;
 
-	if (!array)
-		return;
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-}
+// 	if (!array)
+// 		return;
+// 	i = 0;
+// 	while (array[i])
+// 	{
+// 		free(array[i]);
+// 		i++;
+// 	}
+// 	free(array);
+// }
 
 int	handle_command_not_found(char *cmd)
 {

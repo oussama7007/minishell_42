@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:04:45 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/21 17:37:03 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/24 15:34:58 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../built_functions.h"
 
-int ft_chdir(char **args, char ***env_ptr)
+int ft_chdir(t_head_list *head, char **args, char ***env_ptr)
 {
     char *target_path;
     char *old_pwd = NULL;
@@ -76,7 +76,7 @@ int ft_chdir(char **args, char ***env_ptr)
     // 1. Set OLDPWD to the old path
     if (old_pwd)
     {
-        if (my_setenv("OLDPWD", old_pwd, env_ptr) != 0)
+        if (my_setenv(head, "OLDPWD", old_pwd, env_ptr) != 0)
         {
             ft_putendl_fd("minishell: cd: failed to update OLDPWD", 2);
             // Non-fatal error, continue
@@ -93,7 +93,7 @@ int ft_chdir(char **args, char ***env_ptr)
         return (0);    // Still return success as cd worked
     }
     
-    if (my_setenv("PWD", new_pwd, env_ptr) != 0)
+    if (my_setenv(head, "PWD", new_pwd, env_ptr) != 0)
     {
         ft_putendl_fd("minishell: cd: failed to update PWD", 2);
         // Non-fatal

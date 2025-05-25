@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built-ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:20:01 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/21 17:39:44 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/24 03:35:21 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	ft_pwd(char ***env_ptr)
 	{
 		ft_putstr_fd(current_pwd, STDOUT_FILENO);
 		ft_putchar_fd('\n', STDOUT_FILENO);
-		free(current_pwd);
+		free(current_pwd);// what the fuck 3lah allociti liha awld l9ahba 
 		return (0);
 	}
 	else
