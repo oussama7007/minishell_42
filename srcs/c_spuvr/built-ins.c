@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:20:01 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/24 18:33:39 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/25 15:16:47 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	ft_pwd(char ***env_ptr)
 	{
 		ft_putstr_fd(current_pwd, STDOUT_FILENO);
 		ft_putchar_fd('\n', STDOUT_FILENO);
-		free(current_pwd);
+		// free(current_pwd);
 		return (0);
 	}
 	else

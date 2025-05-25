@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:04:48 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/24 18:31:03 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/25 15:17:55 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	cd_err(const char *path, char *old_loc,
 	ft_putstr_fd((char *)path, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putendl_fd(strerror(errno), 2);
-	free(old_loc);
+	// free(old_loc);
 	if (free_flag)
 		free(target_to_free);
 	return (1);
