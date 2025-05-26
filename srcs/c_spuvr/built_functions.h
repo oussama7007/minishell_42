@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/24 18:26:55 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/25 18:43:34 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		is_direct_path(const char *cmd_name);
 
 //cd 
 void	up_env_cd(char *old_pwd_val, const char *path_arg, char ***env_ptr);
-char	*target_path(char **args, char **envp, int *frree);
+char	*target_path(char **args, char **envp);
 
 
 // erro.c

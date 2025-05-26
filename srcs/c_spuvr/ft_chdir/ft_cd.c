@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:04:48 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/25 15:17:55 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/25 18:48:46 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,24 @@ static char	*get_old_pwd_val(char **envp)
 	pwd = my_getenv("PWD", envp);
 	if (pwd && pwd[0])
 		return (pwd);
-	free(pwd);
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
-		ft_putstr_fd("minishell: cd ikhann: error retrieving current directory: ", 2);
+		ft_putstr_fd("minishell: cd : error retrieving current directory: ", 2);
 		ft_putendl_fd(strerror(errno), 2);
 	}
 	return (pwd);
 }
 
 static int	cd_err(const char *path, char *old_loc,
-					int free_flag, char *target_to_free)
+					int free_flag, char *to_free)
 {
 	ft_putstr_fd("minishell: cd: ", 2);
 	ft_putstr_fd((char *)path, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putendl_fd(strerror(errno), 2);
-	// free(old_loc);
 	if (free_flag)
-		free(target_to_free);
+		free(to_free);
 	return (1);
 }
 
@@ -47,11 +45,10 @@ int	ft_chdir(char **args, char ***env_ptr)
 	char	*dest;
 	char	*old_loc;
 	int		ret;
-	int		free_dest;
 	char	*key_arg;
 
 	old_loc = get_old_pwd_val(*env_ptr);
-	dest = target_path(args, *env_ptr, &free_dest);
+	dest = target_path(args, *env_ptr);
 	if (!dest)
 	{
 		free(old_loc);
