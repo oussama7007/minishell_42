@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:22:51 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/25 19:19:02 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/26 02:15:20 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,19 +79,19 @@ static int populate_command(t_command *cmd, t_token *tokens, int arg_c, int in_c
                 cmd->cmd = ft_strdup(tokens->value);
             cmd->args[i++] = ft_strdup(tokens->value);
         }
-        else if (tokens->type == TOKEN_RED_IN && tokens->next)
+        else if (tokens->type == TOKEN_RED_IN )
         {
             tokens = tokens->next;
             cmd->red_in[j++] = ft_strdup(tokens->value);
         }
-        else if ((tokens->type == TOKEN_RED_OUT || tokens->type == TOKEN_RED_APPEND) && tokens->next)
+        else if (tokens->type == TOKEN_RED_OUT || tokens->type == TOKEN_RED_APPEND)
         {
             cmd->append[append_idx] = (tokens->type == TOKEN_RED_APPEND);
             tokens = tokens->next;
             cmd->red_out[k++] = ft_strdup(tokens->value);
             append_idx++;
         }
-        else if (tokens->type == TOKEN_RED_HEREDOC && tokens->next)
+        else if (tokens->type == TOKEN_RED_HEREDOC)
         {
             tokens = tokens->next;
             cmd->heredoc_delimiter = ft_strdup(tokens->value);
@@ -108,8 +108,8 @@ void add_command(t_command **commands, t_command *command)
 {
     t_command *tmp;
 
-    if (!command)
-        return ;
+    // if (!command)
+    //     return ;
     if (!*commands)
         *commands = command;
     else
@@ -140,11 +140,11 @@ t_command *build_command(t_token *tokens)
         }
         if (tmp->type == TOKEN_WORD)
             arg_count++;
-        else if (tmp->type == TOKEN_RED_IN && tmp->next) // the second condition 
+        else if (tmp->type == TOKEN_RED_IN ) // the second condition 
             red_in_count++;
-        else if ((tmp->type == TOKEN_RED_OUT || tmp->type == TOKEN_RED_APPEND) && tmp->next)  // the second condition
+        else if (tmp->type == TOKEN_RED_OUT || tmp->type == TOKEN_RED_APPEND)  // the second condition
             red_out_count++;
-        if (tmp->type == TOKEN_PIPE || !tmp->next) // the second condition 
+        if (tmp->type == TOKEN_PIPE) // the second condition 
         {
             if (arg_count || red_in_count || red_out_count)
                 if (!populate_command(current, tokens, arg_count, red_in_count, red_out_count))
