@@ -6,9 +6,10 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/25 18:43:34 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/26 17:06:49 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef BUILT_FUNCTIONS_H
 # define BUILT_FUNCTIONS_H
@@ -72,6 +73,3 @@ int		is_built_ins(char **cmd, char ***env_ptr);
 int		ft_chdir(char **args, char ***env_ptr);
 
 #endif
-
-
-
