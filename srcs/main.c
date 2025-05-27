@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/26 01:07:58 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/26 23:12:14 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ int     validate_syntax(t_token *tokens)
     }
     return 1;
 }
-// static void    print_tokens(t_token *tokens)
-// {
-//     while(tokens)
-//     {
-//         printf(" type : %d, value %s \n", tokens->type, tokens->value);
-//         tokens = tokens->next;
-//     }
-// }
+static void    print_tokens(t_token *tokens)
+{
+    while(tokens)
+    {
+        printf(" type : %d, value %s , quotes type %d\n", tokens->type, tokens->value, tokens->quotes_type);
+        tokens = tokens->next;
+    }
+}
 
 
 static void print_commands(t_command *commands)
@@ -187,7 +187,7 @@ int main(int ac, char **av, char **env)
     char	**my_envp;
     char *line;
     int     ex_status;
-    t_token *tokens;
+    t_token *tokens = NULL;
     t_command *commands;
    // t_head_list *head = NULL;
     
@@ -216,7 +216,7 @@ int main(int ac, char **av, char **env)
             free(line);
             continue;
         }
-        tokens = tokenize( line); 
+        tokens = tokenize(line); 
         if(!tokens || !*line)
         {
             free(line);
@@ -228,6 +228,7 @@ int main(int ac, char **av, char **env)
             free_tokens(tokens);
             continue;
         }
+     //  tokens = expand(&toknes, my_envp);
         commands = build_command(tokens);
         if (commands)
         {
@@ -236,8 +237,8 @@ int main(int ac, char **av, char **env)
 
         // print_commands(commands);
 
-        // print_tokens(tokens); // for dubg
-        // print_commands(commands);
+        print_tokens(tokens); // for dubg
+        print_commands(commands);
 
         free_tokens(tokens);
         free(line);

@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/26 16:01:11 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/26 22:29:25 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 typedef struct s_token {
     int type;              // Token type (e.g., TOKEN_WORD, TOKEN_PIPE)
     char *value;           // Token string (e.g., "ls", "|")
+    int quotes_type;      // 0 for non quotes , 1 for single quotes, 2 for double quotes
     struct s_token *next;  // Pointer to next token
 } t_token;
 
@@ -69,13 +70,16 @@ void    add_ptr_node(t_head_list **head, void *ptr);
 void *gc_malloc(t_head_list **head,int size);
 void    free_gc(t_head_list *head);
 /// ls -al <input1 <intpu2 arg1 arg2 arg3 >output1 | grep 
+
+//expand
+t_token *expand(t_token **tokens,char **env );
 void        error(int type);
 int         validate_syntax(t_token *tokens);
 t_token     *tokenize(char *line);
 int         is_space(int  c);
 void        free_tokens(t_token *tokens);
 void        free_args(t_command *command);
-t_token     *new_token(int type, char *word);
+t_token     *new_token(int type, char *word, int quotes_type);
 void        add_token(t_token **tokens, t_token *token);
 int         get_token_type(char *line);
 void        add_token(t_token **tokens, t_token *token);

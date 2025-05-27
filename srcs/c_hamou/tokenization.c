@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/25 19:18:27 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/26 21:42:44 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,27 @@ t_token *tokenize(char *line)
     char    *accumulator = NULL;
     char    *tmp;
     char quote_type;
+    int quotes_type = 0;
+    
     while (*start) 
     {
         // Skip leading spaces
-        while (*start == ' ' || *start == '\t')
+        while (*start && (*start == ' ' || *start == '\t'))
             start++;
         // Check if it's an operator
-        if (*start == '|'  || *start == '<' || *start == '>')
+        if (*start && (*start == '|'  || *start == '<' || *start == '>'))
         {
             end = start;
-            if (*start == '<' && *(start + 1) == '<')
+            if (*start && (*start == '<' && *(start + 1) == '<'))
                 end += 2;
-            else if (*start == '>' && *(start + 1) == '>')
+            else if (*start && (*start == '>' && *(start + 1) == '>'))
                 end += 2;
             else
                 end++;
             word = ft_strndup(start, end - start);
             if (!word)
                 return free_tokens(tokens), NULL;
-            token = new_token(get_token_type(word), word);
+            token = new_token(get_token_type(word), word, quotes_type);
             free(word);
             if (!token)
                 return free_tokens(tokens), NULL;
@@ -54,9 +56,13 @@ t_token *tokenize(char *line)
             while (*start && *start != ' ' && *start != '\t' &&
                    *start != '|' && *start != '<' && *start != '>')
             {
-                if (*start == '\'' || *start == '"') // Handle quoted string
+                if (*start && (*start == '\'' || *start == '"')) // Handle quoted string
                 {
                     quote_type = *start;
+                    if(*start && quote_type == '"')
+                        quotes_type = 2;
+                    else 
+                        quotes_type = 1; 
                     start++; // Skip opening quote
                     end = start;
                     while (*end && *end != quote_type)
@@ -115,7 +121,7 @@ t_token *tokenize(char *line)
             }
             if (accumulator)
             {
-                token = new_token(get_token_type(accumulator), accumulator);
+                token = new_token(get_token_type(accumulator), accumulator, quotes_type);
                 free(accumulator);
                 if (!token)
                 {
@@ -128,7 +134,7 @@ t_token *tokenize(char *line)
     }
     return tokens;
 }
-t_token     *new_token(int type, char *word)
+t_token     *new_token(int type, char *word, int quotes_type)
 {
     t_token *new;
 
@@ -139,6 +145,7 @@ t_token     *new_token(int type, char *word)
     if(!new->value)
         return (free(new), NULL); // test this line 
     new->type = type;
+    new->quotes_type = quotes_type;
     new->next = NULL;
     return new;
 }
