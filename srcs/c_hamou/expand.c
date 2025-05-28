@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:20:52 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/27 16:55:01 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:37:44 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char *expand_value(char *value, char **envp)
 {
     int i = 0;
     int j = 0;
-    char *new_word = NULL
+    char *new_word = NULL;
     char *var_value = NULL;
     char *result = NULL;
     while(value[i])
@@ -61,17 +61,17 @@ static char *expand_value(char *value, char **envp)
 t_token *expand(t_token **tokens,char **env)
 {
    t_token *tmp = *tokens;
-   char *expand_value;
+   char *expand_values;
 
    while(tmp)
    {
         if(ft_strchr(tmp->value, '$'))
         {
-            expand_value = expand_value(tmp->value, env);
+            expand_values = expand_value(tmp->value, env);
             if(expand_value)
             {
-                free(tmp->value)
-                tmp->value = expand_value;
+                free(tmp->value);
+                tmp->value = expand_values;
             }
         }
         tmp = tmp->next;
