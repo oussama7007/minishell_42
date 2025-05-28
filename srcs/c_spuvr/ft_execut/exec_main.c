@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:22:02 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/28 15:34:14 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/28 15:43:59 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	try_paths(char **paths, char *cmd, char **cmd_path)
 	{
 		*cmd_path = join_path(paths[i], cmd);
 		if (*cmd_path && access(*cmd_path, X_OK) == 0)
-			break;
+			break ;
 		free(*cmd_path);
 		*cmd_path = NULL;
 		i++;
