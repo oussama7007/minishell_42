@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:20:01 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/26 17:07:15 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/05/28 17:31:41 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	ft_pwd(char ***env_ptr)
 	char	*buffer;
 
 	current_pwd = my_getenv("PWD", *env_ptr);
-	if (current_pwd && *current_pwd) // Check if PWD exists and is not empty
+	if (current_pwd && *current_pwd)
 	{
 		ft_putstr_fd(current_pwd, STDOUT_FILENO);
 		ft_putchar_fd('\n', STDOUT_FILENO);
@@ -85,7 +85,8 @@ int	ft_pwd(char ***env_ptr)
 	}
 	else
 	{
-		if (getcwd(buffer, sizeof(buffer)) == NULL)
+		buffer = getcwd(NULL, 0);
+		if (buffer == NULL)
 		{
 			ft_putstr_fd("minishell: pwd: ", STDERR_FILENO);
 			ft_putendl_fd(strerror(errno), STDERR_FILENO);
@@ -93,6 +94,7 @@ int	ft_pwd(char ***env_ptr)
 		}
 		ft_putstr_fd(buffer, STDOUT_FILENO);
 		ft_putchar_fd('\n', STDOUT_FILENO);
+		free(buffer);
 		return (0);
 	}
 }
