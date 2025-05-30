@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/26 21:42:44 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/30 17:57:45 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_token *tokenize(char *line)
     char    *accumulator = NULL;
     char    *tmp;
     char quote_type;
-    int quotes_type = 0;
+    int quotes_type = 0 ;
     
     while (*start) 
     {
@@ -94,6 +94,7 @@ t_token *tokenize(char *line)
                 }
                 else
                 {
+                    quotes_type = 0;
                     // Handle unquoted part
                     end = start;
                     while (*end && *end != ' ' && *end != '\t' &&
