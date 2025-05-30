@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:20:52 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/30 09:24:12 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/30 11:18:31 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char *get_var_value(char *new_word, char **envp)
                 return(*envp + var_len + 1);
         envp++;
     }
-    return NULL;
+    return ft_strdup("");
 }
 static char *expand_value_func(char *value, char **envp)
 {
@@ -56,7 +56,7 @@ static char *expand_value_func(char *value, char **envp)
             free(new_word);
             result = ft_strjoin(result, var_value);
             // condition if fail
-            j += ft_strlen(var_value); 
+            i = j ;
         }
         else 
         {
@@ -65,6 +65,7 @@ static char *expand_value_func(char *value, char **envp)
             result = ft_strjoin(result, chr_str);
             i++;   
         }
+        
     }
     return result;
 }
