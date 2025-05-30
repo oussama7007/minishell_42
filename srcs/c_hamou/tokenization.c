@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/30 17:57:45 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:09:16 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ t_token *tokenize(char *line)
                     end = start;
                     while (*end && *end != quote_type)
                         end++;
+                    
                     // if (*end != quote_type)
                     // {
                     //     write(2, "minishell: syntax error: unmatched quote\n", 40);
@@ -119,6 +120,7 @@ t_token *tokenize(char *line)
                     }
                     start = end;
                 }
+                
             }
             if (accumulator)
             {
@@ -132,6 +134,7 @@ t_token *tokenize(char *line)
                 add_token(&tokens, token);
             }
         }
+        
     }
     return tokens;
 }
