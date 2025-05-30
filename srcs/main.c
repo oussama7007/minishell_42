@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/05/29 01:33:39 by oait-si-         ###   ########.fr       */
-=======
-/*   Updated: 2025/05/28 17:42:43 by oadouz           ###   ########.fr       */
->>>>>>> 0bf7fb8f6ccf36a1f9c5f454f84a0ce5bb7012f9
+/*   Updated: 2025/05/30 09:25:37 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,18 +190,15 @@ int main(int ac, char **av, char **env)
             free_tokens(tokens);
             continue;
         }
-     //  tokens = expand(&toknes, my_envp);
+        tokens = expand(&tokens, my_envp);
         commands = build_command(tokens);
         if (commands)
         {
             ex_status = ft_execute_command_list(commands, &my_envp);
         }
-
-        print_commands(commands);
-
-       print_tokens(tokens); // for dubg
         //print_commands(commands);
-
+       // print_tokens(tokens); // for dubg
+        //print_commands(commands);
         free_tokens(tokens);
         free(line);
     }

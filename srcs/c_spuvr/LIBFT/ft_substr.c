@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 20:41:41 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/25 19:22:19 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/05/30 09:13:49 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,27 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
+	size_t	i;
 	size_t	s_len;
 	char	*str;
 
 	if (!s)
-		return (0);
+		return (NULL);
 	s_len = ft_strlen(s);
 	if (start >= s_len)
-	{
-		str = malloc(1);
-		if (!str)
-			return (0);
-		str[0] = '\0';
-		return (str);
-	}
-	if (len > s_len - start)
+		return (ft_calloc(1, sizeof(char)));
+	if (s_len - start < len)
 		len = s_len - start;
-	str = malloc(len + 1);
+	str = (char *)malloc(sizeof(char) * (len + 1));
 	if (!str)
-		return (0);
-	ft_strlcpy(str, s + start, len + 1);
+		return (NULL);
+	i = 0;
+	while (i < len && s[start + i])
+	{
+		str[i] = s[start + i];
+		i++;
+	}
+	str[i] = '\0';
 	return (str);
 }
 

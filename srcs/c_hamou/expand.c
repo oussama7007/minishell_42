@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:20:52 by oait-si-          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/05/28 01:54:32 by oait-si-         ###   ########.fr       */
-=======
-/*   Updated: 2025/05/28 15:37:44 by oadouz           ###   ########.fr       */
->>>>>>> 0bf7fb8f6ccf36a1f9c5f454f84a0ce5bb7012f9
+/*   Updated: 2025/05/30 09:24:12 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +19,11 @@ static char *get_var_value(char *new_word, char **envp)
     var_len = ft_strlen(new_word);
     while(*envp)
     {
-        if(ft_strncmp(*envp, new_word, var_len) == 0 && *envp[var_len] == '=')
-            return(*(envp + var_len + 1));
-        *(envp++);
+        if(ft_strncmp(*envp, new_word, var_len) == 0 && (*envp)[var_len] == '=')
+                return(*envp + var_len + 1);
+        envp++;
     }
+    return NULL;
 }
 static char *expand_value_func(char *value, char **envp)
 {
@@ -35,6 +32,8 @@ static char *expand_value_func(char *value, char **envp)
     char *new_word = NULL;
     char *var_value = NULL;
     char *result = NULL;
+    char *tmp = NULL;
+    char chr_str[2];
     while(value[i])
     {
         if(value[i] == '$')
@@ -47,45 +46,45 @@ static char *expand_value_func(char *value, char **envp)
                 i++;
             }
             j = i;
-            while((value[j] && ft_isalnum(value[i])) || value[j] == '_')
+            while((value[j] && ft_isalnum(value[j])) || value[j] == '_')
                 j++;
-            new_word = ft_strndup(value, j - i);
+            new_word = ft_substr(value, i, j - i);
             // condition if fail malloc;
             var_value = get_var_value(new_word, envp);
+            if(!var_value)
+                return NULL;
             free(new_word);
             result = ft_strjoin(result, var_value);
             // condition if fail
             j += ft_strlen(var_value); 
         }
         else 
-           //result = 
-        i++;
+        {
+            chr_str[0] = value[i];
+            chr_str[1] = '\0';
+            result = ft_strjoin(result, chr_str);
+            i++;   
+        }
     }
+    return result;
 }
 t_token *expand(t_token **tokens,char **env)
 {
    t_token *tmp = *tokens;
-   char *expand_values;
+   char *expand_value;
 
    while(tmp)
    {
-        if(ft_strchr(tmp->value, '$'))
+        if(ft_strchr(tmp->value, '$') && tmp->quotes_type != 1)
         {
-<<<<<<< HEAD
             expand_value = expand_value_func(tmp->value, env);
-            if(expand_value )
-            {
-                free(tmp->value);
-                tmp->value = expand_value;
-=======
-            expand_values = expand_value(tmp->value, env);
             if(expand_value)
             {
                 free(tmp->value);
-                tmp->value = expand_values;
->>>>>>> 0bf7fb8f6ccf36a1f9c5f454f84a0ce5bb7012f9
+                tmp->value = expand_value;
             }
         }
         tmp = tmp->next;
    }
+   return *tokens;
 }
