@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/30 20:35:48 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/01 22:44:29 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,7 @@ int main(int ac, char **av, char **env)
             continue;
         }
         tokens = expand(&tokens, my_envp);
+        
         commands = build_command(tokens);
         if (commands)
         {

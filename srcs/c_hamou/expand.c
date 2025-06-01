@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:20:52 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/30 11:18:31 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/01 18:45:37 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,18 @@ static char *expand_value_func(char *value, char **envp)
     char *result = NULL;
     char *tmp = NULL;
     char chr_str[2];
+    
     while(value[i])
     {
         if(value[i] == '$')
         {
             i++;
+            if(value[i] == '\'' || value[i] == '"')
+            {
+                printf("helllllll\n\n\n\n\n\n\n");
+                return "";
+            
+            }
             if(value[i] == '?')
             {
                 // tanchouf kifach ndir liha;
@@ -46,7 +53,7 @@ static char *expand_value_func(char *value, char **envp)
                 i++;
             }
             j = i;
-            while((value[j] && ft_isalnum(value[j])) || value[j] == '_')
+            while((value[j] && value[j] != '\'' && value[j] != '"' && (ft_isalnum(value[j])) || value[j] == '_' ))
                 j++;
             new_word = ft_substr(value, i, j - i);
             // condition if fail malloc;
@@ -69,6 +76,7 @@ static char *expand_value_func(char *value, char **envp)
     }
     return result;
 }
+
 t_token *expand(t_token **tokens,char **env)
 {
    t_token *tmp = *tokens;
