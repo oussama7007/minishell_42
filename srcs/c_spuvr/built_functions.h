@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/26 17:06:49 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/04 17:50:59 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ int		is_direct_path(const char *cmd_name);
 void	up_env_cd(char *old_pwd_val, const char *path_arg, char ***env_ptr);
 char	*target_path(char **args, char **envp);
 
+// redirection
+void	handle_redirection_child(t_command *cmd_node);
+
+// pipe
+int	execute_pipeline(t_command *commands, char ***env_ptr);
 
 // erro.c
 void	ft_free_array(char **array);
@@ -60,7 +65,6 @@ int		ft_echo(char **args);
 void	display_sorted_environment(char **envp);
 int		process_export_arguments(char **args, char ***env_ptr);
 int		is_standalone_name(const char *arg);
-int		exec_export_name_only(const char *name_arg, char ***env_ptr);
 int		exec_export_plus_equal(const char *arg, char ***env_ptr);
 int		exec_export_value(const char *arg, char ***env_ptr);
 int		exec_export_name_only(const char *name_arg, char ***env_ptr);
