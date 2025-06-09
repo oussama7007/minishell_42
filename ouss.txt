@@ -1,0 +1,650 @@
+```
+Minishell$ unset PATH
+Minishell$ ls
+minishell: ls: command not found
+Minishell$ export PATH=""
+Minishell$ echo $PATH
+
+Minishell$ ls
+minishell: ls: command not found
+Minishell$ env | grep PATH
+minishell: grep: command not found
+
+=================================================================
+==37257==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 672 byte(s) in 12 object(s) allocated from:
+    #0 0x74ffb1eb4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5deba91a565e in new_command srcs/c_hamou/commands.c:17
+    #2 0x5deba91a667d in build_command srcs/c_hamou/commands.c:136
+    #3 0x5deba91a9ac9 in main srcs/main.c:196
+    #4 0x74ffb1a29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 728 byte(s) in 13 object(s) allocated from:
+    #0 0x74ffb1eb4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5deba91a565e in new_command srcs/c_hamou/commands.c:17
+    #2 0x5deba91a667d in build_command srcs/c_hamou/commands.c:136
+    #3 0x5deba91a9ac9 in main srcs/main.c:196
+    #4 0x74ffb1a29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 448 byte(s) in 24 object(s) allocated from:
+    #0 0x74ffb1eb4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5deba91a5c69 in populate_command srcs/c_hamou/commands.c:68
+    #2 0x5deba91a68fc in build_command srcs/c_hamou/commands.c:150
+    #3 0x5deba91a9ac9 in main srcs/main.c:196
+    #4 0x74ffb1a29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 200 byte(s) in 24 object(s) allocated from:
+    #0 0x74ffb1eb4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5deba91a5cf1 in populate_command srcs/c_hamou/commands.c:70
+    #2 0x5deba91a68fc in build_command srcs/c_hamou/commands.c:150
+    #3 0x5deba91a9ac9 in main srcs/main.c:196
+    #4 0x74ffb1a29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 192 byte(s) in 24 object(s) allocated from:
+    #0 0x74ffb1eb4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5deba91a5cad in populate_command srcs/c_hamou/commands.c:69
+    #2 0x5deba91a68fc in build_command srcs/c_hamou/commands.c:150
+    #3 0x5deba91a9ac9 in main srcs/main.c:196
+    #4 0x74ffb1a29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 128 byte(s) in 31 object(s) allocated from:
+    #0 0x74ffb1eb4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5deba91b0ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #2 0x5deba91a5ec3 in populate_command srcs/c_hamou/commands.c:80
+    #3 0x5deba91a68fc in build_command srcs/c_hamou/commands.c:150
+    #4 0x5deba91a9ac9 in main srcs/main.c:196
+    #5 0x74ffb1a29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 100 byte(s) in 24 object(s) allocated from:
+    #0 0x74ffb1eb4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5deba91b0ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #2 0x5deba91a5e26 in populate_command srcs/c_hamou/commands.c:79
+    #3 0x5deba91a68fc in build_command srcs/c_hamou/commands.c:150
+    #4 0x5deba91a9ac9 in main srcs/main.c:196
+    #5 0x74ffb1a29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 27 byte(s) in 24 object(s) allocated from:
+    #0 0x74ffb1eb4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5deba91a5d32 in populate_command srcs/c_hamou/commands.c:71
+    #2 0x5deba91a68fc in build_command srcs/c_hamou/commands.c:150
+    #3 0x5deba91a9ac9 in main srcs/main.c:196
+    #4 0x74ffb1a29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 10 byte(s) in 1 object(s) allocated from:
+    #0 0x74ffb1eb4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5deba91b0ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #2 0x5deba91a61bc in populate_command srcs/c_hamou/commands.c:91
+    #3 0x5deba91a68fc in build_command srcs/c_hamou/commands.c:150
+    #4 0x5deba91a9ac9 in main srcs/main.c:196
+    #5 0x74ffb1a29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+SUMMARY: AddressSanitizer: 2505 byte(s) leaked in 177 allocation(s).
+
+=================================================================
+==37255==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 672 byte(s) in 12 object(s) allocated from:
+    #0 0x74ffb1eb4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5deba91a565e in new_command srcs/c_hamou/commands.c:17
+    #2 0x5deba91a667d in build_command srcs/c_hamou/commands.c:136
+    #3 0x5deba91a9ac9 in main srcs/main.c:196
+    #4 0x74ffb1a29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 728 byte(s) in 13 object(s) allocated from:
+    #0 0x74ffb1eb4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5deba91a565e in new_command srcs/c_hamou/commands.c:17
+    #2 0x5deba91a667d in build_command srcs/c_hamou/commands.c:136
+    #3 0x5deba91a9ac9 in main srcs/main.c:196
+    #4 0x74ffb1a29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 448 byte(s) in 24 object(s) allocated from:
+    #0 0x74ffb1eb4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5deba91a5c69 in populate_command srcs/c_hamou/commands.c:68
+    #2 0x5deba91a68fc in build_command srcs/c_hamou/commands.c:150
+    #3 0x5deba91a9ac9 in main srcs/main.c:196
+    #4 0x74ffb1a29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 200 byte(s) in 24 object(s) allocated from:
+    #0 0x74ffb1eb4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5deba91a5cf1 in populate_command srcs/c_hamou/commands.c:70
+    #2 0x5deba91a68fc in build_command srcs/c_hamou/commands.c:150
+    #3 0x5deba91a9ac9 in main srcs/main.c:196
+    #4 0x74ffb1a29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 192 byte(s) in 24 object(s) allocated from:
+    #0 0x74ffb1eb4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5deba91a5cad in populate_command srcs/c_hamou/commands.c:69
+    #2 0x5deba91a68fc in build_command srcs/c_hamou/commands.c:150
+    #3 0x5deba91a9ac9 in main srcs/main.c:196
+    #4 0x74ffb1a29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 128 byte(s) in 31 object(s) allocated from:
+    #0 0x74ffb1eb4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5deba91b0ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #2 0x5deba91a5ec3 in populate_command srcs/c_hamou/commands.c:80
+    #3 0x5deba91a68fc in build_command srcs/c_hamou/commands.c:150
+    #4 0x5deba91a9ac9 in main srcs/main.c:196
+    #5 0x74ffb1a29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 100 byte(s) in 24 object(s) allocated from:
+    #0 0x74ffb1eb4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5deba91b0ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #2 0x5deba91a5e26 in populate_command srcs/c_hamou/commands.c:79
+    #3 0x5deba91a68fc in build_command srcs/c_hamou/commands.c:150
+    #4 0x5deba91a9ac9 in main srcs/main.c:196
+    #5 0x74ffb1a29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 27 byte(s) in 24 object(s) allocated from:
+    #0 0x74ffb1eb4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5deba91a5d32 in populate_command srcs/c_hamou/commands.c:71
+    #2 0x5deba91a68fc in build_command srcs/c_hamou/commands.c:150
+    #3 0x5deba91a9ac9 in main srcs/main.c:196
+    #4 0x74ffb1a29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 10 byte(s) in 1 object(s) allocated from:
+    #0 0x74ffb1eb4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5deba91b0ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #2 0x5deba91a61bc in populate_command srcs/c_hamou/commands.c:91
+    #3 0x5deba91a68fc in build_command srcs/c_hamou/commands.c:150
+    #4 0x5deba91a9ac9 in main srcs/main.c:196
+    #5 0x74ffb1a29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+SUMMARY: AddressSanitizer: 2505 byte(s) leaked in 177 allocation(s).
+Minishell$ cd ""
+=================================================================
+==36965==ERROR: AddressSanitizer: attempting free on address which was not malloc()-ed: 0x602000000075 in thread T0
+    #0 0x74ffb1eb4537 in __interceptor_free ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:127
+    #1 0x5deba91abb9b in ft_chdir srcs/c_spuvr/ft_chdir/ft_cd.c:56
+    #2 0x5deba91aa3e9 in is_built_ins srcs/c_spuvr/built-ins1.c:22
+    #3 0x5deba91ab1a8 in ft_execute_command_list srcs/c_spuvr/execute_heart.c:53
+    #4 0x5deba91a9af0 in main srcs/main.c:199
+    #5 0x74ffb1a29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #6 0x74ffb1a29e3f in __libc_start_main_impl ../csu/libc-start.c:392
+    #7 0x5deba91a5584 in _start (/root/1337/minishell_42/minishell+0x3584)
+
+0x602000000075 is located 5 bytes inside of 11-byte region [0x602000000070,0x60200000007b)
+allocated by thread T0 here:
+    #0 0x74ffb1eb4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5deba91b0ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #2 0x5deba91ab693 in init_environment srcs/c_spuvr/utils.c:86
+    #3 0x5deba91a97e8 in main srcs/main.c:159
+    #4 0x74ffb1a29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+SUMMARY: AddressSanitizer: bad-free ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:127 in __interceptor_free
+==36965==ABORTING
+
+Minishell$ export =""
+minishell: export: `=': not a valid identifier
+Minishell$ export
+declare -x DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/0/bus"
+declare -x DISPLAY=":0"
+declare -x GOPATH="/root/go"
+declare -x HOME="/root"
+declare -x HOSTTYPE="x86_64"
+declare -x LANG="C.UTF-8"
+declare -x LESS="-R"
+declare -x LOGNAME="root"
+declare -x LSCOLORS="Gxfxcxdxbxegedabagacad"
+declare -x LS_COLORS="rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:"
+declare -x NAME="DESKTOP-USVKH39"
+declare -x NVM_BIN="/root/.nvm/versions/node/v18.19.1/bin"
+declare -x NVM_CD_FLAGS="-q"
+declare -x NVM_DIR="/root/.nvm"
+declare -x NVM_INC="/root/.nvm/versions/node/v18.19.1/include/node"
+declare -x OLDPWD="/root/1337"
+declare -x PAGER="less"
+declare -x PATH="/root/.nvm/versions/node/v18.19.1/bin:/root/.local/bin:/root/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/Python313/Scripts/:/mnt/c/Program Files/Python313/:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/gcc/bin:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/EmEditor:/mnt/c/Program Files/dotnet/:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/tools/Manim/Scripts:/mnt/c/Program Files (x86)/Bitvise SSH Client:/mnt/c/Program Files/Python313/Scripts/:/mnt/c/Program Files/Python313/:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/gcc/bin:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/EmEditor:/mnt/c/Program Files/dotnet/:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/tools/Manim/Scripts:/mnt/c/Program Files/MiKTeX/miktex/bin/x64/:/mnt/c/Program Files (x86)/Bitvise SSH Client:/mnt/c/Users/KHALIL/.local/bin:/mnt/c/Users/KHALIL/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/KHALIL/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Users/KHALIL/AppData/Local/spicetify:/mnt/c/Users/KHALIL/.dotnet/tools:/mnt/c/tools/TinyTeX/bin/windows:/mnt/c/Program Files (x86)/Windows Kits/10/Assessment and Deployment Kit/Deployment Tools/amd64/Oscdimg:/root/.local/bin:/root/.local/bin:/usr/local/go/bin"
+declare -x PULSE_SERVER="unix:/mnt/wslg/PulseServer"
+declare -x PWD="/root/1337/minishell_42"
+declare -x SHELL="/usr/bin/zsh"
+declare -x SHLVL="1"
+declare -x TERM="xterm-256color"
+declare -x USER="root"
+declare -x WAYLAND_DISPLAY="wayland-0"
+declare -x WSL2_GUI_APPS_ENABLED="1"
+declare -x WSLENV="WT_SESSION:WT_PROFILE_ID:"
+declare -x WSL_DISTRO_NAME="Ubuntu-22.04"
+declare -x WSL_INTEROP="/run/WSL/598_interop"
+declare -x WT_PROFILE_ID="{4ff56d04-d9cf-57ea-bae2-ad396374e7e3}"
+declare -x WT_SESSION="4406496c-bba0-48c3-ba85-fecdefbd12ba"
+declare -x XDG_RUNTIME_DIR="/run/user/0/"
+declare -x ZSH="/root/.oh-my-zsh"
+declare -x _="/root/1337/minishell_42/./minishell"
+Minishell$ unset
+Minishell$ echo $NONEXISTENT
+
+Minishell$ cat < /nonexistent/file
+sda
+sda
+asdfw
+asdfw
+^C
+Minishell$ echo test > /root/forbiddent/forbidden
+test
+Minishell$ ls > ""
+Makefile  bug.txt  en.subject.pdf  minishell  ouss.txt  outfile.txt  srcs  t9ba.txt  tes.c  text.c
+Minishell$ cat << ""
+dfwef
+dfwef
+fwefwef
+fwefwef
+^C
+Minishell$ Minishell$ cat <<
+Minishell: syntax error near unexpected token `newline'
+Minishell$
+
+Minishell$ |||
+Minishell: syntax error
+Minishell$ ls | cat
+Makefile
+bug.txt
+en.subject.pdf
+minishell
+ouss.txt
+outfile.txt
+srcs
+t9ba.txt
+tes.c
+text.c
+Minishell$ ls | cat | cat
+Makefile
+bug.txt
+en.subject.pdf
+minishell
+ouss.txt
+outfile.txt
+srcs
+t9ba.txt
+tes.c
+text.c
+Minishell$ ls | cat | cat | cat | cat | head
+Makefile
+bug.txt
+en.subject.pdf
+minishell
+ouss.txt
+outfile.txt
+srcs
+t9ba.txt
+tes.c
+text.c
+Minishell$ |
+Minishell: syntax error near unexpected token `|'
+Minishell$ ls |
+Minishell: syntax error near unexpected token `|'
+Minishell$ | ls
+Minishell$ yes | head -1000 | wc
+   1000    1000    2000
+Minishell$ find / 2>/dev/null | head -1000 | wc
+      0       0       0
+
+
+^C
+Minishell$ Minishell$
+Minishell$ env | wc -l
+
+=================================================================
+==37771==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 1400 byte(s) in 25 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bed965e in new_command srcs/c_hamou/commands.c:17
+    #2 0x5bab1beda67d in build_command srcs/c_hamou/commands.c:136
+    #3 0x5bab1beddac9 in main srcs/main.c:196
+    #4 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Direct leak of 70 byte(s) in 14 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bee473d in ft_strjoin (/root/1337/minishell_42/minishell+0xe73d)
+    #2 0x5bab1bedc4c9 in expand_value_func srcs/c_hamou/expand.c:77
+    #3 0x5bab1bedc695 in expand srcs/c_hamou/expand.c:94
+    #4 0x5bab1bedda98 in main srcs/main.c:194
+    #5 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Direct leak of 4 byte(s) in 4 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bee4ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #2 0x5bab1bedc00f in get_var_value srcs/c_hamou/expand.c:26
+    #3 0x5bab1bedc39c in expand_value_func srcs/c_hamou/expand.c:65
+    #4 0x5bab1bedc695 in expand srcs/c_hamou/expand.c:94
+    #5 0x5bab1bedda98 in main srcs/main.c:194
+    #6 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Direct leak of 2 byte(s) in 2 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bee473d in ft_strjoin (/root/1337/minishell_42/minishell+0xe73d)
+    #2 0x5bab1bedc3df in expand_value_func srcs/c_hamou/expand.c:69
+    #3 0x5bab1bedc695 in expand srcs/c_hamou/expand.c:94
+    #4 0x5bab1bedda98 in main srcs/main.c:194
+    #5 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 616 byte(s) in 27 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bed9c69 in populate_command srcs/c_hamou/commands.c:68
+    #2 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #3 0x5bab1beddac9 in main srcs/main.c:196
+    #4 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 248 byte(s) in 27 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bed9cf1 in populate_command srcs/c_hamou/commands.c:70
+    #2 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #3 0x5bab1beddac9 in main srcs/main.c:196
+    #4 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 232 byte(s) in 42 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bee4ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #2 0x5bab1bed9ec3 in populate_command srcs/c_hamou/commands.c:80
+    #3 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #4 0x5bab1beddac9 in main srcs/main.c:196
+    #5 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 232 byte(s) in 27 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bed9cad in populate_command srcs/c_hamou/commands.c:69
+    #2 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #3 0x5bab1beddac9 in main srcs/main.c:196
+    #4 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 168 byte(s) in 3 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bed965e in new_command srcs/c_hamou/commands.c:17
+    #2 0x5bab1beda67d in build_command srcs/c_hamou/commands.c:136
+    #3 0x5bab1beddac9 in main srcs/main.c:196
+    #4 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 133 byte(s) in 27 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bee4ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #2 0x5bab1bed9e26 in populate_command srcs/c_hamou/commands.c:79
+    #3 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #4 0x5bab1beddac9 in main srcs/main.c:196
+    #5 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 39 byte(s) in 27 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bed9d32 in populate_command srcs/c_hamou/commands.c:71
+    #2 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #3 0x5bab1beddac9 in main srcs/main.c:196
+    #4 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 36 byte(s) in 2 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bee4ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #2 0x5bab1bed9fe0 in populate_command srcs/c_hamou/commands.c:85
+    #3 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #4 0x5bab1beddac9 in main srcs/main.c:196
+    #5 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 34 byte(s) in 4 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bee4ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #2 0x5bab1beda1bc in populate_command srcs/c_hamou/commands.c:91
+    #3 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #4 0x5bab1beddac9 in main srcs/main.c:196
+    #5 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 2 byte(s) in 2 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bee4ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #2 0x5bab1beda299 in populate_command srcs/c_hamou/commands.c:97
+    #3 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #4 0x5bab1beddac9 in main srcs/main.c:196
+    #5 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+SUMMARY: AddressSanitizer: 3216 byte(s) leaked in 233 allocation(s).
+34
+Minishell$
+Minishell$ unset PATH PWD HOME USER
+Minishell$ env | wc -l
+minishell: wc: command not found
+
+=================================================================
+==37815==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 1512 byte(s) in 27 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bed965e in new_command srcs/c_hamou/commands.c:17
+    #2 0x5bab1beda67d in build_command srcs/c_hamou/commands.c:136
+    #3 0x5bab1beddac9 in main srcs/main.c:196
+    #4 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Direct leak of 70 byte(s) in 14 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bee473d in ft_strjoin (/root/1337/minishell_42/minishell+0xe73d)
+    #2 0x5bab1bedc4c9 in expand_value_func srcs/c_hamou/expand.c:77
+    #3 0x5bab1bedc695 in expand srcs/c_hamou/expand.c:94
+    #4 0x5bab1bedda98 in main srcs/main.c:194
+    #5 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Direct leak of 4 byte(s) in 4 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bee4ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #2 0x5bab1bedc00f in get_var_value srcs/c_hamou/expand.c:26
+    #3 0x5bab1bedc39c in expand_value_func srcs/c_hamou/expand.c:65
+    #4 0x5bab1bedc695 in expand srcs/c_hamou/expand.c:94
+    #5 0x5bab1bedda98 in main srcs/main.c:194
+    #6 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Direct leak of 2 byte(s) in 2 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bee473d in ft_strjoin (/root/1337/minishell_42/minishell+0xe73d)
+    #2 0x5bab1bedc3df in expand_value_func srcs/c_hamou/expand.c:69
+    #3 0x5bab1bedc695 in expand srcs/c_hamou/expand.c:94
+    #4 0x5bab1bedda98 in main srcs/main.c:194
+    #5 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+
+=================================================================
+Indirect leak of 704 byte(s) in 30 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+==37817==ERROR: LeakSanitizer: detected memory leaks
+    #1 0x5bab1bed9c69 in populate_command srcs/c_hamou/commands.c:68
+    #2 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #3 0x5bab1beddac9 in main srcs/main.c:196
+
+    #4 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Direct leak of 1512 byte(s) in 27 object(s) allocated from:
+Indirect leak of 272 byte(s) in 30 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bed9cf1 in populate_command srcs/c_hamou/commands.c:70
+    #2 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #1 0x5bab1bed965e in new_command srcs/c_hamou/commands.c:17
+    #3 0x5bab1beddac9 in main srcs/main.c:196
+    #2 0x5bab1beda67d in build_command srcs/c_hamou/commands.c:136
+    #4 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+    #3 0x5bab1beddac9 in main srcs/main.c:196
+    #4 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 267 byte(s) in 50 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+Direct leak of 70 byte(s) in 14 object(s) allocated from:
+    #1 0x5bab1bee4ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #2 0x5bab1bed9ec3 in populate_command srcs/c_hamou/commands.c:80
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #3 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #4 0x5bab1beddac9 in main srcs/main.c:196
+    #1 0x5bab1bee473d in ft_strjoin (/root/1337/minishell_42/minishell+0xe73d)
+    #5 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+    #2 0x5bab1bedc4c9 in expand_value_func srcs/c_hamou/expand.c:77
+    #3 0x5bab1bedc695 in expand srcs/c_hamou/expand.c:94
+Indirect leak of 256 byte(s) in 30 object(s) allocated from:
+    #4 0x5bab1bedda98 in main srcs/main.c:194
+    #5 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+
+    #1 0x5bab1bed9cad in populate_command srcs/c_hamou/commands.c:69
+    #2 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #3 0x5bab1beddac9 in main srcs/main.c:196
+Direct leak of 4 byte(s) in 4 object(s) allocated from:
+    #4 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+Indirect leak of 224 byte(s) in 4 object(s) allocated from:
+    #1 0x5bab1bee4ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #2 0x5bab1bedc00f in get_var_value srcs/c_hamou/expand.c:26
+    #1 0x5bab1bed965e in new_command srcs/c_hamou/commands.c:17
+    #3 0x5bab1bedc39c in expand_value_func srcs/c_hamou/expand.c:65
+    #2 0x5bab1beda67d in build_command srcs/c_hamou/commands.c:136
+    #3 0x5bab1beddac9 in main srcs/main.c:196
+    #4 0x5bab1bedc695 in expand srcs/c_hamou/expand.c:94
+    #4 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+    #5 0x5bab1bedda98 in main srcs/main.c:194
+Indirect leak of 146 byte(s) in 30 object(s) allocated from:
+    #6 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+Direct leak of 2 byte(s) in 2 object(s) allocated from:
+    #1 0x5bab1bee4ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #2 0x5bab1bed9e26 in populate_command srcs/c_hamou/commands.c:79
+    #3 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #4 0x5bab1beddac9 in main srcs/main.c:196
+    #5 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #1 0x5bab1bee473d in ft_strjoin (/root/1337/minishell_42/minishell+0xe73d)
+
+    #2 0x5bab1bedc3df in expand_value_func srcs/c_hamou/expand.c:69
+    #3 0x5bab1bedc695 in expand srcs/c_hamou/expand.c:94
+Indirect leak of 42 byte(s) in 30 object(s) allocated from:
+    #4 0x5bab1bedda98 in main srcs/main.c:194
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #5 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+    #1 0x5bab1bed9d32 in populate_command srcs/c_hamou/commands.c:71
+    #2 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #3 0x5bab1beddac9 in main srcs/main.c:196
+    #4 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+Indirect leak of 704 byte(s) in 30 object(s) allocated from:
+
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+Indirect leak of 36 byte(s) in 2 object(s) allocated from:
+    #1 0x5bab1bed9c69 in populate_command srcs/c_hamou/commands.c:68
+    #2 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #3 0x5bab1beddac9 in main srcs/main.c:196
+    #4 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+Indirect leak of 272 byte(s) in 30 object(s) allocated from:
+    #1 0x5bab1bee4ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #2 0x5bab1bed9fe0 in populate_command srcs/c_hamou/commands.c:85
+    #1 0x5bab1bed9cf1 in populate_command srcs/c_hamou/commands.c:70
+    #3 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #2 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #4 0x5bab1beddac9 in main srcs/main.c:196
+    #5 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #3 0x5bab1beddac9 in main srcs/main.c:196
+
+Indirect leak of 34 byte(s) in 4 object(s) allocated from:
+    #4 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bee4ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+Indirect leak of 267 byte(s) in 50 object(s) allocated from:
+    #2 0x5bab1beda1bc in populate_command srcs/c_hamou/commands.c:91
+    #3 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bee4ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #4 0x5bab1beddac9 in main srcs/main.c:196
+    #2 0x5bab1bed9ec3 in populate_command srcs/c_hamou/commands.c:80
+    #5 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #3 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #4 0x5bab1beddac9 in main srcs/main.c:196
+
+    #5 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 2 byte(s) in 2 object(s) allocated from:
+Indirect leak of 256 byte(s) in 30 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bee4ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #2 0x5bab1beda299 in populate_command srcs/c_hamou/commands.c:97
+    #1 0x5bab1bed9cad in populate_command srcs/c_hamou/commands.c:69
+    #3 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #4 0x5bab1beddac9 in main srcs/main.c:196
+    #2 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #5 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #3 0x5bab1beddac9 in main srcs/main.c:196
+
+    #4 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+SUMMARY: AddressSanitizer: 3571 byte(s) leaked in 259 allocation(s).
+
+Indirect leak of 224 byte(s) in 4 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bed965e in new_command srcs/c_hamou/commands.c:17
+    #2 0x5bab1beda67d in build_command srcs/c_hamou/commands.c:136
+    #3 0x5bab1beddac9 in main srcs/main.c:196
+    #4 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 146 byte(s) in 30 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bee4ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #2 0x5bab1bed9e26 in populate_command srcs/c_hamou/commands.c:79
+    #3 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #4 0x5bab1beddac9 in main srcs/main.c:196
+    #5 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 42 byte(s) in 30 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bed9d32 in populate_command srcs/c_hamou/commands.c:71
+    #2 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #3 0x5bab1beddac9 in main srcs/main.c:196
+    #4 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 36 byte(s) in 2 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bee4ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #2 0x5bab1bed9fe0 in populate_command srcs/c_hamou/commands.c:85
+    #3 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #4 0x5bab1beddac9 in main srcs/main.c:196
+    #5 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 34 byte(s) in 4 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bee4ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #2 0x5bab1beda1bc in populate_command srcs/c_hamou/commands.c:91
+    #3 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #4 0x5bab1beddac9 in main srcs/main.c:196
+    #5 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+Indirect leak of 2 byte(s) in 2 object(s) allocated from:
+    #0 0x723ea72b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5bab1bee4ef8 in ft_strdup (/root/1337/minishell_42/minishell+0xeef8)
+    #2 0x5bab1beda299 in populate_command srcs/c_hamou/commands.c:97
+    #3 0x5bab1beda8fc in build_command srcs/c_hamou/commands.c:150
+    #4 0x5bab1beddac9 in main srcs/main.c:196
+    #5 0x723ea6e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+SUMMARY: AddressSanitizer: 3571 byte(s) leaked in 259 allocation(s).
+Minishell$
+Minishell$ ls
+minishell: ls: command not found
+Minishell$ clear
+minishell: clear: command not found
+Minishell$ ls
+minishell: ls: command not found
+Minishell$ pwd
+/root/1337/minishell_42
+Minishell$ cd
+HOME not set
+minishell: cd: : Bad address
+Minishell$ echo test > /dev/null
+test
+Minishell$ echo test > /dev/full
+test
+Minishell$ echo test > ""
+test
+Minishell$ cat < ""
+minishell: cat: command not found
+Minishell$
+
+
+```

@@ -6,11 +6,9 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:22:02 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/04 17:40:30 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/09 16:50:47 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../built_functions.h"
 
@@ -47,8 +45,9 @@ int	is_direct_path(const char *cmd_name)
 {
 	if (!cmd_name || !*cmd_name)
 		return (0);
-	return (cmd_name[0] == '/' || cmd_name[0] == '.'
-		|| (cmd_name[0] == '.' && cmd_name[1] == '.' && cmd_name[2] == '/'));
+	return (cmd_name[0] == '/' || cmd_name[0] == '.' ||
+		(cmd_name[0] == '.' && cmd_name[1] == '.' &&
+		cmd_name[2] == '/'));
 }
 
 char	*find_executable_path(char *cmd, char **envp)
@@ -106,4 +105,41 @@ int	wait_for_child(pid_t pid)
 	if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
 	return (1);
+}
+
+void	ft_execute_external(char **args, char **envp)
+{
+	int		i;
+	char	*cmd_path;
+
+	/* TEMPORARY DEBUG: Print args array contents */
+	printf("--- DEBUG: Executing with args ---\n");
+	if (args)
+	{
+		i = 0;
+		while (args[i] != NULL)
+		{
+			printf("  arg[%d]: \"%s\"\n", i, args[i]);
+			i++;
+		}
+		printf("  arg[%d]: (NULL) <-- Should be the last line\n", i);
+	}
+	else
+		printf("  args array is NULL!\n");
+	printf("--- END DEBUG ---\n");
+
+	if (!args || !args[0])
+		exit(0);
+	cmd_path = find_executable_path(args[0], envp);
+	if (cmd_path == NULL)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(args[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+		exit(127);
+	}
+	execve(cmd_path, args, envp);
+	perror("execve");
+	free(cmd_path);
+	exit(1);
 }
