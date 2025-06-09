@@ -1,0 +1,10 @@
+Makefile
+bug.txt
+en.subject.pdf
+minishell
+ouss.txt
+outfile.txt
+srcs
+t9ba.txt
+tes.c
+text.c
