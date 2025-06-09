@@ -17,7 +17,7 @@ INCDIR      := srcs/includes
 # === Source files ===
 HAMOU_SRC := \
 	$(C_HAMOU_DIR)/commands.c $(C_HAMOU_DIR)/ex.c $(C_HAMOU_DIR)/free.c $(C_HAMOU_DIR)/tokenization.c \
-	$(C_HAMOU_DIR)/utils.c $(C_HAMOU_DIR)/utils2.c  $(C_HAMOU_DIR)/expand.c srcs/main.c
+	$(C_HAMOU_DIR)/utils.c $(C_HAMOU_DIR)/utils2.c  $(C_HAMOU_DIR)/expand.c srcs/main.c srcs/signal_handler.c
 
 SPUVR_SRC := \
 	$(C_SPUVR_DIR)/built-ins.c $(C_SPUVR_DIR)/built-ins1.c $(C_SPUVR_DIR)/env.c $(C_SPUVR_DIR)/execute_heart.c $(C_SPUVR_DIR)/utils.c \

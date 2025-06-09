@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/01 22:44:29 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/09 12:44:19 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ int main(int ac, char **av, char **env)
     (void)ac;
     (void)av;
     my_envp = init_environment(env);
+	setup_signals();
     while(1)
     {
         line = readline("Minishell$ ");

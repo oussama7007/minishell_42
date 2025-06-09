@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/05/26 22:29:25 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/09 12:46:07 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ void add_command(t_command **commands, t_command *command);
 void free_command(t_command *cmd);
 t_command *new_command(void);
 
+//signals
+void	setup_signals(void);
+void	setup_child_signals(void);
 
 #endif
 

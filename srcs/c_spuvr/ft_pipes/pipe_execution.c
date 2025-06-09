@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:44:44 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/09 12:39:24 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/09 12:45:28 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,45 +17,43 @@ static void	setup_child_io(int prev_pipe, int *pipe_fds, t_command *cmd)
 	if (prev_pipe != STDIN_FILENO)
 	{
 		if (dup2(prev_pipe, STDIN_FILENO) == -1)
-		{
-			perror("minishell: dup2 stdin");
 			exit(1);
-		}
 		close(prev_pipe);
 	}
 	if (cmd->next)
 	{
 		if (dup2(pipe_fds[1], STDOUT_FILENO) == -1)
-		{
-			perror("minishell: dup2 stdout");
 			exit(1);
-		}
 		close(pipe_fds[1]);
 		close(pipe_fds[0]);
 	}
 }
 
-static void	execute_single_command(t_command *cmd, char ***env_ptr)
+static void	execute_single_cmd(t_command *cmd, char **envp)
 {
-	int	builtin_status;
+	char	*cmd_path;
+	int		builtin_status;
 
 	if (!cmd || !cmd->args || !cmd->args[0])
 		exit(0);
-	builtin_status = is_built_ins(cmd->args, env_ptr);
-	if (builtin_status == 999)
-	{
-		execute_child_process(find_executable_path(cmd->args[0], *env_ptr), 
-			cmd->args, *env_ptr);
-	}
-	else
+	builtin_status = is_built_ins(cmd->args, &envp);
+	if (builtin_status != 999)
 		exit(builtin_status);
+	cmd_path = find_executable_path(cmd->args[0], envp);
+	if (!cmd_path)
+	{
+		handle_command_not_found(cmd->args[0]);
+		exit(127);
+	}
+	execute_child_process(cmd_path, cmd->args, envp);
 }
 
 static void	execute_child(t_command *cmd, char ***env_ptr, int prev, int *pipe_fd)
 {
 	setup_child_io(prev, pipe_fd, cmd);
+	setup_child_signals();
 	handle_redirection_child(cmd);
-	execute_single_command(cmd, env_ptr);
+	execute_single_cmd(cmd, *env_ptr);
 }
 
 static void	handle_parent_pipes(int *prev_pipe, int *pipe_fds, t_command *cmd)
@@ -105,16 +103,10 @@ int	execute_pipeline(t_command *commands, char ***env_ptr)
 	while (cmd)
 	{
 		if (cmd->next && pipe(pipe_fds) == -1)
-		{
-			perror("minishell: pipe");
 			return (1);
-		}
 		pid = fork();
 		if (pid == -1)
-		{
-			perror("minishell: fork");
 			return (1);
-		}
 		if (pid == 0)
 			execute_child(cmd, env_ptr, prev_pipe, pipe_fds);
 		last_pid = pid;
