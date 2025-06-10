@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/10 14:14:17 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/10 14:24:11 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,39 +156,37 @@ int main(int ac, char **av, char **env)
     int         ex_status;
     t_token     *tokens = NULL;
     t_command   *commands;
-    //(void)ac;
-    //(void)av;
     
     my_envp = init_environment(env);
     setup_signals();
-    while(1)
+    while (1)
     {
         line = readline("Minishell$ ");
-        if(!line)
+        if (!line)
         {
-            write(1,"exit\n",5);
+            write(1, "exit\n", 5);
             free_environment(my_envp);
             rl_clear_history();
             exit(0);
         }
-        if(*line)
+        if (*line)
             add_history(line);
-        if(!handle_quotes(line) || !check_invalid_char(line))
+        if (!handle_quotes(line) || !check_invalid_char(line))
         {
-            if(!handle_quotes(line))
+            if (!handle_quotes(line))
                 write(2, "Minishell: Quotes aren't closed\n", 33);
             else
                 write(2, "Minishell: Invalid character\n", 30);
             free(line);
             continue;
         }
-        tokens = tokenize(line); 
-        if(!tokens || !*line)
+        tokens = tokenize(line);
+        if (!tokens || !*line)
         {
             free(line);
             continue;
         }
-        if(!validate_syntax(tokens))
+        if (!validate_syntax(tokens))
         {
             free(line);
             free_tokens(tokens);
@@ -199,12 +197,12 @@ int main(int ac, char **av, char **env)
         if (commands)
         {
             ex_status = ft_execute_command_list(commands, &my_envp);
-            free_command(commands); // <-- FIX: Free commands list after execution       
+            free_command(commands); // Free the commands list after execution
         }
         free_tokens(tokens);
         free(line);
     }
-    free_environment(my_envp); // Cleanup environment
-    rl_clear_history();         // Cleanup readline history
+    free_environment(my_envp); // Cleanup the custom environment
+    rl_clear_history();         // Cleanup readline history memory
     return (ex_status);
 }
