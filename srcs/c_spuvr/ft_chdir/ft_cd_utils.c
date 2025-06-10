@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:04:43 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/26 17:06:09 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/09 17:18:47 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*target_path(char **args, char **envp)
 
 	if (!args[1] || args[1][0] == '\0')
 	{
-		path = my_getenv("HOME", envp);
+		path = ft_strdup(my_getenv("HOME", envp));
 		if (!path || path[0] == '\0')
 			return (ft_putstr_fd("HOME not set\n", 2), NULL);
 	}
@@ -34,7 +34,7 @@ char	*target_path(char **args, char **envp)
 		ft_putendl_fd(path, 1);
 	}
 	else
-		path = args[1];
+		path = ft_strdup(args[1]);
 	return (path);
 }
 
