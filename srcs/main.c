@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/10 14:24:11 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/10 14:33:50 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,13 @@ int main(int ac, char **av, char **env)
         }
         tokens = expand(&tokens, my_envp);
         commands = build_command(tokens);
-        if (commands)
+		if (commands == NULL)
+		{
+			free(line);
+			free_tokens(tokens);
+			continue;
+		}
+        else if (commands)
         {
             ex_status = ft_execute_command_list(commands, &my_envp);
             free_command(commands); // Free the commands list after execution
