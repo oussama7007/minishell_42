@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:22:02 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/09 17:05:06 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/11 16:45:11 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ char	*find_executable_path(char *cmd, char **envp)
 void	execute_child_process(char *cmd_path, char **args, char **envp)
 {
 	execve(cmd_path, args, envp);
-	ft_putstr_fd("minishell: pppp ", 2);
 	ft_putstr_fd(args[0], 2);
 	if (errno == ENOEXEC)
 	{
