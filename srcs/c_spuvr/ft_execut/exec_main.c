@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:22:02 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/11 16:45:11 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/11 19:45:00 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,24 +108,7 @@ int	wait_for_child(pid_t pid)
 
 void	ft_execute_external(char **args, char **envp)
 {
-	int		i;
 	char	*cmd_path;
-
-	/* TEMPORARY DEBUG: Print args array contents */
-	printf("--- DEBUG: Executing with args ---\n");
-	if (args)
-	{
-		i = 0;
-		while (args[i] != NULL)
-		{
-			printf("  arg[%d]: \"%s\"\n", i, args[i]);
-			i++;
-		}
-		printf("  arg[%d]: (NULL) <-- Should be the last line\n", i);
-	}
-	else
-		printf("  args array is NULL!\n");
-	printf("--- END DEBUG ---\n");
 
 	if (!args || !args[0])
 		exit(0);
