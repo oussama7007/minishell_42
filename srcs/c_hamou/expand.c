@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:20:52 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/02 17:44:23 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/14 14:20:12 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static char *expand_value_func(char *value, char **envp)
             //     } 
             //     continue;
             // }
-            if(value[i] == '?')
+            if(value[i] == '?' || value[i] == '"' || value[i] == '\'' )
             {
                 // tanchouf kifach ndir liha;
                 continue;
