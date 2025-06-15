@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/28 15:39:09 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/04 17:46:20 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	ft_execute_command_list(t_command *cmd_list, char ***env_ptr)
 
 	if (!cmd_list || !cmd_list->args || !cmd_list->args[0])
 		return (0);
+	if (cmd_list->next)
+		return (execute_pipeline(cmd_list, env_ptr));
 	builtin_status = is_built_ins(cmd_list->args, env_ptr);
 	if (builtin_status == 999)
 		status = ft_execute_external(cmd_list, *env_ptr);

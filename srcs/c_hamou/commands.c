@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:22:51 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/01 18:28:09 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/09 17:05:59 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,36 +32,40 @@ void free_command(t_command *cmd)
     int i;
 
     if (!cmd)
-        return ;
-    free(cmd->cmd);
+        return;
+    if (cmd->cmd)
+        free(cmd->cmd);
     if (cmd->args)
     {
         i = -1;
-        while(cmd->args[++i])
+        while (cmd->args[++i])
             free(cmd->args[i]);
         free(cmd->args);
     }
     if (cmd->red_in)
     {
         i = -1;
-        while(cmd->red_in[++i])
+        while (cmd->red_in[++i])
             free(cmd->red_in[i]);
         free(cmd->red_in);
     }
     if (cmd->red_out)
     {
         i = -1;
-        while(cmd->red_out[++i])
+        while (cmd->red_out[++i])
             free(cmd->red_out[i]);
         free(cmd->red_out);
     }
-    free(cmd->append);
-    free(cmd->heredoc_delimiter);
+    if (cmd->append)
+        free(cmd->append);
+    if (cmd->heredoc_delimiter)
+        free(cmd->heredoc_delimiter);
     free_command(cmd->next);
     free(cmd);
 }
 
-static int populate_command(t_command *cmd, t_token *tokens, int arg_c, int in_c, int out_c)
+static int populate_command(t_command *cmd, t_token *tokens, int arg_c,
+                              int in_c, int out_c)
 {
     int i = 0, j = 0, k = 0, append_idx = 0;
 
@@ -84,7 +88,8 @@ static int populate_command(t_command *cmd, t_token *tokens, int arg_c, int in_c
             tokens = tokens->next;
             cmd->red_in[j++] = ft_strdup(tokens->value);
         }
-        else if ((tokens->type == TOKEN_RED_OUT || tokens->type == TOKEN_RED_APPEND) && tokens->next)
+        else if ((tokens->type == TOKEN_RED_OUT ||
+                 tokens->type == TOKEN_RED_APPEND) && tokens->next)
         {
             cmd->append[append_idx] = (tokens->type == TOKEN_RED_APPEND);
             tokens = tokens->next;
@@ -109,7 +114,7 @@ void add_command(t_command **commands, t_command *command)
     t_command *tmp;
 
     if (!command)
-        return ;
+        return;
     if (!*commands)
         *commands = command;
     else
@@ -128,7 +133,7 @@ t_command *build_command(t_token *tokens)
     int arg_count = 0, red_in_count = 0, red_out_count = 0;
 
     if (tokens == NULL)
-        return 0;
+        return (0);
     while (tmp)
     {
         if (!current)
@@ -140,15 +145,19 @@ t_command *build_command(t_token *tokens)
         }
         if (tmp->type == TOKEN_WORD)
             arg_count++;
-        else if (tmp->type == TOKEN_RED_IN && tmp->next) // the second condition 
+        else if (tmp->type == TOKEN_RED_IN && tmp->next)
             red_in_count++;
-        else if ((tmp->type == TOKEN_RED_OUT || tmp->type == TOKEN_RED_APPEND) && tmp->next)  // the second condition
+        else if ((tmp->type == TOKEN_RED_OUT ||
+                  tmp->type == TOKEN_RED_APPEND) && tmp->next)
             red_out_count++;
-        if (tmp->type == TOKEN_PIPE || !tmp->next) // the second condition 
+        if (tmp->type == TOKEN_PIPE || !tmp->next)
         {
             if (arg_count || red_in_count || red_out_count)
-                if (!populate_command(current, tokens, arg_count, red_in_count, red_out_count))
+            {
+                if (!populate_command(current, tokens, arg_count,
+                                       red_in_count, red_out_count))
                     return (free_command(commands), NULL);
+            }
             current = NULL;
             arg_count = 0;
             red_in_count = 0;
