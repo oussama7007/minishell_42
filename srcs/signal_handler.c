@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 12:43:39 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/09 12:43:59 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/15 10:20:38 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ static void	handle_sigint(int sig)
 	(void)sig;
 	write(1, "\n", 1);
 	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	//rl_replace_line("", 0);
+	//rl_redisplay();
 }
 
 static void	handle_sigquit(int sig)

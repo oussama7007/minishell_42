@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/06/14 16:00:16 by oait-si-         ###   ########.fr       */
-=======
-/*   Updated: 2025/06/10 14:33:50 by oadouz           ###   ########.fr       */
->>>>>>> 26568d89e0ad5ee8a581310dd07b7a4fdce548ca
+/*   Updated: 2025/06/15 11:01:46 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +166,7 @@ int main(int ac, char **av, char **env)
         {
             write(1, "exit\n", 5);
             free_environment(my_envp);
-            rl_clear_history();
+            //rl_clear_history();
             exit(0);
         }
         if (*line)
@@ -184,7 +180,7 @@ int main(int ac, char **av, char **env)
             free(line);
             continue;
         }
-        tokens = tokenize(line);
+        tokens = tokenize(line, env);
         if (!tokens || !*line)
         {
             free(line);
@@ -196,7 +192,7 @@ int main(int ac, char **av, char **env)
             free_tokens(tokens);
             continue;
         }
-        tokens = expand(&tokens, my_envp);
+        //tokens = expand(&tokens, my_envp);
         commands = build_command(tokens);
 		if (commands == NULL)
 		{
@@ -213,6 +209,6 @@ int main(int ac, char **av, char **env)
         free(line);
     }
     free_environment(my_envp); // Cleanup the custom environment
-    rl_clear_history();         // Cleanup readline history memory
+    //rl_clear_history();         // Cleanup readline history memory
     return (ex_status);
 }

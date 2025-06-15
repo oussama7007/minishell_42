@@ -6,140 +6,214 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/15 10:15:47 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/15 14:31:56 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-
-
-// 
-t_token *tokenize(char *line)
+static t_token *handle_operator(char **start, int quotes_type)
 {
-    t_token *tokens = NULL;
-    char    *start = line;
-    char    *end;
-    char    *word;
+    char *word;
     t_token *token;
-    char    *accumulator = NULL;
-    char    *tmp;
-    char quote_type;
-    int quotes_type = 0;
-    
-    while (*start) 
+    char *end = *start;
+
+    if (*end == '<' && *(end + 1) == '<')
+        end += 2;
+    else if (*end == '>' && *(end + 1) == '>')
+        end += 2;
+    else
+        end++;
+    word = ft_strndup(*start, end - *start);
+    if (!word)
+        return (NULL);
+    token = new_token(get_token_type(word), word, quotes_type);
+    free(word);
+    *start = end;
+    return (token);
+}
+
+static char *handle_unquoted_part(char **start, int *quotes_type, char **envp)
+{
+    char *accumulator = NULL;
+    char *tmp;
+    char *var_name;
+    char *var_value;
+    char chr_str[2] = {0, 0};
+    char *end = *start;
+
+    *quotes_type = 0;
+
+    while (*end && *end != ' ' && *end != '\t' && *end != '|' &&
+           *end != '<' && *end != '>' && *end != '\'' && *end != '"')
     {
-        // Skip leading spaces
-        while (*start && (*start == ' ' || *start == '\t'))
-            start++;
-        // Check if it's an operator
-        if (*start && (*start == '|'  || *start == '<' || *start == '>'))
+        if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '_' || *(end + 1) == '\'' || *(end + 1) == '"'))
         {
-            end = start;
-            if (*start && (*start == '<' && *(start + 1) == '<'))
-                end += 2;
-            else if (*start && (*start == '>' && *(start + 1) == '>'))
-                end += 2;
-            else
-                end++;
-            word = ft_strndup(start, end - start);
-            if (!word)
-                return free_tokens(tokens), NULL;
-            token = new_token(get_token_type(word), word, quotes_type);
-            free(word);
-            if (!token)
-                return free_tokens(tokens), NULL;
-            add_token(&tokens, token);
-            start = end;
-        }
-        else
-        {
-            // Accumulate a word (unquoted + quoted parts)
-            accumulator = NULL;
-            while (*start && *start != ' ' && *start != '\t' &&
-                   *start != '|' && *start != '<' && *start != '>')
+            end++;
+            if (*end == '"') // Handle $"string"
             {
-                if (*start && (*start == '\'' || *start == '"')) // Handle quoted string
+                end++; // Skip the opening "
+                char *quote_start = end;
+                while (*end && *end != '"') end++;
+                if (*end == '"')
                 {
-                    quote_type = *start;
-                    if(*start && quote_type == '"')
-                        quotes_type = 2;
-                    else 
-                        quotes_type = 1; // 1
-                    start++; // Skip opening quote
-                    end = start;
-                    while (*end && *end != quote_type)
-                        end++;
-                    
-                    // if (*end != quote_type)
-                    // {
-                    //     write(2, "minishell: syntax error: unmatched quote\n", 40);
-                    //     free(accumulator);
-                    //     free_tokens(tokens);
-                    //     return NULL;
-                    // }
-                    word = ft_strndup(start, end - start);
-                    if (!word)
-                    {
-                        free(accumulator);
-                        free_tokens(tokens);
-                        return NULL;
-                    }
+                    char *quoted = ft_strndup(quote_start, end - quote_start);
+                    char *expanded = expand_value_func(quoted, envp); // Expand variables inside $"..."
                     tmp = accumulator;
-                    accumulator = ft_strjoin(tmp, word);
+                    accumulator = ft_strjoin(tmp, expanded);
                     free(tmp);
-                    free(word);
-                    if (!accumulator)
-                    {
-                        free_tokens(tokens);
-                        return NULL;
-                    }
-                    start = end + 1; // Skip closing quote
+                    free(quoted);
+                    free(expanded);
+                    end++; // Skip the closing "
                 }
                 else
                 {
-                    quotes_type = 0;
-                    // Handle unquoted part
-                    end = start;
-                    while (*end && *end != ' ' && *end != '\t' &&
-                           *end != '|' && *end != '<' && *end != '>' &&
-                           *end != '\'' && *end != '"')
-                        end++;
-                    word = ft_strndup(start, end - start);
-                    if (!word)
-                    {
-                        free(accumulator);
-                        free_tokens(tokens);
-                        return NULL;
-                    }
-                    tmp = accumulator;
-                    accumulator = ft_strjoin(tmp, word);
-                    free(tmp);
-                    free(word);
-                    if (!accumulator)
-                    {
-                        free_tokens(tokens);
-                        return NULL;
-                    }
-                    start = end;
-                }
-                
-            }
-            if (accumulator)
-            {
-                token = new_token(get_token_type(accumulator), accumulator, quotes_type);
-                free(accumulator);
-                if (!token)
-                {
-                    free_tokens(tokens);
+                    // Handle unmatched quote error
+                    free(accumulator);
                     return NULL;
                 }
-                add_token(&tokens, token);
+            }
+            else // Handle regular $VARIABLE
+            {
+                char *var_start = end;
+                while (*end && (ft_isalnum(*end) || *end == '_') &&
+                       *end != ' ' && *end != '\t' && *end != '|' &&
+                       *end != '<' && *end != '>' && *end != '\'' && *end != '"')
+                    end++;
+                var_name = ft_strndup(var_start, end - var_start);
+                var_value = get_var_value(var_name, envp);
+                tmp = accumulator;
+                accumulator = ft_strjoin(tmp, var_value ? var_value : "");
+                free(tmp);
+                free(var_name);
             }
         }
-        
+        else
+        {
+            chr_str[0] = *end;
+            tmp = accumulator;
+            accumulator = ft_strjoin(tmp, chr_str);
+            free(tmp);
+            end++;
+        }
     }
-    return tokens;
+    *start = end;
+    return accumulator;
+}
+static char *handle_quoted_part(char **start, int *quotes_type, char **envp)
+{
+    char quote_type = **start;
+    char *end;
+    char *accumulator = NULL;
+    char *tmp;
+    char *var_name;
+    char *var_value;
+    char chr_str[2] = {0, 0};
+
+    if (quote_type == '"')
+        *quotes_type = 2;
+    else
+        *quotes_type = 1;
+    
+    (*start)++;
+    end = *start;
+    if (quote_type == '\'')
+    {
+        while (*end && *end != quote_type) end++;
+        accumulator = ft_strndup(*start, end - *start);
+    }
+    else // Double quotes
+    {
+        while (*end && *end != quote_type)
+        {
+            if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '_' || *(end + 1) == '\'' || *(end + 1) == '"'))
+            {
+                end++;
+                char *var_start = end;
+                while (*end && *end != quote_type && (ft_isalnum(*end) || *end == '_'))
+                    end++;
+                var_name = ft_strndup(var_start, end - var_start);
+                var_value = get_var_value(var_name, envp);
+                tmp = accumulator;
+                accumulator = ft_strjoin(tmp, var_value ? var_value : "");
+                free(tmp);
+                free(var_name);
+            }
+            else
+            {
+                chr_str[0] = *end;
+                tmp = accumulator;
+                accumulator = ft_strjoin(tmp, chr_str);
+                free(tmp);
+                end++;
+            }
+        }
+    }
+    if (*end != quote_type)
+    {
+        free(accumulator);
+        return NULL; // Unmatched quote error
+    }
+    *start = end + 1;
+    return accumulator;
+}
+
+
+static t_token *handle_word(char **start, int *quotes_type , char **my_env)
+{
+    char *accumulator = NULL;
+    char *segment;
+    char *tmp;
+    t_token *token = NULL;
+    char *expanded_value;
+    while (**start && **start != ' ' && **start != '\t'
+        && **start != '|' && **start != '<' && **start != '>')
+    {
+        if (**start == '\'' || **start == '"')
+            segment = handle_quoted_part(start, quotes_type, my_env);
+        else
+            segment = handle_unquoted_part(start, quotes_type, my_env);
+        if (!segment)
+            return (free(accumulator), NULL);
+        tmp = accumulator;
+        accumulator = ft_strjoin(tmp, segment);
+        free(tmp);
+        free(segment);
+        if (!accumulator)
+            return (NULL);
+    }
+    token = new_token(get_token_type(accumulator), accumulator, *quotes_type);
+    free(accumulator);
+    return (token);
+}
+t_token     *tokenize(char *line, char **my_env)
+{
+    t_token *tokens = NULL;
+    char *start = line;
+    t_token *token;
+    int quotes_type = 0;
+
+    while (*start)
+    {
+        while (*start && (*start == ' ' || *start == '\t'))
+            start++;
+        // if (!*start)
+        //     break;
+        if (*start == '|' || *start == '<' || *start == '>')
+        {
+            token = handle_operator(&start, quotes_type);
+            if (!token)
+                return (free_tokens(tokens), NULL);
+            add_token(&tokens, token);
+        }
+        else
+        {
+            token = handle_word(&start, &quotes_type, my_env);
+            if (!token)
+                return (free_tokens(tokens), NULL);
+            add_token(&tokens, token);
+        }
+    }
+    return (tokens);
 }
 t_token     *new_token(int type, char *word, int quotes_type)
 {
@@ -182,224 +256,4 @@ void    add_token(t_token **tokens, t_token *token)
             tmp = tmp->next;
         tmp->next = token;
     }
-} 
-
-
-
-
-
-void process_mixed_tokens(char *mixed, t_token **tokens, int default_quotes_type) {
-//     int i = 0;
-
-//     // Case 1: If the string starts with '$', extract the variable part
-//     if (mixed[0] == '$') {
-//         i++; // skip the '$'
-//         // Extract valid variable name characters (alphanumeric or underscore)
-//         while (mixed[i] && (ft_isalnum(mixed[i]) || mixed[i] == '_')) {
-//             i++;
-//         }
-//         // token1: the variable portion (e.g. "$HOME")
-//         char *token1 = ft_strndup(mixed, i);
-//         if (!token1)
-//             return;
-//         // Use quotes type 2 (double quotes) to allow expansion for variable tokens.
-//         t_token *tok1 = new_token(get_token_type(token1), token1, 2);
-//         free(token1);
-//         add_token(tokens, tok1);
-
-//         // Case 2: If there is a remainder (literal part) after a valid variable,
-//         // only add it as another token if it does not start with a quote.
-//         if (mixed[i] && mixed[i] != '"' && mixed[i] != '\'') {
-//             char *token2 = ft_strdup(mixed + i);
-//             if (!token2)
-//                 return;
-//             t_token *tok2 = new_token(get_token_type(token2), token2, default_quotes_type);
-//             free(token2);
-//             add_token(tokens, tok2);
-//         }
-//     } else {
-//         // Otherwise, if the mixed text does not start with '$', simply add it as one token.
-//         char *token1 = ft_strdup(mixed);
-//         if (!token1)
-//             return;
-//         t_token *tok1 = new_token(get_token_type(token1), token1, default_quotes_type);
-//         free(token1);
-//         add_token(tokens, tok1);
-//     }
-// }
-// t_token *tokenize(char *line)
-// {
-//     t_token *tokens = NULL;
-//     char    *start = line;
-//     char    *end;
-//     char    *word;
-//     t_token *token;
-//     char    *accumulator = NULL;
-//     char    *tmp;
-//     char    quote_type;
-//     int     quotes_type = 0;
-//     char *temp;
-
-//     temp = NULL;
-//     while (*start) 
-//     {
-//         // Skip leading spaces
-//         while (*start && (*start == ' ' || *start == '\t'))
-//             start++;
-//         // Check if it's an operator
-//         if (*start && (*start == '|' || *start == '<' || *start == '>'))
-//         {
-//             end = start;
-//             if (*start && (*start == '<' && *(start + 1) == '<'))
-//                 end += 2;
-//             else if (*start && (*start == '>' && *(start + 1) == '>'))
-//                 end += 2;
-//             else
-//                 end++;
-//             word = ft_strndup(start, end - start);
-//             if (!word)
-//                 return free_tokens(tokens), NULL;
-//             token = new_token(get_token_type(word), word, quotes_type);
-//             free(word);
-//             if (!token)
-//                 return free_tokens(tokens), NULL;
-//             add_token(&tokens, token);
-//             start = end;
-//         }
-//         else
-//         {
-//             // Accumulate a word (unquoted + quoted parts)
-//             accumulator = NULL;
-//             quotes_type = 0; // Default for unquoted parts
-//             while (*start && *start != ' ' && *start != '\t' &&
-//                    *start != '|' && *start != '<' && *start != '>')
-//             {
-//                 // Handle special case: $"string"
-//                 if (*start == '$' && *(start + 1) == '"')
-//                 {
-//                     quotes_type = 1; // Mark as non-expandable
-//                     start += 2; // Skip '$"'
-//                     end = start;
-//                     while (*end && *end != '"')
-//                         end++;
-//                     // if (*end != '"') // Unmatched quote
-//                     // {
-//                     //     write(2, "minishell: syntax error: unmatched quote\n", 40);
-//                     //     free(accumulator);
-//                     //     free_tokens(tokens);
-//                     //     return NULL;
-//                     // }
-//                     word = ft_strndup(start, end - start);
-//                     if (!word)
-//                     {
-//                         free(accumulator);
-//                         free_tokens(tokens);
-//                         return NULL;
-//                     }
-//                     tmp = accumulator;
-//                     accumulator = ft_strjoin(tmp, word);
-//                     free(tmp);
-//                     free(word);
-//                     if (!accumulator)
-//                     {
-//                         free_tokens(tokens);
-//                         return NULL;
-//                     }
-//                     start = end + 1; // Skip closing quote
-//                 }
-//                 // Handle regular quoted string
-//                 int i = 0;
-//                 if (*start && (*start == '\'' || *start == '"'))
-//                 {
-//                     if (i += 0)
-//                     {
-//                         temp = start;
-//                         i = 1;
-//                     }
-//                     quote_type = *start;
-//                     if (*start == '"')
-//                         quotes_type = 2; // Double quotes allow expansion
-//                     else
-//                         quotes_type = 1; // Single quotes prevent expansion
-//                     start++; // Skip opening quote
-//                     end = start;
-//                     while (*end && *end != quote_type)
-//                         end++;
-//                     // if (*end != quote_type) // Unmatched quote
-//                     // {
-//                     //     write(2, "minishell: syntax error: unmatched quote\n", 40);
-//                     //     free(accumulator);
-//                     //     free_tokens(tokens);
-//                     //     return NULL;
-//                     // }
-//                     word = ft_strndup(start, end - start);
-//                     if (!word)
-//                     {
-//                         free(accumulator);
-//                         free_tokens(tokens);
-//                         return NULL;
-//                     }
-//                     tmp = accumulator;
-//                     accumulator = ft_strjoin(tmp, word);
-//                     free(tmp);
-//                     free(word);
-//                     if (!accumulator)
-//                     {
-//                         free_tokens(tokens);
-//                         return NULL;
-//                     }
-//                     start = end + 1; // Skip closing quote
-//                 }
-//                 // Handle unquoted part
-//                 else
-//                 {
-//                     if (quotes_type != 1) // Only set to 0 if not already marked by $"string"
-//                         quotes_type = 0;
-//                     end = start;
-//                     while (*end && *end != ' ' && *end != '\t' &&
-//                            *end != '|' && *end != '<' && *end != '>' &&
-//                            *end != '\'' && *end != '"' &&
-//                            !(*end == '$' && *(end + 1) == '"'))
-//                         end++;
-//                     word = ft_strndup(start, end - start);
-//                     if (!word)
-//                     {
-//                         free(accumulator);
-//                         free_tokens(tokens);
-//                         return NULL;
-//                     }
-//                     tmp = accumulator;
-//                     accumulator = ft_strjoin(tmp, word);
-//                     free(tmp);
-//                     free(word);
-//                     if (!accumulator)
-//                     {
-//                         free_tokens(tokens);
-//                         return NULL;
-//                     }
-//                     start = end;
-//                 }
-//             }
-//             if (!ft_strchr(word,'$'))
-//             {
-//             if (accumulator)
-//             {
-//                 token = new_token(get_token_type(accumulator), accumulator, quotes_type);
-//                 free(accumulator);
-//                 if (!token)
-//                 {
-//                     free_tokens(tokens);
-//                     return NULL;
-//                 }
-//                 add_token(&tokens, token);
-//             }
-//             }
-//             else
-//             {
-//                 process_mixed_tokens(accumulator, &tokens, quotes_type);
-//                 free(accumulator);
-//             }
-//         }
-//     }
-//     return tokens;
-// }
+}
