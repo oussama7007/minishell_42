@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/15 11:01:46 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:50:42 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ int main(int ac, char **av, char **env)
             free(line);
             continue;
         }
-        tokens = tokenize(line, env);
+        tokens = tokenize(line, my_envp);
         if (!tokens || !*line)
         {
             free(line);
@@ -212,3 +212,6 @@ int main(int ac, char **av, char **env)
     //rl_clear_history();         // Cleanup readline history memory
     return (ex_status);
 }
+
+
+// exit status look for witpid .. somehting like that 

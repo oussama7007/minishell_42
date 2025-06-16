@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/15 14:31:56 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:54:41 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,74 +30,6 @@ static t_token *handle_operator(char **start, int quotes_type)
     free(word);
     *start = end;
     return (token);
-}
-
-static char *handle_unquoted_part(char **start, int *quotes_type, char **envp)
-{
-    char *accumulator = NULL;
-    char *tmp;
-    char *var_name;
-    char *var_value;
-    char chr_str[2] = {0, 0};
-    char *end = *start;
-
-    *quotes_type = 0;
-
-    while (*end && *end != ' ' && *end != '\t' && *end != '|' &&
-           *end != '<' && *end != '>' && *end != '\'' && *end != '"')
-    {
-        if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '_' || *(end + 1) == '\'' || *(end + 1) == '"'))
-        {
-            end++;
-            if (*end == '"') // Handle $"string"
-            {
-                end++; // Skip the opening "
-                char *quote_start = end;
-                while (*end && *end != '"') end++;
-                if (*end == '"')
-                {
-                    char *quoted = ft_strndup(quote_start, end - quote_start);
-                    char *expanded = expand_value_func(quoted, envp); // Expand variables inside $"..."
-                    tmp = accumulator;
-                    accumulator = ft_strjoin(tmp, expanded);
-                    free(tmp);
-                    free(quoted);
-                    free(expanded);
-                    end++; // Skip the closing "
-                }
-                else
-                {
-                    // Handle unmatched quote error
-                    free(accumulator);
-                    return NULL;
-                }
-            }
-            else // Handle regular $VARIABLE
-            {
-                char *var_start = end;
-                while (*end && (ft_isalnum(*end) || *end == '_') &&
-                       *end != ' ' && *end != '\t' && *end != '|' &&
-                       *end != '<' && *end != '>' && *end != '\'' && *end != '"')
-                    end++;
-                var_name = ft_strndup(var_start, end - var_start);
-                var_value = get_var_value(var_name, envp);
-                tmp = accumulator;
-                accumulator = ft_strjoin(tmp, var_value ? var_value : "");
-                free(tmp);
-                free(var_name);
-            }
-        }
-        else
-        {
-            chr_str[0] = *end;
-            tmp = accumulator;
-            accumulator = ft_strjoin(tmp, chr_str);
-            free(tmp);
-            end++;
-        }
-    }
-    *start = end;
-    return accumulator;
 }
 static char *handle_quoted_part(char **start, int *quotes_type, char **envp)
 {
@@ -125,18 +57,20 @@ static char *handle_quoted_part(char **start, int *quotes_type, char **envp)
     {
         while (*end && *end != quote_type)
         {
-            if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '_' || *(end + 1) == '\'' || *(end + 1) == '"'))
+            if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '_' || *(end + 1) == '?'))
             {
                 end++;
                 char *var_start = end;
-                while (*end && *end != quote_type && (ft_isalnum(*end) || *end == '_'))
+                while (*end && *end != quote_type && (ft_isalnum(*end) || *end == '_' || *end == '?'))
                     end++;
                 var_name = ft_strndup(var_start, end - var_start);
                 var_value = get_var_value(var_name, envp);
                 tmp = accumulator;
-                accumulator = ft_strjoin(tmp, var_value ? var_value : "");
+                accumulator = ft_strjoin(tmp, var_value);
                 free(tmp);
                 free(var_name);
+                if (var_value != get_var_value(var_name, envp))
+                    free(var_value);
             }
             else
             {
@@ -151,12 +85,84 @@ static char *handle_quoted_part(char **start, int *quotes_type, char **envp)
     if (*end != quote_type)
     {
         free(accumulator);
-        return NULL; // Unmatched quote error
+        return NULL;
     }
     *start = end + 1;
+    if (!accumulator)
+        accumulator = ft_strdup("");
     return accumulator;
 }
 
+static char *handle_unquoted_part(char **start, int *quotes_type, char **envp)
+{
+    char *accumulator = NULL;
+    char *tmp;
+    char *var_name;
+    char *var_value;
+    char chr_str[2] = {0, 0};
+    char *end = *start;
+
+    *quotes_type = 0;
+
+    while (*end && *end != ' ' && *end != '\t' && *end != '|' &&
+           *end != '<' && *end != '>' && *end != '\'' && *end != '"')
+    {
+        if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '_' || *(end + 1) == '?' || *(end + 1) == '"'))
+        {
+            end++;
+            if (*end == '"') // Handle $"string"
+            {
+                end++; // Skip the opening "
+                char *quote_start = end;
+                while (*end && *end != '"') end++;
+                if (*end == '"')
+                {
+                    char *quoted = ft_strndup(quote_start, end - quote_start);
+                    char *expanded = expand_value_func(quoted, envp);
+                    tmp = accumulator;
+                    accumulator = ft_strjoin(tmp, expanded);
+                    free(tmp);
+                    free(quoted);
+                    free(expanded);
+                    end++; // Skip the closing "
+                }
+                else
+                {
+                    free(accumulator);
+                    return NULL;
+                }
+            }
+            else // Handle regular $VARIABLE
+            {
+                char *var_start = end;
+                while (*end && (ft_isalnum(*end) || *end == '_' || *end == '?') &&
+                       *end != ' ' && *end != '\t' && *end != '|' &&
+                       *end != '<' && *end != '>' && *end != '\'' && *end != '"')
+                    end++;
+                var_name = ft_strndup(var_start, end - var_start);
+                var_value = get_var_value(var_name, envp);
+                tmp = accumulator;
+                accumulator = ft_strjoin(tmp, var_value );
+                free(tmp);
+                free(var_name);
+                //if (var_value != get_var_value(var_name, envp)) // Free only if allocated
+                    //free(var_value);
+            }
+        }
+        else
+        {
+            chr_str[0] = *end;
+            tmp = accumulator;
+            accumulator = ft_strjoin(tmp, chr_str);
+            free(tmp);
+            end++;
+        }
+    }
+    *start = end;
+    if (!accumulator)
+        accumulator = ft_strdup("");
+    return accumulator;
+}
 
 static t_token *handle_word(char **start, int *quotes_type , char **my_env)
 {
@@ -181,9 +187,14 @@ static t_token *handle_word(char **start, int *quotes_type , char **my_env)
         if (!accumulator)
             return (NULL);
     }
-    token = new_token(get_token_type(accumulator), accumulator, *quotes_type);
+    if(accumulator && accumulator[0])
+    {
+        token = new_token(get_token_type(accumulator), accumulator, *quotes_type);
+        free(accumulator);
+        return (token);
+    }
     free(accumulator);
-    return (token);
+    return (NULL);
 }
 t_token     *tokenize(char *line, char **my_env)
 {
@@ -205,7 +216,7 @@ t_token     *tokenize(char *line, char **my_env)
                 return (free_tokens(tokens), NULL);
             add_token(&tokens, token);
         }
-        else
+        else if(*start) // Check if there's still input to process
         {
             token = handle_word(&start, &quotes_type, my_env);
             if (!token)
@@ -232,6 +243,8 @@ t_token     *new_token(int type, char *word, int quotes_type)
 }
 int     get_token_type(char *line)
 {
+    if(!line && !line[0])
+        return(TOKEN_WORD);
     if(line[0] == '|')
         return (TOKEN_PIPE);
     if(line[0] == '<' && line[1] == '<')

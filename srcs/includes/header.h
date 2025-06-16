@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/15 13:54:28 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:51:09 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void    free_gc(t_head_list *head);
 /// ls -al <input1 <intpu2 arg1 arg2 arg3 >output1 | grep 
 
 //expand
-t_token *expand(t_token **tokens,char **env );
+t_token *expand(t_token **tokens,char **env);
 void        error(int type);
 int         validate_syntax(t_token *tokens);
 t_token     *tokenize(char *line, char **my_env);

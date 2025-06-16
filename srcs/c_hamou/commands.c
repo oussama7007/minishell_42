@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:22:51 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/09 17:05:59 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/16 15:27:58 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int populate_command(t_command *cmd, t_token *tokens, int arg_c,
                               int in_c, int out_c)
 {
     int i = 0, j = 0, k = 0, append_idx = 0;
-
+    int cmd_set = 0;
     cmd->args = malloc(sizeof(char *) * (arg_c + 1));
     cmd->red_in = malloc(sizeof(char *) * (in_c + 1));
     cmd->red_out = malloc(sizeof(char *) * (out_c + 1));
@@ -79,9 +79,12 @@ static int populate_command(t_command *cmd, t_token *tokens, int arg_c,
     {
         if (tokens->type == TOKEN_WORD)
         {
-            if (!i)
+            if (!cmd_set && tokens->value[0] != '\0') // Set cmd->cmd to first non-empty token
+            {
                 cmd->cmd = ft_strdup(tokens->value);
-            cmd->args[i++] = ft_strdup(tokens->value);
+                cmd_set = 1;
+            }
+            cmd->args[i++] = ft_strdup(tokens->value); // Always add to args
         }
         else if (tokens->type == TOKEN_RED_IN && tokens->next)
         {
@@ -106,6 +109,8 @@ static int populate_command(t_command *cmd, t_token *tokens, int arg_c,
     cmd->args[i] = NULL;
     cmd->red_in[j] = NULL;
     cmd->red_out[k] = NULL;
+    if (!cmd->cmd) // If no non-empty command was set, return failure
+        return (0);
     return (1);
 }
 

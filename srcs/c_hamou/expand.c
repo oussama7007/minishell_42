@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:20:52 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/15 14:02:01 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/15 17:12:37 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char *expand_value_func(char *str, char **envp)
             while (str[j] && (ft_isalnum(str[j]) || str[j] == '_')) j++;
             char *var_name = ft_substr(str, i, j - i);
             char *var_value = get_var_value(var_name, envp);
-            result = ft_strjoin(result, var_value ? var_value : "");
+            result = ft_strjoin(result, var_value);
             free(var_name);
             i = j;
         } else {
@@ -48,23 +48,3 @@ char *expand_value_func(char *str, char **envp)
     }
     return result;
 }
-// t_token *expand_value_func(t_token **tokens,char **env)
-// {
-//    t_token *tmp = *tokens;
-//    char *expand_value;
-
-//    while(tmp)
-//    {
-//         if(ft_strchr(tmp->value, '$') && tmp->quotes_type != 1)
-//         {
-//             expand_value = expand_value_func(tmp->value, env);
-//             if(expand_value)
-//             {
-//                 free(tmp->value);
-//                 tmp->value = expand_value;
-//             }
-//         }
-//         tmp = tmp->next;
-//    }
-//    return *tokens;
-// }
