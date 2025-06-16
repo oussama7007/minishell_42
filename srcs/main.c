@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/16 14:50:42 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:40:54 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int     check_single_quotes(char *line, int *i)
     }
     return 0;
 }
+
 
 int     check_double_quotes(char *line, int *i)
 {
@@ -205,6 +206,7 @@ int main(int ac, char **av, char **env)
             ex_status = ft_execute_command_list(commands, &my_envp);
             free_command(commands); // Free the commands list after execution
         }
+        
         free_tokens(tokens);
         free(line);
     }
