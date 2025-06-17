@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/16 14:54:41 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/17 10:48:30 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ static char *handle_unquoted_part(char **start, int *quotes_type, char **envp)
     {
         if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '_' || *(end + 1) == '?' || *(end + 1) == '"'))
         {
+            
             end++;
             if (*end == '"') // Handle $"string"
             {
@@ -134,6 +135,7 @@ static char *handle_unquoted_part(char **start, int *quotes_type, char **envp)
             }
             else // Handle regular $VARIABLE
             {
+            
                 char *var_start = end;
                 while (*end && (ft_isalnum(*end) || *end == '_' || *end == '?') &&
                        *end != ' ' && *end != '\t' && *end != '|' &&
@@ -142,7 +144,7 @@ static char *handle_unquoted_part(char **start, int *quotes_type, char **envp)
                 var_name = ft_strndup(var_start, end - var_start);
                 var_value = get_var_value(var_name, envp);
                 tmp = accumulator;
-                accumulator = ft_strjoin(tmp, var_value );
+                accumulator = ft_strjoin(tmp, var_value);
                 free(tmp);
                 free(var_name);
                 //if (var_value != get_var_value(var_name, envp)) // Free only if allocated
@@ -161,6 +163,7 @@ static char *handle_unquoted_part(char **start, int *quotes_type, char **envp)
     *start = end;
     if (!accumulator)
         accumulator = ft_strdup("");
+   
     return accumulator;
 }
 
@@ -179,16 +182,23 @@ static t_token *handle_word(char **start, int *quotes_type , char **my_env)
         else
             segment = handle_unquoted_part(start, quotes_type, my_env);
         if (!segment)
+        {
+            
             return (free(accumulator), NULL);
+        }
         tmp = accumulator;
         accumulator = ft_strjoin(tmp, segment);
         free(tmp);
         free(segment);
         if (!accumulator)
+        {
+            
             return (NULL);
+        }    
     }
-    if(accumulator && accumulator[0])
+    if(accumulator)
     {
+        
         token = new_token(get_token_type(accumulator), accumulator, *quotes_type);
         free(accumulator);
         return (token);
@@ -221,7 +231,8 @@ t_token     *tokenize(char *line, char **my_env)
             token = handle_word(&start, &quotes_type, my_env);
             if (!token)
                 return (free_tokens(tokens), NULL);
-            add_token(&tokens, token);
+            if(token)// check it 
+                add_token(&tokens, token);
         }
     }
     return (tokens);
