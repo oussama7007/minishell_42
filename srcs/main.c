@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/17 15:58:45 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/18 09:47:19 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,10 +133,6 @@ int     handle_quotes(char *line)
     return 1;
 }
 
-static void    t(void)
-{
-    system("leaks a.out");
-}
 
 int     check_invalid_char(char *line)
 {
@@ -209,18 +205,17 @@ int main(int ac, char **av, char **env)
 		}
         else if (commands)
         {
-            //print_commands(commands);
+ 
             ex_status = ft_execute_command_list(commands, &my_envp);
             free_command(commands); // Free the commands list after execution
-           // printf("Free the commands list after execution");
-           // printf("ex_status (%d)\n",ex_status);
+   
         }
         
         //print_tokens(tokens);
         free_tokens(tokens);
         free(line);
     }
-    //printf("djks");
+    
     free_environment(my_envp); // Cleanup the custom environment
     //rl_clear_history();         // Cleanup readline history memory
     return (ex_status);

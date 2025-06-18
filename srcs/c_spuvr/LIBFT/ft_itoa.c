@@ -6,114 +6,78 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 13:37:57 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/25 19:43:46 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/18 09:07:42 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
-
-
 #include "libft.h"
-
-static int	ft_count_digits(int n)
+static int	get_length(int n)
 {
-	int	count;
+	int	len;
 
-	if (n == 0)
-		return (1);
-	count = 0;
+	len = 0;
+	if (n <= 0)
+		len++;
 	while (n != 0)
 	{
-		n = n / 10;
-		count++;
+		n /= 10;
+		len++;
 	}
-	return (count);
+	return (len);
 }
 
-static void	ft_fillstr(char *str, int n, int len)
+static char	*negative(int len, char *str, unsigned int num)
 {
-	if (n == 0)
-		str[0] = '0';
-	str[len] = '\0';
-	while (n != 0)
+	while (len > 0)
 	{
-		str[len - 1] = (n % 10) + '0';
-		n = n / 10;
-		len--;
+		str[len--] = (num % 10) + '0';
+		num /= 10;
 	}
+	return (str);
+}
+
+static char	*positive(int len, char *str, unsigned int num)
+{
+	while (len >= 0)
+	{
+		str[len--] = (num % 10) + '0';
+		num /= 10;
+	}
+	return (str);
+}
+
+static	char	*alloc(int len)
+{
+	char	*str;
+
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
+	return (str);
 }
 
 char	*ft_itoa(int n)
 {
-	int		len;
-	char	*str;
-	int		is_negative;
+	char			*str;
+	int				len;
+	unsigned int	num;
+	char			*tmp;
 
-	if (n == -2147483648)
-		return (ft_strdup("-2147483648"));
-	is_negative = (n < 0);
-	len = ft_count_digits(n) + is_negative;
-	str = (char *)malloc(sizeof(char) * (len + 1));
+	len = get_length(n);
+	str = alloc(len);
 	if (!str)
 		return (NULL);
-	if (is_negative)
+	str[len--] = '\0';
+	if (n < 0)
 	{
 		str[0] = '-';
-		n = -n;
+		num = -n;
 	}
-	ft_fillstr(str + is_negative, n, len - is_negative);
-	return (str);
+	else
+		num = n;
+	if (n < 0)
+		tmp = negative(len, str, num);
+	else
+		tmp = positive(len, str, num);
+	return (tmp);
 }
-
-// #include "libft.h"
-
-// static int	ft_count_digits(int n)
-// {
-// 	int	count;
-
-// 	if (n == 0)
-// 		return (1);
-// 	count = 0;
-// 	while (n != 0)
-// 	{
-// 		n = n / 10;
-// 		count++;
-// 	}
-// 	return (count);
-// }
-
-// static void	ft_fillstr(char *str, int n, int len)
-// {
-// 	if (n == 0)
-// 		str[0] = '0';
-// 	str[len] = '\0';
-// 	while (n != 0)
-// 	{
-// 		str[len - 1] = (n % 10) + '0';
-// 		n = n / 10;
-// 		len--;
-// 	}
-// }
-
-// char	*ft_itoa(t_head_list *head, int n)
-// {
-// 	int		len;
-// 	char	*str;
-// 	int		is_negative;
-
-// 	if (n == -2147483648)
-// 		return (ft_strdup(head, "-2147483648"));
-// 	is_negative = (n < 0);
-// 	len = ft_count_digits(n) + is_negative;
-// 	str = (char *)malloc(sizeof(char) * (len + 1));
-// 	if (!str)
-// 		return (NULL);
-// 	if (is_negative)
-// 	{
-// 		str[0] = '-';
-// 		n = -n;
-// 	}
-// 	ft_fillstr(str + is_negative, n, len - is_negative);
-// 	return (str);
-// }

@@ -6,11 +6,18 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/17 22:12:39 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/18 09:21:46 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
+static char *qestion_mark(int ex_status)
+{
+    char *tmp;
+
+    tmp = ft_itoa(ex_status);
+    return tmp;
+}
 static t_token *handle_operator(char **start, int quotes_type)
 {
     char *word;
@@ -60,6 +67,14 @@ static char *handle_quoted_part(char **start, int *quotes_type, char **envp, int
             if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '_' || *(end + 1) == '?'))
             {
                 end++;
+                if(*end == '?')
+                {
+                    tmp = qestion_mark(ex_status);
+                    tmp = qestion_mark(ex_status);
+                    accumulator = ft_strjoin(accumulator, tmp);
+                    end++;
+                    free(tmp);
+                }
                 char *var_start = end;
                 while (*end && *end != quote_type && (ft_isalnum(*end) || *end == '_' || *end == '?'))
                     end++;
@@ -113,7 +128,12 @@ static char *handle_unquoted_part(char **start, int *quotes_type, char **envp, i
             end++;
             if(*end == '?')
             {
-                
+               
+                tmp = qestion_mark(ex_status);
+                printf("tmp value is : %s\n", tmp);
+                accumulator = ft_strjoin(accumulator, tmp);
+                end++;
+                free(tmp);
             }
             else if(*end == '"') // Handle $"string"
             {
