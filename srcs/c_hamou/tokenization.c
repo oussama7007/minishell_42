@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/17 10:48:30 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/17 22:12:39 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_token *handle_operator(char **start, int quotes_type)
     *start = end;
     return (token);
 }
-static char *handle_quoted_part(char **start, int *quotes_type, char **envp)
+static char *handle_quoted_part(char **start, int *quotes_type, char **envp, int ex_status)
 {
     char quote_type = **start;
     char *end;
@@ -69,8 +69,8 @@ static char *handle_quoted_part(char **start, int *quotes_type, char **envp)
                 accumulator = ft_strjoin(tmp, var_value);
                 free(tmp);
                 free(var_name);
-                if (var_value != get_var_value(var_name, envp))
-                    free(var_value);
+                // if (var_value != get_var_value(var_name, envp))
+                //     free(var_value);
             }
             else
             {
@@ -93,7 +93,7 @@ static char *handle_quoted_part(char **start, int *quotes_type, char **envp)
     return accumulator;
 }
 
-static char *handle_unquoted_part(char **start, int *quotes_type, char **envp)
+static char *handle_unquoted_part(char **start, int *quotes_type, char **envp, int ex_status)
 {
     char *accumulator = NULL;
     char *tmp;
@@ -111,12 +111,17 @@ static char *handle_unquoted_part(char **start, int *quotes_type, char **envp)
         {
             
             end++;
-            if (*end == '"') // Handle $"string"
+            if(*end == '?')
+            {
+                
+            }
+            else if(*end == '"') // Handle $"string"
             {
                 end++; // Skip the opening "
                 char *quote_start = end;
                 while (*end && *end != '"') end++;
-                if (*end == '"')
+                
+                if(*end == '"')
                 {
                     char *quoted = ft_strndup(quote_start, end - quote_start);
                     char *expanded = expand_value_func(quoted, envp);
@@ -162,12 +167,12 @@ static char *handle_unquoted_part(char **start, int *quotes_type, char **envp)
     }
     *start = end;
     if (!accumulator)
-        accumulator = ft_strdup("");
+        accumulator =  ft_strdup("");
    
     return accumulator;
 }
 
-static t_token *handle_word(char **start, int *quotes_type , char **my_env)
+static t_token *handle_word(char **start, int *quotes_type , char **my_env, int ex_status)
 {
     char *accumulator = NULL;
     char *segment;
@@ -178,12 +183,11 @@ static t_token *handle_word(char **start, int *quotes_type , char **my_env)
         && **start != '|' && **start != '<' && **start != '>')
     {
         if (**start == '\'' || **start == '"')
-            segment = handle_quoted_part(start, quotes_type, my_env);
+            segment = handle_quoted_part(start, quotes_type, my_env, ex_status);
         else
-            segment = handle_unquoted_part(start, quotes_type, my_env);
+            segment = handle_unquoted_part(start, quotes_type, my_env, ex_status);
         if (!segment)
         {
-            
             return (free(accumulator), NULL);
         }
         tmp = accumulator;
@@ -206,7 +210,7 @@ static t_token *handle_word(char **start, int *quotes_type , char **my_env)
     free(accumulator);
     return (NULL);
 }
-t_token     *tokenize(char *line, char **my_env)
+t_token     *tokenize(char *line, char **my_env, int ex_status)
 {
     t_token *tokens = NULL;
     char *start = line;
@@ -228,7 +232,7 @@ t_token     *tokenize(char *line, char **my_env)
         }
         else if(*start) // Check if there's still input to process
         {
-            token = handle_word(&start, &quotes_type, my_env);
+            token = handle_word(&start, &quotes_type, my_env, ex_status);
             if (!token)
                 return (free_tokens(tokens), NULL);
             if(token)// check it 

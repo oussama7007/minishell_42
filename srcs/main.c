@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/17 10:49:14 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:58:45 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,23 +160,22 @@ int main(int ac, char **av, char **env)
     
     my_envp = init_environment(env);
     setup_signals();
+    ex_status = 0;
     while (1)
     {
-        
         line = readline("Minishell$ ");
         if (!line)
         {
             write(1, "exit\n", 5);
             free_environment(my_envp);
             //rl_clear_history();
-            
-            exit(0);
+            exit(ex_status);
+            // break;
         }
         if (*line)
             add_history(line);
         if (!handle_quotes(line) || !check_invalid_char(line))
         {
-            
             if (!handle_quotes(line))
                 write(2, "Minishell: Quotes aren't closed\n", 33);
             else
@@ -185,7 +184,7 @@ int main(int ac, char **av, char **env)
             
             continue;
         }
-        tokens = tokenize(line, my_envp);
+        tokens = tokenize(line, my_envp, ex_status);
         if (!tokens || !*line)
         {
             
@@ -204,27 +203,26 @@ int main(int ac, char **av, char **env)
         commands = build_command(tokens);
 		if (commands == NULL)
 		{
-         
 			free(line);
 			free_tokens(tokens);
 			continue;
 		}
         else if (commands)
         {
-            
             //print_commands(commands);
             ex_status = ft_execute_command_list(commands, &my_envp);
             free_command(commands); // Free the commands list after execution
+           // printf("Free the commands list after execution");
+           // printf("ex_status (%d)\n",ex_status);
         }
         
-        print_tokens(tokens);
+        //print_tokens(tokens);
         free_tokens(tokens);
         free(line);
     }
+    //printf("djks");
     free_environment(my_envp); // Cleanup the custom environment
     //rl_clear_history();         // Cleanup readline history memory
     return (ex_status);
 }
 
-
-// exit status look for witpid .. somehting like that 

@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/16 14:51:09 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/17 12:19:07 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void    free_gc(t_head_list *head);
 t_token *expand(t_token **tokens,char **env);
 void        error(int type);
 int         validate_syntax(t_token *tokens);
-t_token     *tokenize(char *line, char **my_env);
+t_token     *tokenize(char *line, char **my_env, int ex_status);
 int         is_space(int  c);
 void        free_tokens(t_token *tokens);
 void        free_args(t_command *command);
