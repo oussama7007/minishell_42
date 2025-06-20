@@ -33,9 +33,9 @@ int main()
     //char ptr[] = "abc" ;
     //printf("sizeof ptr is:%zu\n", sizeof(ptr));
    // char *p = &ptr;
-   char  *p = NULL;
-   //p = "hello world"; 
-   printf("%p\n",&p);
+    char   *p = NULL;
+     
+   printf("%s\n",p);
    //int *ptr = ;
    // modifie_it(&p);
    // printf("-----%p------\n", &p);
