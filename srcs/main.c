@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/18 09:47:19 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/19 11:49:56 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,8 +132,6 @@ int     handle_quotes(char *line)
     }
     return 1;
 }
-
-
 int     check_invalid_char(char *line)
 {
     int i;
@@ -166,7 +164,6 @@ int main(int ac, char **av, char **env)
             free_environment(my_envp);
             //rl_clear_history();
             exit(ex_status);
-            // break;
         }
         if (*line)
             add_history(line);
@@ -175,9 +172,8 @@ int main(int ac, char **av, char **env)
             if (!handle_quotes(line))
                 write(2, "Minishell: Quotes aren't closed\n", 33);
             else
-                write(2, "Minishell: Invalid character\n", 30);
+                write(2, "Minishell: Invalid character \n", 30);
             free(line);
-            
             continue;
         }
         tokens = tokenize(line, my_envp, ex_status);
@@ -220,4 +216,4 @@ int main(int ac, char **av, char **env)
     //rl_clear_history();         // Cleanup readline history memory
     return (ex_status);
 }
-
+// you need to handle 

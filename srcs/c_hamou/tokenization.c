@@ -6,11 +6,23 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/18 09:21:46 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/20 14:50:17 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
+static char *Handle_regular_accumualtor(char *var_name, char *end, char *var_start, char **env, char *accumulator)
+{
+    char *tmp;
+    char *var_value;
+    char *temp;
+    
+    var_name = ft_strndup(var_start, end - var_start);
+    var_value = get_var_value(var_name, env);
+    temp = accumulator;
+    accumulator = ft_strjoin(temp, var_value);    
+    return(free(temp),free(var_name),accumulator);
+}
 static char *qestion_mark(int ex_status)
 {
     char *tmp;
@@ -34,31 +46,54 @@ static t_token *handle_operator(char **start, int quotes_type)
     if (!word)
         return (NULL);
     token = new_token(get_token_type(word), word, quotes_type);
-    free(word);
     *start = end;
-    return (token);
+    return (free(word),token);
 }
-static char *handle_quoted_part(char **start, int *quotes_type, char **envp, int ex_status)
+static int     get_quotes_type(char quote_type)
+{
+    int quotes_type;
+    if(quote_type == '"')
+        quotes_type = 2;
+    else
+        quotes_type = 1;
+    return (quotes_type);
+}
+static char *singel_quotes_handler(char **start)
+{
+    char *tmp;
+    char *accumulator;
+    char *end;
+
+    end = *start;
+    while(*end && *end != '\'')
+        end++;
+    if (*end != '\'') // Closing quote not found!
+        return NULL; 
+    accumulator = ft_strndup(*start, end - *start);
+    end++; //skip closing quotes 
+    *start = end;
+    return accumulator;
+}
+static char *handle_quoted_part(char **start, int *quotes_type, char **env, int ex_status)
 {
     char quote_type = **start;
     char *end;
-    char *accumulator = NULL;
+    char *accumulator;
     char *tmp;
     char *var_name;
     char *var_value;
     char chr_str[2] = {0, 0};
 
-    if (quote_type == '"')
-        *quotes_type = 2;
-    else
-        *quotes_type = 1;
+    accumulator = NULL;
+     *quotes_type = get_quotes_type(quote_type);
     
     (*start)++;
     end = *start;
     if (quote_type == '\'')
     {
-        while (*end && *end != quote_type) end++;
-        accumulator = ft_strndup(*start, end - *start);
+        // while (*end && *end != quote_type) end++;
+        // accumulator = ft_strndup(*start, end - *start);
+        accumulator = singel_quotes_handler(start);
     }
     else // Double quotes
     {
@@ -69,23 +104,18 @@ static char *handle_quoted_part(char **start, int *quotes_type, char **envp, int
                 end++;
                 if(*end == '?')
                 {
-                    tmp = qestion_mark(ex_status);
-                    tmp = qestion_mark(ex_status);
-                    accumulator = ft_strjoin(accumulator, tmp);
+                    accumulator = ft_strjoin(accumulator, qestion_mark(ex_status));
                     end++;
-                    free(tmp);
                 }
                 char *var_start = end;
-                while (*end && *end != quote_type && (ft_isalnum(*end) || *end == '_' || *end == '?'))
+                while (*end && *end != quote_type && (ft_isalnum(*end) || *end == '_' || *end == '?')) //TEST ?
                     end++;
-                var_name = ft_strndup(var_start, end - var_start);
-                var_value = get_var_value(var_name, envp);
-                tmp = accumulator;
-                accumulator = ft_strjoin(tmp, var_value);
-                free(tmp);
-                free(var_name);
-                // if (var_value != get_var_value(var_name, envp))
-                //     free(var_value);
+                // var_name = ft_strndup(var_start, end - var_start);
+                // var_value = get_var_value(var_name, envp);
+                // tmp = accumulator;
+                accumulator = Handle_regular_accumualtor(var_name, end, var_start, env, accumulator);//ft_strjoin(tmp, var_value);
+                // free(tmp);
+                // free(var_name);
             }
             else
             {
@@ -108,15 +138,109 @@ static char *handle_quoted_part(char **start, int *quotes_type, char **envp, int
     return accumulator;
 }
 
-static char *handle_unquoted_part(char **start, int *quotes_type, char **envp, int ex_status)
+static char *accumulator_unquote_part(char **env, char **end, char *quote_start, char *accumulator)
 {
-    char *accumulator = NULL;
+    char *quoted;
+    char *expanded;
     char *tmp;
-    char *var_name;
-    char *var_value;
-    char chr_str[2] = {0, 0};
-    char *end = *start;
+    char *new_accumulator;
+    
+    quoted =  ft_strndup(quote_start, *end - quote_start);
+    expanded = expand_value_func(quoted, env);
+    tmp = accumulator;
+    new_accumulator = ft_strjoin(tmp, expanded);
+    (*end)++;
+    return(free(quoted), free(tmp), free(expanded), new_accumulator);
+}
+// end++;
+            // if(*end == '?')
+            // {
+            //     accumulator = ft_strjoin(accumulator, qestion_mark(ex_status));
+            //     end++;
+            // }
+            // else if(*end == '"') // Handle $"string"
+            // {
+            //     end++; // Skip the opening "
+            //     char *quote_start = end;
+            //     while (*end && *end != '"') end++;
+                
+            //     if(*end == '"')
+            //         accumulator = accumulator_unquote_part(env, &end, quote_start, &accumulator);
+            //     else // check for the reason of it
+            //         return(free(accumulator),NULL);
+            // }
+            // else // Handle regular $VARIABLE
+            // {    
+            //     char *var_start = end;
+            //     while (*end && (ft_isalnum(*end) || *end == '_' || *end == '?') &&
+            //            *end != ' ' && *end != '\t' && *end != '|' &&
+            //            *end != '<' && *end != '>' && *end != '\'' && *end != '"')
+            //         end++;
+               
+            //     // var_name = ft_strndup(var_start, end - var_start);
+            //     // var_value = get_var_value(var_name, env);
+            //     // tmp = accumulator;
+            //     accumulator = Handle_regular_accumualtor(var_name, end, var_start, env, &accumulator); //ft_strjoin(tmp, var_value); 
+            //     // free(tmp);
+            //     // free(var_name);
+            // }
+static char *handle_question_mark(char **end, int ex_status, char *accumulator)
+{
+	char	*tmp;
+	tmp = accumulator;
+	accumulator = ft_strjoin(tmp, qestion_mark(ex_status));
+	(*end)++;
+	return (free(tmp), accumulator);
+}
+static char *handle_double_quote_dollar(char **end, char *accumulator, char **env);
+{
+    char *tmp;
+    char *quote_start;
+    
+    quote_start = **end;
+    (*end)++;
+    while(**end && **end !='"')
+        (*end)++;
+    accumulator = accumulator_unquote_part(env, end, quote_start, accumulato);
+    else	
+		return (free(accumulator),NULL);
+	return (accumulator); 
+}
+static char *handle_regular_dollar(char **end, char **env, int ex_status, char *accumulator)
+{
+    char *var_start;
+    
+    var_start = end;
+    while (**end && (ft_isalnum(*end) || **end == '_' || **end == '?') && \
+			**end != ' ' && **end != '\t' && **end != '|' && \
+			**end != '<' && **end != '>' && **end != '\'' && **end != '"')
+    (*end)++;
+    accumulator = handle_regular_accumulator(NULL, end, var_start, env, accumulator)
+    return(accumulator);
+}
+static char *handle_dollar_case(char **end, char **env, int ex_status, char *accumulator)
+{   
+    (*end)++;
+    if(**end == '?')
+     	accumulator = handle_question_mark(end, ex_status, accumulator);
+    else if(**end == '"')
+        accumulator = handle_double_quote_dollar(end, accumulator, env);
+    else
+		accumulator = handle_regular_dollar(end, env, accumulator);
+	return (accumulator);
 
+}
+static char *handle_unquoted_part(char **start, int *quotes_type, char **env, int ex_status)
+{
+    char *accumulator;
+    // char *tmp;
+    // char *var_name;
+    // char *var_value;
+    // char chr_str[2] = {0, 0};
+    char *end;
+    
+    end = *start;
+    accumulator = NULL
     *quotes_type = 0;
 
     while (*end && *end != ' ' && *end != '\t' && *end != '|' &&
@@ -124,65 +248,48 @@ static char *handle_unquoted_part(char **start, int *quotes_type, char **envp, i
     {
         if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '_' || *(end + 1) == '?' || *(end + 1) == '"'))
         {
-            
-            end++;
-            if(*end == '?')
-            {
-               
-                tmp = qestion_mark(ex_status);
-                printf("tmp value is : %s\n", tmp);
-                accumulator = ft_strjoin(accumulator, tmp);
-                end++;
-                free(tmp);
-            }
-            else if(*end == '"') // Handle $"string"
-            {
-                end++; // Skip the opening "
-                char *quote_start = end;
-                while (*end && *end != '"') end++;
+            // end++;
+            // if(*end == '?')
+            // {
+            //     accumulator = ft_strjoin(accumulator, qestion_mark(ex_status));
+            //     end++;
+            // }
+            // else if(*end == '"') // Handle $"string"
+            // {
+            //     end++; // Skip the opening "
+            //     char *quote_start = end;
+            //     while (*end && *end != '"') end++;
                 
-                if(*end == '"')
-                {
-                    char *quoted = ft_strndup(quote_start, end - quote_start);
-                    char *expanded = expand_value_func(quoted, envp);
-                    tmp = accumulator;
-                    accumulator = ft_strjoin(tmp, expanded);
-                    free(tmp);
-                    free(quoted);
-                    free(expanded);
-                    end++; // Skip the closing "
-                }
-                else
-                {
-                    free(accumulator);
-                    return NULL;
-                }
-            }
-            else // Handle regular $VARIABLE
-            {
-            
-                char *var_start = end;
-                while (*end && (ft_isalnum(*end) || *end == '_' || *end == '?') &&
-                       *end != ' ' && *end != '\t' && *end != '|' &&
-                       *end != '<' && *end != '>' && *end != '\'' && *end != '"')
-                    end++;
-                var_name = ft_strndup(var_start, end - var_start);
-                var_value = get_var_value(var_name, envp);
-                tmp = accumulator;
-                accumulator = ft_strjoin(tmp, var_value);
-                free(tmp);
-                free(var_name);
-                //if (var_value != get_var_value(var_name, envp)) // Free only if allocated
-                    //free(var_value);
-            }
+            //     if(*end == '"')
+            //         accumulator = accumulator_unquote_part(env, &end, quote_start, &accumulator);
+            //     else // check for the reason of it
+            //         return(free(accumulator),NULL);
+            // }
+            // else // Handle regular $VARIABLE
+            // {    
+            //     char *var_start = end;
+            //     while (*end && (ft_isalnum(*end) || *end == '_' || *end == '?') &&
+            //            *end != ' ' && *end != '\t' && *end != '|' &&
+            //            *end != '<' && *end != '>' && *end != '\'' && *end != '"')
+            //         end++;
+               
+            //     // var_name = ft_strndup(var_start, end - var_start);
+            //     // var_value = get_var_value(var_name, env);
+            //     // tmp = accumulator;
+            //     accumulator = Handle_regular_accumualtor(var_name, end, var_start, env, &accumulator); //ft_strjoin(tmp, var_value); 
+            //     // free(tmp);
+            //     // free(var_name);
+            // }
+            accumulator = handle_dollar_case(&end, env, ex_status, accumulator);
         }
         else
         {
-            chr_str[0] = *end;
-            tmp = accumulator;
-            accumulator = ft_strjoin(tmp, chr_str);
-            free(tmp);
-            end++;
+            // chr_str[0] = *end;
+            // tmp = accumulator;
+            // accumulator = ft_strjoin(tmp, chr_str);
+            // free(tmp);
+            // end++;
+            accumulator = handle_normal_char(&end, accumulator);
         }
     }
     *start = end;
@@ -207,28 +314,18 @@ static t_token *handle_word(char **start, int *quotes_type , char **my_env, int 
         else
             segment = handle_unquoted_part(start, quotes_type, my_env, ex_status);
         if (!segment)
-        {
             return (free(accumulator), NULL);
-        }
         tmp = accumulator;
         accumulator = ft_strjoin(tmp, segment);
-        free(tmp);
-        free(segment);
         if (!accumulator)
-        {
-            
-            return (NULL);
-        }    
+            return (free(segment),free(tmp),NULL); 
     }
     if(accumulator)
     {
-        
         token = new_token(get_token_type(accumulator), accumulator, *quotes_type);
-        free(accumulator);
-        return (token);
+        return (free(segment),free(tmp),free(accumulator), token);
     }
-    free(accumulator);
-    return (NULL);
+    return (free(segment),free(tmp),free(accumulator),NULL);
 }
 t_token     *tokenize(char *line, char **my_env, int ex_status)
 {
@@ -241,8 +338,6 @@ t_token     *tokenize(char *line, char **my_env, int ex_status)
     {
         while (*start && (*start == ' ' || *start == '\t'))
             start++;
-        // if (!*start)
-        //     break;
         if (*start == '|' || *start == '<' || *start == '>')
         {
             token = handle_operator(&start, quotes_type);
