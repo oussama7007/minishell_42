@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/21 01:25:41 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/21 04:15:31 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	handle_directory_command(char *cmd_arg)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd_arg, 2);
 		ft_putstr_fd(": is a directory\n", 2);
-		return (126);
+		return (999);
 	}
 	return (0);
 }
@@ -58,8 +58,8 @@ static int	ft_execute_external(t_command *cmd, char **envp)
 	if (!cmd || !cmd->args || !cmd->args[0] || !cmd->args[0][0])
 		return (1);
 	dir_status = handle_directory_command(cmd->args[0]);
-	if (dir_status)
-		return (dir_status);
+	if (dir_status == 999)
+		return (126);
 	cmd_path = find_executable_path(cmd->args[0], envp);
 	if (!cmd_path)
 		return (handle_cmd_path_error(cmd->args[0]));
