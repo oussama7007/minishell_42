@@ -3,10 +3,10 @@
 
 NAME        := minishell
 CC          := cc
-CFLAGS      := -fsanitize=address -g #-Wall -Wextra -Werro
+# CFLAGS      := -fsanitize=address -g #-Wall -Wextra -Werro
 LINKER      := -lreadline -lncurses
 INCLUDES    := -I srcs/includes
-
+ 
 # === Directories ===
 C_HAMOU_DIR := srcs/c_hamou
 C_SPUVR_DIR := srcs/c_spuvr
