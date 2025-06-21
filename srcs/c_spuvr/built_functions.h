@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/04 17:50:59 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/21 01:30:55 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,6 @@ char	*strip_outer_quotes(const char *str);
 int		create_append_value(char *name, char *append_val, char ***env_ptr);
 int		is_built_ins(char **cmd, char ***env_ptr);
 int		ft_chdir(char **args, char ***env_ptr);
+void	ensure_minimal_env(char ***env_ptr);
 
 #endif

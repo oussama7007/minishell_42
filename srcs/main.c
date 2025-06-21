@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/21 01:28:40 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/21 02:28:37 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ int main(int ac, char **av, char **env)
     
     my_envp = init_environment(env);
     ensure_minimal_env(&my_envp);
+    // my_setenv("_", av[0], &my_envp);
     setup_signals();
     ex_status = 0;
     while (1)
