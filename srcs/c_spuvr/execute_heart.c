@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/21 04:15:31 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/21 17:42:30 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,44 +48,50 @@ static int	handle_cmd_path_error(char *cmd_arg)
 		return (handle_command_not_found(cmd_arg));
 }
 
-static int	ft_execute_external(t_command *cmd, char **envp)
-{
-	char	*cmd_path;
-	pid_t	pid;
-	int		status;
-	int	dir_status;
-
-	if (!cmd || !cmd->args || !cmd->args[0] || !cmd->args[0][0])
-		return (1);
-	dir_status = handle_directory_command(cmd->args[0]);
-	if (dir_status == 999)
-		return (126);
-	cmd_path = find_executable_path(cmd->args[0], envp);
-	if (!cmd_path)
-		return (handle_cmd_path_error(cmd->args[0]));
-	pid = fork();
-	if (pid == -1)
-		return (handle_fork_error(cmd_path));
-	if (pid == 0)
-		execute_child_process(cmd_path, cmd->args, envp);
-	free(cmd_path);
-	status = wait_for_child(pid);
-	return (status);
-}
-
 int	ft_execute_command_list(t_command *cmd_list, char ***env_ptr)
 {
-	int	status;
-	int	builtin_status;
+	pid_t	pid;
+	int		builtin_status;
+	char	*cmd_path;
+	int		heredoc_fd;
 
-	if (!cmd_list || !cmd_list->args || !cmd_list->args[0])
+	if (!cmd_list || !cmd_list->cmd)
 		return (0);
+	heredoc_fd = -1;
+	if (cmd_list->heredoc_delimiter)
+	{
+		heredoc_fd = setup_heredoc(cmd_list, *env_ptr);
+		if (heredoc_fd == -1)
+			return (1);
+	}
 	if (cmd_list->next)
 		return (execute_pipeline(cmd_list, env_ptr));
-	builtin_status = is_built_ins(cmd_list->args, env_ptr);
-	if (builtin_status == 999)
-		status = ft_execute_external(cmd_list, *env_ptr);
-	else
-		status = builtin_status;
-	return (status);
+	if (is_parent_only_builtin(cmd_list->cmd) && !has_redirection(cmd_list))
+		return (is_built_ins(cmd_list->args, env_ptr));
+	pid = fork();
+	if (pid == -1)
+		return (handle_fork_error(NULL));
+	if (pid == 0)
+	{
+		if (heredoc_fd != -1)
+		{
+			dup2(heredoc_fd, STDIN_FILENO);
+			close(heredoc_fd);
+		}
+		setup_child_signals();
+		handle_redirection_child(cmd_list);
+		builtin_status = is_built_ins(cmd_list->args, env_ptr);
+		if (builtin_status != 999)
+			exit(builtin_status);
+		cmd_path = find_executable_path(cmd_list->args[0], *env_ptr);
+		if (!cmd_path)
+		{
+			handle_command_not_found(cmd_list->args[0]);
+			exit(127);
+		}
+		execute_child_process(cmd_path, cmd_list->args, *env_ptr);
+	}
+	if (heredoc_fd != -1)
+		close(heredoc_fd);
+	return (wait_for_child(pid));
 }

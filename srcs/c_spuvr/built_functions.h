@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/21 01:30:55 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/21 18:55:10 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,14 @@ char	*find_executable_path(char *cmd, char **envp);
 int		wait_for_child(pid_t pid);
 int		is_direct_path(const char *cmd_name);
 
+// execute
+int		is_parent_only_builtin(char *cmd);
+int		has_redirection(t_command *cmd);
+int		setup_heredoc(t_command *cmd, char **envp);
+
+//exit
+int		ft_exit(char **args, char ***env, t_command *cmd, t_token *tok, int status);
+
 //cd 
 void	up_env_cd(char *old_pwd_val, const char *path_arg, char ***env_ptr);
 char	*target_path(char **args, char **envp);
@@ -53,6 +61,9 @@ void	handle_redirection_child(t_command *cmd_node);
 
 // pipe
 int	execute_pipeline(t_command *commands, char ***env_ptr);
+void	execute_single_cmd(t_command *cmd, char **envp);
+void	setup_child_io(int prev_pipe, int *pipe_fds, t_command *cmd);
+
 
 // erro.c
 void	ft_free_array(char **array);

@@ -1,31 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/18 16:33:39 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/21 17:30:20 by oadouz           ###   ########.fr       */
+/*   Created: 2025/06/21 16:20:30 by oadouz            #+#    #+#             */
+/*   Updated: 2025/06/21 17:27:16 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../built_functions.h"
 
-int	ft_env(char **args, char ***env_ptr)
+int	is_parent_only_builtin(char *cmd)
 {
-	int		i;
-	char	*eq_pos;
-
-	if (!env_ptr || !(*env_ptr))
+	if (!cmd)
+		return (0);
+	if (ft_strcmp(cmd, "cd") == 0)
 		return (1);
-	i = 0;
-	while ((*env_ptr)[i])
-	{
-		eq_pos = ft_strchr((*env_ptr)[i], '=');
-		if (eq_pos)
-			ft_putendl_fd((*env_ptr)[i], STDOUT_FILENO);
-		i++;
-	}
+	if (ft_strcmp(cmd, "export") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "unset") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "exit") == 0)
+		return (1);
+	return (0);
+}
+
+int	has_redirection(t_command *cmd)
+{
+	if ((cmd->red_in && cmd->red_in[0])
+		|| (cmd->red_out && cmd->red_out[0])
+		|| cmd->heredoc_delimiter)
+		return (1);
 	return (0);
 }

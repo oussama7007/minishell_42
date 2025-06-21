@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/21 02:28:37 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/21 18:56:03 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,12 @@ int main(int ac, char **av, char **env)
 			free_tokens(tokens);
 			continue;
 		}
+        else if (commands && commands->cmd && ft_strcmp(commands->cmd, "exit") == 0)
+        {
+            ex_status = ft_exit(commands->args, &my_envp, commands, tokens, ex_status);
+            // ft_exit will only return if there are too many arguments.
+            // In that case, we fall through to the regular cleanup for this loop iteration.
+        }
         else if (commands)
         {
  
@@ -208,7 +214,6 @@ int main(int ac, char **av, char **env)
             free_command(commands); // Free the commands list after execution
    
         }
-        
         //print_tokens(tokens);
         free_tokens(tokens);
         free(line);

@@ -6,11 +6,9 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:55 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/28 15:35:13 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/21 17:26:45 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../built_functions.h"
 
@@ -57,10 +55,7 @@ int	exec_export_value(const char *arg, char ***env_ptr)
 	}
 	stripped_value = strip_outer_quotes(value_ptr + 1);
 	if (!stripped_value)
-	{
-		free(name);
-		return (1);
-	}
+		return (free(name), 1);
 	status = my_setenv(name, stripped_value, env_ptr);
 	free(name);
 	free(stripped_value);

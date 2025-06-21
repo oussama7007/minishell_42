@@ -6,10 +6,9 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:37:18 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/28 15:35:21 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/21 17:25:01 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../built_functions.h"
 
@@ -77,10 +76,7 @@ int	exec_export_plus_equal(const char *arg, char ***env_ptr)
 	}
 	stripped_value = strip_outer_quotes(plus_equal_ptr + 2);
 	if (!stripped_value)
-	{
-		free(name);
-		return (1);
-	}
+		return (free(name), 1);
 	status = create_append_value(name, stripped_value, env_ptr);
 	free(name);
 	free(stripped_value);

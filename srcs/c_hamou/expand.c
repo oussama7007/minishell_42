@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:20:52 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/21 10:44:58 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/21 15:59:53 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char *get_var_value(char *new_word, char **envp)
     {
         if (ft_strncmp(*envp, new_word, var_len) == 0
             && (*envp)[var_len] == '=')
-            return (*envp + var_len + 1);  
+            return (*envp + var_len + 1);
         envp++;
     }
     return (NULL);

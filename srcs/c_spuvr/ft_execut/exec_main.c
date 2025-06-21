@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -7,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:22:02 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/11 19:45:00 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/21 17:28:32 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +45,9 @@ int	is_direct_path(const char *cmd_name)
 {
 	if (!cmd_name || !*cmd_name)
 		return (0);
-	return (cmd_name[0] == '/' || cmd_name[0] == '.' ||
-		(cmd_name[0] == '.' && cmd_name[1] == '.' &&
-		cmd_name[2] == '/'));
+	return (cmd_name[0] == '/' || cmd_name[0] == '.'
+		|| (cmd_name[0] == '.' && cmd_name[1] == '.'
+			&& cmd_name[2] == '/'));
 }
 
 char	*find_executable_path(char *cmd, char **envp)
