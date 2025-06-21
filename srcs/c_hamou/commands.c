@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:22:51 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/21 04:25:29 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/21 04:29:50 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int populate_command(t_command *cmd, t_token *tokens, int arg_c,
     {
         if (tokens->type == TOKEN_WORD)
         {
-            if (tokens->value[0] != '\0') // Check for non-empty string
+            if (tokens->value[0] != '\0') // rah ana li zedt hadi 
             {
                 if (!cmd_set)
                 {
