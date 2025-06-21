@@ -6,43 +6,11 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:19:08 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/21 18:28:03 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/21 21:33:54 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../built_functions.h"
-
-int	setup_heredoc(t_command *cmd, char **envp)
-{
-	int		pipe_fds[2];
-	char	*line;
-	char	*expanded_line;
-
-	(void)envp; // fach tbghi dir expending 7ayed hadi , 7itach ana ra ga3 makhedamch biha
-	if (pipe(pipe_fds) == -1)
-	{
-		perror("minishell: pipe");
-		return (-1);
-	}
-	while (1)
-	{
-		line = readline("> ");
-		if (!line || ft_strcmp(line, cmd->heredoc_delimiter) == 0)
-		{
-			if (line)
-				free(line);
-			break ;
-		}
-		// Note: Variable expansion Neta li khassek dirha ;) 
-		// For now, we write the line directly as per the instructions.
-		expanded_line = line;
-		write(pipe_fds[1], expanded_line, ft_strlen(expanded_line));
-		write(pipe_fds[1], "\n", 1);
-		free(line);
-	}
-	close(pipe_fds[1]);
-	return (pipe_fds[0]);
-}
 
 static int	handle_input_redirection(t_command *cmd_node)
 {

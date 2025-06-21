@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:22:51 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/21 04:29:50 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/21 21:37:39 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,57 +64,49 @@ void free_command(t_command *cmd)
     free(cmd);
 }
 
-static int populate_command(t_command *cmd, t_token *tokens, int arg_c,
-                              int in_c, int out_c)
+static int	populate_command(t_command *cmd, t_token *tokens, int arg_c,
+							  int in_c, int out_c)
 {
-    int i = 0, j = 0, k = 0, append_idx = 0;
-    int cmd_set = 0;
-    cmd->args = malloc(sizeof(char *) * (arg_c + 1));
-    cmd->red_in = malloc(sizeof(char *) * (in_c + 1));
-    cmd->red_out = malloc(sizeof(char *) * (out_c + 1));
-    cmd->append = malloc(sizeof(int) * out_c);
-    if (!cmd->args || !cmd->red_in || !cmd->red_out || (out_c && !cmd->append))
-        return (0);
-    while (tokens && tokens->type != TOKEN_PIPE)
-    {
-        if (tokens->type == TOKEN_WORD)
-        {
-            if (tokens->value[0] != '\0') // rah ana li zedt hadi 
-            {
-                if (!cmd_set)
-                {
-                    cmd->cmd = ft_strdup(tokens->value);
-                    cmd_set = 1;
-                }
-                cmd->args[i++] = ft_strdup(tokens->value);
-            }
-        }
-        else if (tokens->type == TOKEN_RED_IN && tokens->next)
-        {
-            tokens = tokens->next;
-            cmd->red_in[j++] = ft_strdup(tokens->value);
-        }
-        else if ((tokens->type == TOKEN_RED_OUT ||
-                 tokens->type == TOKEN_RED_APPEND) && tokens->next)
-        {
-            cmd->append[append_idx] = (tokens->type == TOKEN_RED_APPEND);
-            tokens = tokens->next;
-            cmd->red_out[k++] = ft_strdup(tokens->value);
-            append_idx++;
-        }
-        else if (tokens->type == TOKEN_RED_HEREDOC && tokens->next)
-        {
-            tokens = tokens->next;
-            cmd->heredoc_delimiter = ft_strdup(tokens->value);
-        }
-        tokens = tokens->next;
-    }
-    cmd->args[i] = NULL;
-    cmd->red_in[j] = NULL;
-    cmd->red_out[k] = NULL;
-    if (!cmd->cmd)
-        return (0);
-    return (1);
+	int	i;
+	int	j;
+	int	k;
+	int	append_idx;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	append_idx = 0;
+	cmd->args = malloc(sizeof(char *) * (arg_c + 1));
+	cmd->red_in = malloc(sizeof(char *) * (in_c + 1));
+	cmd->red_out = malloc(sizeof(char *) * (out_c + 1));
+	cmd->append = malloc(sizeof(int) * out_c);
+	if (!cmd->args || !cmd->red_in || !cmd->red_out || (out_c && !cmd->append))
+		return (0);
+	while (tokens && tokens->type != TOKEN_PIPE)
+	{
+		if (tokens->type == TOKEN_WORD && tokens->value[0] != '\0')
+		{
+			if (cmd->cmd == NULL)
+				cmd->cmd = ft_strdup(tokens->value);
+			cmd->args[i++] = ft_strdup(tokens->value);
+		}
+		else if (tokens->type == TOKEN_RED_IN && tokens->next)
+			cmd->red_in[j++] = ft_strdup((tokens = tokens->next)->value);
+		else if ((tokens->type == TOKEN_RED_OUT
+				|| tokens->type == TOKEN_RED_APPEND) && tokens->next)
+		{
+			cmd->append[append_idx] = (tokens->type == TOKEN_RED_APPEND);
+			cmd->red_out[k++] = ft_strdup((tokens = tokens->next)->value);
+			append_idx++;
+		}
+		else if (tokens->type == TOKEN_RED_HEREDOC && tokens->next)
+			cmd->heredoc_delimiter = ft_strdup((tokens = tokens->next)->value);
+		tokens = tokens->next;
+	}
+	cmd->args[i] = NULL;
+	cmd->red_in[j] = NULL;
+	cmd->red_out[k] = NULL;
+	return (1);
 }
 
 void add_command(t_command **commands, t_command *command)
