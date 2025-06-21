@@ -1,8 +1,0 @@
-bug.txt
-en.subject.pdf
-Makefile
-minishell
-o.txt
-srcs
-tes.c
-text.c

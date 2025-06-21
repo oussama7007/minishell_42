@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:19:08 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/21 17:40:25 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/21 17:43:13 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	setup_heredoc(t_command *cmd, char **envp)
 	char	*line;
 	char	*expanded_line;
 
-	(void)envp; // Note: envp is unused until expansion is implemented
+	(void)envp; // fach tbghi dir expending 7ayed hadi , 7itach ana ra ga3 makhedamch biha
 	if (pipe(pipe_fds) == -1)
 	{
 		perror("minishell: pipe");
