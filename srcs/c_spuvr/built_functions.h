@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/21 16:21:38 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/21 17:18:12 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ void	handle_redirection_child(t_command *cmd_node);
 
 // pipe
 int	execute_pipeline(t_command *commands, char ***env_ptr);
+void	execute_single_cmd(t_command *cmd, char **envp);
+void	setup_child_io(int prev_pipe, int *pipe_fds, t_command *cmd);
+
 
 // erro.c
 void	ft_free_array(char **array);

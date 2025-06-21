@@ -6,11 +6,9 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 16:26:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/28 15:35:26 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/21 17:24:35 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../built_functions.h"
 
@@ -42,8 +40,8 @@ char	*strip_outer_quotes(const char *str)
 	has_quotes = 0;
 	if (len >= 2)
 	{
-		if ((str[0] == '"' && str[len - 1] == '"') || 
-			(str[0] == '\'' && str[len - 1] == '\''))
+		if ((str[0] == '"' && str[len - 1] == '"')
+			|| (str[0] == '\'' && str[len - 1] == '\''))
 		{
 			has_quotes = 1;
 		}

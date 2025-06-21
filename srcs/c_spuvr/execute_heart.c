@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/21 16:22:27 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/21 17:29:40 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	handle_cmd_path_error(char *cmd_arg)
 
 int	ft_execute_command_list(t_command *cmd_list, char ***env_ptr)
 {
-    pid_t	pid;
+	pid_t	pid;
     int		builtin_status;
     char	*cmd_path;
 
