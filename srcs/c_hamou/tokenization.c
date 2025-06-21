@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/20 23:34:35 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/21 00:47:44 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,15 @@ static char *singel_quotes_handler(char **input_start)
     char *start = *input_start;
     char *end = start;
     char *accumulator;
-
+    //static int i = 0;
     while (*end && *end != '\'')
         end++;
     if (*end != '\'')
         return NULL; 
     accumulator = ft_strndup(start, end - start);
     *input_start = end + 1;
+  //  printf("%d reached the final\n accumulator :%s\n",i,accumulator);
+    //i++;
     return accumulator;
 }
 
@@ -104,13 +106,13 @@ static char *handle_quoted_part(char **start, int *quotes_type, char **env, int 
     char *accumulator = ft_strdup("");
     char *tmp;
     int local_quotes_type;
-    int *target_quotes_type = quotes_type ? quotes_type : &local_quotes_type;
+    int *target_quotes_type = quotes_type ? quotes_type : &local_quotes_type;// check the behavior of it
 
     *target_quotes_type = get_quotes_type(quote_type);
     
     if (quote_type == '\'')
     {
-        free(accumulator);
+        //free(accumulator);
         return singel_quotes_handler(start);
     }
     
@@ -314,7 +316,7 @@ t_token *tokenize(char *line, char **my_env, int ex_status)
         {
             t_token *token = handle_operator(&start, quotes_type);
             if (!token)
-                return free_tokens(tokens), NULL;
+                return free_tokens(tokens), NULL;// need to look about it
             add_token(&tokens, token);
         }
         else
@@ -399,3 +401,4 @@ void    add_token(t_token **tokens, t_token *token)
         tmp->next = token;
     }
 }
+// look at deep seek has your last issue you faced 
