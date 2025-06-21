@@ -6,25 +6,13 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/21 00:47:44 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/21 14:15:14 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
 
-
-
-
-
-
-
-char *ft_strjoin_free(char *s1, char *s2)
-{
-    char *result = ft_strjoin(s1, s2);
-    free(s1);
-    return result;
-}
 static char *Handle_regular_accumualtor(char *var_start, char *end, char **env, char *accumulator)
 {
     char *var_name;
@@ -51,69 +39,36 @@ static char *Handle_regular_accumualtor(char *var_start, char *end, char **env, 
     return accumulator;
 }
 
-static char *qestion_mark(int ex_status)
-{
-    return ft_itoa(ex_status);
-}
-
-static t_token *handle_operator(char **start, int quotes_type)
-{
-    char *word;
-    t_token *token;
-    char *end = *start;
-
-    if (*end == '<' && *(end + 1) == '<')
-        end += 2;
-    else if (*end == '>' && *(end + 1) == '>')
-        end += 2;
-    else
-        end++;
-    word = ft_strndup(*start, end - *start);
-    if (!word)
-        return (NULL);
-    token = new_token(get_token_type(word), word, quotes_type);
-    *start = end;
-    free(word);
-    return token;
-}
-
-static int get_quotes_type(char quote_type)
-{
-    return (quote_type == '"') ? 2 : 1;
-}
-
 static char *singel_quotes_handler(char **input_start)
 {
     char *start = *input_start;
     char *end = start;
     char *accumulator;
-    //static int i = 0;
     while (*end && *end != '\'')
         end++;
     if (*end != '\'')
         return NULL; 
     accumulator = ft_strndup(start, end - start);
     *input_start = end + 1;
-  //  printf("%d reached the final\n accumulator :%s\n",i,accumulator);
-    //i++;
     return accumulator;
 }
 
-static char *handle_quoted_part(char **start, int *quotes_type, char **env, int ex_status)
+char *handle_quoted_part(char **start, int *quotes_type, char **env, int ex_status)
 {
     char quote_type = **start;
     char *end = *start + 1;
     char *accumulator = ft_strdup("");
     char *tmp;
     int local_quotes_type;
-    int *target_quotes_type = quotes_type ? quotes_type : &local_quotes_type;// check the behavior of it
-
-    *target_quotes_type = get_quotes_type(quote_type);
+    int *target_quotes_type = quotes_type ? quotes_type : &local_quotes_type;
     
+    *target_quotes_type = get_quotes_type(quote_type);
+     
     if (quote_type == '\'')
     {
-        //free(accumulator);
-        return singel_quotes_handler(start);
+        free(accumulator);  // Free the initial empty string
+        accumulator = singel_quotes_handler(start);
+        return accumulator;
     }
     
     // Double quotes
@@ -162,10 +117,10 @@ static char *handle_quoted_part(char **start, int *quotes_type, char **env, int 
 
 static char *handle_double_quote_dollar(char **end, char *accumulator, char **env, int ex_status)
 {
+ 
     int dummy_quotes_type;
     char *quoted_value;
     
-    (*end)++; // Skip '$' and point to opening double quote
     quoted_value = handle_quoted_part(end, &dummy_quotes_type, env, ex_status);
     if (!quoted_value)
         return NULL;
@@ -240,7 +195,7 @@ static char *handle_normal_char(char **end_ptr, char *accumulator)
     return accumulator;
 }
 
-static char *handle_unquoted_part(char **start, int *quotes_type, char **env, int ex_status)
+char *handle_unquoted_part(char **start, int *quotes_type, char **env, int ex_status)
 {
     char *end = *start;
     char *accumulator = NULL;
@@ -256,14 +211,6 @@ static char *handle_unquoted_part(char **start, int *quotes_type, char **env, in
     }
     *start = end;
     return accumulator ? accumulator : ft_strdup("");
-}
-
-static char *process_segment(char **start, int *quotes_type, char **env, int ex_status)
-{
-    if (**start == '\'' || **start == '"')
-        return handle_quoted_part(start, quotes_type, env, ex_status);
-    else
-        return handle_unquoted_part(start, quotes_type, env, ex_status);
 }
 
 static t_token *handle_word(char **start, int *quotes_type, char **my_env, int ex_status)
@@ -357,48 +304,13 @@ t_token *tokenize(char *line, char **my_env, int ex_status)
 
 
 
-t_token     *new_token(int type, char *word, int quotes_type)
-{
-    t_token *new;
 
-    new = malloc(sizeof(t_token));
-    if(!new)
-        return (NULL);
-    new->value = ft_strdup(word);
-    if(!new->value)
-        return (free(new), NULL); // test this line 
-    new->type = type;
-    new->quotes_type = quotes_type;
-    new->next = NULL;
-    return new;
-}
-int     get_token_type(char *line)
-{
-    if(!line && !line[0])
-        return(TOKEN_WORD);
-    if(line[0] == '|')
-        return (TOKEN_PIPE);
-    if(line[0] == '<' && line[1] == '<')
-        return (TOKEN_RED_HEREDOC);
-    if(line[0] == '>' && line[1] == '>')
-        return (TOKEN_RED_APPEND);
-    if(line[0] == '<')
-        return (TOKEN_RED_IN);
-    if(line[0] == '>')
-        return (TOKEN_RED_OUT);
-    return(TOKEN_WORD);
-}
-void    add_token(t_token **tokens, t_token *token)
-{
-    t_token *tmp =  NULL;
-    if(!*tokens)
-        *tokens = token;
-    else 
-    {
-        tmp = *tokens;
-        while(tmp->next)
-            tmp = tmp->next;
-        tmp->next = token;
-    }
-}
-// look at deep seek has your last issue you faced 
+
+
+
+
+
+
+
+
+// // look at deep seek has your last issue you faced 

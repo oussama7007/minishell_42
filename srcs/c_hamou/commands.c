@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:22:51 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/16 15:27:58 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/21 04:29:50 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,15 @@ static int populate_command(t_command *cmd, t_token *tokens, int arg_c,
     {
         if (tokens->type == TOKEN_WORD)
         {
-            if (!cmd_set && tokens->value[0] != '\0') // Set cmd->cmd to first non-empty token
+            if (tokens->value[0] != '\0') // rah ana li zedt hadi 
             {
-                cmd->cmd = ft_strdup(tokens->value);
-                cmd_set = 1;
+                if (!cmd_set)
+                {
+                    cmd->cmd = ft_strdup(tokens->value);
+                    cmd_set = 1;
+                }
+                cmd->args[i++] = ft_strdup(tokens->value);
             }
-            cmd->args[i++] = ft_strdup(tokens->value); // Always add to args
         }
         else if (tokens->type == TOKEN_RED_IN && tokens->next)
         {
@@ -109,7 +112,7 @@ static int populate_command(t_command *cmd, t_token *tokens, int arg_c,
     cmd->args[i] = NULL;
     cmd->red_in[j] = NULL;
     cmd->red_out[k] = NULL;
-    if (!cmd->cmd) // If no non-empty command was set, return failure
+    if (!cmd->cmd)
         return (0);
     return (1);
 }
