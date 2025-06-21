@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/21 17:18:12 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/21 17:34:08 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int		is_direct_path(const char *cmd_name);
 // execute
 int		is_parent_only_builtin(char *cmd);
 int		has_redirection(t_command *cmd);
+int		setup_heredoc(t_command *cmd, char **envp);
 
 
 //cd 
