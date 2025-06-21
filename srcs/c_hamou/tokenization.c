@@ -6,12 +6,12 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/21 15:27:08 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/21 16:50:50 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
+   
 
 static char *Handle_regular_accumualtor(char *var_start, char *end, char **env, char *accumulator)
 {
@@ -74,7 +74,7 @@ char *handle_quoted_part(char **start, int *quotes_type, char **env, int ex_stat
     // Double quotes
     while (*end && *end != '"')
     {
-        if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '_' || *(end + 1) == '?'))
+        if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '?'))
         {
             end++;
             if (*end == '?')
@@ -89,7 +89,7 @@ char *handle_quoted_part(char **start, int *quotes_type, char **env, int ex_stat
             else
             {
                 char *var_start = end;
-                while (*end && *end != '"' && (ft_isalnum(*end) || *end == '_' || *end == '?'))
+                while (*end && *end != '"' && (ft_isalnum(*end) || *end == '?'))
                     end++;
                 accumulator = Handle_regular_accumualtor(var_start, end, env, accumulator);
             }
@@ -159,9 +159,7 @@ static char *handle_regular_dollar(char **end, char **env, int ex_status, char *
 {
     char *var_start = *end;
     
-    while (**end && (ft_isalnum(**end) || **end == '_' || **end == '?') && \
-            **end != ' ' && **end != '\t' && **end != '|' && \
-            **end != '<' && **end != '>' && **end != '\'' && **end != '"')
+    while(**end && (ft_isalnum(**end) || **end == '?') && !is_space(**end) && !is_operator(**end) && !is_quotes(**end))
         (*end)++;
     return Handle_regular_accumualtor(var_start, *end, env, accumulator);
 }
@@ -201,10 +199,10 @@ char *handle_unquoted_part(char **start, int *quotes_type, char **env, int ex_st
     char *accumulator = NULL;
     *quotes_type = 0;
 
-    while (*end && *end != ' ' && *end != '\t' && *end != '|' &&
-           *end != '<' && *end != '>' && *end != '\'' && *end != '"')
+
+    while(*end && !is_space(*end) && !is_operator(*end) && !is_quotes(*end))
     {
-        if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '_' || *(end + 1) == '?' || *(end + 1) == '"'))
+        if (*end == '$' && (ft_isalpha(*(end + 1))  || *(end + 1) == '?' || *(end + 1) == '"'))
             accumulator = handle_dollar_case(&end, env, ex_status, accumulator);
         else
             accumulator = handle_normal_char(&end, accumulator);
@@ -219,8 +217,8 @@ static t_token *handle_word(char **start, int *quotes_type, char **my_env, int e
     char *segment;
     char *tmp;
 
-    while (**start && **start != ' ' && **start != '\t'
-        && **start != '|' && **start != '<' && **start != '>')
+
+    while(**start && !is_space(**start) && !is_operator(**start))
     {
         segment = process_segment(start, quotes_type, my_env, ex_status);
         if (!segment)
@@ -254,12 +252,12 @@ t_token *tokenize(char *line, char **my_env, int ex_status)
 
     while (*start)
     {
-        while (*start == ' ' || *start == '\t')
+        while (is_space(*start))
             start++;
         if (!*start)
             break;
             
-        if (*start == '|' || *start == '<' || *start == '>')
+        if (is_operator(*start))
         {
             t_token *token = handle_operator(&start, quotes_type);
             if (!token)
@@ -276,31 +274,6 @@ t_token *tokenize(char *line, char **my_env, int ex_status)
     }
     return tokens;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
