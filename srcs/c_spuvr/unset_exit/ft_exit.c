@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:22:45 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/21 18:54:46 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/21 20:31:23 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	cleanup_and_exit(int status, char **env, t_command *cmd, t_token *to
         free_command(cmd);
     if (tok)
         free_tokens(tok);
-    rl_clear_history();
+    //rl_clear_history();
     exit(status);
 }
 
