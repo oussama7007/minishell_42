@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 18:08:03 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/18 21:45:35 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/21 01:28:17 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,4 +110,33 @@ void	free_environment(char **envp_ptr)
 		j--;	
 	}
 	free(envp_ptr);
+}
+
+void	ensure_minimal_env(char ***env_ptr)
+{
+	char	*shlvl_val;
+	char	cwd_buffer[1024];
+	int		shlvl_int;
+	char	*new_shlvl_str;
+	
+	if (!my_getenv("PATH", *env_ptr))
+		my_setenv("PATH", "/usr/bin:/bin:/usr/sbin:/sbin", env_ptr);
+	shlvl_val = my_getenv("SHLVL", *env_ptr);
+	if (!shlvl_val)
+		my_setenv("SHLVL", "1", env_ptr);
+	else
+	{
+		shlvl_int = ft_atoi(shlvl_val) + 1;
+		new_shlvl_str = ft_itoa(shlvl_int);
+		if (new_shlvl_str)
+		{
+			my_setenv("SHLVL", new_shlvl_str, env_ptr);
+			free(new_shlvl_str);
+		}
+	}
+	if (!my_getenv("PWD", *env_ptr))
+	{
+		if (getcwd(cwd_buffer, sizeof(cwd_buffer)) != NULL)
+			my_setenv("PWD", cwd_buffer, env_ptr);
+	}
 }

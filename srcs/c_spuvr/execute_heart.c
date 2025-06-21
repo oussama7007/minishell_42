@@ -6,30 +6,63 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/20 23:27:09 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/21 01:25:41 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_functions.h"
+#include <sys/stat.h>
+
+static int	is_directory(const char *path)
+{
+	struct stat path_stat;
+
+	if (stat(path, &path_stat) == 0)
+	{
+		if (S_ISDIR(path_stat.st_mode))
+			return (1);
+	}
+	return (0);
+}
+
+static int	handle_directory_command(char *cmd_arg)
+{
+	if (is_directory(cmd_arg))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd_arg, 2);
+		ft_putstr_fd(": is a directory\n", 2);
+		return (126);
+	}
+	return (0);
+}
+
+static int	handle_cmd_path_error(char *cmd_arg)
+{
+	int	saved_errno;
+    
+	saved_errno = errno;
+	if (is_direct_path(cmd_arg))
+		return (ft_print_exec_error(cmd_arg, saved_errno));
+	else
+		return (handle_command_not_found(cmd_arg));
+}
 
 static int	ft_execute_external(t_command *cmd, char **envp)
 {
 	char	*cmd_path;
 	pid_t	pid;
 	int		status;
-	int		saved_errno;
+	int	dir_status;
 
 	if (!cmd || !cmd->args || !cmd->args[0] || !cmd->args[0][0])
 		return (1);
+	dir_status = handle_directory_command(cmd->args[0]);
+	if (dir_status)
+		return (dir_status);
 	cmd_path = find_executable_path(cmd->args[0], envp);
 	if (!cmd_path)
-	{
-		saved_errno = errno;
-		if (is_direct_path(cmd->args[0]))
-			return (ft_print_exec_error(cmd->args[0], saved_errno));
-		else
-			return (handle_command_not_found(cmd->args[0]));
-	}
+		return (handle_cmd_path_error(cmd->args[0]));
 	pid = fork();
 	if (pid == -1)
 		return (handle_fork_error(cmd_path));
@@ -39,7 +72,6 @@ static int	ft_execute_external(t_command *cmd, char **envp)
 	status = wait_for_child(pid);
 	return (status);
 }
-
 
 int	ft_execute_command_list(t_command *cmd_list, char ***env_ptr)
 {
