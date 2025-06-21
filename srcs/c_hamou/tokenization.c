@@ -3,40 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/21 15:27:08 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/21 16:03:56 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
 
-static char *Handle_regular_accumualtor(char *var_start, char *end, char **env, char *accumulator)
+static char *Handle_regular_accumualtor(char *var_start, char *end,
+                                        char **env, char *accumulator)
 {
-    char *var_name;
-    char *var_value;
-    char *value_to_use;
-    char *tmp;
+    char		*var_name;
+    char		*var_value;
+    const char	*value_to_join;
+    char		*tmp;
 
     var_name = ft_strndup(var_start, end - var_start);
     var_value = get_var_value(var_name, env);
     free(var_name);
-    
-    value_to_use = var_value ? ft_strdup(var_value) : ft_strdup("");
-    
+    value_to_join = var_value;
+    if (!value_to_join)
+        value_to_join = "";
     if (accumulator)
     {
         tmp = accumulator;
-        accumulator = ft_strjoin(tmp, value_to_use);
+        accumulator = ft_strjoin(tmp, value_to_join);
         free(tmp);
-        free(value_to_use);
     }
     else
-        accumulator = value_to_use;
-    
-    return accumulator;
+        accumulator = ft_strdup(value_to_join);
+    return (accumulator);
 }
 
 static char *singel_quotes_handler(char **input_start)
@@ -213,12 +212,16 @@ char *handle_unquoted_part(char **start, int *quotes_type, char **env, int ex_st
     return accumulator ? accumulator : ft_strdup("");
 }
 
-static t_token *handle_word(char **start, int *quotes_type, char **my_env, int ex_status)
-{
-    char *accumulator = NULL;
-    char *segment;
-    char *tmp;
 
+static t_token *handle_word(char **start, int *quotes_type,
+                            char **my_env, int ex_status)
+{
+    char	*accumulator;
+    char	*segment;
+    char	*tmp;
+    t_token	*token;
+
+    accumulator = NULL;
     while (**start && **start != ' ' && **start != '\t'
         && **start != '|' && **start != '<' && **start != '>')
     {
@@ -226,9 +229,8 @@ static t_token *handle_word(char **start, int *quotes_type, char **my_env, int e
         if (!segment)
         {
             free(accumulator);
-            return NULL;
+            return (NULL);
         }
-        
         if (accumulator)
         {
             tmp = accumulator;
@@ -239,11 +241,11 @@ static t_token *handle_word(char **start, int *quotes_type, char **my_env, int e
         else
             accumulator = segment;
     }
-    
     if (!accumulator)
         accumulator = ft_strdup("");
-    
-    return new_token(get_token_type(accumulator), accumulator, *quotes_type);
+    token = new_token(get_token_type(accumulator), accumulator, *quotes_type);
+    free(accumulator); // rah zedt hadi bach n7ayed memory leak
+    return (token);
 }
 
 t_token *tokenize(char *line, char **my_env, int ex_status)
