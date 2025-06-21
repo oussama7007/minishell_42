@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/21 17:34:08 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/21 18:55:10 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int		is_parent_only_builtin(char *cmd);
 int		has_redirection(t_command *cmd);
 int		setup_heredoc(t_command *cmd, char **envp);
 
+//exit
+int		ft_exit(char **args, char ***env, t_command *cmd, t_token *tok, int status);
 
 //cd 
 void	up_env_cd(char *old_pwd_val, const char *path_arg, char ***env_ptr);
