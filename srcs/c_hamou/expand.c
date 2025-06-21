@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:20:52 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/15 17:12:37 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/21 04:31:38 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,17 @@ char *get_var_value(char *new_word, char **envp)
 {
     int var_len;
 
+    if (!new_word || !envp)
+        return (NULL);
     var_len = ft_strlen(new_word);
-    while(*envp)
+    while (*envp)
     {
-        if(ft_strncmp(*envp, new_word, var_len) == 0 && (*envp)[var_len] == '=')
-                return(*envp + var_len + 1);
+        if (ft_strncmp(*envp, new_word, var_len) == 0
+            && (*envp)[var_len] == '=')
+            return (*envp + var_len + 1);
         envp++;
     }
-    return ft_strdup("");
+    return (NULL);
 }
 char *expand_value_func(char *str, char **envp)
 {
