@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/21 14:15:14 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/21 15:27:08 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char *Handle_regular_accumualtor(char *var_start, char *end, char **env, 
 
 static char *singel_quotes_handler(char **input_start)
 {
-    char *start = *input_start;
+    char *start = *input_start + 1;
     char *end = start;
     char *accumulator;
     while (*end && *end != '\'')
