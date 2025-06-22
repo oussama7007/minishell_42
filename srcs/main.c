@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/22 10:34:43 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/22 10:37:32 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,10 +145,10 @@ int     check_invalid_char(char *line)
 }
 void    sigint_handler(void)
 {
-   // (void)sig;
+    (void)sig;
     write(1, "\n",1);
     rl_on_new_line();
-    //rl_replace_line("", 0);
+    rl_replace_line("", 0);
     rl_redisplay();
 }
 void    setup_signal_handlers(void)
