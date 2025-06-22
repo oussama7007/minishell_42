@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/21 18:56:03 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/22 10:34:43 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,9 +143,25 @@ int     check_invalid_char(char *line)
     }
     return 1;
 }
-
+void    sigint_handler(void)
+{
+   // (void)sig;
+    write(1, "\n",1);
+    rl_on_new_line();
+    //rl_replace_line("", 0);
+    rl_redisplay();
+}
+void    setup_signal_handlers(void)
+{
+    (void)sig;
+    write(1, "\n", 1);
+    signal(SIGINT, sigint_handler);
+    signal(SIGQUIT, SIG_IGN); // TEST IT BEHAVIOR 
+    
+}
 int main(int ac, char **av, char **env)
 {
+    setup_signal_handlers();
     char        **my_envp;
     char        *line;
     int         ex_status;
@@ -223,4 +239,4 @@ int main(int ac, char **av, char **env)
     //rl_clear_history();         // Cleanup readline history memory
     return (ex_status);
 }
-// you need to handle 
+// you need to handle | > maybe or |<

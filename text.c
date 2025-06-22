@@ -6,12 +6,10 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 20:29:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/21 20:30:17 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/22 10:17:18 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include "header.h"
 
 // Handles the accumulation of environment variable values
 static char *Handle_regular_accumualtor(char *var_start, char *end, char **env, char *accumulator)
@@ -308,4 +306,19 @@ t_token *tokenize(char *line, char **my_env, int ex_status)
         }
     }
     return tokens;
+}
+
+void sigint_handler(int sig)
+{
+    (void)sig;
+    write(1, "\n", 1);
+    rl_on_new_line();           // Prepare for new line
+    rl_replace_line("", 0);     // Clear current line buffer
+    rl_redisplay();             // Redisplay prompt
+}
+
+void setup_signal_handlers(void)
+{
+    signal(SIGINT, sigint_handler); // Handle Ctrl+C
+    signal(SIGQUIT, SIG_IGN);       // Ignore Ctrl+\
 }
