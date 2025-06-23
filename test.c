@@ -1,52 +1,33 @@
-// Online C compiler to run C program online
 #include <stdio.h>
-#include <string.h>
+#include <signal.h>
 #include <unistd.h>
-#include <stdlib.h>
-void f()
-{
-    system("leaks a.out");
+
+// Signal handler for SIGINT
+void handle_sigint(int sig) {
+    printf("\nCaught SIGINT (Ctrl+C), signal number: %d\n", sig);
+    printf("Continuing execution...\n");
 }
-int main() 
-{
-    atexit(f);
-   char ***arr = malloc(3 * sizeof(char **));
-   arr[0] = malloc(sizeof(char *) * 3);
-   arr[0][0] = strdup("hello world");
-   arr[0][1] = strdup("welcome to morocco");
-   arr[0][2] = NULL;
 
-   arr[1] = malloc(sizeof(char *) * 3);
-   arr[1][0] = strdup("hello world -- 1");
-   arr[1][1] = strdup("welcome to morocco -- 1");
-   arr[1][2] = NULL;
+int main(void) {
+    // Set the SIGINT handler
+    if (signal(SIGINT, handle_sigint) == SIG_ERR) {
+        perror("Failed to set SIGINT handler");
+        return 1;
+    }
 
-//    arr[2][0] = strdup("hello world -- 1");
-//    arr[2][1] = strdup("welcome to morocco -- 1");
-//    arr[2][2] = NULL;
+    // Set SIGQUIT to be ignored
+    if (signal(SIGQUIT, SIG_IGN) == SIG_ERR) {
+        perror("Failed to ignore SIGQUIT");
+        return 1;
+    }
 
-   arr[2] = NULL;
-   //int i = 0;
-   char ***arr2 = arr;
-   while(*arr2)
-   {
-        char **arr3 = *arr2;
-        while(*arr3)
-        {
-            printf("%s\n", *arr3);
-            arr3++;
-        }
-        arr2++;
-   }
-    char ***arr5 = arr;
-   while(*arr5)
-   {
-        char **arr4 = *arr5;
-        while(*arr4)
-            free(*arr4++);
-        free(*arr5);
-        arr5++;
-   }
-   free(arr);
+    printf("Running... Press Ctrl+C to trigger SIGINT or Ctrl+\\ to test SIGQUIT.\n");
 
+    // Infinite loop to keep the program running
+    while (1) {
+        printf("Working...\n");
+        sleep(01);
+    }
+
+    return 0;
 }

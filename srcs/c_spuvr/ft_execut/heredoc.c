@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/21 21:34:17 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/23 16:57:05 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../built_functions.h"
-
+// kayna fih chwiya d lkhedma mhm dik nahr o ness 
 // dir expending dialek henaiaaaa
+
 static char	*expand_heredoc_line(char *line, char **envp)
 {
 	(void)envp; // fach tbghi dir expend 7ayed hadi 
@@ -68,7 +69,8 @@ int	setup_heredoc(t_command *cmd, char **envp)
 {
 	int		pipe_fds[2];
 	pid_t	pid;
-
+    
+	//printf("%s\n", cmd);
 	if (pipe(pipe_fds) == -1)
 		return (handle_fork_error(NULL));
 	pid = fork();

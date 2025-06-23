@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/23 11:18:07 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/24 00:01:48 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ int     check_single_quotes(char *line, int *i)
     }
     return 0;
 }
-
-
 int     check_double_quotes(char *line, int *i)
 {
     (*i)++;
@@ -143,7 +141,7 @@ int     check_invalid_char(char *line)
     }
     return 1;
 }
-void    sigint_handler(void)
+void    sigint_handler(int sig)
 {
     (void)sig;
     write(1, "\n",1);
@@ -161,7 +159,7 @@ void    setup_signal_handlers(void)
 }
 int main(int ac, char **av, char **env)
 {
-    setup_signal_handlers();
+    setup_signal_handlers();// hada rah dyali o lakhour maereftch lach zetih mhm test hada o dyalk rah kanden khedam dyali mzn 
     char        **my_envp;
     char        *line;
     int         ex_status;
@@ -171,7 +169,7 @@ int main(int ac, char **av, char **env)
     my_envp = init_environment(env);
     ensure_minimal_env(&my_envp);
     // my_setenv("_", av[0], &my_envp);
-    setup_signals();
+   // setup_signals();
     ex_status = 0;
     while (1)
     {
@@ -203,12 +201,11 @@ int main(int ac, char **av, char **env)
         }
         if (!validate_syntax(tokens))
         {
-            
             free(line);
             free_tokens(tokens);
             continue;
         }
-        //tokens = expand(&tokens, my_envp);
+        
        
         commands = build_command(tokens);
 		if (commands == NULL)
