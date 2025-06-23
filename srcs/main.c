@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/22 10:37:32 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/23 11:18:07 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int     validate_syntax(t_token *tokens)
             return(error(ERR_PIPE), 0);
         if (type >= TOKEN_PIPE  && !next)
             return(error(ERR_NEWLINE), 0);
-        if (next && type >= TOKEN_PIPE   && next->type >= TOKEN_PIPE )
+        if (next && type >= TOKEN_PIPE  && next->type >= TOKEN_PIPE )
             return(error(ERR_SYNTAX), 0);
         tokens = tokens->next;
     }
@@ -153,7 +153,7 @@ void    sigint_handler(void)
 }
 void    setup_signal_handlers(void)
 {
-    (void)sig;
+    
     write(1, "\n", 1);
     signal(SIGINT, sigint_handler);
     signal(SIGQUIT, SIG_IGN); // TEST IT BEHAVIOR 
@@ -240,3 +240,4 @@ int main(int ac, char **av, char **env)
     return (ex_status);
 }
 // you need to handle | > maybe or |<
+// when you pass "" or '' should output command not found

@@ -6,13 +6,20 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/21 20:31:08 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/22 23:09:20 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-   
+static char	*join_and_free(char *acc, char *to_add)
+{
+	char	*new;
 
+	new = ft_strjoin(acc, to_add);
+	free(acc);
+	free(to_add);
+	return (new);
+}
 static char *Handle_regular_accumualtor(char *var_start, char *end,
                                         char **env, char *accumulator)
 {
@@ -54,22 +61,20 @@ static char *singel_quotes_handler(char **input_start)
 
 char *handle_quoted_part(char **start, int *quotes_type, char **env, int ex_status)
 {
-    char quote_type = **start;
+    char quote_type ;
     char *end = *start + 1;
-    char *accumulator = ft_strdup("");
+    char *accumulator;
     char *tmp;
-    int local_quotes_type;
-    int *target_quotes_type = quotes_type ? quotes_type : &local_quotes_type;
+
     
-    *target_quotes_type = get_quotes_type(quote_type);
-     
+    quote_type = **start;
+    accumulator = ft_strdup("");
     if (quote_type == '\'')
     {
         free(accumulator);  // Free the initial empty string
         accumulator = singel_quotes_handler(start);
         return accumulator;
     }
-    
     // Double quotes
     while (*end && *end != '"')
     {
@@ -106,10 +111,7 @@ char *handle_quoted_part(char **start, int *quotes_type, char **env, int ex_stat
     }
     
     if (*end != '"')
-    {
-        free(accumulator);
-        return NULL;
-    }
+        return(free(accumulator) ,NULL);
     *start = end + 1;
     return accumulator;
 }
@@ -207,7 +209,9 @@ char *handle_unquoted_part(char **start, int *quotes_type, char **env, int ex_st
             accumulator = handle_normal_char(&end, accumulator);
     }
     *start = end;
-    return accumulator ? accumulator : ft_strdup("");
+    if(!accumulator)
+        return ft_strdup("");
+    return accumulator;
 }
 
 
@@ -220,15 +224,11 @@ static t_token *handle_word(char **start, int *quotes_type,
     t_token	*token;
 
     accumulator = NULL;
-    while (**start && **start != ' ' && **start != '\t'
-        && **start != '|' && **start != '<' && **start != '>')
+    while (**start && !is_space(**start) && !is_operator(**start))
     {
         segment = process_segment(start, quotes_type, my_env, ex_status);
         if (!segment)
-        {
-            free(accumulator);
-            return (NULL);
-        }
+            return (free(accumulator),NULL);
         if (accumulator)
         {
             tmp = accumulator;
@@ -242,10 +242,8 @@ static t_token *handle_word(char **start, int *quotes_type,
     if (!accumulator)
         accumulator = ft_strdup("");
     token = new_token(get_token_type(accumulator), accumulator, *quotes_type);
-    free(accumulator); // rah zedt hadi bach n7ayed memory leak
-    return (token);
+    return (free(accumulator),token);
 }
-
 t_token *tokenize(char *line, char **my_env, int ex_status)
 {
     t_token *tokens = NULL;
@@ -276,15 +274,6 @@ t_token *tokenize(char *line, char **my_env, int ex_status)
     }
     return tokens;
 }
-
-
-
-
-
-
-
-
-
 
 
 

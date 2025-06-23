@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/21 16:24:28 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/22 22:59:16 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,12 @@ int     is_quotes(char c);
 
 // tokens utils
 char *qestion_mark(int ex_status);
-char *ft_strjoin_free(char *s1, char *s2);
+
 int get_quotes_type(char quote_type);
 char *process_segment(char **start, int *quotes_type, char **env, int ex_status);
 t_token *handle_operator(char **start, int quotes_type);
 //expand
-t_token *expand(t_token **tokens,char **env);
+
 void        error(int type);
 int         validate_syntax(t_token *tokens);
 t_token     *tokenize(char *line, char **my_env, int ex_status);
