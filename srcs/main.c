@@ -6,11 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/06/24 08:09:14 by oadouz           ###   ########.fr       */
-=======
-/*   Updated: 2025/06/24 00:01:48 by oait-si-         ###   ########.fr       */
->>>>>>> a442c99510f07f1b6e69453cc2ed45c7605fb6b4
+/*   Updated: 2025/06/24 21:58:31 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,22 +141,6 @@ int     check_invalid_char(char *line)
     }
     return 1;
 }
-<<<<<<< HEAD
-// void    sigint_handler(void)
-// {
-//     (void)sig;
-//     write(1, "\n",1);
-//     rl_on_new_line();
-//     rl_replace_line("", 0);
-//     rl_redisplay();
-// }
-// void    setup_signal_handlers(void)
-// {
-//     (void)sig;
-//     write(1, "\n", 1);
-//     signal(SIGINT, sigint_handler);
-//     signal(SIGQUIT, SIG_IGN); // TEST IT BEHAVIOR 
-=======
 void    sigint_handler(int sig)
 {
     (void)sig;
@@ -175,16 +155,11 @@ void    setup_signal_handlers(void)
     write(1, "\n", 1);
     signal(SIGINT, sigint_handler);
     signal(SIGQUIT, SIG_IGN); // TEST IT BEHAVIOR 
->>>>>>> a442c99510f07f1b6e69453cc2ed45c7605fb6b4
     
-// }
+}
 int main(int ac, char **av, char **env)
 {
-<<<<<<< HEAD
-    // setup_signal_handlers();
-=======
     setup_signal_handlers();// hada rah dyali o lakhour maereftch lach zetih mhm test hada o dyalk rah kanden khedam dyali mzn 
->>>>>>> a442c99510f07f1b6e69453cc2ed45c7605fb6b4
     char        **my_envp;
     char        *line;
     int         ex_status;
@@ -193,7 +168,7 @@ int main(int ac, char **av, char **env)
     
     my_envp = init_environment(env);
     ensure_minimal_env(&my_envp);
-    // my_setenv("_", av[0], &my_envp);
+    my_setenv("_", av[0], &my_envp);
    // setup_signals();
     ex_status = 0;
     while (1)

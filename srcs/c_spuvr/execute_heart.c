@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/24 20:47:14 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/24 21:58:54 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	child_process_logic(t_command *cmd, char ***env, int heredoc_fd)
 		dup2(heredoc_fd, STDIN_FILENO);
 		close(heredoc_fd);
 	}
-	setup_child_signals();
+	// setup_child_signals();
 	handle_redirection_child(cmd);
 	if (!cmd->cmd)
 		exit(0);
