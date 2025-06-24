@@ -6,7 +6,11 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/06/24 08:09:14 by oadouz           ###   ########.fr       */
+=======
+/*   Updated: 2025/06/24 00:01:48 by oait-si-         ###   ########.fr       */
+>>>>>>> a442c99510f07f1b6e69453cc2ed45c7605fb6b4
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +45,7 @@ int     validate_syntax(t_token *tokens)
             return(error(ERR_PIPE), 0);
         if (type >= TOKEN_PIPE  && !next)
             return(error(ERR_NEWLINE), 0);
-        if (next && type >= TOKEN_PIPE   && next->type >= TOKEN_PIPE )
+        if (next && type >= TOKEN_PIPE  && next->type >= TOKEN_PIPE )
             return(error(ERR_SYNTAX), 0);
         tokens = tokens->next;
     }
@@ -99,8 +103,6 @@ int     check_single_quotes(char *line, int *i)
     }
     return 0;
 }
-
-
 int     check_double_quotes(char *line, int *i)
 {
     (*i)++;
@@ -143,6 +145,7 @@ int     check_invalid_char(char *line)
     }
     return 1;
 }
+<<<<<<< HEAD
 // void    sigint_handler(void)
 // {
 //     (void)sig;
@@ -157,11 +160,31 @@ int     check_invalid_char(char *line)
 //     write(1, "\n", 1);
 //     signal(SIGINT, sigint_handler);
 //     signal(SIGQUIT, SIG_IGN); // TEST IT BEHAVIOR 
+=======
+void    sigint_handler(int sig)
+{
+    (void)sig;
+    write(1, "\n",1);
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
+}
+void    setup_signal_handlers(void)
+{
+    
+    write(1, "\n", 1);
+    signal(SIGINT, sigint_handler);
+    signal(SIGQUIT, SIG_IGN); // TEST IT BEHAVIOR 
+>>>>>>> a442c99510f07f1b6e69453cc2ed45c7605fb6b4
     
 // }
 int main(int ac, char **av, char **env)
 {
+<<<<<<< HEAD
     // setup_signal_handlers();
+=======
+    setup_signal_handlers();// hada rah dyali o lakhour maereftch lach zetih mhm test hada o dyalk rah kanden khedam dyali mzn 
+>>>>>>> a442c99510f07f1b6e69453cc2ed45c7605fb6b4
     char        **my_envp;
     char        *line;
     int         ex_status;
@@ -171,7 +194,7 @@ int main(int ac, char **av, char **env)
     my_envp = init_environment(env);
     ensure_minimal_env(&my_envp);
     // my_setenv("_", av[0], &my_envp);
-    setup_signals();
+   // setup_signals();
     ex_status = 0;
     while (1)
     {
@@ -203,12 +226,11 @@ int main(int ac, char **av, char **env)
         }
         if (!validate_syntax(tokens))
         {
-            
             free(line);
             free_tokens(tokens);
             continue;
         }
-        //tokens = expand(&tokens, my_envp);
+        
        
         commands = build_command(tokens);
 		if (commands == NULL)
@@ -240,3 +262,4 @@ int main(int ac, char **av, char **env)
     return (ex_status);
 }
 // you need to handle | > maybe or |<
+// when you pass "" or '' should output command not found

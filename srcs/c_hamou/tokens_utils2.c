@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:16:02 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/21 11:54:38 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/22 16:54:54 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_token     *new_token(int type, char *word, int quotes_type)
 }
 int     get_token_type(char *line)
 {
-    if(!line && !line[0])
+    if(!line || line[0])
         return(TOKEN_WORD);
     if(line[0] == '|')
         return (TOKEN_PIPE);
