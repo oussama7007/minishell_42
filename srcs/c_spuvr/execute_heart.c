@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/21 21:42:13 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/24 20:47:14 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ static void	child_process_logic(t_command *cmd, char ***env, int heredoc_fd)
 	handle_redirection_child(cmd);
 	if (!cmd->cmd)
 		exit(0);
+	if (handle_directory_command(cmd->args[0]) == 999)
+		exit(999);
 	builtin_status = is_built_ins(cmd->args, env);
 	if (builtin_status != 999)
 		exit(builtin_status);
