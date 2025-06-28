@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/22 22:59:16 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/27 23:41:22 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,7 @@ typedef struct s_head_list
     t_gc_list *head;
 } t_head_list;
 // garbage collecter 
-void    add_ptr_node(t_head_list **head, void *ptr);
-void *gc_malloc(t_head_list **head,int size);
-void    free_gc(t_head_list *head);
+
 
 char *handle_quoted_part(char **start, int *quotes_type, char **env, int ex_status);
 char *handle_unquoted_part(char **start, int *quotes_type, char **env, int ex_status);
@@ -79,12 +77,14 @@ int     is_quotes(char c);
 
 // tokens utils
 char *qestion_mark(int ex_status);
-
 int get_quotes_type(char quote_type);
 char *process_segment(char **start, int *quotes_type, char **env, int ex_status);
 t_token *handle_operator(char **start, int quotes_type);
 //expand
-
+t_token *handle_word(char **start, int *quotes_type,char **my_env, int ex_status);
+char *handle_dollar_case(char **end, char **env, int ex_status, char *accumulator);
+char *handle_normal_char(char **end_ptr, char *accumulator);
+char *Handle_regular_accumualtor(char *var_start, char *end, char **env, char *accumulator);
 void        error(int type);
 int         validate_syntax(t_token *tokens);
 t_token     *tokenize(char *line, char **my_env, int ex_status);

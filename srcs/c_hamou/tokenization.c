@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/22 23:09:20 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/27 23:41:09 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ static char	*join_and_free(char *acc, char *to_add)
 	free(to_add);
 	return (new);
 }
-static char *Handle_regular_accumualtor(char *var_start, char *end,
-                                        char **env, char *accumulator)
+char *Handle_regular_accumualtor(char *var_start, char *end, char **env, char *accumulator)
 {
     char		*var_name;
     char		*var_value;
@@ -165,7 +164,7 @@ static char *handle_regular_dollar(char **end, char **env, int ex_status, char *
     return Handle_regular_accumualtor(var_start, *end, env, accumulator);
 }
 
-static char *handle_dollar_case(char **end, char **env, int ex_status, char *accumulator)
+char *handle_dollar_case(char **end, char **env, int ex_status, char *accumulator)
 {   
     (*end)++;
     if (**end == '?')
@@ -176,7 +175,7 @@ static char *handle_dollar_case(char **end, char **env, int ex_status, char *acc
         return handle_regular_dollar(end, env, ex_status, accumulator);
 }
 
-static char *handle_normal_char(char **end_ptr, char *accumulator)
+char *handle_normal_char(char **end_ptr, char *accumulator)
 {
     char ch = **end_ptr;
     char *tmp = ft_strndup(&ch, 1);
@@ -215,8 +214,7 @@ char *handle_unquoted_part(char **start, int *quotes_type, char **env, int ex_st
 }
 
 
-static t_token *handle_word(char **start, int *quotes_type,
-                            char **my_env, int ex_status)
+t_token *handle_word(char **start, int *quotes_type,char **my_env, int ex_status)
 {
     char	*accumulator;
     char	*segment;
@@ -277,4 +275,4 @@ t_token *tokenize(char *line, char **my_env, int ex_status)
 
 
 
-// // look at deep seek has your last issue you faced 
+// // 

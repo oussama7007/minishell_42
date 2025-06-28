@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/25 15:37:12 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/27 23:43:40 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 // kayna fih chwiya d lkhedma mhm dik nahr o ness 
 // dir expending dialek henaiaaaa
 
-static char	*expand_heredoc_line(char *line, char **envp)
-{
-	(void)envp; // fach tbghi dir expend 7ayed hadi 
-	// Variable expansion Neta li khassek dirha ;) 
-	return (ft_strdup(line));
-}
+// static char	*expand_heredoc_line(char *line, char **envp)
+// {
+// 	(void)envp; // fach tbghi dir expend 7ayed hadi 
+// 	// Variable expansion Neta li khassek dirha ;) 
+// 	return (ft_strdup(line));
+// }
+
 
 static void	heredoc_sigint_handler(int sig)
 {
@@ -42,7 +43,7 @@ static void	heredoc_child_process(int pipe_write_fd, t_command *cmd, char **envp
 				free(line);
 			break ;
 		}
-		expanded = expand_heredoc_line(line, envp);÷
+		//expanded = expand_heredoc_line(line, envp);
 		ft_putendl_fd(expanded, pipe_write_fd);
 		free(line);
 		free(expanded);
