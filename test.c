@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -131,3 +132,5 @@ int setup_heredoc(t_command *cmd, char **envp, int ex_status)
     }
     return (heredoc_parent_process(pid, pipe_fds));
 }
+=======
+>>>>>>> d5b0c555695e73529c4c9b067d9924c90a3c7bea

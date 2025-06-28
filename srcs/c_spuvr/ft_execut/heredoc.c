@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/06/27 23:43:40 by oait-si-         ###   ########.fr       */
+=======
+/*   Updated: 2025/06/28 04:12:54 by oadouz           ###   ########.fr       */
+>>>>>>> d5b0c555695e73529c4c9b067d9924c90a3c7bea
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../built_functions.h"
 // kayna fih chwiya d lkhedma mhm dik nahr o ness 
+// fo9ach ghan pushiw ?? 
 // dir expending dialek henaiaaaa
 
 // static char	*expand_heredoc_line(char *line, char **envp)
