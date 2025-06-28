@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/24 21:58:31 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/24 22:16:33 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,9 @@ int main(int ac, char **av, char **env)
             free_command(commands); // Free the commands list after execution
    
         }
-        //print_tokens(tokens);
+        print_tokens(tokens);
+        printf("%s", commands->heredoc_delimiter);
+        printf("\n");
         free_tokens(tokens);
         free(line);
     }
