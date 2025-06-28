@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/28 16:29:34 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/28 20:44:03 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,7 @@ int main(int ac, char **av, char **env)
         
        
         commands = build_command(tokens);
-        //print_commands(commands);
+        print_commands(commands);
 		if (commands == NULL)
 		{
 			free(line);
@@ -225,13 +225,13 @@ int main(int ac, char **av, char **env)
         else if (commands)
         {
  
-            ex_status = ft_execute_command_list(commands, &my_envp);
+            ex_status = ft_execute_command_list(commands, &my_envp, ex_status);
             free_command(commands); // Free the commands list after execution
    
         }
-        //print_tokens(tokens);
+        print_tokens(tokens);
         //printf("%s", commands->heredoc_delimiter);
-        //printf("\n");
+        printf("\n");
         free_tokens(tokens);
         free(line);
     }

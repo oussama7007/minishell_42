@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/28 17:49:41 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/28 22:19:54 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_command {
     char **red_out;        // Array of output redirection files
     int *append;           // Array of flags (1 for >>, 0 for >)
     char *heredoc_delimiter;// Delimiter for << (e.g., "EOF")
-    int   herdoc_quotes;
+    int   heredoc_quotes;
     struct s_command *next;// Next command (for pipes)
 } t_command;
 

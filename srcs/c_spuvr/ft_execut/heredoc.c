@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/28 16:42:22 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/28 21:51:57 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,29 @@
 
 
 // char expand_herdoc_line(char *line, char **env, int ex_status)
-char *expand_heredoc_line(char *line, char **env,)
+static char *expand_heredoc_line(char *line, char **env, int ex_status)
 {
-	char *word;
-	..
+    char    *result;
+    char    *current;
+    int     quotes_type = 0; // Unquoted context for heredoc
+
+    result = NULL;
+    current = line;
+    while (*current)
+    {
+        if (*current == '$' && (ft_isalpha(*(current + 1)) || 
+            *(current + 1) == '?' || *(current + 1) == '_'))
+        {
+            result = handle_dollar_case(&current, env, ex_status, result);
+        }
+        else
+        {
+            result = handle_normal_char(&current, result);
+        }
+    }
+    if(result)
+		return result;
+	return ft_strdup("");		
 }
 
 static void	heredoc_sigint_handler(int sig)
@@ -30,7 +49,7 @@ static void	heredoc_sigint_handler(int sig)
 	exit(130);
 }
 
-static void	heredoc_child_process(int pipe_write_fd, t_command *cmd, char **envp)
+static void	heredoc_child_process(int pipe_write_fd, t_command *cmd, char **envp, int ex_status)
 {
 
 	char	*line;
@@ -47,7 +66,7 @@ static void	heredoc_child_process(int pipe_write_fd, t_command *cmd, char **envp
 			break ;
 		}
 		
-		word = expand_heredoc_line(line, envp );
+		word = expand_heredoc_line(line, envp , ex_status );
 		if(word)
 		{	
 			ft_putendl_fd(word, pipe_write_fd);
@@ -77,7 +96,7 @@ static int	heredoc_parent_process(pid_t pid, int *pipe_fds)
 	return (-1);
 }
 
-int	setup_heredoc(t_command *cmd, char **envp)
+int	setup_heredoc(t_command *cmd, char **envp, int ex_status)
 {
 	int		pipe_fds[2];
 	pid_t	pid;
@@ -95,7 +114,7 @@ int	setup_heredoc(t_command *cmd, char **envp)
 	if (pid == 0)
 	{
 		close(pipe_fds[0]);
-		heredoc_child_process(pipe_fds[1], cmd, envp);
+		heredoc_child_process(pipe_fds[1], cmd, envp, ex_status);
 	}
 	return (heredoc_parent_process(pid, pipe_fds));
 }
