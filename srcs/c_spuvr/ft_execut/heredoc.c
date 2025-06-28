@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/28 10:16:07 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/28 16:42:22 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 // fo9ach ghan pushiw ?? 
 // dir expending dialek henaiaaaa
 
-// static char	*expand_heredoc_line(char *line, char **envp)
-// {
-// 	(void)envp; // fach tbghi dir expend 7ayed hadi 
-// 	// Variable expansion Neta li khassek dirha ;) 
-// 	return (ft_strdup(line));
-// }
 
+
+// char expand_herdoc_line(char *line, char **env, int ex_status)
+char *expand_heredoc_line(char *line, char **env,)
+{
+	char *word;
+	..
+}
 
 static void	heredoc_sigint_handler(int sig)
 {
@@ -31,8 +32,9 @@ static void	heredoc_sigint_handler(int sig)
 
 static void	heredoc_child_process(int pipe_write_fd, t_command *cmd, char **envp)
 {
+
 	char	*line;
-	char	*expanded;
+	char	*word = NULL;
 
 	signal(SIGINT, heredoc_sigint_handler);
 	while (1)
@@ -44,10 +46,18 @@ static void	heredoc_child_process(int pipe_write_fd, t_command *cmd, char **envp
 				free(line);
 			break ;
 		}
-		//expanded = expand_heredoc_line(line, envp);
-		ft_putendl_fd(expanded, pipe_write_fd);
-		free(line);
-		free(expanded);
+		
+		word = expand_heredoc_line(line, envp );
+		if(word)
+		{	
+			ft_putendl_fd(word, pipe_write_fd);
+			free(word);
+		}
+		else
+		{
+			ft_putendl_fd(line, pipe_write_fd);
+		    free(line);
+		}
 	}
 	close(pipe_write_fd);
 	exit(0);

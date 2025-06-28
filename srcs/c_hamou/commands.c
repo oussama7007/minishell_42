@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:22:51 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/21 21:37:39 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/28 18:08:52 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_command *new_command(void)
     command->red_out = NULL;
     command->append = NULL;
     command->heredoc_delimiter = NULL;
+    command->herdoc_quotes = 0;
     command->next = NULL;
     return (command);
 }
@@ -100,7 +101,10 @@ static int	populate_command(t_command *cmd, t_token *tokens, int arg_c,
 			append_idx++;
 		}
 		else if (tokens->type == TOKEN_RED_HEREDOC && tokens->next)
-			cmd->heredoc_delimiter = ft_strdup((tokens = tokens->next)->value);
+		{	
+            cmd->heredoc_delimiter = ft_strdup((tokens = tokens->next)->value);
+            cmd->herdoc_quotes = (tokens->quotes_type != 0);
+        } 
 		tokens = tokens->next;
 	}
 	cmd->args[i] = NULL;
