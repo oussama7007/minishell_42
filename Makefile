@@ -3,7 +3,7 @@
 
 NAME        := minishell
 CC          := cc
-# CFLAGS      := -fsanitize=address -g #-Wall -Wextra -Werror
+CFLAGS      := -fsanitize=address -g #-Wall -Wextra -Werror
 LINKER      := -lreadline -lncurses
 INCLUDES    := -I srcs/includes
  

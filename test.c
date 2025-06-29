@@ -6,18 +6,17 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/28 22:27:08 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/29 15:43:30 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../built_functions.h"
-#include "header.h"
+
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
-#include "libft.h"
 
+#include <stdio.h>
 static char *expand_heredoc_line(char *line, char **env, int ex_status)
 {
     char    *result;
@@ -85,3 +84,4 @@ static void heredoc_child_process(int pipe_write_fd, t_command *cmd,
     close(pipe_write_fd);
     exit(0);
 }
+

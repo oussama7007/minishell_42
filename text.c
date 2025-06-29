@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 20:29:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/22 23:06:48 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/29 15:53:37 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	*expand_variable(char **end, char *acc,
 }
 
 char	*handle_quoted_part(char **start, int *quotes_type,
-			char **env, int ex_status)
+			char **env, int ex_status, int *delimiter)
 {
 	char	quote;
 	char	*end;
@@ -79,5 +79,5 @@ void sigint_handler(int sig)
 void setup_signal_handlers(void)
 {
     signal(SIGINT, sigint_handler); // Handle Ctrl+C
-    signal(SIGQUIT, SIG_IGN);       // Ignore Ctrl+\
+    signal(SIGQUIT, SIG_IGN);        // Ignore Ctrl+\ //
 }

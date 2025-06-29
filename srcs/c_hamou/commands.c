@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:22:51 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/28 22:19:49 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/28 23:54:04 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,11 @@ static int	populate_command(t_command *cmd, t_token *tokens, int arg_c,
 		}
 		else if (tokens->type == TOKEN_RED_HEREDOC && tokens->next)
 		{	
-            cmd->heredoc_delimiter = ft_strdup((tokens = tokens->next)->value);
+            tokens = tokens->next;
+            // cmd->heredoc_delimiter = ft_strdup((tokens = tokens->next)->value);
+            cmd->heredoc_delimiter = ft_strdup(tokens->value);
             cmd->heredoc_quotes = (tokens->quotes_type != 0);
+
         } 
 		tokens = tokens->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/27 23:41:09 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/29 17:30:52 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char *Handle_regular_accumualtor(char *var_start, char *end, char **env, char *a
     return (accumulator);
 }
 
-static char *singel_quotes_handler(char **input_start)
+static char *singel_quotes_handler(char **input_start, int *delimiter)
 {
     char *start = *input_start + 1;
     char *end = start;
@@ -55,10 +55,12 @@ static char *singel_quotes_handler(char **input_start)
         return NULL; 
     accumulator = ft_strndup(start, end - start);
     *input_start = end + 1;
+    if(*delimiter)
+        *delimiter = 0;
     return accumulator;
 }
 
-char *handle_quoted_part(char **start, int *quotes_type, char **env, int ex_status)
+char *handle_quoted_part(char **start, int *quotes_type, char **env, int ex_status, int *delimiter)
 {
     char quote_type ;
     char *end = *start + 1;
@@ -70,14 +72,14 @@ char *handle_quoted_part(char **start, int *quotes_type, char **env, int ex_stat
     accumulator = ft_strdup("");
     if (quote_type == '\'')
     {
-        free(accumulator);  // Free the initial empty string
-        accumulator = singel_quotes_handler(start);
-        return accumulator;
+            free(accumulator);
+            accumulator = singel_quotes_handler(start, delimiter);
+            return accumulator;
     }
     // Double quotes
-    while (*end && *end != '"')
+     while (*end && *end != '"')
     {
-        if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '?'))
+        if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '?') && !*delimiter)
         {
             end++;
             if (*end == '?')
@@ -108,20 +110,20 @@ char *handle_quoted_part(char **start, int *quotes_type, char **env, int ex_stat
             end++;
         }
     }
-    
+   
     if (*end != '"')
         return(free(accumulator) ,NULL);
     *start = end + 1;
     return accumulator;
 }
 
-static char *handle_double_quote_dollar(char **end, char *accumulator, char **env, int ex_status)
+static char *handle_double_quote_dollar(char **end, char *accumulator, char **env, int ex_status, int *delimiter)
 {
  
     int dummy_quotes_type;
     char *quoted_value;
     
-    quoted_value = handle_quoted_part(end, &dummy_quotes_type, env, ex_status);
+    quoted_value = handle_quoted_part(end, &dummy_quotes_type, env, ex_status,delimiter );
     if (!quoted_value)
         return NULL;
 
@@ -164,18 +166,19 @@ static char *handle_regular_dollar(char **end, char **env, int ex_status, char *
     return Handle_regular_accumualtor(var_start, *end, env, accumulator);
 }
 
-char *handle_dollar_case(char **end, char **env, int ex_status, char *accumulator)
+char *handle_dollar_case(char **end, char **env, int ex_status, char *accumulator, int *delimiter)
 {   
     (*end)++;
     if (**end == '?')
         return handle_question_mark(end, ex_status, accumulator);
     else if (**end == '"')
-        return handle_double_quote_dollar(end, accumulator, env, ex_status);
+        return handle_double_quote_dollar(end, accumulator, env, ex_status, delimiter);
     else
-        return handle_regular_dollar(end, env, ex_status, accumulator);
+            return handle_regular_dollar(end, env, ex_status, accumulator);
+        
 }
 
-char *handle_normal_char(char **end_ptr, char *accumulator)
+char *handle_normal_char(char **end_ptr, char *accumulator,int *delimiter)
 {
     char ch = **end_ptr;
     char *tmp = ft_strndup(&ch, 1);
@@ -190,10 +193,11 @@ char *handle_normal_char(char **end_ptr, char *accumulator)
     else
         accumulator = tmp;
     (*end_ptr)++;
+    *delimiter = 0;
     return accumulator;
 }
 
-char *handle_unquoted_part(char **start, int *quotes_type, char **env, int ex_status)
+char *handle_unquoted_part(char **start, int *quotes_type, char **env, int ex_status, int *delimiter)
 {
     char *end = *start;
     char *accumulator = NULL;
@@ -202,10 +206,10 @@ char *handle_unquoted_part(char **start, int *quotes_type, char **env, int ex_st
 
     while(*end && !is_space(*end) && !is_operator(*end) && !is_quotes(*end))
     {
-        if (*end == '$' && (ft_isalpha(*(end + 1))  || *(end + 1) == '?' || *(end + 1) == '"'))
-            accumulator = handle_dollar_case(&end, env, ex_status, accumulator);
+        if (*end == '$' && (ft_isalpha(*(end + 1))  || *(end + 1) == '?' || *(end + 1) == '"') && !*delimiter)
+                accumulator = handle_dollar_case(&end, env, ex_status, accumulator, *delimiter);
         else
-            accumulator = handle_normal_char(&end, accumulator);
+            accumulator = handle_normal_char(&end, accumulator, delimiter);
     }
     *start = end;
     if(!accumulator)
@@ -214,7 +218,7 @@ char *handle_unquoted_part(char **start, int *quotes_type, char **env, int ex_st
 }
 
 
-t_token *handle_word(char **start, int *quotes_type,char **my_env, int ex_status)
+t_token *handle_word(char **start, int *quotes_type,char **my_env, int ex_status, int *delimiter)
 {
     char	*accumulator;
     char	*segment;
@@ -224,7 +228,7 @@ t_token *handle_word(char **start, int *quotes_type,char **my_env, int ex_status
     accumulator = NULL;
     while (**start && !is_space(**start) && !is_operator(**start))
     {
-        segment = process_segment(start, quotes_type, my_env, ex_status);
+        segment = process_segment(start, quotes_type, my_env, ex_status, delimiter);
         if (!segment)
             return (free(accumulator),NULL);
         if (accumulator)
@@ -247,7 +251,9 @@ t_token *tokenize(char *line, char **my_env, int ex_status)
     t_token *tokens = NULL;
     char *start = line;
     int quotes_type = 0;
+    t_delimiter del;
 
+    del.delimiter = 0;
     while (*start)
     {
         while (is_space(*start))
@@ -257,14 +263,14 @@ t_token *tokenize(char *line, char **my_env, int ex_status)
             
         if (is_operator(*start))
         {
-            t_token *token = handle_operator(&start, quotes_type);
+            t_token *token = handle_operator(&start, quotes_type, &del.delimiter);
             if (!token)
                 return free_tokens(tokens), NULL;// need to look about it
             add_token(&tokens, token);
         }
         else
         {
-            t_token *token = handle_word(&start, &quotes_type, my_env, ex_status);
+            t_token *token = handle_word(&start, &quotes_type, my_env, ex_status, &del.delimiter);
             if (!token)
                 return free_tokens(tokens), NULL;
             add_token(&tokens, token);

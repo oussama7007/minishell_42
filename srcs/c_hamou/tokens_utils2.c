@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:16:02 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/25 15:27:05 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/29 17:21:22 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,24 @@ void    add_token(t_token **tokens, t_token *token)
         tmp->next = token;
     }
 }
-char *process_segment(char **start, int *quotes_type, char **env, int ex_status)
+char *process_segment(char **start, int *quotes_type, char **env, int ex_status, int *delimiter)
 {
     if (**start == '\'' || **start == '"')
-        return handle_quoted_part(start, quotes_type, env, ex_status);
+        return handle_quoted_part(start, quotes_type, env, ex_status, delimiter);
     else
-        return handle_unquoted_part(start, quotes_type, env, ex_status);
+        return handle_unquoted_part(start, quotes_type, env, ex_status, delimiter);
 }
-t_token *handle_operator(char **start, int quotes_type)
+t_token *handle_operator(char **start, int quotes_type, int  *delimiter)
 {
     char *word;
     t_token *token;
     char *end = *start;
-
     if (*end == '<' && *(end + 1) == '<')
+    {
         end += 2;
+        if(*delimiter == 0)
+            *delimiter = 1;
+    }
     else if (*end == '>' && *(end + 1) == '>')
         end += 2;
     else

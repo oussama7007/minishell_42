@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/28 21:51:57 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/29 16:40:43 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char *expand_heredoc_line(char *line, char **env, int ex_status)
     char    *result;
     char    *current;
     int     quotes_type = 0; // Unquoted context for heredoc
-
+	int delimiter = 0;
     result = NULL;
     current = line;
     while (*current)
@@ -31,11 +31,11 @@ static char *expand_heredoc_line(char *line, char **env, int ex_status)
         if (*current == '$' && (ft_isalpha(*(current + 1)) || 
             *(current + 1) == '?' || *(current + 1) == '_'))
         {
-            result = handle_dollar_case(&current, env, ex_status, result);
+            result = handle_dollar_case(&current, env, ex_status, result, &delimiter);
         }
         else
         {
-            result = handle_normal_char(&current, result);
+            result = handle_normal_char(&current, result, &delimiter);
         }
     }
     if(result)
@@ -65,12 +65,19 @@ static void	heredoc_child_process(int pipe_write_fd, t_command *cmd, char **envp
 				free(line);
 			break ;
 		}
-		
-		word = expand_heredoc_line(line, envp , ex_status );
-		if(word)
-		{	
-			ft_putendl_fd(word, pipe_write_fd);
-			free(word);
+		if(cmd->heredoc_quotes == 0)
+		{
+			word = expand_heredoc_line(line, envp , ex_status );	
+			if(word)
+			{	
+				ft_putendl_fd(word, pipe_write_fd);
+				free(word);
+			}
+			else
+			{
+				ft_putendl_fd(line, pipe_write_fd);
+		    	free(line);
+			}
 		}
 		else
 		{
