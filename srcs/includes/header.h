@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/29 16:34:43 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/29 23:42:11 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@
 #define ERR_SEMICOLON 7
 #define ERR_SYNTAX 8 
 
-typedef struct s_delimiter
+typedef struct s_data
 {
     int delimiter;
-}t_delimiter;
+    int ex_status;
+    int quote_type;
+}t_data;
 
 typedef struct s_token {
     int type;              // Token type (e.g., TOKEN_WORD, TOKEN_PIPE)
@@ -75,8 +77,8 @@ typedef struct s_head_list
 // garbage collecter 
 
 
-char *handle_quoted_part(char **start, int *quotes_type, char **env, int ex_status, int *delimiter);
-char *handle_unquoted_part(char **start, int *quotes_type, char **env, int ex_status, int *delimiter);
+char *handle_quoted_part(char **start, char **env, t_data *data);
+char *handle_unquoted_part(char **start, char **env,t_data *data);
 
 int     is_space(char c);
 int     is_operator(char c);
@@ -85,16 +87,16 @@ int     is_quotes(char c);
 // tokens utils
 char *qestion_mark(int ex_status);
 int get_quotes_type(char quote_type);
-char *process_segment(char **start, int *quotes_type, char **env, int ex_status, int *delimiter);
-t_token *handle_operator(char **start, int quotes_type, int *delimiter);
+char *process_segment(char **start, char **env, t_data *data);
+t_token *handle_operator(char **start, t_data *data);
 //expand
-t_token *handle_word(char **start, int *quotes_type,char **my_env, int ex_status, int *delimiter);
-char *handle_dollar_case(char **end, char **env, int ex_status, char *accumulator, int *delimiter);
-char *handle_normal_char(char **end_ptr, char *accumulator, int *delimiter);
+t_token *handle_word(char **start,char **my_env, t_data *data );
+char *handle_dollar_case(char **end, char **env, char *accumulator, t_data *data);
+char *handle_normal_char(char **end_ptr, char *accumulator, t_data *data);
 char *Handle_regular_accumualtor(char *var_start, char *end, char **env, char *accumulator);
 void        error(int type);
 int         validate_syntax(t_token *tokens);
-t_token     *tokenize(char *line, char **my_env, int ex_status);
+t_token     *tokenize(char *line, char **my_env, t_data *data);
 // int         is_space(int  c);
 void        free_tokens(t_token *tokens);
 void        free_args(t_command *command);
