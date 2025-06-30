@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/29 17:30:52 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/29 17:48:40 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char *handle_quoted_part(char **start, int *quotes_type, char **env, int ex_stat
     // Double quotes
      while (*end && *end != '"')
     {
-        if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '?') && !*delimiter)
+        if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '?') && delimiter && !*delimiter)
         {
             end++;
             if (*end == '?')
