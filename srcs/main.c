@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/28 20:44:03 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:30:14 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,11 +158,12 @@ void    setup_signal_handlers(void)
     
 }
 int main(int ac, char **av, char **env)
-{
+{ // 5 variables;
     setup_signal_handlers();// hada rah dyali o lakhour maereftch lach zetih mhm test hada o dyalk rah kanden khedam dyali mzn 
     char        **my_envp;
     char        *line;
-    int         ex_status;
+    // int         ex_status;
+    t_data      *data;
     t_token     *tokens = NULL;
     t_command   *commands;
     
@@ -170,7 +171,13 @@ int main(int ac, char **av, char **env)
     ensure_minimal_env(&my_envp);
     my_setenv("_", av[0], &my_envp);
    // setup_signals();
-    ex_status = 0;
+    data = malloc(sizeof(t_data));
+    //if(!data)   
+        //return NULL;
+    ft_memset(data, 0, sizeof(t_data));
+    // data->ex_status = 0;
+    // data->delimiter = 0;
+    // data->quote_type = 0;
     while (1)
     {
         line = readline("Minishell$ ");
@@ -178,8 +185,9 @@ int main(int ac, char **av, char **env)
         {
             write(1, "exit\n", 5);
             free_environment(my_envp);
+            free(data);
             //rl_clear_history();
-            exit(ex_status);
+            exit(data->ex_status);
         }
         if (*line)
             add_history(line);
@@ -192,7 +200,7 @@ int main(int ac, char **av, char **env)
             free(line);
             continue;
         }
-        tokens = tokenize(line, my_envp, ex_status);
+        tokens = tokenize(line, my_envp, data);
         if (!tokens || !*line)
         {
             
@@ -213,11 +221,12 @@ int main(int ac, char **av, char **env)
 		{
 			free(line);
 			free_tokens(tokens);
+            
 			continue;
 		}
         else if (commands && commands->cmd && ft_strcmp(commands->cmd, "exit") == 0)
         {
-            ex_status = ft_exit(commands->args, &my_envp, commands, tokens, ex_status);
+            data->ex_status= ft_exit(commands->args, &my_envp, commands, tokens, data);
             // ft_exit will only return if there are too many arguments.
             // In that case, we fall through to the regular cleanup for this loop iteration.
         }
@@ -225,7 +234,7 @@ int main(int ac, char **av, char **env)
         else if (commands)
         {
  
-            ex_status = ft_execute_command_list(commands, &my_envp, ex_status);
+            data->ex_status = ft_execute_command_list(commands, &my_envp, data);
             free_command(commands); // Free the commands list after execution
    
         }
@@ -238,7 +247,8 @@ int main(int ac, char **av, char **env)
     
     free_environment(my_envp); // Cleanup the custom environment
     //rl_clear_history();         // Cleanup readline history memory
-    return (ex_status);
+    free(data);
+    return (data->ex_status);
 }
 // you need to handle | > maybe or |<
 // when you pass "" or '' should output command not found
