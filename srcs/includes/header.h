@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/29 23:42:11 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/01 23:10:13 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,15 @@
 #define ERR_SEMICOLON 7
 #define ERR_SYNTAX 8 
 
+
+typedef struct s_heredoc {
+    char                *delimiter;
+    int                 quotes;
+    char                *tmp_file; // To store the temporary file name
+    struct s_heredoc    *next;
+} t_heredoc;
+
+
 typedef struct s_data
 {
     int delimiter;
@@ -54,14 +63,13 @@ typedef struct s_token {
 } t_token;
 
 typedef struct s_command {
-    char *cmd;             // Command name (e.g., "ls")
-    char **args;           // Array of arguments (e.g., {"ls", "-l"})
-    char **red_in;         // Array of input redirection files
-    char **red_out;        // Array of output redirection files
-    int *append;           // Array of flags (1 for >>, 0 for >)
-    char *heredoc_delimiter;// Delimiter for << (e.g., "EOF")
-    int   heredoc_quotes;
-    struct s_command *next;// Next command (for pipes)
+    char                *cmd;
+    char                **args;
+    char                **red_in;
+    char                **red_out;
+    int                 *append;
+    t_heredoc           *heredocs;
+    struct s_command    *next;
 } t_command;
 
 typedef struct s_gc_list
