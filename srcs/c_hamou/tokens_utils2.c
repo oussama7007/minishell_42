@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:16:02 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/29 17:21:22 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/06/29 23:42:50 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@ void    add_token(t_token **tokens, t_token *token)
         tmp->next = token;
     }
 }
-char *process_segment(char **start, int *quotes_type, char **env, int ex_status, int *delimiter)
+char *process_segment(char **start, char **env, t_data *data)
 {
     if (**start == '\'' || **start == '"')
-        return handle_quoted_part(start, quotes_type, env, ex_status, delimiter);
+        return handle_quoted_part(start, env,data);
     else
-        return handle_unquoted_part(start, quotes_type, env, ex_status, delimiter);
+        return handle_unquoted_part(start, env, data);
 }
-t_token *handle_operator(char **start, int quotes_type, int  *delimiter)
+t_token *handle_operator(char **start, t_data *data)
 {
     char *word;
     t_token *token;
@@ -71,8 +71,8 @@ t_token *handle_operator(char **start, int quotes_type, int  *delimiter)
     if (*end == '<' && *(end + 1) == '<')
     {
         end += 2;
-        if(*delimiter == 0)
-            *delimiter = 1;
+        if(data->delimiter == 0)
+            data->delimiter = 1;
     }
     else if (*end == '>' && *(end + 1) == '>')
         end += 2;
@@ -81,7 +81,7 @@ t_token *handle_operator(char **start, int quotes_type, int  *delimiter)
     word = ft_strndup(*start, end - *start);
     if (!word)
         return (NULL);
-    token = new_token(get_token_type(word), word, quotes_type);
+    token = new_token(get_token_type(word), word, data->quote_type);
     *start = end;
     free(word);
     return token;

@@ -6,7 +6,11 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/06/29 19:41:11 by oadouz           ###   ########.fr       */
+=======
+/*   Updated: 2025/06/30 11:02:48 by oait-si-         ###   ########.fr       */
+>>>>>>> bf0e99ec959c40e207915c72f39fd029fdc72051
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +80,7 @@ static void	child_process_logic(t_command *cmd, char ***env, int heredoc_fd)
 	execute_child_process(cmd_path, cmd->args, *env);
 }
 
-int	ft_execute_command_list(t_command *cmd_list, char ***env_ptr, int ex_status)
+int	ft_execute_command_list(t_command *cmd_list, char ***env_ptr, t_data *data)
 {
 	pid_t	pid;
 	int		heredoc_fd;
@@ -86,7 +90,7 @@ int	ft_execute_command_list(t_command *cmd_list, char ***env_ptr, int ex_status)
 	heredoc_fd = -1;
 	if (cmd_list->heredoc_delimiter)
 	{
-		heredoc_fd = setup_heredoc(cmd_list, *env_ptr, ex_status);
+		heredoc_fd = setup_heredoc(cmd_list, *env_ptr, data);
 		if (heredoc_fd == -1)
 			return (1);
 	}
