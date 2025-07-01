@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:28:42 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/28 15:28:43 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/06/29 20:07:17 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void gc_free_all(t_head_list *head) {
 	}
 	head->head = NULL;
 }
-
 char	*gc_strdup(t_head_list *head, const char *s) {
 	if (!s)
 		return (NULL);
@@ -55,10 +54,6 @@ char	*gc_strdup(t_head_list *head, const char *s) {
 	ft_memcpy(dup, s, len);
 	return (dup);
 }
-
-
-
-
 void	*gc_malloc(t_head_list *head, size_t size)
 {
 	if (!head)
