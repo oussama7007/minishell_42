@@ -6,15 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/06/29 20:25:11 by oadouz           ###   ########.fr       */
-=======
-<<<<<<< HEAD
-/*   Updated: 2025/06/29 17:59:57 by oait-si-         ###   ########.fr       */
-=======
-/*   Updated: 2025/06/30 11:30:14 by oait-si-         ###   ########.fr       */
->>>>>>> 08891354a1ca557c7afef1064ddb342acb4bf6a0
->>>>>>> bf0e99ec959c40e207915c72f39fd029fdc72051
+/*   Updated: 2025/07/01 14:27:37 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,16 +162,14 @@ int main(int ac, char **av, char **env)
     setup_signal_handlers();// hada rah dyali o lakhour maereftch lach zetih mhm test hada o dyalk rah kanden khedam dyali mzn 
     char        **my_envp;
     char        *line;
-<<<<<<< HEAD
     int         ex_status;
     // {
         // DEL
         // EX_STATUS 
     // 
-=======
+
     // int         ex_status;
     t_data      *data;
->>>>>>> bf0e99ec959c40e207915c72f39fd029fdc72051
     t_token     *tokens = NULL;
     t_command   *commands;
     
@@ -254,11 +244,7 @@ int main(int ac, char **av, char **env)
             free_command(commands); // Free the commands list after execution
    
         }
-<<<<<<< HEAD
         // print_tokens(tokens);
-=======
-        //print_tokens(tokens);
->>>>>>> bf0e99ec959c40e207915c72f39fd029fdc72051
         //printf("%s", commands->heredoc_delimiter);
         // printf("\n");
         free_tokens(tokens);

@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/06/29 17:48:40 by oait-si-         ###   ########.fr       */
-=======
-/*   Updated: 2025/06/29 23:41:12 by oait-si-         ###   ########.fr       */
->>>>>>> 08891354a1ca557c7afef1064ddb342acb4bf6a0
+/*   Updated: 2025/07/01 14:28:00 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +79,7 @@ char *handle_quoted_part(char **start, char **env, t_data *data)
     // Double quotes
      while (*end && *end != '"')
     {
-<<<<<<< HEAD
-        if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '?') && delimiter && !*delimiter)
-=======
         if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '?') && !data->delimiter)
->>>>>>> 08891354a1ca557c7afef1064ddb342acb4bf6a0
         {
             end++;
             if (*end == '?')
