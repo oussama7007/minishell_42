@@ -6,134 +6,114 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:22:51 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/01 14:43:56 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/01 22:45:47 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-t_command *new_command(void)
+t_token	*handle_redirection(t_token *token, t_command *cmd, t_indices *idx)
 {
-    t_command *command = malloc(sizeof(t_command));
-    if (!command)
-        return (NULL);
-    command->cmd = NULL;
-    command->args = NULL;
-    command->red_in = NULL;
-    command->red_out = NULL;
-    command->append = NULL;
-    command->heredoc_delimiter = NULL;
-    command->heredoc_quotes = 0;
-    command->next = NULL;
-    return (command);
+	if (token->type == TOKEN_RED_IN && token->next)
+	{
+		token = token->next;
+		cmd->red_in[idx->j++] = ft_strdup(token->value);
+		return (token->next);
+	}
+	if ((token->type == TOKEN_RED_OUT || token->type == TOKEN_RED_APPEND)
+		&& token->next)
+	{
+		cmd->append[idx->append_idx++] = (token->type == TOKEN_RED_APPEND);
+		token = token->next;
+		cmd->red_out[idx->k++] = ft_strdup(token->value);
+		return (token->next);
+	}
+	if (token->type == TOKEN_RED_HEREDOC && token->next)
+	{
+		token = token->next;
+		cmd->heredoc_delimiter = ft_strdup(token->value);
+		cmd->heredoc_quotes = (token->quotes_type != 0);
+		return (token->next);
+	}
+	return (token->next);
 }
-static int	populate_command(t_command *cmd, t_token *tokens, int arg_c,
-							  int in_c, int out_c)
-{
-	int	i;
-	int	j;
-	int	k;
-	int	append_idx;
 
-	i = 0;
-	j = 0;
-	k = 0;
-	append_idx = 0;
-	cmd->args = malloc(sizeof(char *) * (arg_c + 1));
-	cmd->red_in = malloc(sizeof(char *) * (in_c + 1));
-	cmd->red_out = malloc(sizeof(char *) * (out_c + 1));
-	cmd->append = malloc(sizeof(int) * out_c);
-	if (!cmd->args || !cmd->red_in || !cmd->red_out || (out_c && !cmd->append))
+t_token	*process_token(t_token *token, t_command *cmd, t_indices *idx)
+{
+	if (token->type == TOKEN_WORD && token->value[0] != '\0')
+	{
+		if (!cmd->cmd)
+			cmd->cmd = ft_strdup(token->value);
+		cmd->args[idx->i++] = ft_strdup(token->value);
+		return (token->next);
+	}
+	return (handle_redirection(token, cmd, idx));
+}
+
+int	populate_command(t_command *cmd, t_token *tokens, t_counts counts)
+{
+	t_indices	idx;
+
+	idx = (t_indices){0};
+	cmd->args = malloc(sizeof(char *) * (counts.arg_c + 1));
+	cmd->red_in = malloc(sizeof(char *) * (counts.in_c + 1));
+	cmd->red_out = malloc(sizeof(char *) * (counts.out_c + 1));
+	cmd->append = malloc(sizeof(int) * counts.out_c);
+	if (!cmd->args || !cmd->red_in || !cmd->red_out
+		|| (counts.out_c && !cmd->append))
 		return (0);
 	while (tokens && tokens->type != TOKEN_PIPE)
-	{
-		if (tokens->type == TOKEN_WORD && tokens->value[0] != '\0')
-		{
-			if (cmd->cmd == NULL)
-				cmd->cmd = ft_strdup(tokens->value);
-			cmd->args[i++] = ft_strdup(tokens->value);
-		}
-		else if (tokens->type == TOKEN_RED_IN && tokens->next)
-			cmd->red_in[j++] = ft_strdup((tokens = tokens->next)->value);
-		else if ((tokens->type == TOKEN_RED_OUT
-				|| tokens->type == TOKEN_RED_APPEND) && tokens->next)
-		{
-			cmd->append[append_idx] = (tokens->type == TOKEN_RED_APPEND);
-			cmd->red_out[k++] = ft_strdup((tokens = tokens->next)->value);
-			append_idx++;
-		}
-		else if (tokens->type == TOKEN_RED_HEREDOC && tokens->next)
-		{	
-            tokens = tokens->next;
-            // cmd->heredoc_delimiter = ft_strdup((tokens = tokens->next)->value);
-            cmd->heredoc_delimiter = ft_strdup(tokens->value);
-            cmd->heredoc_quotes = (tokens->quotes_type != 0);
-
-        } 
-		tokens = tokens->next;
-	}
-	cmd->args[i] = NULL;
-	cmd->red_in[j] = NULL;
-	cmd->red_out[k] = NULL;
+		tokens = process_token(tokens, cmd, &idx);
+	cmd->args[idx.i] = NULL;
+	cmd->red_in[idx.j] = NULL;
+	cmd->red_out[idx.k] = NULL;
 	return (1);
 }
 
-void add_command(t_command **commands, t_command *command)
+int	finalize_command(t_cmd_builder *builder)
 {
-    t_command *tmp;
+	t_counts	counts;
 
-    if (!command)
-        return;
-    if (!*commands)
-        *commands = command;
-    else
-    {
-        tmp = *commands;
-        while (tmp->next)
-            tmp = tmp->next;
-        tmp->next = command;
-    }
+	if (!builder->current || (!builder->arg_count && !builder->red_in_count
+			&& !builder->red_out_count))
+	{
+		builder->current = NULL;
+		return (1);
+	}
+	counts.arg_c = builder->arg_count;
+	counts.in_c = builder->red_in_count;
+	counts.out_c = builder->red_out_count;
+	if (!populate_command(builder->current, builder->tokens_start, counts))
+		return (0);
+	builder->current = NULL;
+	builder->arg_count = 0;
+	builder->red_in_count = 0;
+	builder->red_out_count = 0;
+	return (1);
 }
 
-t_command *build_command(t_token *tokens)
+t_command	*build_command(t_token *tokens)
 {
-    t_command *commands = NULL, *current = NULL;
-    t_token *tmp = tokens;
-    int arg_count = 0, red_in_count = 0, red_out_count = 0;
+	t_cmd_builder	builder;
 
-    if (tokens == NULL)
-        return (0);
-    while (tmp)
-    {
-        if (!current)
-        {
-            current = new_command();
-            if (!current)
-                return (free_command(commands), NULL);
-            add_command(&commands, current);
-        }
-        if (tmp->type == TOKEN_WORD)
-            arg_count++;
-        else if (tmp->type == TOKEN_RED_IN && tmp->next)
-            red_in_count++;
-        else if ((tmp->type == TOKEN_RED_OUT ||
-                  tmp->type == TOKEN_RED_APPEND) && tmp->next)
-            red_out_count++;
-        if (tmp->type == TOKEN_PIPE || !tmp->next)
-        {
-            if (arg_count || red_in_count || red_out_count)
-            {
-                if (!populate_command(current, tokens, arg_count,
-                                       red_in_count, red_out_count))
-                    return (free_command(commands), NULL);
-            }
-            current = NULL;
-            arg_count = 0;
-            red_in_count = 0;
-            red_out_count = 0;
-            tokens = tmp->next;
-        }
-        tmp = tmp->next;
-    }
-    return (commands);
+	builder = (t_cmd_builder){0};
+	if (!tokens)
+		return (NULL);
+	while (tokens)
+	{
+		if (!ensure_command_exists(&builder, tokens))
+			return (free_command(builder.commands), NULL);
+		if (tokens->type == TOKEN_WORD)
+			builder.arg_count++;
+		else if (tokens->type == TOKEN_RED_IN && tokens->next)
+			builder.red_in_count++;
+		else if ((tokens->type == TOKEN_RED_OUT
+				|| tokens->type == TOKEN_RED_APPEND) && tokens->next)
+			builder.red_out_count++;
+		if (tokens->type == TOKEN_PIPE || !tokens->next)
+			if (!finalize_command(&builder))
+				return (free_command(builder.commands), NULL);
+		tokens = tokens->next;
+	}
+	return (builder.commands);
 }

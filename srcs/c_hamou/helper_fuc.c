@@ -6,12 +6,12 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:34:08 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/01 16:57:33 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/01 22:51:15 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "header.h"
+
 char	*handle_question_mark(char **end, char *accumulator, t_data *data)
 {
 	char	*status_str;
@@ -40,6 +40,7 @@ char	*join_and_free(char *acc, char *to_add)
 	free(to_add);
 	return (new);
 }
+
 char	*append_char(char *str, char c)
 {
 	char	ch[2];

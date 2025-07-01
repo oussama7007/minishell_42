@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:20:52 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/01 16:57:53 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/01 23:07:41 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*handle_regular_dollar(char **end, char **env,
 	while (**end && (ft_isalnum(**end) || **end == '?') && !is_space(**end)
 		&& !is_operator(**end) && !is_quotes(**end))
 		(*end)++;
-	return (Handle_regular_accumualtor(var_start, *end, env, accumulator));
+	return (handle_regular_accumulator(var_start, *end, env, accumulator));
 }
 
 char	*handle_dollar_case(char **end, char **env,
