@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/29 23:42:11 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:56:17 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,31 +64,27 @@ typedef struct s_command {
     struct s_command *next;// Next command (for pipes)
 } t_command;
 
-typedef struct s_gc_list
-{
-    void *ptr;
-    struct s_gc_list *next;
-}t_gc_list;
 
-typedef struct s_head_list
-{
-    t_gc_list *head;
-} t_head_list;
-// garbage collecter 
-
-
+char	*append_char(char *str, char c);
 char *handle_quoted_part(char **start, char **env, t_data *data);
 char *handle_unquoted_part(char **start, char **env,t_data *data);
-
+char	*handle_question_mark(char **end, char *accumulator, t_data *data);
 int     is_space(char c);
 int     is_operator(char c);
 int     is_quotes(char c);
-
+char	*handle_regular_dollar(char **end, char **env, t_data *data, char *accumulator);
+char	*join_and_free(char *acc, char *to_add);
+char	*handle_double_quote_var(char **end, char **env, char *accumulator);
+char	*handle_double_quote_dollar(char **end, char *accumulator,char **env, t_data *data);
+char	*handle_double_quotes(char **start, char **env, t_data *data);
+void free_double(char **arr);
+void	free_args(t_command *command);
 // tokens utils
-char *qestion_mark(int ex_status);
+char	*question_mark(int ex_status);
 int get_quotes_type(char quote_type);
 char *process_segment(char **start, char **env, t_data *data);
 t_token *handle_operator(char **start, t_data *data);
+char	*handle_double_quote_var1(char **end, char **env, t_data *data, char *accumulator);
 //expand
 t_token *handle_word(char **start,char **my_env, t_data *data );
 char *handle_dollar_case(char **end, char **env, char *accumulator, t_data *data);
@@ -99,7 +95,7 @@ int         validate_syntax(t_token *tokens);
 t_token     *tokenize(char *line, char **my_env, t_data *data);
 // int         is_space(int  c);
 void        free_tokens(t_token *tokens);
-void        free_args(t_command *command);
+
 t_token     *new_token(int type, char *word, int quotes_type);
 void        add_token(t_token **tokens, t_token *token);
 int         get_token_type(char *line);

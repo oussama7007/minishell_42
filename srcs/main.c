@@ -6,11 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/06/29 17:59:57 by oait-si-         ###   ########.fr       */
-=======
-/*   Updated: 2025/06/30 11:30:14 by oait-si-         ###   ########.fr       */
->>>>>>> 08891354a1ca557c7afef1064ddb342acb4bf6a0
+/*   Updated: 2025/07/01 17:21:26 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +163,7 @@ int main(int ac, char **av, char **env)
     char        **my_envp;
     char        *line;
     // int         ex_status;
-    t_data      *data;
+    t_data      data;
     t_token     *tokens = NULL;
     t_command   *commands;
     
@@ -175,10 +171,10 @@ int main(int ac, char **av, char **env)
     ensure_minimal_env(&my_envp);
     my_setenv("_", av[0], &my_envp);
    // setup_signals();
-    data = malloc(sizeof(t_data));
+    data = (t_data){0};
     //if(!data)   
         //return NULL;
-    ft_memset(data, 0, sizeof(t_data));
+    //ft_memset(&data, 0, sizeof(t_data));
     // data->ex_status = 0;
     // data->delimiter = 0;
     // data->quote_type = 0;
@@ -189,9 +185,9 @@ int main(int ac, char **av, char **env)
         {
             write(1, "exit\n", 5);
             free_environment(my_envp);
-            free(data);
+            //free(data);
             //rl_clear_history();
-            exit(data->ex_status);
+            exit(data.ex_status);
         }
         if (*line)
             add_history(line);
@@ -204,7 +200,7 @@ int main(int ac, char **av, char **env)
             free(line);
             continue;
         }
-        tokens = tokenize(line, my_envp, data);
+        tokens = tokenize(line, my_envp, &data);
         if (!tokens || !*line)
         {
             
@@ -230,7 +226,7 @@ int main(int ac, char **av, char **env)
 		}
         else if (commands && commands->cmd && ft_strcmp(commands->cmd, "exit") == 0)
         {
-            data->ex_status= ft_exit(commands->args, &my_envp, commands, tokens, data);
+            data.ex_status= ft_exit(commands->args, &my_envp, commands, tokens, &data);
             // ft_exit will only return if there are too many arguments.
             // In that case, we fall through to the regular cleanup for this loop iteration.
         }
@@ -238,7 +234,7 @@ int main(int ac, char **av, char **env)
         else if (commands)
         {
  
-            data->ex_status = ft_execute_command_list(commands, &my_envp, data);
+            data.ex_status = ft_execute_command_list(commands, &my_envp, &data);
             free_command(commands); // Free the commands list after execution
    
         }
@@ -251,8 +247,8 @@ int main(int ac, char **av, char **env)
     
     free_environment(my_envp); // Cleanup the custom environment
     //rl_clear_history();         // Cleanup readline history memory
-    free(data);
-    return (data->ex_status);
+  //  free(data);
+    return (data.ex_status);
 }
 // you need to handle | > maybe or |<
 // when you pass "" or '' should output command not found

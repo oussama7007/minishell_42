@@ -1,87 +1,80 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/29 21:57:25 by oait-si-         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+static int	add_word_token(t_command *cmd, t_token **tokens, int *i)
+{
+	if ((*tokens)->type == TOKEN_WORD && (*tokens)->value[0] != '\0')
+	{
+		if (cmd->cmd == NULL)
+			cmd->cmd = ft_strdup((*tokens)->value);
+		cmd->args[(*i)++] = ft_strdup((*tokens)->value);
+		return (1);
+	}
+	return (0);
+}
 
+static int	add_red_in_token(t_command *cmd, t_token **tokens, int *j)
+{
+	if ((*tokens)->type == TOKEN_RED_IN && (*tokens)->next)
+	{
+		cmd->red_in[(*j)++] = ft_strdup(((*tokens) = (*tokens)->next)->value);
+		return (1);
+	}
+	return (0);
+}
 
-#include <signal.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/wait.h>
+static int	add_red_out_token(t_command *cmd, t_token **tokens, int *k,
+				int *append_idx)
+{
+	if (((*tokens)->type == TOKEN_RED_OUT || (*tokens)->type == TOKEN_RED_APPEND)
+		&& (*tokens)->next)
+	{
+		cmd->append[*append_idx] = ((*tokens)->type == TOKEN_RED_APPEND);
+		cmd->red_out[(*k)++] = ft_strdup(((*tokens) = (*tokens)->next)->value);
+		(*append_idx)++;
+		return (1);
+	}
+	return (0);
+}
 
-// #include <stdio.h>
-// static char *expand_heredoc_line(char *line, char **env, int ex_status)
-// {
-//     char    *result;
-//     char    *current;
-//     int     quotes_type = 0; // Unquoted context for heredoc
+static int	add_heredoc_token(t_command *cmd, t_token **tokens)
+{
+	if ((*tokens)->type == TOKEN_RED_HEREDOC && (*tokens)->next)
+	{
+		*tokens = (*tokens)->next;
+		cmd->heredoc_delimiter = ft_strdup((*tokens)->value);
+		cmd->heredoc_quotes = ((*tokens)->quotes_type != 0);
+		return (1);
+	}
+	return (0);
+}
 
-//     result = NULL;
-//     current = line;
-//     while (*current)
-//     {
-//         if (*current == '$' && (ft_isalpha(*(current + 1)) || 
-//             *(current + 1) == '?' || *(current + 1) == '_'))
-//         {
-//             result = handle_dollar_case(&current, env, ex_status, result);
-//         }
-//         else
-//         {
-//             result = handle_normal_char(&current, result);
-//         }
-//     }
-//     if(result)
-//         return result;
-//     return ft_strdup("");		
-// }
+static int	populate_command(t_command *cmd, t_token *tokens,
+				int arg_c, int in_c, int out_c)
+{
+	int	i;
+	int	j;
+	int	k;
+	int	append_idx;
 
-// static void heredoc_sigint_handler(int sig)
-// {
-//     (void)sig;
-//     exit(130);
-// }
-
-// static void heredoc_child_process(int pipe_write_fd, t_command *cmd, 
-//                                 char **envp, int ex_status)
-// {
-//     char    *line;
-//     char    *expanded;
-
-//     signal(SIGINT, heredoc_sigint_handler);
-//     signal(SIGQUIT, SIG_IGN);
-//     while (1)
-//     {
-//         line = readline("> ");
-//         if (!line || ft_strcmp(line, cmd->heredoc_delimiter) == 0)
-//         {
-//             free(line);
-//             break;
-//         }
-//         if (cmd->heredoc_quotes == 0)  // Only expand if delimiter was unquoted
-//         {
-//             expanded = expand_heredoc_line(line, envp, ex_status);
-//             if (expanded)
-//             {
-//                 ft_putendl_fd(expanded, pipe_write_fd);
-//                 free(expanded);
-//             }
-//             else
-//                 ft_putendl_fd(line, pipe_write_fd);
-//         }
-//         else
-//         {
-//             ft_putendl_fd(line, pipe_write_fd);  // No expansion for quoted delimiter
-//         }
-//         free(line);
-//     }
-//     close(pipe_write_fd);
-//     exit(0);
-// }
-
+	i = 0;
+	j = 0;
+	k = 0;
+	append_idx = 0;
+	cmd->args = malloc(sizeof(char *) * (arg_c + 1));
+	cmd->red_in = malloc(sizeof(char *) * (in_c + 1));
+	cmd->red_out = malloc(sizeof(char *) * (out_c + 1));
+	cmd->append = malloc(sizeof(int) * out_c);
+	if (!cmd->args || !cmd->red_in || !cmd->red_out
+		|| (out_c && !cmd->append))
+		return (0);
+	while (tokens && tokens->type != TOKEN_PIPE)
+	{
+		if (add_word_token(cmd, &tokens, &i) == 0
+			&& add_red_in_token(cmd, &tokens, &j) == 0
+			&& add_red_out_token(cmd, &tokens, &k, &append_idx) == 0
+			&& add_heredoc_token(cmd, &tokens) == 0)
+			tokens = tokens->next;
+	}
+	cmd->args[i] = NULL;
+	cmd->red_in[j] = NULL;
+	cmd->red_out[k] = NULL;
+	return (1);
+}

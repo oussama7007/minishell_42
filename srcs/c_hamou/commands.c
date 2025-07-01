@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:22:51 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/06/28 23:54:04 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:43:56 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,44 +27,6 @@ t_command *new_command(void)
     command->next = NULL;
     return (command);
 }
-
-void free_command(t_command *cmd)
-{
-    int i;
-
-    if (!cmd)
-        return;
-    if (cmd->cmd)
-        free(cmd->cmd);
-    if (cmd->args)
-    {
-        i = -1;
-        while (cmd->args[++i])
-            free(cmd->args[i]);
-        free(cmd->args);
-    }
-    if (cmd->red_in)
-    {
-        i = -1;
-        while (cmd->red_in[++i])
-            free(cmd->red_in[i]);
-        free(cmd->red_in);
-    }
-    if (cmd->red_out)
-    {
-        i = -1;
-        while (cmd->red_out[++i])
-            free(cmd->red_out[i]);
-        free(cmd->red_out);
-    }
-    if (cmd->append)
-        free(cmd->append);
-    if (cmd->heredoc_delimiter)
-        free(cmd->heredoc_delimiter);
-    free_command(cmd->next);
-    free(cmd);
-}
-
 static int	populate_command(t_command *cmd, t_token *tokens, int arg_c,
 							  int in_c, int out_c)
 {
