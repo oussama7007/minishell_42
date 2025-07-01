@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/07/01 16:49:53 by oait-si-         ###   ########.fr       */
+=======
+/*   Updated: 2025/07/01 14:28:00 by oadouz           ###   ########.fr       */
+>>>>>>> 36f2b75ef37ea107c85b8ab3c274046b952fbf11
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +63,62 @@ char	*handle_quoted_part(char **start, char **env, t_data *data)
 {
 	char	quote_type;
 
+<<<<<<< HEAD
 	quote_type = **start;
 	if (quote_type == '\'')
 		return (singel_quotes_handler(start, data));
 	else
 		return (handle_double_quotes(start, env, data));
+=======
+    
+    quote_type = **start;
+    accumulator = ft_strdup("");
+    if (quote_type == '\'')
+    {
+            free(accumulator);
+            accumulator = singel_quotes_handler(start, data);
+            return accumulator;
+    }
+    // Double quotes
+     while (*end && *end != '"')
+    {
+        if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '?') && !data->delimiter)
+        {
+            end++;
+            if (*end == '?')
+            {
+                tmp = qestion_mark(data->ex_status);
+                char *new_accumulator = ft_strjoin(accumulator, tmp);
+                free(accumulator);
+                free(tmp);
+                accumulator = new_accumulator;
+                end++;
+            }
+            else
+            {
+                char *var_start = end;
+                while (*end && *end != '"' && (ft_isalnum(*end) || *end == '?'))
+                    end++;
+                accumulator = Handle_regular_accumualtor(var_start, end, env, accumulator);
+            }
+        }
+        else
+        {
+            char ch = *end;
+            tmp = ft_strndup(&ch, 1);
+            char *new_accumulator = ft_strjoin(accumulator, tmp);
+            free(accumulator);
+            free(tmp);
+            accumulator = new_accumulator;
+            end++;
+        }
+    }
+   
+    if (*end != '"')
+        return(free(accumulator) ,NULL);
+    *start = end + 1;
+    return accumulator;
+>>>>>>> 36f2b75ef37ea107c85b8ab3c274046b952fbf11
 }
 
 char	*handle_double_quote_var(char **end, char **env, char *accumulator)

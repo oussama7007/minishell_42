@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 static int	add_word_token(t_command *cmd, t_token **tokens, int *i)
 {
 	if ((*tokens)->type == TOKEN_WORD && (*tokens)->value[0] != '\0')
@@ -33,6 +34,67 @@ static int	add_red_out_token(t_command *cmd, t_token **tokens, int *k,
 	}
 	return (0);
 }
+=======
+<<<<<<< HEAD
+// #include <stdio.h>
+// #include <string.h>
+// #include <unistd.h>
+// #include <stdlib.h>
+=======
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   test.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
+/*   Updated: 2025/06/29 21:57:25 by oait-si-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+>>>>>>> bf0e99ec959c40e207915c72f39fd029fdc72051
+
+// char 	**function(char **arr)
+// {
+// 	char **aff;
+// 	int len = 0;
+// 	while(arr[len])
+// 		len++;
+// 	int i = 0;
+// 	len++;
+// 	aff = malloc(sizeof(char *) * len);
+// 	while(arr[i])
+// 	{
+// 		aff[i] = strdup(arr[i]);
+// 		i++;
+// 	}
+// 	int j = 0;
+	
+// 	aff[i] = strdup("morocco");
+// 	aff[++i] = NULL;
+// 	return aff;
+// }
+
+<<<<<<< HEAD
+// int main()
+// {
+// 	char **arr = malloc(sizeof(char *) * 3);
+// 	arr[0] = strdup("hello"); //  
+// 	arr[1] = strdup("world");
+// 	arr[3] = NULL;
+// 	arr = function(arr);
+// 	while(*arr)
+// 	{
+// 		printf("%s\n", *arr);
+// 		arr++;
+// 	}
+// }
+=======
+#include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/wait.h>
+>>>>>>> 36f2b75ef37ea107c85b8ab3c274046b952fbf11
 
 static int	add_heredoc_token(t_command *cmd, t_token **tokens)
 {
@@ -54,6 +116,7 @@ static int	populate_command(t_command *cmd, t_token *tokens,
 	int	k;
 	int	append_idx;
 
+<<<<<<< HEAD
 	i = 0;
 	j = 0;
 	k = 0;
@@ -78,3 +141,6 @@ static int	populate_command(t_command *cmd, t_token *tokens,
 	cmd->red_out[k] = NULL;
 	return (1);
 }
+=======
+>>>>>>> bf0e99ec959c40e207915c72f39fd029fdc72051
+>>>>>>> 36f2b75ef37ea107c85b8ab3c274046b952fbf11

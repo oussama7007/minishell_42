@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/07/01 17:21:26 by oait-si-         ###   ########.fr       */
+=======
+/*   Updated: 2025/07/01 14:27:37 by oadouz           ###   ########.fr       */
+>>>>>>> 36f2b75ef37ea107c85b8ab3c274046b952fbf11
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +166,12 @@ int main(int ac, char **av, char **env)
     setup_signal_handlers();// hada rah dyali o lakhour maereftch lach zetih mhm test hada o dyalk rah kanden khedam dyali mzn 
     char        **my_envp;
     char        *line;
+    int         ex_status;
+    // {
+        // DEL
+        // EX_STATUS 
+    // 
+
     // int         ex_status;
     t_data      data;
     t_token     *tokens = NULL;
@@ -216,7 +226,7 @@ int main(int ac, char **av, char **env)
         
        
         commands = build_command(tokens);
-        print_commands(commands);
+        // print_commands(commands);
 		if (commands == NULL)
 		{
 			free(line);
@@ -238,9 +248,9 @@ int main(int ac, char **av, char **env)
             free_command(commands); // Free the commands list after execution
    
         }
-        //print_tokens(tokens);
+        // print_tokens(tokens);
         //printf("%s", commands->heredoc_delimiter);
-        printf("\n");
+        // printf("\n");
         free_tokens(tokens);
         free(line);
     }
