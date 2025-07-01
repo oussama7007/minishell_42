@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/01 22:51:08 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/01 23:27:44 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void    sigint_handler(int sig)
     (void)sig;
     write(1, "\n",1);
     rl_on_new_line();
-    //rl_replace_line("", 0);
+    rl_replace_line("", 0);
     rl_redisplay();
 }
 void    setup_signal_handlers(void)
