@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/01 23:10:13 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/02 00:12:47 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,6 @@
 #define ERR_SEMICOLON 7
 #define ERR_SYNTAX 8 
 
-
-typedef struct s_heredoc {
-    char                *delimiter;
-    int                 quotes;
-    char                *tmp_file; // To store the temporary file name
-    struct s_heredoc    *next;
-} t_heredoc;
-
-
 typedef struct s_data
 {
     int delimiter;
@@ -63,51 +54,80 @@ typedef struct s_token {
 } t_token;
 
 typedef struct s_command {
-    char                *cmd;
-    char                **args;
-    char                **red_in;
-    char                **red_out;
-    int                 *append;
-    t_heredoc           *heredocs;
-    struct s_command    *next;
+    char *cmd;             // Command name (e.g., "ls")
+    char **args;           // Array of arguments (e.g., {"ls", "-l"})
+    char **red_in;         // Array of input redirection files
+    char **red_out;        // Array of output redirection files
+    int *append;           // Array of flags (1 for >>, 0 for >)
+    char *heredoc_delimiter;// Delimiter for << (e.g., "EOF")
+    int   heredoc_quotes;
+    char *heredoc_tmp_file; // <-- ADDED: Path to the heredoc temporary file
+    struct s_command *next;// Next command (for pipes)
 } t_command;
 
-typedef struct s_gc_list
-{
-    void *ptr;
-    struct s_gc_list *next;
-}t_gc_list;
 
-typedef struct s_head_list
-{
-    t_gc_list *head;
-} t_head_list;
-// garbage collecter 
+typedef struct s_indices {
+	int		i;
+	int		j;
+	int		k;
+	int		append_idx;
+}	t_indices;
+
+typedef struct s_counts {
+	int		arg_c;
+	int		in_c;
+	int		out_c;
+}	t_counts;
+
+typedef struct s_cmd_builder {
+	t_command	*commands;
+	t_command	*current;
+	t_token		*tokens_start;
+	int			arg_count;
+	int			red_in_count;
+	int			red_out_count;
+}	t_cmd_builder;
 
 
+
+t_token	*process_token(t_token *token, t_command *cmd, t_indices *idx);
+t_token	*handle_redirection(t_token *token, t_command *cmd, t_indices *idx);
+ int	ensure_command_exists(t_cmd_builder *builder, t_token *token);
+char	*append_char(char *str, char c);
+int	finalize_command(t_cmd_builder *builder);
 char *handle_quoted_part(char **start, char **env, t_data *data);
 char *handle_unquoted_part(char **start, char **env,t_data *data);
-
+char	*handle_question_mark(char **end, char *accumulator, t_data *data);
 int     is_space(char c);
 int     is_operator(char c);
 int     is_quotes(char c);
-
+char	*handle_regular_dollar(char **end, char **env, t_data *data, char *accumulator);
+char	*join_and_free(char *acc, char *to_add);
+char	*handle_double_quote_var(char **end, char **env, char *accumulator);
+char	*handle_double_quote_dollar(char **end, char *accumulator,char **env, t_data *data);
+char	*handle_double_quotes(char **start, char **env, t_data *data);
+void free_double(char **arr);
+void	free_args(t_command *command);
+int	ensure_command_exists(t_cmd_builder *builder, t_token *token);
+int	finalize_command(t_cmd_builder *builder);
 // tokens utils
-char *qestion_mark(int ex_status);
+char	*question_mark(int ex_status);
 int get_quotes_type(char quote_type);
 char *process_segment(char **start, char **env, t_data *data);
 t_token *handle_operator(char **start, t_data *data);
+int	finalize_command(t_cmd_builder *builder);
+char	*handle_double_quote_var1(char **end, char **env, t_data *data, char *accumulator);
 //expand
 t_token *handle_word(char **start,char **my_env, t_data *data );
 char *handle_dollar_case(char **end, char **env, char *accumulator, t_data *data);
 char *handle_normal_char(char **end_ptr, char *accumulator, t_data *data);
-char *Handle_regular_accumualtor(char *var_start, char *end, char **env, char *accumulator);
+char *handle_regular_accumulator(char *var_start, char *end, char **env, char *accumulator);
 void        error(int type);
 int         validate_syntax(t_token *tokens);
 t_token     *tokenize(char *line, char **my_env, t_data *data);
 // int         is_space(int  c);
 void        free_tokens(t_token *tokens);
-void        free_args(t_command *command);
+int	populate_command(t_command *cmd, t_token *tokens, t_counts counts);
 t_token     *new_token(int type, char *word, int quotes_type);
 void        add_token(t_token **tokens, t_token *token);
 int         get_token_type(char *line);
@@ -116,7 +136,7 @@ void        add_token(t_token **tokens, t_token *token);
 t_command *build_command(t_token *tokens);
 void add_command(t_command **commands, t_command *command);
 char *get_var_value(char *new_word, char **envp);
-//static int populate_command(t_command *cmd, t_token *tokens, int arg_c, int in_c, int out_c);
+
 void free_command(t_command *cmd);
 t_command *new_command(void);
 
