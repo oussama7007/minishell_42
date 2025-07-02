@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:20:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/02 00:27:35 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/02 21:53:42 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,10 @@ void	free_command(t_command *cmd)
 	free_double(cmd->red_in);
 	free_double(cmd->red_out);
 	if (cmd->append)
-		free(cmd->append);
-	if (cmd->heredoc_delimiter)
-		free(cmd->heredoc_delimiter);
+		free(cmd->append); // This should be `free_double`
+	free_double(cmd->heredoc_delimiters);
+	if (cmd->heredoc_quotes)
+		free(cmd->heredoc_quotes);
 	if (cmd->heredoc_tmp_file)
 		free(cmd->heredoc_tmp_file);
 	if (cmd->next)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/02 13:45:21 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/02 22:01:13 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,10 @@ typedef struct s_command {
     char **red_in;         // Array of input redirection files
     char **red_out;        // Array of output redirection files
     int *append;           // Array of flags (1 for >>, 0 for >)
-    char *heredoc_delimiter;// Delimiter for << (e.g., "EOF")
-    int   heredoc_quotes;
-    char *heredoc_tmp_file; // <-- ADDED: Path to the heredoc temporary file
+    char **heredoc_delimiters; // Array of heredoc delimiters
+    int *heredoc_quotes;     // Array of quote flags for heredocs
+    int num_heredocs;        // Number of heredocs
+    char *heredoc_tmp_file;  // Path to the final heredoc temporary file
     struct s_command *next;// Next command (for pipes)
 } t_command;
 

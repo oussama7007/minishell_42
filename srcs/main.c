@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/02 20:51:12 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/02 22:00:57 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ static void	print_commands(t_command *commands)
 			else
 				printf("\n");
 		}
-		if (commands->heredoc_delimiter)
-			printf("<<< heredoc delimiter : %s\n", commands->heredoc_delimiter);
+		if (commands->heredoc_delimiters) // This is wrong
+			printf("<<< heredoc delimiter : %s\n", commands->heredoc_delimiters); // This is also wrong
 		printf("================================================\n\n");
 		commands = commands->next;
 	}

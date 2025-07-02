@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:22:51 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/01 22:45:47 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/02 22:04:31 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ t_token	*handle_redirection(t_token *token, t_command *cmd, t_indices *idx)
 	if (token->type == TOKEN_RED_HEREDOC && token->next)
 	{
 		token = token->next;
-		cmd->heredoc_delimiter = ft_strdup(token->value);
-		cmd->heredoc_quotes = (token->quotes_type != 0);
+		cmd->heredoc_delimiters[cmd->num_heredocs] = ft_strdup(token->value);
+		cmd->heredoc_quotes[cmd->num_heredocs++] = (token->quotes_type != 0);
 		return (token->next);
 	}
 	return (token->next);
@@ -89,6 +89,7 @@ int	finalize_command(t_cmd_builder *builder)
 	builder->arg_count = 0;
 	builder->red_in_count = 0;
 	builder->red_out_count = 0;
+	// builder->current->num_heredocs = 0;
 	return (1);
 }
 
@@ -110,6 +111,8 @@ t_command	*build_command(t_token *tokens)
 		else if ((tokens->type == TOKEN_RED_OUT
 				|| tokens->type == TOKEN_RED_APPEND) && tokens->next)
 			builder.red_out_count++;
+		else if (tokens->type == TOKEN_RED_HEREDOC && tokens->next)
+			builder.current->num_heredocs++;
 		if (tokens->type == TOKEN_PIPE || !tokens->next)
 			if (!finalize_command(&builder))
 				return (free_command(builder.commands), NULL);
