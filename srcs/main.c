@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/02 13:44:02 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/02 20:51:12 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,25 +30,42 @@ void	error(int type)
 	else
 		write(2, "Minishell: syntax error \n", 26);
 }
+static int is_redirection(int token_type)
+{
+    return (token_type == TOKEN_RED_IN       // e.g., <
+         || token_type == TOKEN_RED_OUT      // e.g., >
+         || token_type == TOKEN_RED_APPEND   // e.g., >>
+         || token_type == TOKEN_RED_HEREDOC); // e.g., <<
+}
 
 int	validate_syntax(t_token *tokens)
 {
 	int		type;
 	t_token	*next;
 
-	while (tokens)
-	{
-		type = tokens->type;
-		next = tokens->next;
-		if (type == TOKEN_PIPE && next == NULL)
-			return (error(ERR_PIPE), 0);
-		if (type >= TOKEN_PIPE && !next)
-			return (error(ERR_NEWLINE), 0);
-		if (next && type >= TOKEN_PIPE && next->type >= TOKEN_PIPE)
-			return (error(ERR_SYNTAX), 0);
-		tokens = tokens->next;
-	}
-	return (1);
+while (tokens)
+{
+    type = tokens->type;
+    next = tokens->next;
+
+    if (type == TOKEN_PIPE)
+    {
+        if (!next)
+            return (error(ERR_NEWLINE), 0); 
+
+        if (next->type == TOKEN_PIPE)
+            return (error(ERR_SYNTAX), 0);
+
+        
+    }
+    else if (is_redirection(type))
+    {
+        if (!next || next->type != TOKEN_WORD)
+            return (error(ERR_SYNTAX), 0);  
+    }
+    tokens = tokens->next;
+}
+return (1);
 }
 
 static void	print_tokens(t_token *tokens)
@@ -156,7 +173,7 @@ void	sigint_handler(int sig)
 	(void)sig;
 	write(1, "\n", 1);
 	rl_on_new_line();
-	rl_replace_line("", 0);
+	//rl_replace_line("", 0);
 	rl_redisplay();
 }
 

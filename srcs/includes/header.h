@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/02 00:12:47 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/02 13:45:21 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ typedef struct s_cmd_builder {
 }	t_cmd_builder;
 
 
-
+int	handle_heredocs_before_execution(t_command *cmds, char **envp, t_data *data);
 t_token	*process_token(t_token *token, t_command *cmd, t_indices *idx);
 t_token	*handle_redirection(t_token *token, t_command *cmd, t_indices *idx);
  int	ensure_command_exists(t_cmd_builder *builder, t_token *token);
