@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/02 22:18:55 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/02 22:34:35 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_command {
     int *append;           // Array of flags (1 for >>, 0 for >)
     char **heredoc_delimiters; // Array of heredoc delimiters
     int *heredoc_quotes;     // Array of quote flags for heredocs
-    int num_heredocs;        // Number of heredocs
+    int  num_heredocs;        // Number of heredocs
     char *heredoc_tmp_file;  // Path to the final heredoc temporary file
     struct s_command *next;// Next command (for pipes)
 } t_command;

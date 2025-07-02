@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/02 22:00:57 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 00:13:58 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ void	sigint_handler(int sig)
 	(void)sig;
 	write(1, "\n", 1);
 	rl_on_new_line();
-	//rl_replace_line("", 0);
+	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
@@ -239,10 +239,10 @@ int	main(int ac, char **av, char **env)
 				data.ex_status = ft_exit(commands->args, &my_envp, commands,
 						tokens, &data);
 			else
-				data.ex_status = ft_execute_command_list(commands, &my_envp,
-						&data);
+				data.ex_status = ft_execute_command_list(commands, &my_envp, &data);
 			free_command(commands);
 		}
+		print_commands(tokens);
 		free_tokens(tokens);
 		free(line);
 	}

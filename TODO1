@@ -1,0 +1,27 @@
+//////////////////////////////////////////
+
+fill export with an initialized variable
+
+//////////////////////////////////////////
+
+exit | command > should not exit
+command 
+
+//////////////////////////////////////////
+
+bash-5.2$ awk { printf("hello") }
+bash: syntax error near unexpected token `('
+bash-5.2$ echo $?
+2
+
+Minishell$ awk { printf("hello") }
+awk: cmd. line:1: {
+awk: cmd. line:1:  ^ unexpected newline or end of string
+Minishell$ echo $?
+1
+
+//////////////////////////////////////////
+
+cd is not working , for example cd t
+
+//////////////////////////////////////////
