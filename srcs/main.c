@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/03 00:13:58 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 00:15:59 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	error(int type)
 }
 static int is_redirection(int token_type)
 {
-    return (token_type == TOKEN_RED_IN       // e.g., <
-         || token_type == TOKEN_RED_OUT      // e.g., >
-         || token_type == TOKEN_RED_APPEND   // e.g., >>
-         || token_type == TOKEN_RED_HEREDOC); // e.g., <<
+    return (token_type == TOKEN_RED_IN       
+         || token_type == TOKEN_RED_OUT     
+         || token_type == TOKEN_RED_APPEND   
+         || token_type == TOKEN_RED_HEREDOC); 
 }
 
 int	validate_syntax(t_token *tokens)
@@ -171,9 +171,12 @@ int	check_invalid_char(char *line)
 void	sigint_handler(int sig)
 {
 	(void)sig;
+
+    t_sig_ctrlc  = sig;
 	write(1, "\n", 1);
 	rl_on_new_line();
-	rl_replace_line("", 0);
+	//rl_replace_line("", 0);
+    
 	rl_redisplay();
 }
 
@@ -191,6 +194,7 @@ int	main(int ac, char **av, char **env)
 	t_token		*tokens;
 	t_command	*commands;
 
+    t_sig_ctrlc = 0;
 	(void)ac;
 	setup_signal_handlers();
 	my_envp = init_environment(env);
@@ -225,6 +229,8 @@ int	main(int ac, char **av, char **env)
 			free(line);
 			continue ;
 		}
+        if (t_sig_ctrlc == 2)
+            data.ex_status = 1;
 		commands = build_command(tokens);
 		if (commands)
 		{

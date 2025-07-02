@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:20:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/02 21:53:42 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/02 23:19:27 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	free_command(t_command *cmd)
 	free_double(cmd->red_in);
 	free_double(cmd->red_out);
 	if (cmd->append)
-		free(cmd->append); // This should be `free_double`
+		free(cmd->append);
 	free_double(cmd->heredoc_delimiters);
 	if (cmd->heredoc_quotes)
 		free(cmd->heredoc_quotes);
