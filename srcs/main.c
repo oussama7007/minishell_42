@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/02 20:51:12 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/02 21:46:17 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	error(int type)
 }
 static int is_redirection(int token_type)
 {
-    return (token_type == TOKEN_RED_IN       // e.g., <
-         || token_type == TOKEN_RED_OUT      // e.g., >
-         || token_type == TOKEN_RED_APPEND   // e.g., >>
-         || token_type == TOKEN_RED_HEREDOC); // e.g., <<
+    return (token_type == TOKEN_RED_IN       
+         || token_type == TOKEN_RED_OUT     
+         || token_type == TOKEN_RED_APPEND   
+         || token_type == TOKEN_RED_HEREDOC); 
 }
 
 int	validate_syntax(t_token *tokens)
