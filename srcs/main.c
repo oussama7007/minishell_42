@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/02 23:07:42 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/02 23:41:45 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,9 +171,12 @@ int	check_invalid_char(char *line)
 void	sigint_handler(int sig)
 {
 	(void)sig;
+
+    t_sig_ctrlc  = sig;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	//rl_replace_line("", 0);
+    
 	rl_redisplay();
 }
 
@@ -191,6 +194,7 @@ int	main(int ac, char **av, char **env)
 	t_token		*tokens;
 	t_command	*commands;
 
+    t_sig_ctrlc = 0;
 	(void)ac;
 	setup_signal_handlers();
 	my_envp = init_environment(env);
@@ -225,6 +229,8 @@ int	main(int ac, char **av, char **env)
 			free(line);
 			continue ;
 		}
+        if (t_sig_ctrlc == 2)
+            data.ex_status = 1;
 		commands = build_command(tokens);
 		if (commands)
 		{

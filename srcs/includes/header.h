@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/02 22:18:55 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/02 23:41:00 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 #define ERR_SEMICOLON 7
 #define ERR_SYNTAX 8 
 
+int t_sig_ctrlc;
 typedef struct s_data
 {
     int delimiter;
