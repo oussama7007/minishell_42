@@ -1,0 +1,15 @@
+a.out
+b
+bounjour
+bug.txt
+c
+end
+en.subject.pdf
+file.txt
+ls
+Makefile
+minishell
+srcs
+test.c
+text.c
+TODO

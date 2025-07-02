@@ -6,11 +6,39 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 02:19:45 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/21 02:30:30 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/01 22:39:21 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_functions.h"
+
+int	shlvl_ft_atoi(const char *str)
+{
+	int					i;
+	unsigned long long	r;
+	int					s;
+
+	1 && (i = 0 , r = 0, s = 1);
+	// ft_initialize(&i, &s, &r);
+	while ((str[i] == 32) || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if ((str[i] == '-') || (str[i] == '+'))
+	{
+		if (str[i] == '-')
+			s = -1;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		r = r * 10 + (str[i] - '0');
+		if (r > 9223372036854775807 && s == -1)
+			return (0);
+		if (r > 9223372036854775807 && s == 1)
+			return (0);
+		i++;
+	}
+	return (r * s);
+}
 
 static void	handle_shlvl_update(char ***env_ptr)
 {
@@ -23,7 +51,7 @@ static void	handle_shlvl_update(char ***env_ptr)
 		my_setenv("SHLVL", "1", env_ptr);
 	else
 	{
-		shlvl_nb = ft_atoi(val_shlvl) + 1;
+		shlvl_nb = shlvl_ft_atoi(val_shlvl) + 1;
 		new_shlvl = ft_itoa(shlvl_nb);
 		if (new_shlvl)
 		{

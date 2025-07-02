@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   execute_heart.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/01 14:28:11 by oadouz           ###   ########.fr       */
-/*                                                                            */
+/* */
+/* :::      ::::::::   */
+/* execute_heart.c                                    :+:      :+:    :+:   */
+/* +:+ +:+         +:+     */
+/* By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/* +#+#+#+#+#+   +#+           */
+/* Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
+/* Updated: 2025/07/02 00:27:14 by oadouz           ###   ########.fr       */
+/* */
 /* ************************************************************************** */
 
 #include "built_functions.h"
@@ -15,7 +15,7 @@
 
 static int	is_directory(const char *path)
 {
-	struct stat path_stat;
+	struct stat	path_stat;
 
 	if (stat(path, &path_stat) == 0)
 	{
@@ -40,7 +40,7 @@ static int	handle_directory_command(char *cmd_arg)
 static int	handle_cmd_path_error(char *cmd_arg)
 {
 	int	saved_errno;
-    
+
 	saved_errno = errno;
 	if (is_direct_path(cmd_arg))
 		return (ft_print_exec_error(cmd_arg, saved_errno));
@@ -48,17 +48,11 @@ static int	handle_cmd_path_error(char *cmd_arg)
 		return (handle_command_not_found(cmd_arg));
 }
 
-static void	child_process_logic(t_command *cmd, char ***env, int heredoc_fd)
+static void	child_process_logic(t_command *cmd, char ***env)
 {
 	int		builtin_status;
 	char	*cmd_path;
 
-	if (heredoc_fd != -1)
-	{
-		dup2(heredoc_fd, STDIN_FILENO);
-		close(heredoc_fd);
-	}
-	// setup_child_signals();
 	handle_redirection_child(cmd);
 	if (!cmd->cmd)
 		exit(0);
@@ -79,19 +73,11 @@ static void	child_process_logic(t_command *cmd, char ***env, int heredoc_fd)
 int	ft_execute_command_list(t_command *cmd_list, char ***env_ptr, t_data *data)
 {
 	pid_t	pid;
-	int		heredoc_fd;
 
 	if (!cmd_list)
 		return (0);
-	heredoc_fd = -1;
-	if (cmd_list->heredoc_delimiter)
-	{
-		heredoc_fd = setup_heredoc(cmd_list, *env_ptr, data);
-		if (heredoc_fd == -1)
-			return (1);
-	}
 	if (cmd_list->next)
-		return (execute_pipeline(cmd_list, env_ptr));
+		return (execute_pipeline(cmd_list, env_ptr, data));
 	if (cmd_list->cmd && is_parent_only_builtin(cmd_list->cmd)
 		&& !has_redirection(cmd_list))
 		return (is_built_ins(cmd_list->args, env_ptr));
@@ -99,8 +85,6 @@ int	ft_execute_command_list(t_command *cmd_list, char ***env_ptr, t_data *data)
 	if (pid == -1)
 		return (handle_fork_error(NULL));
 	if (pid == 0)
-		child_process_logic(cmd_list, env_ptr, heredoc_fd);
-	if (heredoc_fd != -1)
-		close(heredoc_fd);
+		child_process_logic(cmd_list, env_ptr);
 	return (wait_for_child(pid));
 }

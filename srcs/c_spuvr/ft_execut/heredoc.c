@@ -1,55 +1,68 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/01 14:30:10 by oadouz           ###   ########.fr       */
-/*                                                                            */
+/* */
+/* :::      ::::::::   */
+/* heredoc.c                                          :+:      :+:    :+:   */
+/* +:+ +:+         +:+     */
+/* By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/* +#+#+#+#+#+   +#+           */
+/* Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
+/* Updated: 2025/07/02 00:15:47 by oadouz           ###   ########.fr       */
+/* */
 /* ************************************************************************** */
 
 #include "../built_functions.h"
-// char expand_herdoc_line(char *line, char **env, int ex_status)
-static char *expand_heredoc_line(char *line, char **env, t_data *data)
+
+static char	*expand_heredoc_line(char *line, char **env, t_data *data)
 {
-    char    *result;
-    char    *current;
-    int     quotes_type = 0; // Unquoted context for heredoc
-	int delimiter = 0;
-    result = NULL;
-    current = line;
-    while (*current)
-    {
-        if (*current == '$' && (ft_isalpha(*(current + 1)) || 
-            *(current + 1) == '?' || *(current + 1) == '_'))
-        {
-            result = handle_dollar_case(&current, env,  result, data);
-        }
-        else
-        {
-            result = handle_normal_char(&current, result, data);
-        }
-    }
-    if(result)
-		return result;
-	return ft_strdup("");		
+	char	*result;
+	char	*current;
+
+	result = NULL;
+	current = line;
+	while (*current)
+	{
+		if (*current == '$' && (ft_isalpha(*(current + 1))
+				|| *(current + 1) == '?' || *(current + 1) == '_'))
+		{
+			result = handle_dollar_case(&current, env, result, data);
+		}
+		else
+		{
+			result = handle_normal_char(&current, result, data);
+		}
+	}
+	if (result)
+		return (result);
+	return (ft_strdup(""));
 }
 
-static void	heredoc_sigint_handler(int sig)
+static char	*generate_heredoc_filename(void)
 {
-	(void)sig;
-	exit(130);
+	static int	heredoc_count;
+	char		*num;
+	char		*filename;
+
+	heredoc_count = 0;
+	num = ft_itoa(heredoc_count++);
+	if (!num)
+		return (NULL);
+	filename = ft_strjoin("/tmp/minishell-heredoc-", num);
+	free(num);
+	return (filename);
 }
 
-static void	heredoc_child_process(int pipe_write_fd, t_command *cmd, char **envp,t_data *data)
+static char	*setup_heredoc_to_file(t_command *cmd, char **envp, t_data *data)
 {
-
+	int		fd;
 	char	*line;
-	char	*word = NULL;
+	char	*filename;
 
-	signal(SIGINT, heredoc_sigint_handler);
+	filename = generate_heredoc_filename();
+	if (!filename)
+		return (NULL);
+	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	if (fd == -1)
+		return (free(filename), NULL);
 	while (1)
 	{
 		line = readline("> ");
@@ -59,63 +72,32 @@ static void	heredoc_child_process(int pipe_write_fd, t_command *cmd, char **envp
 				free(line);
 			break ;
 		}
-		if(cmd->heredoc_quotes == 0)
-		{
-			word = expand_heredoc_line(line, envp , data);
-			if(word)
-			{	
-				ft_putendl_fd(word, pipe_write_fd);
-				free(word);
-			}
-			else
-			{
-				ft_putendl_fd(line, pipe_write_fd);
-		    	free(line);
-			}
-		}
-		else
-		{
-			ft_putendl_fd(line, pipe_write_fd);
-		    free(line);
-		}
+		if (cmd->heredoc_quotes == 0)
+			line = expand_heredoc_line(line, envp, data);
+		ft_putendl_fd(line, fd);
+		free(line);
 	}
-	close(pipe_write_fd);
-	exit(0);
+	close(fd);
+	return (filename);
 }
 
-static int	heredoc_parent_process(pid_t pid, int *pipe_fds)
+int	handle_heredocs_before_execution(t_command *cmds, char **envp, t_data *data)
 {
-	int	status;
+	t_command	*current;
 
-	signal(SIGINT, SIG_IGN);
-	close(pipe_fds[1]);
-	waitpid(pid, &status, 0);
-	setup_signals();
-	if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
-		return (pipe_fds[0]);
-	close(pipe_fds[0]);
-	return (-1);
-}
-
-int	setup_heredoc(t_command *cmd, char **envp,t_data *data)
-{
-	int		pipe_fds[2];
-	pid_t	pid;
-    
-	//printf("%s\n", cmd);
-	if (pipe(pipe_fds) == -1)
-		return (handle_fork_error(NULL));
-	pid = fork();
-	if (pid == -1)
+	current = cmds;
+	while (current)
 	{
-		close(pipe_fds[0]);
-		close(pipe_fds[1]);
-		return (handle_fork_error(NULL));
+		if (current->heredoc_delimiter)
+		{
+			if (current->heredoc_tmp_file)
+				free(current->heredoc_tmp_file);
+			current->heredoc_tmp_file = setup_heredoc_to_file(current,
+					envp, data);
+			if (!current->heredoc_tmp_file)
+				return (0);
+		}
+		current = current->next;
 	}
-	if (pid == 0)
-	{
-		close(pipe_fds[0]);
-		heredoc_child_process(pipe_fds[1], cmd, envp, data);
-	}
-	return (heredoc_parent_process(pid, pipe_fds));
+	return (1);
 }

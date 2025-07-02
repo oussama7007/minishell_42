@@ -54,7 +54,7 @@ static int	wait_for_pipeline(pid_t last_pid)
 	return (last_status);
 }
 
-int	execute_pipeline(t_command *commands, char ***env_ptr)
+int	execute_pipeline(t_command *commands, char ***env_ptr,t_data *data)
 {
 	int			pipe_fds[2];
 	int			prev_pipe;
