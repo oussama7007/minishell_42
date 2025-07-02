@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/02 22:01:13 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/02 22:18:55 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,21 +72,24 @@ typedef struct s_indices {
 	int		j;
 	int		k;
 	int		append_idx;
+	int		heredoc_idx;
 }	t_indices;
 
 typedef struct s_counts {
 	int		arg_c;
 	int		in_c;
 	int		out_c;
+    int		heredoc_c;
 }	t_counts;
 
 typedef struct s_cmd_builder {
 	t_command	*commands;
 	t_command	*current;
 	t_token		*tokens_start;
-	int			arg_count;
-	int			red_in_count;
-	int			red_out_count;
+    int			arg_count;
+    int			red_in_count;
+    int			red_out_count;
+    int			heredoc_count;
 }	t_cmd_builder;
 
 
