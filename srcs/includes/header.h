@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/03 09:39:38 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/03 10:05:01 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@
 #define ERR_SEMICOLON 7
 #define ERR_SYNTAX 8 
 
-int t_sig_ctrlc;
+// extern int t_sig_ctrlc;
+
 typedef struct s_data
 {
     int delimiter;
@@ -62,7 +63,7 @@ typedef struct s_command {
     int *append;           // Array of flags (1 for >>, 0 for >)
     char **heredoc_delimiters; // Array of heredoc delimiters
     int *heredoc_quotes;     // Array of quote flags for heredocs
-    int num_heredocs;        // Number of heredocs
+    int  num_heredocs;        // Number of heredocs
     char *heredoc_tmp_file;  // Path to the final heredoc temporary file
     struct s_command *next;// Next command (for pipes)
 } t_command;

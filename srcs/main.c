@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/03 10:00:08 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/03 10:05:18 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include "c_spuvr/built_functions.h"
 #include <readline/readline.h>
 #include <readline/history.h>
+
+// int t_sig_ctrlc;
 
 void	error(int type)
 {
@@ -68,7 +70,7 @@ while (tokens)
 return (1);
 }
 
-static void	print_tokens(t_token *tokens)
+void	print_tokens(t_token *tokens)
 {
 	while (tokens)
 	{
@@ -78,7 +80,7 @@ static void	print_tokens(t_token *tokens)
 	}
 }
 
-static void	print_commands(t_command *commands)
+void	print_commands(t_command *commands)
 {
 	int	i;
 
@@ -103,8 +105,13 @@ static void	print_commands(t_command *commands)
 			else
 				printf("\n");
 		}
-		if (commands->heredoc_delimiters) // This is wrong
-			printf("<<< heredoc delimiter : %s\n", commands->heredoc_delimiters); // This is also wrong
+		i = -1;
+		while (commands->heredoc_delimiters && commands->heredoc_delimiters[++i])
+		{
+			printf("<<< heredoc delimiter : %s", commands->heredoc_delimiters[i]);
+			if (commands->heredoc_quotes)
+				printf(" (quotes: %s)\n", commands->heredoc_quotes[i] ? "yes" : "no");
+		}
 		printf("================================================\n\n");
 		commands = commands->next;
 	}
@@ -172,7 +179,7 @@ void	sigint_handler(int sig)
 {
 	(void)sig;
 
-    t_sig_ctrlc  = sig;
+    // t_sig_ctrlc  = sig;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	//rl_replace_line("", 0);
@@ -193,7 +200,7 @@ int	main(int ac, char **av, char **env)
 	t_token		*tokens;
 	t_command	*commands;
 
-    t_sig_ctrlc = 0;
+    // t_sig_ctrlc = 0;
 	(void)ac;
 	setup_signal_handlers();
 	my_envp = init_environment(env);
@@ -228,8 +235,8 @@ int	main(int ac, char **av, char **env)
 			free(line);
 			continue ;
 		}
-        if (t_sig_ctrlc == 2)
-            data.ex_status = 1;
+        // if (t_sig_ctrlc == 2)
+        //     data.ex_status = 1;
 		commands = build_command(tokens);
 		if (commands)
 		{
@@ -244,10 +251,10 @@ int	main(int ac, char **av, char **env)
 				data.ex_status = ft_exit(commands->args, &my_envp, commands,
 						tokens, &data);
 			else
-				data.ex_status = ft_execute_command_list(commands, &my_envp,
-						&data);
-			free_command(commands);
+				data.ex_status = ft_execute_command_list(commands, &my_envp, &data);
+			// free_command(commands);
 		}
+		print_commands(commands);
 		free_tokens(tokens);
 		free(line);
 	}
