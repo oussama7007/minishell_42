@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:20:01 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/28 17:31:41 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 15:50:32 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ int	ft_echo(char **args)
 
 	i = 1;
 	n = 1;
-	while ((args[i] && is_n_option(args[i])) || (args[i] && is_nn_option(args[i])))
+	while ((args[i] && is_n_option(args[i]))
+		|| (args[i] && is_nn_option(args[i])))
 	{
 		n = 0;
 		i++;

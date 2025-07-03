@@ -3,18 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 21:41:29 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/29 16:36:51 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:37:34 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-
-
-
 
 static int	ft_strjoin_length(char const *s1, char const *s2)
 {

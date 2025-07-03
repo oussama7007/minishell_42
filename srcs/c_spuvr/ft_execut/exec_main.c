@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:22:02 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/21 17:28:32 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 15:46:58 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*join_path(char *dir, char *cmd)
 	return (res);
 }
 
-static void	try_paths(char **paths, char *cmd, char **cmd_path)
+void	try_paths(char **paths, char *cmd, char **cmd_path)
 {
 	int	i;
 
@@ -50,32 +50,6 @@ int	is_direct_path(const char *cmd_name)
 			&& cmd_name[2] == '/'));
 }
 
-char	*find_executable_path(char *cmd, char **envp)
-{
-	char	*path_env;
-	char	**paths;
-	char	*cmd_path;
-
-	if (!cmd || !*cmd || !envp)
-		return (NULL);
-	if (is_direct_path(cmd))
-	{
-		if (access(cmd, X_OK) == 0)
-			return (ft_strdup(cmd));
-		return (NULL);
-	}
-	path_env = my_getenv("PATH", envp);
-	if (!path_env)
-		return (NULL);
-	paths = ft_split(path_env, ':');
-	if (!paths)
-		return (NULL);
-	cmd_path = NULL;
-	try_paths(paths, cmd, &cmd_path);
-	ft_free_array(paths);
-	return (cmd_path);
-}
-
 void	execute_child_process(char *cmd_path, char **args, char **envp)
 {
 	execve(cmd_path, args, envp);
@@ -92,18 +66,6 @@ void	execute_child_process(char *cmd_path, char **args, char **envp)
 	if (errno == ENOENT)
 		exit(127);
 	exit(1);
-}
-
-int	wait_for_child(pid_t pid)
-{
-	int	status;
-
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
-	return (1);
 }
 
 void	ft_execute_external(char **args, char **envp)

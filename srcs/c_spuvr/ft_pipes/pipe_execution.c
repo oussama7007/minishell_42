@@ -1,10 +1,12 @@
-/* ************************************************************************** */ /*                                                                            */ /*                                                        :::      ::::::::   */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
 /*   pipe_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:44:44 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/21 17:21:28 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 16:39:26 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +16,7 @@ static void	execute_child(t_command *cmd, char ***env_ptr,
 			int prev, int *pipe_fd)
 {
 	setup_child_io(prev, pipe_fd, cmd);
-	setup_child_signals();
+	setup_child_signals(cmd);
 	handle_redirection_child(cmd);
 	execute_single_cmd(cmd, *env_ptr);
 }
@@ -54,7 +56,7 @@ static int	wait_for_pipeline(pid_t last_pid)
 	return (last_status);
 }
 
-int	execute_pipeline(t_command *commands, char ***env_ptr,t_data *data)
+int	execute_pipeline(t_command *commands, char ***env_ptr, t_data *data)
 {
 	int			pipe_fds[2];
 	int			prev_pipe;

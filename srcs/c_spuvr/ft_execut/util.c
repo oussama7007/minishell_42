@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:20:30 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/02 22:01:03 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 15:35:33 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,42 @@ int	has_redirection(t_command *cmd)
 		|| cmd->heredoc_delimiters)
 		return (1);
 	return (0);
+}
+
+char	*find_executable_path(char *cmd, char **envp)
+{
+	char	*path_env;
+	char	**paths;
+	char	*cmd_path;
+
+	if (!cmd || !*cmd || !envp)
+		return (NULL);
+	if (is_direct_path(cmd))
+	{
+		if (access(cmd, X_OK) == 0)
+			return (ft_strdup(cmd));
+		return (NULL);
+	}
+	path_env = my_getenv("PATH", envp);
+	if (!path_env)
+		return (NULL);
+	paths = ft_split(path_env, ':');
+	if (!paths)
+		return (NULL);
+	cmd_path = NULL;
+	try_paths(paths, cmd, &cmd_path);
+	ft_free_array(paths);
+	return (cmd_path);
+}
+
+int	wait_for_child(pid_t pid)
+{
+	int	status;
+
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	return (1);
 }

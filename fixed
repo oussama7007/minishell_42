@@ -1,0 +1,100 @@
+The New Memory Leak
+The problem lies in your free_command function in free.c. When you added the new members to the t_command struct to handle multiple heredocs (heredoc_delimiters and heredoc_quotes), you did not correctly update your cleanup logic to free the memory associated with them.
+
+File: free.c
+
+Your current (incorrect) free_command function:
+
+C
+
+void	free_command(t_command *cmd)
+{
+	if (!cmd)
+		return ;
+	// ... (freeing cmd, args, red_in, red_out, append) ...
+
+	if (cmd->heredoc_delimiters)
+		free(cmd->heredoc_delimiters); // <--- PROBLEM 1: This only frees the array, not the strings inside.
+
+	// <--- PROBLEM 2: You are not freeing cmd->heredoc_quotes at all.
+
+	if (cmd->heredoc_tmp_file)
+		free(cmd->heredoc_tmp_file);
+	if (cmd->next)
+		free_command(cmd->next);
+	free(cmd);
+}
+Why this breaks your program:
+
+Leaking Delimiter Strings: In populate_command, you allocate each delimiter string using ft_strdup. However, in free_command, you only call free(cmd->heredoc_delimiters). This frees the array that points to the strings, but it abandons the actual strings themselves in memory, creating a leak.
+
+Leaking Quote Flags: You allocate memory for the heredoc_quotes integer array but never free it.
+
+Heap Corruption: Just like before, every time a command with a heredoc is used, your shell leaks memory. This slowly corrupts the heap. When a built-in like export later tries to allocate memory (e.g., to add a new variable), malloc can fail or return an invalid pointer, causing the built-in to fail silently.
+
+The Solution: Correctly Free All Memory
+To fix this permanently, you must ensure that all allocated memory in your t_command struct is properly freed. You already have a helper function, free_double, that does exactly what you need for the delimiter strings.
+
+Action:
+Modify your free_command function in free.c to correctly clean up all heredoc-related members.
+
+Modify free.c:
+
+C
+
+void	free_command(t_command *cmd)
+{
+	if (!cmd)
+		return ;
+	if (cmd->cmd)
+		free(cmd->cmd);
+	free_double(cmd->args);
+	free_double(cmd->red_in);
+	free_double(cmd->red_out);
+	if (cmd->append)
+		free(cmd->append);
+
+	// ---- START of fix ----
+	
+	// Use your existing helper to free the array of strings
+	free_double(cmd->heredoc_delimiters);
+
+	// Free the array of quote flags
+	if (cmd->heredoc_quotes)
+		free(cmd->heredoc_quotes);
+		
+	// ---- END of fix ----
+
+	if (cmd->heredoc_tmp_file)
+		free(cmd->heredoc_tmp_file);
+	if (cmd->next)
+		free_command(cmd->next);
+	free(cmd);
+}
+By making these changes, you will plug the memory leak. With a stable memory environment, your export command will no longer fail due to heap corruption, and both of your features will work correctly together.
+
+=========================================================
+
+The Root Cause: Unconditional Allocation
+The bug is in your populate_command function inside commands.c. You are allocating memory for heredoc_delimiters and heredoc_quotes for every single command, even those without any heredocs.
+
+When a command like ls is parsed:
+
+counts.heredoc_c is 0.
+
+You call malloc for heredoc_delimiters with a size of 1 and for heredoc_quotes with a size of 0.
+
+Crucially, the allocated space for heredoc_delimiters is never initialized. Its content is garbage.
+
+Later, free_command calls free_double(cmd->heredoc_delimiters).
+
+free_double starts looping through what it thinks is an array of strings, hits the garbage value, and attempts to free() it, leading to the "invalid pointer" crash.
+
+There is a secondary, related bug in new_command where heredoc_quotes is not initialized to NULL.
+
+The Fix: Conditional Allocation and Correct Initialization
+We must modify the logic to only allocate memory when heredocs are present and to ensure pointers are always initialized to NULL.
+
+Step 1: Correct new_command() Initialization
+First, let's fix the initialization. This ensures that if a command has no heredocs, its pointers are safely set to NULL.
+

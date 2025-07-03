@@ -6,26 +6,25 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/02 00:28:47 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 15:52:17 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef BUILT_FUNCTIONS_H
 # define BUILT_FUNCTIONS_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "../includes/header.h"
-#include "../c_spuvr/LIBFT/libft.h"
-#include "../includes/header.h"
-#include <unistd.h>
-#include <stdbool.h>
-#include <errno.h>
-#include <string.h>
-#include <fcntl.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include "../includes/header.h"
+# include "../c_spuvr/LIBFT/libft.h"
+# include "../includes/header.h"
+# include <unistd.h>
+# include <stdbool.h>
+# include <errno.h>
+# include <string.h>
+# include <fcntl.h>
 
 char	**init_environment(char **system_envp);
 void	free_environment(char **envp_ptr);
@@ -38,39 +37,33 @@ int		ft_export(char **args, char ***env_ptr);
 int		ft_pwd(char ***env_ptr);
 int		ft_unset(char **args, char ***env_ptr);
 int		ft_env(char **args, char ***env_ptr);
-int		ft_execute_command_list(t_command *command_list, char ***env_ptr, t_data *data);
+int		ft_execute_command_list(t_command *command_list,
+			char ***env_ptr, t_data *data);
 char	*find_executable_path(char *cmd, char **envp);
 int		wait_for_child(pid_t pid);
 int		is_direct_path(const char *cmd_name);
-
 // execute
 int		is_parent_only_builtin(char *cmd);
 int		has_redirection(t_command *cmd);
 int		setup_heredoc(t_command *cmd, char **envp, t_data *data);
-
+void	try_paths(char **paths, char *cmd, char **cmd_path);
 //exit
 int		ft_exit(char **args, char ***env, t_command *cmd, t_token *tok, t_data *data);
-
 //cd 
 void	up_env_cd(char *old_pwd_val, const char *path_arg, char ***env_ptr);
 char	*target_path(char **args, char **envp);
-
 // redirection
 void	handle_redirection_child(t_command *cmd_node);
-
 // pipe
-int	execute_pipeline(t_command *commands, char ***env_ptr,t_data *data);
+int		execute_pipeline(t_command *commands, char ***env_ptr, t_data *data);
 void	execute_single_cmd(t_command *cmd, char **envp);
 void	setup_child_io(int prev_pipe, int *pipe_fds, t_command *cmd);
-
-
 // erro.c
 void	ft_free_array(char **array);
 int		handle_command_not_found(char *cmd);
 void	execute_child_process(char *cmd_path, char **args, char **envp);
 int		ft_print_exec_error(char *cmd_name, int err_no);
 int		handle_fork_error(char *cmd_to_free);
-
 int		ft_echo(char **args);
 void	display_sorted_environment(char **envp);
 int		process_export_arguments(char **args, char ***env_ptr);

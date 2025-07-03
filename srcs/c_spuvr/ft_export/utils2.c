@@ -6,17 +6,25 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:40:41 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/21 17:23:48 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 15:21:10 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../built_functions.h"
 
+static void	swap_strings(char **a, char **b)
+{
+	char	*temp;
+
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
 static void	ms_sort_env_array(char **arr_to_sort, int count)
 {
 	int		i;
 	int		j;
-	char	*temp;
 	int		sorted;
 
 	if (!arr_to_sort || count <= 1)
@@ -30,9 +38,7 @@ static void	ms_sort_env_array(char **arr_to_sort, int count)
 		{
 			if (ft_strcmp(arr_to_sort[j], arr_to_sort[j + 1]) > 0)
 			{
-				temp = arr_to_sort[j];
-				arr_to_sort[j] = arr_to_sort[j + 1];
-				arr_to_sort[j + 1] = temp;
+				swap_strings(&arr_to_sort[j], &arr_to_sort[j + 1]);
 				sorted = 0;
 			}
 			j++;
@@ -73,7 +79,7 @@ static char	**ms_duplicate_env(char **original_env, int count)
 
 static void	ms_print_one_env_declare(char *env_str)
 {
-	int		i;
+	int	i;
 
 	ft_putstr_fd("declare -x ", STDOUT_FILENO);
 	i = 0;

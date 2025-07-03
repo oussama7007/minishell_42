@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 18:08:03 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/21 17:31:35 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 15:50:11 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	**init_environment(char **system_envp)
 			while (--i >= 0)
 				free(copy[i]);
 			free(copy);
-			return(NULL);
+			return (NULL);
 		}
 		i++;
 	}
@@ -103,7 +103,7 @@ void	free_environment(char **envp_ptr)
 	while (j >= 0)
 	{
 		free(envp_ptr[j]);
-		j--;	
+		j--;
 	}
 	free(envp_ptr);
 }
