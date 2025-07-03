@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/03 15:49:08 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 16:49:21 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	ft_execute_command_list(t_command *cmd_list, char ***env_ptr, t_data *data)
 	if (cmd_list->cmd && is_parent_only_builtin(cmd_list->cmd)
 		&& !has_redirection(cmd_list))
 		return (is_built_ins(cmd_list->args, env_ptr));
+	setup_child_signals(cmd_list);
 	pid = fork();
 	if (pid == -1)
 		return (handle_fork_error(NULL));

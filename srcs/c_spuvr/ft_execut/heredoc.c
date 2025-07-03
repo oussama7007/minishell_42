@@ -6,11 +6,13 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/03 15:32:23 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 17:03:27 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../built_functions.h"
+
+int sig_var;
 
 typedef struct s_heredoc_info
 {
@@ -55,10 +57,21 @@ static char	*generate_heredoc_filename(void)
 	return (filename);
 }
 
+void	heredoc_signals(int sig)
+{
+	write(1, "\n", 1);
+	close(STDIN_FILENO);
+	sig_var = 1;
+}
+
 static void	read_heredoc_input(t_heredoc_info *info)
 {
+	int		fd;
 	char	*line;
 
+	sig_var = 0;
+	fd = dup(STDIN_FILENO);
+	signal(SIGINT, &heredoc_signals);
 	while (1)
 	{
 		line = readline("> ");
@@ -76,6 +89,12 @@ static void	read_heredoc_input(t_heredoc_info *info)
 			ft_putendl_fd(line, info->fd);
 		}
 		free(line);
+	}
+	if (sig_var == 1)
+	{
+		dup2(fd, 0);
+		info->data->ex_status = 130;
+		setup_signal_handlers();
 	}
 }
 

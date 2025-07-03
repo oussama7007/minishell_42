@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/03 14:41:06 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 16:41:55 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ char		*get_var_value(char *new_word, char **envp);
 void		free_command(t_command *cmd);
 t_command	*new_command(void);
 void		setup_signals(void);
-void		setup_child_signals(void);
+void	    setup_child_signals(t_command *cmd);
+
 
 #endif

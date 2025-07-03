@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 12:43:39 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/24 21:55:09 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 16:49:46 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,16 @@ void	setup_signals(void)
 	signal(SIGQUIT, handle_sigquit);
 }
 
-void	setup_child_signals(void)
+void	setup_child_signals(t_command *cmd)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	if (ft_strnstr(cmd->cmd, "minishell", ft_strlen(cmd->cmd)))
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);	
+	}
 }

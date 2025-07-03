@@ -115,3 +115,57 @@ bash-5.2$ ls
 bash: sed: No such file or directory
 bash: ls: Permission denied
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+Minishell$ export b="ls -la"
+Minishell$ $b
+minishell: ls -la: command not found
+Minishell$ 
+
+Minishell$ << a << b << c >
+Minishell: syntax error 
+Minishell$ << a << b << c >
+
+bash-5.2$ << a  << b  << c ' << r
+> a
+> b
+> c
+> '
+> a
+> b
+> c
+bash: $' << r\na\nb\nc\n': command not found
+bash-5.2$ 
+
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+shouldnt expand
+
+Minishell$ cat << $salam""
+> $USER
+> $PATH
+> $salam
+oadouz
+/home/oadouz/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+handle signlas in minishell inside minishell
+
+//////////////////////////////////////////////////
+
+minishell: c_spuvr/: is a directory
+Minishell$ /
+minishell: /: is a directory
+Minishell$ echo $?
+231
+
+bash-5.2$ /
+bash: /: Is a directory
+bash-5.2$ echo $?
+126
+ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+ Minishell$ ls > 1 > 2 < jygdsf | ls > 3 | ls -la
+ Minishell$ ls
+3                 bug.txt         fixed     minishell  pout  test.c  TODO
+allahyamoulana.c  en.subject.pdf  Makefile  out        srcs  text.c
+Minishell$ 
