@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:19:08 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/02 00:26:55 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 14:35:51 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	handle_redirection_child(t_command *cmd_node)
 {
 	int	fd;
 
-	if (cmd_node->heredoc_tmp_file)
+	if (cmd_node->heredoc_tmp_file) // <-- ADD THIS CHECK
 	{
 		fd = open(cmd_node->heredoc_tmp_file, O_RDONLY);
 		if (fd == -1)
@@ -88,7 +88,7 @@ void	handle_redirection_child(t_command *cmd_node)
 		}
 		dup2(fd, STDIN_FILENO);
 		close(fd);
-		unlink(cmd_node->heredoc_tmp_file);
+		unlink(cmd_node->heredoc_tmp_file); // Clean up the temp file
 	}
 	handle_input_redirection(cmd_node);
 	handle_output_redirection(cmd_node);

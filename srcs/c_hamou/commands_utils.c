@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:49:05 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/02 00:13:16 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 14:54:00 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ t_command	*new_command(void)
 	command->red_in = NULL;
 	command->red_out = NULL;
 	command->append = NULL;
-	command->heredoc_delimiter = NULL;
-	command->heredoc_quotes = 0;
+	command->heredoc_delimiters = NULL;
+	command->heredoc_quotes = NULL;
 	command->heredoc_tmp_file = NULL;
 	command->next = NULL;
 	return (command);

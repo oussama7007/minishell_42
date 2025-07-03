@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:20:30 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/21 17:27:16 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 14:42:03 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	has_redirection(t_command *cmd)
 {
 	if ((cmd->red_in && cmd->red_in[0])
 		|| (cmd->red_out && cmd->red_out[0])
-		|| cmd->heredoc_delimiter)
+		|| cmd->heredoc_delimiters)
 		return (1);
 	return (0);
 }
