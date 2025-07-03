@@ -6,11 +6,18 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 02:19:45 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/01 22:39:21 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 15:36:52 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_functions.h"
+
+static void	zft_initialize(int *i, int *s, unsigned long long *r)
+{
+	*i = 0;
+	*s = 1;
+	*r = 0;
+}
 
 int	shlvl_ft_atoi(const char *str)
 {
@@ -18,8 +25,7 @@ int	shlvl_ft_atoi(const char *str)
 	unsigned long long	r;
 	int					s;
 
-	1 && (i = 0 , r = 0, s = 1);
-	// ft_initialize(&i, &s, &r);
+	zft_initialize(&i, &s, &r);
 	while ((str[i] == 32) || (str[i] >= 9 && str[i] <= 13))
 		i++;
 	if ((str[i] == '-') || (str[i] == '+'))

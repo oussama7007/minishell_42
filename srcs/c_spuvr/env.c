@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:00:09 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/28 15:40:06 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 15:41:14 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 char	*my_getenv(const char *name, char **envp)
 {
-	int		i;
-	int		n_len;
+	int	i;
+	int	n_len;
 
 	if (!name || !envp)
 		return (NULL);
-	1 && (i = 0, n_len = 0);
+	i = 0;
+	n_len = 0;
 	while (name[n_len])
 		n_len++;
 	while (envp[i])
@@ -50,14 +51,14 @@ int	my_setenv(char *name, char *value, char ***env_ptr)
 		return (0);
 	}
 	var = ft_arrlen(*env_ptr);
-	if (!(new_data = malloc((var + 2) * sizeof(char *))))
+	new_data = malloc((var + 2) * sizeof(char *));
+	if (!new_data)
 		return (free(new_value), -1);
 	ft_memcpy(new_data, *env_ptr, var * sizeof(char *));
 	new_data[var] = new_value;
 	new_data[var + 1] = NULL;
 	free(*env_ptr);
-	*env_ptr = new_data;
-	return (0);
+	return ((*env_ptr = new_data), 0);
 }
 
 static void	copy_indexes(char ***env_ptr, char **new_env, int skip_idx)

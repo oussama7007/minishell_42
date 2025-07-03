@@ -6,11 +6,9 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/03 14:39:40 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 15:11:19 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "header.h"
 #include "c_spuvr/built_functions.h"
