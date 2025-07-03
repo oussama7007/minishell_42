@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:00:09 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/28 15:40:06 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 00:43:10 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ char	*my_getenv(const char *name, char **envp)
 
 	if (!name || !envp)
 		return (NULL);
-	1 && (i = 0, n_len = 0);
+	i = 0;
+	n_len = 0;
 	while (name[n_len])
 		n_len++;
 	while (envp[i])
@@ -35,7 +36,6 @@ int	my_setenv(char *name, char *value, char ***env_ptr)
 {
 	int		var;
 	char	*new_value;
-	char	**new_data;
 
 	if (!name || !env_ptr)
 		return (-1);
@@ -49,15 +49,29 @@ int	my_setenv(char *name, char *value, char ***env_ptr)
 		(*env_ptr)[var] = new_value;
 		return (0);
 	}
-	var = ft_arrlen(*env_ptr);
-	if (!(new_data = malloc((var + 2) * sizeof(char *))))
-		return (free(new_value), -1);
-	ft_memcpy(new_data, *env_ptr, var * sizeof(char *));
-	new_data[var] = new_value;
-	new_data[var + 1] = NULL;
-	free(*env_ptr);
-	*env_ptr = new_data;
-	return (0);
+	else
+	{
+		int current_size = 0;
+		while ((*env_ptr)[current_size] != NULL)
+			current_size++;
+		char **new_envp = malloc(sizeof(char *) * (current_size + 2));
+		if (!new_envp)
+		{
+			free(new_value);
+			return (-1);
+		}
+		int i = 0;
+		while (i < current_size)
+		{
+			new_envp[i] = (*env_ptr)[i];
+			i++;
+		}
+		new_envp[current_size] = new_value;
+		new_envp[current_size + 1] = NULL;
+		free(*env_ptr);
+		*env_ptr = new_envp;
+		return (0);
+	}
 }
 
 static void	copy_indexes(char ***env_ptr, char **new_env, int skip_idx)

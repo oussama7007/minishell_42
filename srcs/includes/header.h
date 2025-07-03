@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/03 00:15:55 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 08:14:33 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@
 #define ERR_SEMICOLON 7
 #define ERR_SYNTAX 8 
 
-int t_sig_ctrlc;
+// extern int t_sig_ctrlc;
+
 typedef struct s_data
 {
     int delimiter;
