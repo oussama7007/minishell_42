@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/04 00:11:34 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/04 21:03:13 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,7 @@ int	main(int ac, char **av, char **env)
 {
 	char	**my_envp;
 	t_data	data;
-
+   
 	(void)ac;
 	setup_signal_handlers();
 	my_envp = init_environment(env);

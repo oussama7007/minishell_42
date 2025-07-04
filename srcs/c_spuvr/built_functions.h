@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_functions.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/03 15:52:17 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/04 21:21:17 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,19 @@
 # include <errno.h>
 # include <string.h>
 # include <fcntl.h>
+
+typedef struct s_heredoc_info
+{
+	int			fd;
+	int			i;
+	t_command	*cmd;
+	char		**envp;
+	t_data		*data;
+}	t_heredoc_info;
+
+// heredoc
+char	*expand_heredoc_line(char *line, char **env, t_data *data);
+char	*generate_heredoc_filename(void);
 
 char	**init_environment(char **system_envp);
 void	free_environment(char **envp_ptr);

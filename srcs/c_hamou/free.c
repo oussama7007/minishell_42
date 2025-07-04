@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:20:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/03 14:51:40 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/04 17:41:27 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,35 @@ void	free_command(t_command *cmd)
 	if (cmd->next)
 		free_command(cmd->next);
 	free(cmd);
+}
+
+char	*skip_space(char *str)
+{
+	while (*str && is_space(*str))
+		str++;
+	return (str);
+}
+
+int	count_char(char *str)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (is_space(str[i]))
+		{
+			j++;
+			while (str[i] && is_space(str[i]))
+				i++;
+		}
+		else
+		{
+			j++;
+			i++;
+		}
+	}
+	return (j);
 }

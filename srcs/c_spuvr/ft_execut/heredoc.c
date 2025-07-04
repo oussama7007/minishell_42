@@ -3,73 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/03 17:03:27 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/04 21:27:29 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../built_functions.h"
-
-int sig_var;
-
-typedef struct s_heredoc_info
-{
-	int			fd;
-	int			i;
-	t_command	*cmd;
-	char		**envp;
-	t_data		*data;
-}	t_heredoc_info;
-
-static char	*expand_heredoc_line(char *line, char **env, t_data *data)
-{
-	char	*result;
-	char	*current;
-
-	result = NULL;
-	current = line;
-	while (*current)
-	{
-		if (*current == '$' && (ft_isalpha(*(current + 1))
-				|| *(current + 1) == '?' || *(current + 1) == '_'))
-			result = handle_dollar_case(&current, env, result, data);
-		else
-			result = handle_normal_char(&current, result, data);
-	}
-	if (result)
-		return (result);
-	return (ft_strdup(""));
-}
-
-static char	*generate_heredoc_filename(void)
-{
-	static int	num_heredocs;
-	char		*num;
-	char		*filename;
-
-	num = ft_itoa(num_heredocs++);
-	if (!num)
-		return (NULL);
-	filename = ft_strjoin("/tmp/minishell-heredoc-", num);
-	free(num);
-	return (filename);
-}
+int g_sig_var;
 
 void	heredoc_signals(int sig)
 {
+	(void)sig;
 	write(1, "\n", 1);
 	close(STDIN_FILENO);
-	sig_var = 1;
+	g_sig_var = 1;
 }
 
 static void	read_heredoc_input(t_heredoc_info *info)
 {
 	int		fd;
 	char	*line;
+	char	*expanded_line;
 
-	sig_var = 0;
+	int g_sig_var = 0;
 	fd = dup(STDIN_FILENO);
 	signal(SIGINT, &heredoc_signals);
 	while (1)
@@ -85,12 +43,17 @@ static void	read_heredoc_input(t_heredoc_info *info)
 		if (info->fd != -1)
 		{
 			if (info->cmd->heredoc_quotes[info->i] == 0)
-				line = expand_heredoc_line(line, info->envp, info->data);
-			ft_putendl_fd(line, info->fd);
+				expanded_line = expand_heredoc_line(line, info->envp,
+						info->data);
+			else
+				expanded_line = line;
+			ft_putendl_fd(expanded_line, info->fd);
+			if (expanded_line != line)
+				free(expanded_line);
 		}
 		free(line);
 	}
-	if (sig_var == 1)
+	if (g_sig_var == 1)
 	{
 		dup2(fd, 0);
 		info->data->ex_status = 130;
@@ -98,7 +61,8 @@ static void	read_heredoc_input(t_heredoc_info *info)
 	}
 }
 
-static char	*setup_heredoc_to_file(t_command *cmd, char **envp, t_data *data)
+static char	*setup_heredoc_to_file(t_command *cmd,
+		char **envp, t_data *data)
 {
 	t_heredoc_info	info;
 	char			*filename;
@@ -127,8 +91,8 @@ static char	*setup_heredoc_to_file(t_command *cmd, char **envp, t_data *data)
 	return (filename);
 }
 
-int	handle_heredocs_before_execution(t_command *cmds, char **envp,
-		t_data *data)
+int	handle_heredocs_before_execution(t_command *cmds,
+		char **envp, t_data *data)
 {
 	t_command	*current;
 

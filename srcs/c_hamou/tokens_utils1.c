@@ -6,55 +6,12 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 23:46:06 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/03 23:31:05 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/04 17:42:20 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-static 	char *ft_split_function(char *str)
-{
-	if(!str)
-		return ft_strdup("");
-	int i = 0;
-	int j = 0;
-	char  *new;
-	while(*str && is_space(*str))
-				str++;
-	while(str[i])
-	{
-		
-		if(is_space(str[i]))
-		{	
-			j++;
-			while(str[i] && is_space(str[i]))
-				i++;
-		}
-		else
-		{ 
-			j++;
-			i++;
-		}
-	}
-	new = malloc(j + 1);
-	if(!new)
-		return NULL;
-	i = 0;
-	j = 0;
-	while(str[i])
-	{
-		if(is_space(str[i]))
-		{
-			new[j++] = ' ';
-			while(str[i] && is_space(str[i]))
-				i++;
-		}
-		else
-			new[j++] = str[i++];
-		
-	}
-	new[j]= '\0';
-	return  new; 
-}
+
 char	*handle_regular_accumulator(char *var_start,
 					char *end, char **env, char *accumulator)
 {
@@ -72,11 +29,10 @@ char	*handle_regular_accumulator(char *var_start,
 		tmp = accumulator;
 		accumulator = ft_strjoin(tmp, value_to_join);
 		free(tmp);
-		
 	}
 	else
 		accumulator = ft_strdup(value_to_join);
-	return (free(value_to_join),accumulator);
+	return (free(value_to_join), accumulator);
 }
 
 char	*handle_normal_char(char **end_ptr, char *accumulator, t_data *data)

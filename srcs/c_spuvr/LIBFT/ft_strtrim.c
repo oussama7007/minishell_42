@@ -6,13 +6,13 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 22:52:38 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/26 23:12:56 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/04 17:46:47 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strtrim(char const *s1, char  *set)
+char	*ft_strtrim(char const *s1, char *set)
 {
 	size_t	st;
 	size_t	end;

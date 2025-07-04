@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:34:08 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/01 22:51:15 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/04 17:40:55 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,34 @@ char	*append_char(char *str, char c)
 		return (ft_strdup(ch));
 	new = ft_strjoin(str, ch);
 	free(str);
+	return (new);
+}
+
+char	*ft_split_function(char *str)
+{
+	char	*new;
+	int		i;
+	int		j;
+
+	if (!str)
+		return (ft_strdup(""));
+	str = skip_space(str);
+	new = malloc(count_char(str) + 1);
+	if (!new)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (is_space(str[i]))
+		{
+			new[j++] = ' ';
+			while (str[i] && is_space(str[i]))
+				i++;
+		}
+		else
+			new[j++] = str[i++];
+	}
+	new[j] = '\0';
 	return (new);
 }
