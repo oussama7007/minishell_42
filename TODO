@@ -169,3 +169,24 @@ bash-5.2$ echo $?
 3                 bug.txt         fixed     minishell  pout  test.c  TODO
 allahyamoulana.c  en.subject.pdf  Makefile  out        srcs  text.c
 Minishell$ 
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////
+
+
+
+Minishell$ cat | ls
+3                 bug.txt         fixed     minishell  pout  test.c  TODO
+allahyamoulana.c  en.subject.pdf  Makefile  out        srcs  text.c
+^C
+sh-5.2$ $?
+sh: 130: command not found
+
+should be 0
+//////////////////////
+

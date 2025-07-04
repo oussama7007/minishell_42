@@ -3,189 +3,103 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/01 17:28:04 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/03 15:38:07 by oadouz           ###   ########.fr       */
+/*   Created: 2024/10/24 18:14:22 by oait-si-          #+#    #+#             */
+/*   Updated: 2025/07/03 22:54:51 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	ft_count_wd(const char *s, char c)
+int	ft_wordcount(const char *str, char delim)
 {
-	size_t	wd;
-	int		flag;
+	int	count;
+	int	in_word;
 
-	wd = 0;
-	flag = 1;
-	while (*s)
+	count = 0;
+	in_word = 0;
+	while (*str)
 	{
-		if (*s == c)
-			flag = 1;
-		else
+		if (*str != delim && in_word == 0)
 		{
-			if (flag)
-			{
-				wd++;
-				flag = 0;
-			}
+			in_word = 1;
+			count++;
 		}
-		s++;
+		else if (*str == delim)
+			in_word = 0;
+		str++;
 	}
-	return (wd);
+	return (count);
 }
 
-static int	ft_pick_place(char **arr, int pos, size_t buffer)
-{
-	int	i;
-
-	i = 0;
-	arr[pos] = malloc(buffer);
-	if (arr[pos] == NULL)
-	{
-		while (i < pos)
-		{
-			free(arr[i]);
-			i++;
-		}
-		free(arr);
-		return (1);
-	}
-	return (0);
-}
-
-static int	ft_fill_strs(char **arr, const char *s, char c)
+static char	*ft_worddup(const char *start, const char *end)
 {
 	size_t	len;
+	char	*word;
 	size_t	i;
+
+	len = end - start;
+	word = (char *)malloc(sizeof(char) * (len + 1));
+	if (!word)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		word[i] = start[i];
+		i++;
+	}
+	word[len] = '\0';
+	return (word);
+}
+
+static void	ft_free_split(char **result, int index)
+{
+	while (index > 0)
+		free(result[--index]);
+	free(result);
+}
+
+static int	ft_fill_result(const char *s, char c, char **result)
+{
+	int			i;
+	const char	*start;
 
 	i = 0;
 	while (*s)
 	{
-		len = 0;
-		while (*s == c && *s)
+		while (*s == c)
 			s++;
-		while (*s != c && *s)
-		{
-			len++;
+		start = s;
+		while (*s && *s != c)
 			s++;
-		}
-		if (len > 0)
+		if (start < s)
 		{
-			if (ft_pick_place(arr, i, len + 1))
-				return (1);
-			ft_strlcpy(arr[i], s - len, len + 1);
+			result[i] = ft_worddup(start, s);
+			if (!result[i])
+			{
+				ft_free_split(result, i);
+				return (0);
+			}
 			i++;
 		}
 	}
-	return (0);
+	result[i] = NULL;
+	return (1);
 }
 
 char	**ft_split(const char *s, char c)
 {
-	size_t	word_count;
-	char	**arr;
+	char	**result;
+	int		words;
 
-	if (s == NULL)
+	if (!s)
 		return (NULL);
-	word_count = ft_count_wd(s, c);
-	arr = malloc((word_count + 1) * sizeof(char *));
-	if (arr == NULL)
+	words = ft_wordcount(s, c);
+	result = (char **)malloc(sizeof(char *) * (words + 1));
+	if (!result)
 		return (NULL);
-	arr[word_count] = NULL;
-	if (ft_fill_strs(arr, s, c))
+	if (!ft_fill_result(s, c, result))
 		return (NULL);
-	return (arr);
+	return (result);
 }
-
-// #include "libft.h"
-
-// static size_t	ft_count_wd(const char *s, char c)
-// {
-// 	size_t	wd;
-// 	int		flag;
-
-// 	wd = 0;
-// 	flag = 1;
-// 	while (*s)
-// 	{
-// 		if (*s == c)
-// 			flag = 1;
-// 		else
-// 		{
-// 			if (flag)
-// 			{
-// 				wd++;
-// 				flag = 0;
-// 			}
-// 		}
-// 		s++;
-// 	}
-// 	return (wd);
-// }
-
-
-// static int	ft_pick_place(t_head_list *head, char **arr, int pos, size_t buffer)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	arr[pos] = gc_malloc(head,buffer);
-// 	if (arr[pos] == NULL)
-// 	{
-// 		// while (i < pos)
-// 		// {
-// 		// 	free(arr[i]);
-// 		// 	i++;
-// 		// }
-// 		// free(arr);
-// 		free_gc(head);
-// 		return (1);
-// 	}
-// 	return (0);
-// }
-
-// static int	ft_fill_strs(t_head_list *head, char **arr, const char *s, char c)
-// {
-// 	size_t	len;
-// 	size_t	i;
-
-// 	i = 0;
-// 	while (*s)
-// 	{
-// 		len = 0;
-// 		while (*s == c && *s)
-// 			s++;
-// 		while (*s != c && *s)
-// 		{
-// 			len++;
-// 			s++;
-// 		}
-// 		if (len > 0)
-// 		{
-// 			if (ft_pick_place(head, arr, i, len + 1))
-// 				return (1);
-// 			ft_strlcpy(arr[i], s - len, len + 1);
-// 			i++;
-// 		}
-// 	}
-// 	return (0);
-// }
-
-// char	**ft_split(t_head_list *head,const char *s, char c)
-// {
-// 	size_t	word_count;
-// 	char	**arr;
-
-// 	if (s == NULL)
-// 		return (NULL);
-// 	word_count = ft_count_wd(s, c);
-// 	arr = gc_malloc(head ,(word_count + 1) * sizeof(char *));
-// 	if (arr == NULL)
-// 		return (NULL);
-// 	arr[word_count] = NULL;
-// 	if (ft_fill_strs(head, arr, s, c))
-// 		return (NULL);
-// 	return (arr);
-// }

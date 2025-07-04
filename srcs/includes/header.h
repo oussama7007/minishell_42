@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/03 16:41:55 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/03 21:27:11 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ typedef struct s_cmd_builder
 	int			red_out_count;
 	int			heredoc_count;
 }	t_cmd_builder;
+
+void	setup_signal_handlers(void);
 
 // Function Prototypes
 int			handle_heredocs_before_execution(t_command *cmds, char **envp,
