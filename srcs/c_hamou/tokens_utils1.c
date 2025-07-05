@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 23:46:06 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/04 17:42:20 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/05 12:27:52 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*handle_regular_accumulator(char *var_start,
 {
 	char		*var_name;
 	char		*var_value;
-	const char	*value_to_join;
+	char		*value_to_join;
 	char		*tmp;
 
 	var_name = ft_strndup(var_start, end - var_start);

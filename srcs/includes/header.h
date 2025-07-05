@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/04 17:38:59 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/05 12:17:22 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct s_cmd_builder
 	int			red_out_count;
 	int			heredoc_count;
 }	t_cmd_builder;
+
 int 	count_char(char *str);
 char	*skip_space(char *str);
 void	setup_signal_handlers(void);
