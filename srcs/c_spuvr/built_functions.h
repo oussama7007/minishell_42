@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/05 12:42:54 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/05 13:02:44 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #ifndef BUILT_FUNCTIONS_H
 # define BUILT_FUNCTIONS_H
 
-# include <stdio.h>
+# include <stdio.h>    
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
