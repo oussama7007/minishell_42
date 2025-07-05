@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:20:52 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/05 16:24:47 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:30:35 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,9 @@ char	*handle_double_quote_var1(char **end, char **env,
 	if (**end == '?')
 	{
 		tmp = question_mark(data->ex_status);
-		data->accumulator = join_and_free(data->accumulator, tmp);
+		new_accumulator = join_and_free(data->accumulator, tmp);
 		(*end)++;
+		data->accumulator = new_accumulator;
 		return (data->accumulator);
 	}
 	else
