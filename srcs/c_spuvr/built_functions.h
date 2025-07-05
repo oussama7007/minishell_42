@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_functions.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/04 21:21:17 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/05 02:40:52 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int		ft_exit(char **args, char ***env, t_command *cmd, t_token *tok, t_data *dat
 void	up_env_cd(char *old_pwd_val, const char *path_arg, char ***env_ptr);
 char	*target_path(char **args, char **envp);
 // redirection
-void	handle_redirection_child(t_command *cmd_node);
+int		handle_redirection_child(t_command *cmd_node);
 // pipe
 int		execute_pipeline(t_command *commands, char ***env_ptr, t_data *data);
 void	execute_single_cmd(t_command *cmd, char **envp);

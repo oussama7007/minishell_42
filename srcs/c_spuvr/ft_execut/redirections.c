@@ -6,13 +6,13 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:19:08 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/03 15:34:30 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/05 02:35:49 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../built_functions.h"
 
-static void	open_and_dup_input(char *filename)
+static int	open_and_dup_input(char *filename)
 {
 	int	fd_in;
 
@@ -20,30 +20,34 @@ static void	open_and_dup_input(char *filename)
 	if (fd_in == -1)
 	{
 		perror("minishell: open input file");
-		exit(1);
+		return (0);
 	}
 	if (dup2(fd_in, STDIN_FILENO) == -1)
 	{
 		perror("minishell: dup2 stdin");
 		close(fd_in);
-		exit(1);
+		return (0);
 	}
 	close(fd_in);
+	return (1);
 }
 
 static int	handle_input_redirection(t_command *cmd_node)
 {
 	int	i;
+	int	status;
 
 	if (!cmd_node->red_in || !cmd_node->red_in[0])
-		return (0);
+		return (1);
 	i = 0;
+	status = 1;
 	while (cmd_node->red_in[i])
 	{
-		open_and_dup_input(cmd_node->red_in[i]);
+		if (!open_and_dup_input(cmd_node->red_in[i]))
+			status = 0;
 		i++;
 	}
-	return (0);
+	return (status);
 }
 
 static void	open_and_dup_output(char *filename, int flags)
@@ -86,10 +90,12 @@ static int	handle_output_redirection(t_command *cmd_node)
 	return (0);
 }
 
-void	handle_redirection_child(t_command *cmd_node)
+int	handle_redirection_child(t_command *cmd_node)
 {
 	int	fd;
+	int	status;
 
+	status = 1;
 	if (cmd_node->heredoc_tmp_file)
 	{
 		fd = open(cmd_node->heredoc_tmp_file, O_RDONLY);
@@ -98,10 +104,17 @@ void	handle_redirection_child(t_command *cmd_node)
 			perror("minishell: heredoc open");
 			exit(1);
 		}
-		dup2(fd, STDIN_FILENO);
+		if (dup2(fd, STDIN_FILENO) == -1)
+		{
+			perror("minishell: dup2 heredoc");
+			close(fd);
+			exit(1);
+		}
 		close(fd);
 		unlink(cmd_node->heredoc_tmp_file);
 	}
-	handle_input_redirection(cmd_node);
 	handle_output_redirection(cmd_node);
+	if (!handle_input_redirection(cmd_node))
+		status = 0;
+	return (status);
 }

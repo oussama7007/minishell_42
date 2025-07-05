@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/03 16:49:21 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/05 02:39:44 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,15 @@ static void	child_process_logic(t_command *cmd, char ***env)
 {
 	int		builtin_status;
 	char	*cmd_path;
+	int		dir_status;
 
-	handle_redirection_child(cmd);
+	if (!handle_redirection_child(cmd))
+		exit(1);
 	if (!cmd->cmd)
 		exit(0);
-	if (handle_directory_command(cmd->args[0]) == 999)
-		exit(999);
+	dir_status = handle_directory_command(cmd->args[0]);
+	if (dir_status != 0)
+		exit(dir_status);
 	builtin_status = is_built_ins(cmd->args, env);
 	if (builtin_status != 999)
 		exit(builtin_status);
@@ -73,6 +76,7 @@ static void	child_process_logic(t_command *cmd, char ***env)
 int	ft_execute_command_list(t_command *cmd_list, char ***env_ptr, t_data *data)
 {
 	pid_t	pid;
+	int		status;
 
 	if (!cmd_list)
 		return (0);
@@ -81,11 +85,17 @@ int	ft_execute_command_list(t_command *cmd_list, char ***env_ptr, t_data *data)
 	if (cmd_list->cmd && is_parent_only_builtin(cmd_list->cmd)
 		&& !has_redirection(cmd_list))
 		return (is_built_ins(cmd_list->args, env_ptr));
-	setup_child_signals(cmd_list);
 	pid = fork();
 	if (pid == -1)
 		return (handle_fork_error(NULL));
 	if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		child_process_logic(cmd_list, env_ptr);
-	return (wait_for_child(pid));
+	}
+	signal(SIGINT, SIG_IGN);
+	status = wait_for_child(pid);
+	setup_signal_handlers();
+	return (status);
 }
