@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/04 21:03:13 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/05 21:37:45 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,38 @@
 #include "c_spuvr/built_functions.h"
 #include <readline/readline.h>
 #include <readline/history.h>
+void print_token_debug_info(t_token *token)
+{
+    while (token != NULL)
+    {
+        printf("----- Token Debug Information -----\n");
+        printf("Type: %d\n", token->type);
 
+        if (token->value != NULL)
+        {
+            printf("Value: %s\n", token->value);
+        }
+        else
+        {
+            printf("Value: NULL\n");
+        }
+
+        printf("Quote Type Token: %d\n", token->quotes_type_token);
+        printf("Is Expand Token: %d\n", token->is_expand_token);
+
+        // Print the address of the next token to check if the linked list is correct
+        if (token->next != NULL)
+        {
+            printf("Next Token Address: %p\n", (void *)token->next);
+        }
+        else
+        {
+            printf("Next Token: NULL\n");
+        }
+
+        token = token->next; // Move to the next token
+    }
+}
 void	error(int type)
 {
 	if (type == ERR_PIPE)
@@ -163,31 +194,33 @@ static void	main_loop(char ***my_envp, t_data *data)
 			continue ;
 		}
 		tokens = tokenize(line, *my_envp, data);
-		if (!tokens || !*line || !validate_syntax(tokens))
-		{
-			if (tokens)
-				free_tokens(tokens);
-			free(line);
-			continue ;
-		}
-		commands = build_command(tokens);
-		if (commands)
-		{
-			if (!handle_heredocs_before_execution(commands, *my_envp, data))
-			{
-				free_command(commands);
-				free_tokens(tokens);
-				free(line);
-				continue ;
-			}
-			if (commands->cmd && ft_strcmp(commands->cmd, "exit") == 0)
-				data->ex_status = ft_exit(commands->args, my_envp, commands,
-						tokens, data);
-			else
-				data->ex_status = ft_execute_command_list(commands, my_envp,
-						data);
-			free_command(commands);
-		}
+		print_token_debug_info(tokens);
+
+		// if (!tokens || !*line || !validate_syntax(tokens))
+		// {
+		// 	if (tokens)
+		// 		free_tokens(tokens);
+		// 	free(line);
+		// 	continue ;
+		// }
+		// commands = build_command(tokens);
+		// if (commands)
+		// {
+		// 	if (!handle_heredocs_before_execution(commands, *my_envp, data))
+		// 	{
+		// 		free_command(commands);
+		// 		free_tokens(tokens);
+		// 		free(line);
+		// 		continue ;
+		// 	}
+		// 	if (commands->cmd && ft_strcmp(commands->cmd, "exit") == 0)
+		// 		data->ex_status = ft_exit(commands->args, my_envp, commands,
+		// 				tokens, data);
+		// 	else
+		// 		data->ex_status = ft_execute_command_list(commands, my_envp,
+		// 				data);
+		// 	free_command(commands);
+		// }
 		free_tokens(tokens);
 		free(line);
 	}
