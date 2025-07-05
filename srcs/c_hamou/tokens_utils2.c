@@ -6,27 +6,28 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:16:02 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/01 14:52:18 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:22:23 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <header.h>
 
-t_token	*new_token(int type, char *word, int quotes_type)
+t_token	*new_token(int type, t_data *data)
 {
 	t_token	*new;
 
 	new = malloc(sizeof(t_token));
 	if (!new)
 		return (NULL);
-	new->value = ft_strdup(word);
+	new->value = ft_strdup(data->accumulator);
 	if (!new->value)
 	{
 		free(new);
 		return (NULL);
 	}
 	new->type = type;
-	new->quotes_type = quotes_type;
+	new->quotes_type_token = data->quote_type_data;
+	new->is_expand_token = data->is_expand_data;
 	new->next = NULL;
 	return (new);
 }
@@ -70,7 +71,7 @@ char	*process_segment(char **start, char **env, t_data *data)
 
 t_token	*handle_operator(char **start, t_data *data)
 {
-	char	*word;
+	
 	t_token	*token;
 	char	*end;
 
@@ -84,11 +85,11 @@ t_token	*handle_operator(char **start, t_data *data)
 		end += 2;
 	else
 		end++;
-	word = ft_strndup(*start, end - *start);
-	if (!word)
+	data->accumulator = ft_strndup(*start, end - *start);
+	if (!data->accumulator)
 		return (NULL);
-	token = new_token(get_token_type(word), word, data->quote_type);
+	token = new_token(get_token_type(data->accumulator), data);
 	*start = end;
-	free(word);
+	free(data->accumulator);
 	return (token);
 }

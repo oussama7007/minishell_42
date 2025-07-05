@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/01 23:09:51 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:17:48 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,18 @@ static char	*singel_quotes_handler(char **input_start, t_data *data)
 {
 	char	*start;
 	char	*end;
-	char	*accumulator;
-
+	
 	start = *input_start + 1;
 	end = start;
 	while (*end && *end != '\'')
 		end++;
 	if (*end != '\'')
 		return (NULL);
-	accumulator = ft_strndup(start, end - start);
+	data->accumulator = ft_strndup(start, end - start);
 	*input_start = end + 1;
 	if (!data->delimiter)
 		data->delimiter = 0;
-	return (accumulator);
+	return (data->accumulator);
 }
 
 char	*handle_quoted_part(char **start, char **env, t_data *data)
@@ -42,40 +41,40 @@ char	*handle_quoted_part(char **start, char **env, t_data *data)
 		return (handle_double_quotes(start, env, data));
 }
 
-char	*handle_double_quote_var(char **end, char **env, char *accumulator)
+char	*handle_double_quote_var(char **end, char **env,  t_data *data)
 {
 	char	*var_start;
 
 	var_start = *end;
 	while (**end && **end != '"' && (ft_isalnum(**end) || **end == '?'))
 		(*end)++;
-	return (handle_regular_accumulator(var_start, *end, env, accumulator));
+	return (handle_regular_accumulator(var_start, *end, env, data));
 }
 
 char	*handle_double_quotes(char **start, char **env, t_data *data)
 {
 	char	*end;
-	char	*accumulator;
+	
 
 	end = *start + 1;
-	accumulator = ft_strdup("");
+	data->accumulator = ft_strdup("");
 	while (*end && *end != '"')
 	{
 		if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '?')
 			&& !data->delimiter)
 		{
-			accumulator = handle_double_quote_var1(&end,
-					env, data, accumulator);
+			data->accumulator = handle_double_quote_var1(&end,
+					env, data );
 		}
 		else
-			accumulator = append_char(accumulator, *end++);
-		if (!accumulator)
+			data->accumulator = append_char(data->accumulator, *end++);
+		if (!data->accumulator)
 			return (NULL);
 	}
 	if (*end != '"')
-		return (free(accumulator), NULL);
+		return (free(data->accumulator), NULL);
 	*start = end + 1;
-	return (accumulator);
+	return (data->accumulator);
 }
 
 t_token	*tokenize(char *line, char **my_env, t_data *data)

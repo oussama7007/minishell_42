@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/05 12:17:22 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:25:16 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,17 @@ typedef struct s_data
 {
 	int	delimiter;
 	int	ex_status;
-	int	quote_type;
+	int	quote_type_data;
+	char *accumulator;
+	int is_expand_data; // 0 for non expand , 1 for expand;
 }	t_data;
 
 typedef struct s_token
 {
 	int				type;
 	char			*value;
-	int				quotes_type;
+	int				quotes_type_token;
+	int 			is_expand_token;
 	struct s_token	*next;
 }	t_token;
 
@@ -112,7 +115,7 @@ typedef struct s_cmd_builder
 int 	count_char(char *str);
 char	*skip_space(char *str);
 void	setup_signal_handlers(void);
-char *ft_split_function(char *str);
+//char *ft_split_function(char *str);
 // Function Prototypes
 int			handle_heredocs_before_execution(t_command *cmds, char **envp,
 				t_data *data);
@@ -124,16 +127,14 @@ char		*append_char(char *str, char c);
 int			finalize_command(t_cmd_builder *builder);
 char		*handle_quoted_part(char **start, char **env, t_data *data);
 char		*handle_unquoted_part(char **start, char **env, t_data *data);
-char		*handle_question_mark(char **end, char *accumulator, t_data *data);
+char		*handle_question_mark(char **end,  t_data *data);
 int			is_space(char c);
 int			is_operator(char c);
 int			is_quotes(char c);
-char		*handle_regular_dollar(char **end, char **env, t_data *data,
-				char *accumulator);
+char		*handle_regular_dollar(char **end, char **env, t_data *data);
 char		*join_and_free(char *acc, char *to_add);
-char		*handle_double_quote_var(char **end, char **env, char *accumulator);
-char		*handle_double_quote_dollar(char **end, char *accumulator,
-				char **env, t_data *data);
+char		*handle_double_quote_var(char **end, char **env,  t_data *data);
+char		*handle_double_quote_dollar(char **end, char **env, t_data *data);
 char		*handle_double_quotes(char **start, char **env, t_data *data);
 void		free_double(char **arr);
 void		free_args(t_command *command);
@@ -141,23 +142,20 @@ char		*question_mark(int ex_status);
 int			get_quotes_type(char quote_type);
 char		*process_segment(char **start, char **env, t_data *data);
 t_token		*handle_operator(char **start, t_data *data);
-char		*handle_double_quote_var1(char **end, char **env, t_data *data,
-				char *accumulator);
+char		*handle_double_quote_var1(char **end, char **env, t_data *data);
 t_token		*handle_word(char **start, char **my_env, t_data *data);
-char		*handle_dollar_case(char **end, char **env, char *accumulator,
-				t_data *data);
-char		*handle_normal_char(char **end_ptr, char *accumulator, t_data *data);
-char		*handle_regular_accumulator(char *var_start, char *end, char **env,
-				char *accumulator);
+char		*handle_dollar_case(char **end, char **env, t_data *data);
+char		*handle_normal_char(char **end_ptr,t_data *data);
+char		*handle_regular_accumulator(char *var_start, char *end, char **env,t_data *data);
 void		error(int type);
 int			validate_syntax(t_token *tokens);
 t_token		*tokenize(char *line, char **my_env, t_data *data);
 void		free_tokens(t_token *tokens);
 int			populate_command(t_command *cmd, t_token *tokens, t_counts counts);
-t_token		*new_token(int type, char *word, int quotes_type);
+t_token		*new_token(int type,t_data *data);
 void		add_token(t_token **tokens, t_token *token);
 int			get_token_type(char *line);
-void		add_token(t_token **tokens, t_token *token);
+
 char		*expand_value_func(char *value, char **envp);
 t_command	*build_command(t_token *tokens);
 void		add_command(t_command **commands, t_command *command);
