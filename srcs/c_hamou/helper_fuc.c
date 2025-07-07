@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_fuc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:34:08 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/05 16:32:22 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/05 21:02:17 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*join_and_free(char *acc, char *to_add)
 	if(!new)
 		return NULL;
 	free(acc);
-	free(to_add);
+	// free(to_add);
 	return (new);
 }
 
