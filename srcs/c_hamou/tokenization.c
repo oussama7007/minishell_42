@@ -6,76 +6,78 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/05 22:39:39 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/07 10:16:57 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static char	*singel_quotes_handler(char **input_start, t_data *data)
+void	singel_quotes_handler(char **input_start, t_data *data)
 {
 	char	*start;
 	char	*end;
-	char	*accumulator;
+	char	*segment;
 
+	data->quote_type = 1;
 	start = *input_start + 1;
 	end = start;
 	while (*end && *end != '\'')
 		end++;
-	if (*end != '\'')
-		return (NULL);
-	accumulator = ft_strndup(start, end - start);
-	*input_start = end + 1;
-	if (!data->delimiter)
-		data->delimiter = 0;
-	return (accumulator);
-}
-
-char	*handle_quoted_part(char **start, char **env, t_data *data)
-{
-	char	quote_type;
-
-	quote_type = **start;
-	if (quote_type == '\'')
-		return (singel_quotes_handler(start, data));
+	segment = ft_strndup(start, end - start);
+	if (segment)
+		data->accumulator = join_and_free(data->accumulator, segment);
+	if (*end == '\'')
+		*input_start = end + 1;
 	else
-		return (handle_double_quotes(start, env, data));
+		*input_start = end;
 }
 
-char	*handle_double_quote_var(char **end, char **env, char *accumulator)
-{
-	char	*var_start;
-
-	var_start = *end;
-	while (**end && **end != '"' && (ft_isalnum(**end) || **end == '?'))
-		(*end)++;
-	return (handle_regular_accumulator(var_start, *end, env, accumulator));
-}
-
-char	*handle_double_quotes(char **start, char **env, t_data *data)
+void	handle_double_quotes(char **start, char **env, t_data *data)
 {
 	char	*end;
-	char	*accumulator;
 
+	data->quote_type = 2;
 	end = *start + 1;
-	accumulator = ft_strdup("");
 	while (*end && *end != '"')
 	{
-		if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '?')
-			&& !data->delimiter)
-		{
-			accumulator = handle_double_quote_var1(&end,
-					env, data, accumulator);
-		}
+		if (*end == '$' && !data->delimiter)
+			handle_dollar_case(&end, env, data);
 		else
-			accumulator = append_char(accumulator, *end++);
-		if (!accumulator)
-			return (NULL);
+		{
+			data->accumulator = append_char(data->accumulator, *end);
+			end++;
+		}
 	}
-	if (*end != '"')
-		return (free(accumulator), NULL);
-	*start = end + 1;
-	return (accumulator);
+	if (*end == '"')
+		*start = end + 1;
+	else
+		*start = end;
+}
+
+t_token	*handle_word(char **start, char **my_env, t_data *data)
+{
+	t_token	*token;
+
+	free(data->accumulator);
+	data->accumulator = NULL;
+	data->is_expanded = 0;
+	while (**start && !is_space(**start) && !is_operator(**start))
+		process_segment(start, my_env, data);
+	if (!data->accumulator)
+		data->accumulator = ft_strdup("");
+	token = new_token(get_token_type(data->accumulator),
+			data->accumulator, data->quote_type, data->is_expanded);
+	free(data->accumulator);
+	data->accumulator = NULL;
+	return (token);
+}
+
+void	handle_quoted_part(char **start, char **env, t_data *data)
+{
+	if (**start == '\'')
+		singel_quotes_handler(start, data);
+	else if (**start == '"')
+		handle_double_quotes(start, env, data);
 }
 
 t_token	*tokenize(char *line, char **my_env, t_data *data)
@@ -86,6 +88,7 @@ t_token	*tokenize(char *line, char **my_env, t_data *data)
 
 	tokens = NULL;
 	start = line;
+	data->delimiter = 0;
 	while (*start)
 	{
 		while (is_space(*start))
@@ -98,8 +101,8 @@ t_token	*tokenize(char *line, char **my_env, t_data *data)
 			token = handle_word(&start, my_env, data);
 		if (!token)
 		{
-			free_tokens(tokens);
-			return (NULL);
+			free(data->accumulator);
+			return (data->accumulator = NULL, free_tokens(tokens), NULL);
 		}
 		add_token(&tokens, token);
 	}

@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:20:52 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/05 22:38:39 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/07 12:04:09 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,62 +29,50 @@ char	*get_var_value(char *new_word, char **envp)
 	return (NULL);
 }
 
-char	*handle_regular_dollar(char **end, char **env,
-			t_data *data, char *accumulator)
+void    handle_dollar_case(char **end, char **env, t_data *data)
 {
-	char	*var_start;
-
-	var_start = *end;
-	while (**end && (ft_isalnum(**end) || **end == '?') && !is_space(**end)
-		&& !is_operator(**end) && !is_quotes(**end))
-		(*end)++;
-	return (handle_regular_accumulator(var_start, *end, env, accumulator));
+    (*end)++;
+    if (**end == '?')
+        handle_question_mark(end, data);
+    else if (ft_isalpha(**end) || **end == '_')
+        handle_regular_dollar(end, env, data);
+    else if (ft_isdigit(**end))
+    {
+        (*end)++;
+        return;
+    }
+    else
+        data->accumulator = append_char(data->accumulator, '$');
 }
-
-char	*handle_dollar_case(char **end, char **env,
-			char *accumulator, t_data *data)
+void    handle_regular_dollar(char **end, char **env, t_data *data)
 {
-	(*end)++;
-	if (**end == '?')
-		return (handle_question_mark(end, accumulator, data));
-	else if (**end == '"')
-		return (handle_double_quote_dollar(end, accumulator, env, data));
-	return (handle_regular_dollar(end, env, data, accumulator));
+    char    *var_start;
+
+    var_start = *end;
+    while (**end && (ft_isalnum(**end) || **end == '_'))
+        (*end)++;
+    handle_regular_accumulator(var_start, *end, env, data);
 }
-
-char	*handle_double_quote_dollar(char **end, char *accumulator,
-			char **env, t_data *data)
+void handle_regular_accumulator(char *var_start, char *end, char **env, t_data *data)
 {
-	char	*quoted_value;
-	char	*tmp;
+    char    *var_name;
+    char    *var_value;
+    char    *tmp;
 
-	quoted_value = handle_quoted_part(end, env, data);
-	if (!quoted_value)
-		return (NULL);
-	if (accumulator)
-	{
-		tmp = accumulator;
-		accumulator = join_and_free(tmp, quoted_value);
-	}
-	else
-		accumulator = quoted_value;
-	return (accumulator);
-}
+    var_name = ft_strndup(var_start, end - var_start);
+    var_value = get_var_value(var_name, env);
+    free(var_name);
 
-char	*handle_double_quote_var1(char **end, char **env,
-			t_data *data, char *accumulator)
-{
-	char	*tmp;
-	char	*new_accumulator;
-
-	(*end)++;
-	if (**end == '?')
-	{
-		tmp = question_mark(data->ex_status);
-		new_accumulator = join_and_free(accumulator, tmp);
-		(*end)++;
-		return (new_accumulator);
-	}
-	else
-		return (handle_double_quote_var(end, env, accumulator));
+    if (var_value)
+    {
+        data->is_expanded = 1;
+        if (data->accumulator)
+        {
+            tmp = data->accumulator;
+            data->accumulator = ft_strjoin(tmp, var_value);
+            free(tmp);
+        }
+        else
+            data->accumulator = ft_strdup(var_value);
+    }
 }

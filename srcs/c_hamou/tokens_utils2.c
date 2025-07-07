@@ -6,44 +6,54 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:16:02 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/05 22:40:40 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/07 10:16:27 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <header.h>
+#include "header.h"
 
-t_token	*new_token(int type, char *word, int quotes_type)
+void	handle_unquoted_part(char **start, char **env, t_data *data)
 {
-	t_token	*new;
+	char	*end;
 
-	new = malloc(sizeof(t_token));
-	if (!new)
-		return (NULL);
-	new->value = ft_strdup(word);
-	if (!new->value)
+	end = *start;
+	data->quote_type = 0;
+	while (*end && !is_space(*end) && !is_operator(*end) && !is_quotes(*end))
 	{
-		free(new);
-		return (NULL);
+		if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '?')
+			&& !data->delimiter)
+			handle_dollar_case(&end, env, data);
+		else
+		{
+			handle_normal_char(&end, data);
+			if (data->delimiter)
+				data->delimiter = 0;
+		}
 	}
-	new->type = type;
-	new->quotes_type = quotes_type;
-	new->next = NULL;
-	return (new);
+	*start = end;
 }
 
-int	get_token_type(char *line)
+void	process_segment(char **start, char **env, t_data *data)
 {
-	if (line[0] == '|')
-		return (TOKEN_PIPE);
-	if (line[0] == '<' && line[1] == '<')
-		return (TOKEN_RED_HEREDOC);
-	if (line[0] == '>' && line[1] == '>')
-		return (TOKEN_RED_APPEND);
-	if (line[0] == '<')
-		return (TOKEN_RED_IN);
-	if (line[0] == '>')
-		return (TOKEN_RED_OUT);
-	return (TOKEN_WORD);
+	if (**start == '\'' || **start == '"')
+		handle_quoted_part(start, env, data);
+	else
+		handle_unquoted_part(start, env, data);
+}
+
+t_token	*new_token(int type, char *value, int quotes_type, int is_expanded)
+{
+	t_token	*token;
+
+	token = (t_token *)malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	token->type = type;
+	token->value = ft_strdup(value);
+	token->quotes_type = quotes_type;
+	token->is_expanded_token = is_expanded;
+	token->next = NULL;
+	return (token);
 }
 
 void	add_token(t_token **tokens, t_token *token)
@@ -51,44 +61,27 @@ void	add_token(t_token **tokens, t_token *token)
 	t_token	*tmp;
 
 	if (!*tokens)
+	{
 		*tokens = token;
-	else
-	{
-		tmp = *tokens;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = token;
+		return ;
 	}
+	tmp = *tokens;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = token;
 }
 
-char	*process_segment(char **start, char **env, t_data *data)
+int	get_token_type(char *line)
 {
-	if (**start == '\'' || **start == '"')
-		return (handle_quoted_part(start, env, data));
-	return (handle_unquoted_part(start, env, data));
-}
-
-t_token	*handle_operator(char **start, t_data *data)
-{
-	char	*word;
-	t_token	*token;
-	char	*end;
-
-	end = *start;
-	if (*end == '<' && *(end + 1) == '<')
-	{
-		end += 2;
-		data->delimiter = 1;
-	}
-	else if (*end == '>' && *(end + 1) == '>')
-		end += 2;
-	else
-		end++;
-	word = ft_strndup(*start, end - *start);
-	if (!word)
-		return (NULL);
-	token = new_token(get_token_type(word), word, data->quote_type);
-	*start = end;
-	free(word);
-	return (token);
+	if (ft_strcmp(line, "|") == 0)
+		return (T_PIPE);
+	if (ft_strcmp(line, "<") == 0)
+		return (T_RED_IN);
+	if (ft_strcmp(line, ">") == 0)
+		return (T_RED_OUT);
+	if (ft_strcmp(line, "<<") == 0)
+		return (T_HEREDOC);
+	if (ft_strcmp(line, ">>") == 0)
+		return (T_APPEND);
+	return (T_WORD);
 }
