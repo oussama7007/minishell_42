@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/05 13:02:44 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/07 11:05:39 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ typedef struct s_heredoc_info
 	t_data		*data;
 }	t_heredoc_info;
 
-// heredoc
-char	*expand_heredoc_line(char *line, char **env, t_data *data);
-char	*generate_heredoc_filename(void);
 
+// heredoc
+void    expand_heredoc_line(char *line, char **env, t_data *data);
+char	*generate_heredoc_filename(void);
 char	**init_environment(char **system_envp);
 void	free_environment(char **envp_ptr);
 char	*my_getenv(const char *name, char **envp);
@@ -57,7 +57,15 @@ char	*find_executable_path(char *cmd, char **envp);
 int		wait_for_child(pid_t pid);
 int		is_direct_path(const char *cmd_name);
 // execute
+void	read_heredoc_input(t_heredoc_info *info);
+void	read_heredoc_loop(t_heredoc_info *info);
+int		should_stop_reading(char *line, t_heredoc_info *info);
+void	re_process_heredoc_line(t_heredoc_info *info, char *line);
+void	handle_heredoc_interrupt(t_heredoc_info *info, int fd_backup);
+char	*setup_heredoc_to_file(t_command *cmd, char **envp, t_data *data);
+void	heredoc_signals(int sig);
 int		is_parent_only_builtin(char *cmd);
+void	process_heredoc_line(t_heredoc_info *info, char *line);
 int		has_redirection(t_command *cmd);
 int		setup_heredoc(t_command *cmd, char **envp, t_data *data);
 void	try_paths(char **paths, char *cmd, char **cmd_path);

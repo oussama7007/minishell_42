@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:22:51 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/05 22:45:10 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/07 10:36:01 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_token	*handle_redirection(t_token *token, t_command *cmd, t_indices *idx)
 
 t_token	*process_token(t_token *token, t_command *cmd, t_indices *idx)
 {
-	if (token->type == TOKEN_WORD && token->value[0] != '\0')
+	if (token->type == TOKEN_WORD)
 	{
 		if (!cmd->cmd)
 			cmd->cmd = ft_strdup(token->value);
@@ -56,29 +56,11 @@ int	populate_command(t_command *cmd, t_token *tokens, t_counts counts)
 	t_indices	idx;
 
 	idx = (t_indices){0};
-	cmd->cmd = NULL;
-	cmd->num_heredocs = counts.heredoc_c;
-	if (counts.heredoc_c > 0)
-	{
-		cmd->heredoc_delimiters = malloc(sizeof(char *) * (counts.heredoc_c + 1));
-		cmd->heredoc_quotes = malloc(sizeof(int) * counts.heredoc_c);
-	}
-	cmd->args = malloc(sizeof(char *) * (counts.arg_c + 1));
-	cmd->red_in = malloc(sizeof(char *) * (counts.in_c + 1));
-	cmd->red_out = malloc(sizeof(char *) * (counts.out_c + 1));
-	cmd->append = malloc(sizeof(int) * counts.out_c);
-	if (!cmd->args || !cmd->red_in || !cmd->red_out
-		|| (counts.out_c > 0 && !cmd->append)
-		|| (counts.heredoc_c > 0 && (!cmd->heredoc_delimiters
-				|| !cmd->heredoc_quotes)))
+	if (!allocate_memory(cmd, counts))
 		return (0);
 	while (tokens && tokens->type != TOKEN_PIPE)
 		tokens = process_token(tokens, cmd, &idx);
-	cmd->args[idx.i] = NULL;
-	cmd->red_in[idx.j] = NULL;
-	cmd->red_out[idx.k] = NULL;
-	if (counts.heredoc_c > 0)
-		cmd->heredoc_delimiters[idx.heredoc_idx] = NULL;
+	terminate_arrays(cmd, &idx, counts);
 	return (1);
 }
 

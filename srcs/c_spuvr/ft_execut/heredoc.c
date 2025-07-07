@@ -6,12 +6,13 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/04 22:35:18 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/07 11:05:44 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../built_functions.h"
-int g_sig_var;
+
+int	g_sig_var;
 
 void	heredoc_signals(int sig)
 {
@@ -21,48 +22,70 @@ void	heredoc_signals(int sig)
 	g_sig_var = 1;
 }
 
-static void	read_heredoc_input(t_heredoc_info *info)
+void	re_process_heredoc_line(t_heredoc_info *info, char *line)
 {
-	int		fd;
-	char	*line;
-	char	*expanded_line;
-
-	int g_sig_var = 0;
-	fd = dup(STDIN_FILENO);
-	signal(SIGINT, &heredoc_signals);
-	while (1)
+	if (info->cmd->heredoc_quotes[info->i] == 0)
 	{
-		line = readline("> ");
-		if (!line
-			|| ft_strcmp(line, info->cmd->heredoc_delimiters[info->i]) == 0)
-		{
-			if (line)
-				free(line);
-			break ;
-		}
-		if (info->fd != -1)
-		{
-			if (info->cmd->heredoc_quotes[info->i] == 0)
-				expanded_line = expand_heredoc_line(line, info->envp,
-						info->data);
-			else
-				expanded_line = line;
-			ft_putendl_fd(expanded_line, info->fd);
-			if (expanded_line != line)
-				free(expanded_line);
-		}
-		free(line);
+		expand_heredoc_line(line, info->envp, info->data);
+		ft_putendl_fd(info->data->accumulator, info->fd);
 	}
-	if (g_sig_var == 1)
+	else
 	{
-		dup2(fd, 0);
-		info->data->ex_status = 130;
-		setup_signal_handlers();
+		ft_putendl_fd(line, info->fd);
 	}
 }
 
-static char	*setup_heredoc_to_file(t_command *cmd,
-		char **envp, t_data *data)
+void	handle_heredoc_interrupt(t_heredoc_info *info, int fd_backup)
+{
+	if (g_sig_var == 1)
+	{
+		dup2(fd_backup, STDIN_FILENO);
+		info->data->ex_status = 130;
+	}
+}
+
+void	process_heredoc_line(t_heredoc_info *info, char *line)
+{
+	if (info->fd != -1)
+		re_process_heredoc_line(info, line);
+	free(line);
+}
+
+int	should_stop_reading(char *line, t_heredoc_info *info)
+{
+	return (!line || ft_strcmp(line, info->cmd->heredoc_delimiters[info->i]) == 0);
+}
+
+void	read_heredoc_loop(t_heredoc_info *info)
+{
+	char	*line;
+
+	while (1)
+	{
+		line = readline("> ");
+		if (should_stop_reading(line, info))
+		{
+			free(line);
+			break ;
+		}
+		process_heredoc_line(info, line);
+	}
+}
+
+void	read_heredoc_input(t_heredoc_info *info)
+{
+	int	fd_backup;
+
+	g_sig_var = 0;
+	fd_backup = dup(STDIN_FILENO);
+	signal(SIGINT, &heredoc_signals);
+	read_heredoc_loop(info);
+	handle_heredoc_interrupt(info, fd_backup);
+	setup_signal_handlers();
+	close(fd_backup);
+}
+
+char	*setup_heredoc_to_file(t_command *cmd, char **envp, t_data *data)
 {
 	t_heredoc_info	info;
 	char			*filename;
@@ -70,11 +93,7 @@ static char	*setup_heredoc_to_file(t_command *cmd,
 	filename = generate_heredoc_filename();
 	if (!filename)
 		return (NULL);
-	info.fd = -1;
-	info.i = 0;
-	info.cmd = cmd;
-	info.envp = envp;
-	info.data = data;
+	info = (t_heredoc_info){-1, 0, cmd, envp, data};
 	while (info.i < info.cmd->num_heredocs)
 	{
 		if (info.i == info.cmd->num_heredocs - 1)
@@ -84,6 +103,8 @@ static char	*setup_heredoc_to_file(t_command *cmd,
 				return (free(filename), NULL);
 		}
 		read_heredoc_input(&info);
+		if (g_sig_var == 1)
+			return (free(filename), NULL);
 		info.i++;
 	}
 	if (info.fd != -1)
@@ -91,8 +112,7 @@ static char	*setup_heredoc_to_file(t_command *cmd,
 	return (filename);
 }
 
-int	handle_heredocs_before_execution(t_command *cmds,
-		char **envp, t_data *data)
+int	handle_heredocs_before_execution(t_command *cmds, char **envp, t_data *data)
 {
 	t_command	*current;
 
@@ -101,8 +121,7 @@ int	handle_heredocs_before_execution(t_command *cmds,
 	{
 		if (current->num_heredocs > 0)
 		{
-			if (current->heredoc_tmp_file)
-				free(current->heredoc_tmp_file);
+			free(current->heredoc_tmp_file);
 			current->heredoc_tmp_file = setup_heredoc_to_file(current,
 					envp, data);
 			if (!current->heredoc_tmp_file)
