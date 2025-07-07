@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:22:51 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/05 16:21:48 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/05 22:45:10 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_token	*handle_redirection(t_token *token, t_command *cmd, t_indices *idx)
 	{
 		token = token->next;
 		cmd->heredoc_delimiters[idx->heredoc_idx] = ft_strdup(token->value);
-		cmd->heredoc_quotes[idx->heredoc_idx] = (token->quotes_type_token != 0);
+		cmd->heredoc_quotes[idx->heredoc_idx] = (token->quotes_type != 0);
 		idx->heredoc_idx++;
 		return (token->next);
 	}
