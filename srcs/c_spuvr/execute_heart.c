@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/05 02:39:44 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/08 17:19:17 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	handle_directory_command(char *cmd_arg)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd_arg, 2);
 		ft_putstr_fd(": is a directory\n", 2);
-		return (999);
+		return (126);
 	}
 	return (0);
 }

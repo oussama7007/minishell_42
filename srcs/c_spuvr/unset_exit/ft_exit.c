@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:22:45 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/03 15:46:13 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/08 15:56:27 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_exit(char **args, char ***env, t_command *cmd, t_token *tok, t_data *data
 
 	ft_putendl_fd("exit", 1);
 	if (!args[1])
-        cleanup_and_exit(data, *env, cmd, tok);
+		cleanup_and_exit(data, *env, cmd, tok);
 	if (!is_numeric_arg(args[1]))
 	{
 		ft_putstr_fd("minishell: exit: ", 2);

@@ -18,55 +18,7 @@ bash-5.2$ $?
 bash: 126: command not found
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-unset HOME
-Minishell$ cd
-HOME not set
-minishell: cd: : Bad address
-
-unset HOME
-bash-5.2$ cd
-bash: cd: HOME not set
-
-
-export HOME=
-Minishell$ cd
-HOME not set
-minishell: cd: : Bad address
-$?
-minishell: 1: command not found
-
-export HOME=
-bash-5.2$ cd
-$?
-bash: 0: command not found
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-export a="''"
-Minishell$ $a
-Minishell$ 
-
-export a="''"
-bash-5.2$ $a
-bash: '': command not found
-
-export a="ls -la"
-bash-5.2$ $a
-total 1632
-drwxr-xr-x  5 oadouz 2024_khouribga     179 Jun 29 20:53 .
-drwxr-xr-x 11 oadouz 2024_khouribga     159 Jun 28 04:10 ..
--rwxr-xr-x  1 oadouz 2024_khouribga   16056 Jun 29 20:07 a.out
--rw-r--r--  1 oadouz 2024_khouribga     823 Jun 21 23:43 bug.txt
--rw-r--r--  1 oadouz 2024_khouribga       7 Jun 29 03:23 end
--rw-r--r--  1 oadouz 2024_khouribga 1568461 Jun 21 00:51 en.subject.pdf
-drwxr-xr-x  8 oadouz 2024_khouribga     220 Jun 29 19:31 .git
--rw-r--r--  1 oadouz 2024_khouribga    3706 Jun 29 20:52 Makefile
--rwxr-xr-x  1 oadouz 2024_khouribga   57552 Jun 29 20:52 minishell
-drwxr-xr-x  5 oadouz 2024_khouribga      90 Jun 29 20:52 srcs
--rw-r--r--  1 oadouz 2024_khouribga     666 Jun 29 20:12 test.c
--rw-r--r--  1 oadouz 2024_khouribga    2319 Jun 29 19:31 text.c
--rw-r--r--  1 oadouz 2024_khouribga     858 Jun 29 20:58 TODO
-drwxr-xr-x  2 oadouz 2024_khouribga      27 Jun 29 19:31 .vscode
-
-
 export a="ls -la"
 Minishell$ $a
 minishell: ls -la: command not found
@@ -85,29 +37,12 @@ Minishell$ ls $a/b
 ls: cannot access 'a b c /b': No such file or directory
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-ls > $a
-bash: $a: ambiguous redirect
-bash-5.2$ $?
-bash: 1: command not found
-bash-5.2$ export a="1 2 3"
-bash-5.2$ ls > $a
-bash: $a: ambiguous redirect
-bash-5.2$ ls > $bbbb
-bash: $bbbb: ambiguous redirect
-ls > ""
-bash: : No such file or directory
-
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 unset PATH
 Minishell$ ls
 minishell: ls: command not found
 
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-cd -
-/home/oadouz/Desktop/minishell_42
-free(): invalid pointer
-[1]    408182 IOT instruction (core dumped)  ./minishell
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 unset PATH
 bash: sed: No such file or directory

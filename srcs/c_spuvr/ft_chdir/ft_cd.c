@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:04:48 by oadouz            #+#    #+#             */
-/*   Updated: 2025/05/26 17:09:54 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/08 17:06:25 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	ft_chdir(char **args, char ***env_ptr)
 
 	old_loc = get_old_pwd_val(*env_ptr);
 	dest = target_path(args, *env_ptr);
+	if (!dest)
+		return (1);
 	ret = chdir(dest);
 	if (ret == -1)
 		return (cd_err(dest, old_loc, dest));
