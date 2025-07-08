@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/08 17:58:03 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/09 00:47:35 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,7 +294,7 @@ static void	main_loop(char ***my_envp, t_data *data)
 			continue ;
 		}
 		tokens = tokenize(line, *my_envp, data);
-		if (!tokens || !*line || !validate_syntax(tokens))
+		if (!tokens || !*line )
 		{
 			if (tokens)
 				free_tokens(tokens);
@@ -313,6 +313,13 @@ static void	main_loop(char ***my_envp, t_data *data)
 				free_tokens(tokens);
 				free(line);
 				continue ;
+			}
+			if (!validate_syntax(tokens))
+			{
+				free_command(commands);
+				free_tokens(tokens);
+				free(line);
+				continue;
 			}
 			if (commands->cmd && ft_strcmp(commands->cmd, "exit") == 0)
 				data->ex_status = ft_exit(commands->args, my_envp, commands,
