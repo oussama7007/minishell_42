@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:22:02 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/03 15:46:58 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/08 18:32:10 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,25 +65,5 @@ void	execute_child_process(char *cmd_path, char **args, char **envp)
 		exit(126);
 	if (errno == ENOENT)
 		exit(127);
-	exit(1);
-}
-
-void	ft_execute_external(char **args, char **envp)
-{
-	char	*cmd_path;
-
-	if (!args || !args[0])
-		exit(0);
-	cmd_path = find_executable_path(args[0], envp);
-	if (cmd_path == NULL)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(args[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-		exit(127);
-	}
-	execve(cmd_path, args, envp);
-	perror("execve");
-	free(cmd_path);
 	exit(1);
 }

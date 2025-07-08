@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_functions.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/07 11:05:39 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/08 18:30:53 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void	setup_child_io(int prev_pipe, int *pipe_fds, t_command *cmd);
 void	ft_free_array(char **array);
 int		handle_command_not_found(char *cmd);
 void	execute_child_process(char *cmd_path, char **args, char **envp);
-int		ft_print_exec_error(char *cmd_name, int err_no);
 int		handle_fork_error(char *cmd_to_free);
 int		ft_echo(char **args);
 void	display_sorted_environment(char **envp);
