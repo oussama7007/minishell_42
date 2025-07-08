@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/08 17:19:17 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/08 18:28:40 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,28 +31,29 @@ static int	handle_directory_command(char *cmd_arg)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd_arg, 2);
-		ft_putstr_fd(": is a directory\n", 2);
+		ft_putstr_fd(": Is a directory\n", 2);
 		return (126);
 	}
 	return (0);
 }
 
-static int	handle_cmd_path_error(char *cmd_arg)
+static void	validate_and_execute(t_command *cmd, char **env)
 {
-	int	saved_errno;
+	char	*cmd_path;
 
-	saved_errno = errno;
-	if (is_direct_path(cmd_arg))
-		return (ft_print_exec_error(cmd_arg, saved_errno));
-	else
-		return (handle_command_not_found(cmd_arg));
+	cmd_path = find_executable_path(cmd->args[0], env);
+	if (!cmd_path)
+	{
+		handle_command_not_found(cmd->args[0]);
+		exit(127);
+	}
+	execute_child_process(cmd_path, cmd->args, env);
 }
 
 static void	child_process_logic(t_command *cmd, char ***env)
 {
-	int		builtin_status;
-	char	*cmd_path;
-	int		dir_status;
+	int	builtin_status;
+	int	dir_status;
 
 	if (!handle_redirection_child(cmd))
 		exit(1);
@@ -64,13 +65,7 @@ static void	child_process_logic(t_command *cmd, char ***env)
 	builtin_status = is_built_ins(cmd->args, env);
 	if (builtin_status != 999)
 		exit(builtin_status);
-	cmd_path = find_executable_path(cmd->args[0], *env);
-	if (!cmd_path)
-	{
-		handle_command_not_found(cmd->args[0]);
-		exit(127);
-	}
-	execute_child_process(cmd_path, cmd->args, *env);
+	validate_and_execute(cmd, *env);
 }
 
 int	ft_execute_command_list(t_command *cmd_list, char ***env_ptr, t_data *data)

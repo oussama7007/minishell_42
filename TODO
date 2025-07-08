@@ -1,48 +1,4 @@
-$HOME
-minishell: /home/oadouz: is a directory
-Minishell$ $?
-minishell: 231: command not found
 
-$HOME
-bash: /home/oadouz: Is a directory
-bash-5.2$ $?
-bash: 126: command not found
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-./text.c: command not found
-Minishell$ $?
-minishell: 127: command not found
-
-./text.c
-bash: ./text.c: Permission denied
-bash-5.2$ $?
-bash: 126: command not found
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-export a="ls -la"
-Minishell$ $a
-minishell: ls -la: command not found
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
- export a="a b c "
-bash-5.2$ ls $a/b
-ls: cannot access 'a': No such file or directory
-ls: cannot access 'b': No such file or directory
-ls: cannot access 'c': No such file or directory
-ls: cannot access '/b': No such file or directory
-
-export a="a b c "
-Minishell$ echo $a/b
-a b c /b
-Minishell$ ls $a/b
-ls: cannot access 'a b c /b': No such file or directory
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-unset PATH
-Minishell$ ls
-minishell: ls: command not found
-
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 unset PATH
 bash: sed: No such file or directory
@@ -112,16 +68,3 @@ Minishell$
 
 
 /////////////////////////////////////////////////////////////
-
-
-
-Minishell$ cat | ls
-3                 bug.txt         fixed     minishell  pout  test.c  TODO
-allahyamoulana.c  en.subject.pdf  Makefile  out        srcs  text.c
-^C
-sh-5.2$ $?
-sh: 130: command not found
-
-should be 0
-//////////////////////
-
