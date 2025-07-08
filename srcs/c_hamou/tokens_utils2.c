@@ -26,8 +26,7 @@ void	handle_unquoted_part(char **start, char **env, t_data *data)
 		else
 		{
 			handle_normal_char(&end, data);
-			if (data->delimiter)
-				data->delimiter = 0;
+		
 		}
 	}
 	*start = end;
@@ -41,7 +40,7 @@ void	process_segment(char **start, char **env, t_data *data)
 		handle_unquoted_part(start, env, data);
 }
 
-t_token	*new_token(int type, char *value, int quotes_type, int is_expanded)
+t_token	*new_token(int type, t_data *data)
 {
 	t_token	*token;
 
@@ -49,9 +48,10 @@ t_token	*new_token(int type, char *value, int quotes_type, int is_expanded)
 	if (!token)
 		return (NULL);
 	token->type = type;
-	token->value = ft_strdup(value);
-	token->quotes_type = quotes_type;
-	token->is_expanded_token = is_expanded;
+	token->value = ft_strdup(data->accumulator);
+	token->quotes_type = data->quote_type;
+	token->is_expanded_token = data->is_expanded;
+	token->is_empty_after_expand = data->empty_expand;
 	token->next = NULL;
 	return (token);
 }

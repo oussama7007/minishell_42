@@ -52,6 +52,7 @@ typedef struct s_data
 	int	ex_status;
 	int	quote_type;
 	char *accumulator;
+	int 	empty_expand;
 	int is_expanded; 
 }	t_data;
 
@@ -61,17 +62,11 @@ typedef struct s_token
 	char			*value;
 	int				quotes_type;
 	int 			is_expanded_token;
+	int 			is_empty_after_expand;
 	struct s_token	*next;
 }	t_token;
 
-typedef struct s_final_token
-{
-	int type;
-	char *value;
-	int quotes_type;
-	int is_espanded_token;
-	struct s_final_tokne *next;
-} t_final_token;
+
 typedef struct s_command
 {
 	char				*cmd;
@@ -116,7 +111,7 @@ typedef struct s_cmd_builder
 int 	count_char(char *str);
 char	*skip_space(char *str);
 void	setup_signal_handlers(void);
-// Function Prototypes
+
 int			handle_heredocs_before_execution(t_command *cmds, char **envp,
 				t_data *data);
 t_token		*process_token(t_token *token, t_command *cmd, t_indices *idx);
@@ -157,7 +152,7 @@ int			validate_syntax(t_token *tokens);
 t_token		*tokenize(char *line, char **my_env, t_data *data);
 void		free_tokens(t_token *tokens);
 int			populate_command(t_command *cmd, t_token *tokens, t_counts counts);
-t_token    *new_token(int type, char *value, int quotes_type, int is_expanded);
+t_token    *new_token(int type, t_data *data);
 void		add_token(t_token **tokens, t_token *token);
 int			get_token_type(char *line);
 char		*expand_value_func(char *value, char **envp);
@@ -169,5 +164,6 @@ t_command	*new_command(void);
 void		setup_signals(void);
 void	    setup_child_signals(t_command *cmd);
 
+void		remove_empty_tokens(t_token **head);
 void	perform_field_splitting(t_token **tokens);
 #endif

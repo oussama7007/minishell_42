@@ -152,7 +152,35 @@ void	sigint_handler(int sig)
 	rl_redisplay();
 	rl_replace_line("", 0);
 }
+void	remove_empty_tokens(t_token **head)
+{
+	t_token	*current;
+	t_token	*prev;
 
+	if (!head || !*head)
+		return ;
+	current = *head;
+	prev = NULL;
+	while (current)
+	{
+		if (current->is_empty_after_expand)
+		{
+			if (prev)
+				prev->next = current->next;
+			else
+				*head = current->next;
+			t_token *to_free = current;
+			current = current->next;
+			to_free->next = NULL;
+			free_tokens(to_free);
+		}
+		else
+		{
+			prev = current;
+			current = current->next;
+		}
+	}
+}
 void	setup_signal_handlers(void)
 {
 	signal(SIGINT, sigint_handler);
@@ -162,6 +190,7 @@ static t_token	*create_tokens_from_split(char **split_words)
 {
 	t_token	*head;
 	int		i;
+	t_data	temp_data;
 
 	head = NULL;
 	i = 0;
@@ -169,12 +198,12 @@ static t_token	*create_tokens_from_split(char **split_words)
 		return (NULL);
 	while (split_words[i])
 	{
-		// Each new word is a simple WORD token.
-		// It's not quoted and the expansion has already been done.
-		add_token(&head, new_token(T_WORD, split_words[i], 0, 0));
+		ft_bzero(&temp_data, sizeof(t_data));
+		temp_data.accumulator = split_words[i];
+		add_token(&head, new_token(T_WORD, &temp_data));
 		i++;
 	}
-	return (head);
+	return (head);;
 }
 
 /**
@@ -272,6 +301,7 @@ static void	main_loop(char ***my_envp, t_data *data)
 			free(line);
 			continue ;
 		}
+		remove_empty_tokens(&tokens);
 		perform_field_splitting(&tokens);
 		debug_tokens(tokens);
 		commands = build_command(tokens);

@@ -58,15 +58,37 @@ t_token	*handle_word(char **start, char **my_env, t_data *data)
 {
 	t_token	*token;
 
+	// Reset all temporary flags for the new word.
 	free(data->accumulator);
 	data->accumulator = NULL;
 	data->is_expanded = 0;
+	data->empty_expand = 0;
+	data->quote_type = 0;
+
 	while (**start && !is_space(**start) && !is_operator(**start))
+	{
 		process_segment(start, my_env, data);
+	}
+
+	// ===================================================================
+	// THIS IS THE NEW, CORRECTED LOGIC:
+	//
+	// Check the state of the accumulator *after* the whole word is processed.
 	if (!data->accumulator)
+	{
+		// If the accumulator is still NULL, it means the word consisted
+		// ONLY of an unset variable (like $dlfkgjdlfkgj).
+		// We know an expansion was attempted because `is_expanded` will be 1.
+		if (data->is_expanded)
+			data->empty_expand = 1; // Set your flag here!
+		
+        // We still need to create an empty string for the token value.
 		data->accumulator = ft_strdup("");
-	token = new_token(get_token_type(data->accumulator),
-			data->accumulator, data->quote_type, data->is_expanded);
+	}
+	// ===================================================================
+	
+	token = new_token(get_token_type(data->accumulator), data);
+			
 	free(data->accumulator);
 	data->accumulator = NULL;
 	return (token);
@@ -89,6 +111,8 @@ t_token	*tokenize(char *line, char **my_env, t_data *data)
 	tokens = NULL;
 	start = line;
 	data->delimiter = 0;
+	if (!line)
+		return (NULL);
 	while (*start)
 	{
 		while (is_space(*start))
@@ -102,9 +126,13 @@ t_token	*tokenize(char *line, char **my_env, t_data *data)
 		if (!token)
 		{
 			free(data->accumulator);
-			return (data->accumulator = NULL, free_tokens(tokens), NULL);
+			data->accumulator = NULL;
+			free_tokens(tokens);
+			return (NULL);
 		}
 		add_token(&tokens, token);
+		if (data->delimiter == 1)
+			data->delimiter = 0;
 	}
 	return (tokens);
 }

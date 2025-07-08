@@ -39,7 +39,13 @@ t_token	*handle_operator(char **start, t_data *data)
 	if (!operator_str)
 		return (NULL);
 	*start += len;
-	token = new_token(get_token_type(operator_str), operator_str, 0, 0);
+	data->accumulator = operator_str;
+	data->quote_type = 0;
+	data->is_expanded = 0;
+	data->empty_expand = 0;
+	
+	token = new_token(get_token_type(data->accumulator), data);
 	free(operator_str);
+	data->accumulator = NULL;
 	return (token);
 }

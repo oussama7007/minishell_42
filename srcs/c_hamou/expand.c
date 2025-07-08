@@ -62,7 +62,7 @@ void handle_regular_accumulator(char *var_start, char *end, char **env, t_data *
     var_name = ft_strndup(var_start, end - var_start);
     var_value = get_var_value(var_name, env);
     free(var_name);
-
+    data->is_expanded = 1;
     if (var_value)
     {
         data->is_expanded = 1;
