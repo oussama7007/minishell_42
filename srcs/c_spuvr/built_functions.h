@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/09 23:41:16 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 00:16:38 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ int		handle_redirection_child(t_command *cmd_node);
 int		execute_pipeline(t_command *commands, char ***env_ptr, t_data *data);
 void	execute_single_cmd(t_command *cmd, char **envp);
 void	setup_child_io(int prev_pipe, int *pipe_fds, t_command *cmd);
+void    child_process_logic(t_command *cmd, char ***env);
+
 // erro.c
 void	ft_free_array(char **array);
 int		handle_command_not_found(char *cmd);

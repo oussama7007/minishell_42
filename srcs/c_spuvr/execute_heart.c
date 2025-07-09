@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 00:06:33 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 00:16:30 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	validate_and_execute(t_command *cmd, char **env)
 	execute_child_process(cmd_path, cmd->args, env);
 }
 
-static void	child_process_logic(t_command *cmd, char ***env)
+void    child_process_logic(t_command *cmd, char ***env)
 {
 	int	builtin_status;
 	int	dir_status;
