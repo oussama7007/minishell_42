@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/09 03:38:15 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/09 17:20:07 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,14 @@ void		free_command(t_command *cmd);
 t_command	*new_command(void);
 void		setup_signals(void);
 void	    setup_child_signals(t_command *cmd);
-
+int			should_skip_empty_command(t_cmd_builder *builder,t_token *first_word_token);
 void		remove_empty_tokens(t_token **head);
 void	perform_field_splitting(t_token **tokens);
+int	get_operator_length(char **start, t_data *data);
+void 	terminate_arr_finalize_command(t_cmd_builder *builder);
+void	init_counts(t_counts *counts, t_cmd_builder *builder);
+void	process_operator_data(char *operator_str, t_data *data);
+void	reset_word_data(t_data *data);
+int	should_skip_empty_command(t_cmd_builder *builder, t_token *first_word_token);
+t_token	*create_and_add_token(t_token **tokens, t_token *token, t_data *data);
 #endif

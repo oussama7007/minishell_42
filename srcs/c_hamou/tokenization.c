@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/09 03:51:05 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/09 17:29:33 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,31 +52,22 @@ void	handle_double_quotes(char **start, char **env, t_data *data)
 		*start = end + 1;
 	else
 		*start = end;
-	
-	
 }
 
 t_token	*handle_word(char **start, char **my_env, t_data *data)
 {
 	t_token	*token;
 
-	free(data->accumulator);
-	data->accumulator = NULL;
-	data->is_expanded = 0;
-	data->empty_expand = 0;
-	data->quote_type = 0;
-
+	reset_word_data(data);
 	while (**start && !is_space(**start) && !is_operator(**start))
-	{
 		process_segment(start, my_env, data);
-	}
 	if (!data->accumulator)
 	{
 		if (data->is_expanded)
 			data->empty_expand = 1;
 		data->accumulator = ft_strdup("");
 	}
-	token = new_token(get_token_type(data->accumulator), data);	
+	token = new_token(get_token_type(data->accumulator), data);
 	free(data->accumulator);
 	data->accumulator = NULL;
 	return (token);
@@ -98,8 +89,6 @@ t_token	*tokenize(char *line, char **my_env, t_data *data)
 
 	tokens = NULL;
 	start = line;
-	if (!line)
-		return (NULL);
 	while (*start)
 	{
 		while (is_space(*start))
@@ -110,14 +99,8 @@ t_token	*tokenize(char *line, char **my_env, t_data *data)
 			token = handle_operator(&start, data);
 		else
 			token = handle_word(&start, my_env, data);
-		if (!token)
-		{
-			free(data->accumulator);
-			data->accumulator = NULL;
-			free_tokens(tokens);
+		if (!create_and_add_token(&tokens, token, data))
 			return (NULL);
-		}
-		add_token(&tokens, token);
 	}
 	return (tokens);
 }
