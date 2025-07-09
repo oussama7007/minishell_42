@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/07 11:07:53 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/09 23:38:03 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 #define ERR_QUOTE 6
 #define ERR_SEMICOLON 7
 #define ERR_SYNTAX 8 
+#define ERR_AMBIGUOS 9
 
 #define T_WORD    0
 #define T_PIPE    1
@@ -53,7 +54,8 @@ typedef struct s_data
 	int	quote_type;
 	char *accumulator;
 	int 	empty_expand;
-	int is_expanded; 
+	int is_expanded;
+	int     redirect_context;
 }	t_data;
 
 typedef struct s_token
@@ -65,7 +67,6 @@ typedef struct s_token
 	int 			is_empty_after_expand;
 	struct s_token	*next;
 }	t_token;
-
 
 typedef struct s_command
 {
@@ -161,9 +162,15 @@ void		add_command(t_command **commands, t_command *command);
 char		*get_var_value(char *new_word, char **envp);
 void		free_command(t_command *cmd);
 t_command	*new_command(void);
-void		setup_signals(void);
 void	    setup_child_signals(t_command *cmd);
-
+int			should_skip_empty_command(t_cmd_builder *builder,t_token *first_word_token);
 void		remove_empty_tokens(t_token **head);
 void	perform_field_splitting(t_token **tokens);
+int	get_operator_length(char **start, t_data *data);
+void 	terminate_arr_finalize_command(t_cmd_builder *builder);
+void	init_counts(t_counts *counts, t_cmd_builder *builder);
+void	process_operator_data(char *operator_str, t_data *data);
+void	reset_word_data(t_data *data);
+int	should_skip_empty_command(t_cmd_builder *builder, t_token *first_word_token);
+t_token	*create_and_add_token(t_token **tokens, t_token *token, t_data *data);
 #endif

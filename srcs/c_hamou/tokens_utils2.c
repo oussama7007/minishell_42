@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:16:02 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/07 10:16:27 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/09 02:38:58 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	handle_unquoted_part(char **start, char **env, t_data *data)
 		else
 		{
 			handle_normal_char(&end, data);
-		
+			data->delimiter = 0;
 		}
 	}
 	*start = end;

@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/05 02:39:44 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 00:16:30 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,55 +31,70 @@ static int	handle_directory_command(char *cmd_arg)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd_arg, 2);
-		ft_putstr_fd(": is a directory\n", 2);
-		return (999);
+		ft_putstr_fd(": Is a directory\n", 2);
+		return (126);
 	}
 	return (0);
 }
 
-static int	handle_cmd_path_error(char *cmd_arg)
+static void	validate_and_execute(t_command *cmd, char **env)
 {
-	int	saved_errno;
+	char	*cmd_path;
 
-	saved_errno = errno;
-	if (is_direct_path(cmd_arg))
-		return (ft_print_exec_error(cmd_arg, saved_errno));
-	else
-		return (handle_command_not_found(cmd_arg));
+	cmd_path = find_executable_path(cmd->args[0], env);
+	if (!cmd_path)
+	{
+		handle_command_not_found(cmd->args[0]);
+		exit(127);
+	}
+	execute_child_process(cmd_path, cmd->args, env);
 }
 
-static void	child_process_logic(t_command *cmd, char ***env)
+void    child_process_logic(t_command *cmd, char ***env)
 {
-	int		builtin_status;
-	char	*cmd_path;
-	int		dir_status;
+	int	builtin_status;
+	int	dir_status;
 
 	if (!handle_redirection_child(cmd))
 		exit(1);
 	if (!cmd->cmd)
 		exit(0);
+	if (ft_strcmp(cmd->cmd, "exit") == 0)
+	{
+		if (!cmd->args[1])
+			exit(0);
+		if (!is_numeric_arg(cmd->args[1]))
+			exit(255);
+		if (cmd->args[2])
+			exit(1);
+		exit((unsigned char)ft_atoi(cmd->args[1]));
+	}
 	dir_status = handle_directory_command(cmd->args[0]);
 	if (dir_status != 0)
 		exit(dir_status);
 	builtin_status = is_built_ins(cmd->args, env);
 	if (builtin_status != 999)
 		exit(builtin_status);
-	cmd_path = find_executable_path(cmd->args[0], *env);
-	if (!cmd_path)
-	{
-		handle_command_not_found(cmd->args[0]);
-		exit(127);
-	}
-	execute_child_process(cmd_path, cmd->args, *env);
+	validate_and_execute(cmd, *env);
 }
 
-int	ft_execute_command_list(t_command *cmd_list, char ***env_ptr, t_data *data)
+int ft_execute_command_list(t_command *cmd_list, t_token *tokens, char ***env_ptr, t_data *data)
 {
 	pid_t	pid;
 	int		status;
 
 	if (!cmd_list)
 		return (0);
+	if (cmd_list->cmd && ft_strcmp(cmd_list->cmd, "exit") == 0 && !cmd_list->next)
+	{
+		t_exit_data exit_data;
+
+		exit_data.env_ptr = env_ptr;
+		exit_data.commands = cmd_list;
+		exit_data.tokens = tokens;
+		exit_data.data = data;
+		return (ft_exit(cmd_list->args, &exit_data));
+	}
 	if (cmd_list->next)
 		return (execute_pipeline(cmd_list, env_ptr, data));
 	if (cmd_list->cmd && is_parent_only_builtin(cmd_list->cmd)

@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:20:30 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/03 15:35:33 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 00:12:02 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	is_parent_only_builtin(char *cmd)
 	if (ft_strcmp(cmd, "export") == 0)
 		return (1);
 	if (ft_strcmp(cmd, "unset") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "exit") == 0)
 		return (1);
 	return (0);
 }
@@ -42,17 +40,11 @@ char	*find_executable_path(char *cmd, char **envp)
 	char	**paths;
 	char	*cmd_path;
 
-	if (!cmd || !*cmd || !envp)
+	if (!cmd || !*cmd)
 		return (NULL);
-	if (is_direct_path(cmd))
-	{
-		if (access(cmd, X_OK) == 0)
-			return (ft_strdup(cmd));
-		return (NULL);
-	}
 	path_env = my_getenv("PATH", envp);
-	if (!path_env)
-		return (NULL);
+	if (is_direct_path(cmd) || !path_env || !*path_env)
+		return (ft_strdup(cmd));
 	paths = ft_split(path_env, ':');
 	if (!paths)
 		return (NULL);

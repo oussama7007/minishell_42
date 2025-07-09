@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:04:43 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/05 02:44:12 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/08 17:05:53 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ char	*target_path(char **args, char **envp)
 	if (!args[1] || args[1][0] == '\0')
 	{
 		path_val = my_getenv("HOME", envp);
-		if (!path_val || path_val[0] == '\0')
+		if (!path_val)
 			return (ft_putstr_fd("minishell: cd: HOME not set\n", 2), NULL);
+		else if (path_val[0] == '\0')
+			return (ft_strdup("."));
 		path = ft_strdup(path_val);
 	}
 	else if (ft_strcmp(args[1], "-") == 0)

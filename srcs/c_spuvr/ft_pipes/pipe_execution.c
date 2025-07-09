@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:44:44 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/03 16:39:26 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 00:20:10 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	execute_child(t_command *cmd, char ***env_ptr,
 	setup_child_io(prev, pipe_fd, cmd);
 	setup_child_signals(cmd);
 	handle_redirection_child(cmd);
-	execute_single_cmd(cmd, *env_ptr);
+	child_process_logic(cmd, env_ptr);
 }
 
 static void	handle_parent_pipes(int *prev_pipe, int *pipe_fds, t_command *cmd)

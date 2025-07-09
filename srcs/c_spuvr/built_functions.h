@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   built_functions.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/07 11:05:39 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/10 00:16:38 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef BUILT_FUNCTIONS_H
 # define BUILT_FUNCTIONS_H
@@ -34,12 +33,24 @@ typedef struct s_heredoc_info
 	t_command	*cmd;
 	char		**envp;
 	t_data		*data;
-}	t_heredoc_info;
+}				t_heredoc_info;
 
+typedef struct s_exit_data
+{
+	char		***env_ptr;
+	t_command	*commands;
+	t_token		*tokens;
+	t_data		*data;
+}				t_exit_data;
 
 // heredoc
-void    expand_heredoc_line(char *line, char **env, t_data *data);
+void	expand_heredoc_line(char *line, char **env, t_data *data);
 char	*generate_heredoc_filename(void);
+void	handle_heredoc_interrupt(t_heredoc_info *info, int fd_backup);
+void	process_heredoc_line(t_heredoc_info *info, char *line);
+int		should_stop_reading(char *line, t_heredoc_info *info);
+void	read_heredoc_loop(t_heredoc_info *info);
+//built is
 char	**init_environment(char **system_envp);
 void	free_environment(char **envp_ptr);
 char	*my_getenv(const char *name, char **envp);
@@ -51,8 +62,8 @@ int		ft_export(char **args, char ***env_ptr);
 int		ft_pwd(char ***env_ptr);
 int		ft_unset(char **args, char ***env_ptr);
 int		ft_env(char **args, char ***env_ptr);
-int		ft_execute_command_list(t_command *command_list,
-			char ***env_ptr, t_data *data);
+int ft_execute_command_list(t_command *command_list, t_token *tokens,
+				char ***env_ptr, t_data *data);
 char	*find_executable_path(char *cmd, char **envp);
 int		wait_for_child(pid_t pid);
 int		is_direct_path(const char *cmd_name);
@@ -70,7 +81,9 @@ int		has_redirection(t_command *cmd);
 int		setup_heredoc(t_command *cmd, char **envp, t_data *data);
 void	try_paths(char **paths, char *cmd, char **cmd_path);
 //exit
-int		ft_exit(char **args, char ***env, t_command *cmd, t_token *tok, t_data *data);
+int		ft_exit(char **args, t_exit_data *exit_data);
+int		is_numeric_arg(char *str);
+
 //cd 
 void	up_env_cd(char *old_pwd_val, const char *path_arg, char ***env_ptr);
 char	*target_path(char **args, char **envp);
@@ -80,11 +93,12 @@ int		handle_redirection_child(t_command *cmd_node);
 int		execute_pipeline(t_command *commands, char ***env_ptr, t_data *data);
 void	execute_single_cmd(t_command *cmd, char **envp);
 void	setup_child_io(int prev_pipe, int *pipe_fds, t_command *cmd);
+void    child_process_logic(t_command *cmd, char ***env);
+
 // erro.c
 void	ft_free_array(char **array);
 int		handle_command_not_found(char *cmd);
 void	execute_child_process(char *cmd_path, char **args, char **envp);
-int		ft_print_exec_error(char *cmd_name, int err_no);
 int		handle_fork_error(char *cmd_to_free);
 int		ft_echo(char **args);
 void	display_sorted_environment(char **envp);
