@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/09 22:45:19 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 00:06:15 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,7 @@ static t_token	*create_tokens_from_split(char **split_words)
 		add_token(&head, new_token(T_WORD, &temp_data));
 		i++;
 	}
-	return (head);;
+	return (head);
 }
 
 /**
@@ -330,7 +330,7 @@ static void	main_loop(char ***my_envp, t_data *data)
 			free(line);
 			continue ;
 		}
-		debug_tokens(tokens);
+		// debug_tokens(tokens);
 		// --- 4. Build Initial Command Structure ---
 		// This is needed to identify heredocs.
 		commands = build_command(tokens);
@@ -375,8 +375,10 @@ static void	main_loop(char ***my_envp, t_data *data)
 			free(line);
 			continue;
 		}
-		data->ex_status = ft_execute_command_list(commands, my_envp,
-				data);
+		
+		data->ex_status = ft_execute_command_list(commands, tokens, my_envp, data);
+		
+		// --- 10. Cleanup ---
 		free_command(commands);
 		free_tokens(tokens);
 		free(line);
@@ -389,10 +391,9 @@ int	main(int ac, char **av, char **env)
 	t_data	data;
    
 	(void)ac;
-	setup_signal_handlers();
 	my_envp = init_environment(env);
 	ensure_minimal_env(&my_envp);
-	my_setenv("_", av[0], &my_envp);
+	// my_setenv("_", av[0], &my_envp);
 	data = (t_data){0};
 	main_loop(&my_envp, &data);
 	free_environment(my_envp);

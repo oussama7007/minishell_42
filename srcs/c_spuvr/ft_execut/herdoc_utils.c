@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 20:34:22 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/09 23:09:58 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/09 23:48:32 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,6 @@ char	*generate_heredoc_filename(void)
 	filename = ft_strjoin("/tmp/minishell-heredoc-", num);
 	free(num);
 	return (filename);
-}
-
-void	handle_heredoc_interrupt(t_heredoc_info *info, int fd_backup)
-{
-	if (g_sig_var == 1)
-	{
-		dup2(fd_backup, STDIN_FILENO);
-		info->data->ex_status = 130;
-	}
 }
 
 void	process_heredoc_line(t_heredoc_info *info, char *line)

@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/09 22:57:05 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 00:06:33 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,16 @@ static void	child_process_logic(t_command *cmd, char ***env)
 		exit(1);
 	if (!cmd->cmd)
 		exit(0);
+	if (ft_strcmp(cmd->cmd, "exit") == 0)
+	{
+		if (!cmd->args[1])
+			exit(0);
+		if (!is_numeric_arg(cmd->args[1]))
+			exit(255);
+		if (cmd->args[2])
+			exit(1);
+		exit((unsigned char)ft_atoi(cmd->args[1]));
+	}
 	dir_status = handle_directory_command(cmd->args[0]);
 	if (dir_status != 0)
 		exit(dir_status);
@@ -68,17 +78,25 @@ static void	child_process_logic(t_command *cmd, char ***env)
 	validate_and_execute(cmd, *env);
 }
 
-int	ft_execute_command_list(t_command *cmd_list, char ***env_ptr, t_data *data)
+int ft_execute_command_list(t_command *cmd_list, t_token *tokens, char ***env_ptr, t_data *data)
 {
 	pid_t	pid;
 	int		status;
 
 	if (!cmd_list)
 		return (0);
+	if (cmd_list->cmd && ft_strcmp(cmd_list->cmd, "exit") == 0 && !cmd_list->next)
+	{
+		t_exit_data exit_data;
+
+		exit_data.env_ptr = env_ptr;
+		exit_data.commands = cmd_list;
+		exit_data.tokens = tokens;
+		exit_data.data = data;
+		return (ft_exit(cmd_list->args, &exit_data));
+	}
 	if (cmd_list->next)
 		return (execute_pipeline(cmd_list, env_ptr, data));
-	if (ft_strcmp(cmd_list->args[0], "exit"))
-		ft_exit();
 	if (cmd_list->cmd && is_parent_only_builtin(cmd_list->cmd)
 		&& !has_redirection(cmd_list))
 		return (is_built_ins(cmd_list->args, env_ptr));

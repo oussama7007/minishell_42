@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:20:30 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/08 18:26:00 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 00:12:02 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	is_parent_only_builtin(char *cmd)
 	if (ft_strcmp(cmd, "export") == 0)
 		return (1);
 	if (ft_strcmp(cmd, "unset") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "exit") == 0)
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/09 23:01:18 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/09 23:48:43 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@ void	heredoc_signals(int sig)
 	write(1, "\n", 1);
 	close(STDIN_FILENO);
 	g_sig_var = 1;
+}
+
+void	handle_heredoc_interrupt(t_heredoc_info *info, int fd_backup)
+{
+	if (g_sig_var == 1)
+	{
+		dup2(fd_backup, STDIN_FILENO);
+		info->data->ex_status = 130;
+	}
 }
 
 void	re_process_heredoc_line(t_heredoc_info *info, char *line)

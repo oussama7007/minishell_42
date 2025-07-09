@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/09 23:09:51 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/09 23:41:16 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,14 @@ typedef struct s_heredoc_info
 	t_data		*data;
 }				t_heredoc_info;
 
+typedef struct s_exit_data
+{
+	char		***env_ptr;
+	t_command	*commands;
+	t_token		*tokens;
+	t_data		*data;
+}				t_exit_data;
+
 // heredoc
 void	expand_heredoc_line(char *line, char **env, t_data *data);
 char	*generate_heredoc_filename(void);
@@ -54,8 +62,8 @@ int		ft_export(char **args, char ***env_ptr);
 int		ft_pwd(char ***env_ptr);
 int		ft_unset(char **args, char ***env_ptr);
 int		ft_env(char **args, char ***env_ptr);
-int		ft_execute_command_list(t_command *command_list,
-			char ***env_ptr, t_data *data);
+int ft_execute_command_list(t_command *command_list, t_token *tokens,
+				char ***env_ptr, t_data *data);
 char	*find_executable_path(char *cmd, char **envp);
 int		wait_for_child(pid_t pid);
 int		is_direct_path(const char *cmd_name);
@@ -73,7 +81,8 @@ int		has_redirection(t_command *cmd);
 int		setup_heredoc(t_command *cmd, char **envp, t_data *data);
 void	try_paths(char **paths, char *cmd, char **cmd_path);
 //exit
-int		ft_exit();
+int		ft_exit(char **args, t_exit_data *exit_data);
+int		is_numeric_arg(char *str);
 
 //cd 
 void	up_env_cd(char *old_pwd_val, const char *path_arg, char ***env_ptr);

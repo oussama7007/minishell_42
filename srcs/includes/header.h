@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/09 17:20:07 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/09 23:38:03 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ typedef struct s_token
 	int 			is_empty_after_expand;
 	struct s_token	*next;
 }	t_token;
-
 
 typedef struct s_command
 {
@@ -163,7 +162,6 @@ void		add_command(t_command **commands, t_command *command);
 char		*get_var_value(char *new_word, char **envp);
 void		free_command(t_command *cmd);
 t_command	*new_command(void);
-void		setup_signals(void);
 void	    setup_child_signals(t_command *cmd);
 int			should_skip_empty_command(t_cmd_builder *builder,t_token *first_word_token);
 void		remove_empty_tokens(t_token **head);
