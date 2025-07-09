@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/08 15:42:25 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/09 03:38:15 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 #define ERR_QUOTE 6
 #define ERR_SEMICOLON 7
 #define ERR_SYNTAX 8 
+#define ERR_AMBIGUOS 9
 
 #define T_WORD    0
 #define T_PIPE    1
@@ -53,7 +54,8 @@ typedef struct s_data
 	int	quote_type;
 	char *accumulator;
 	int 	empty_expand;
-	int is_expanded; 
+	int is_expanded;
+	int     redirect_context;
 }	t_data;
 
 typedef struct s_token

@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:22:51 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/07 10:36:01 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:58:20 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,36 @@ int	populate_command(t_command *cmd, t_token *tokens, t_counts counts)
 int	finalize_command(t_cmd_builder *builder)
 {
 	t_counts	counts;
-
+	t_token		*first_word_token;
+	
 	if (!builder->current || (!builder->arg_count && !builder->red_in_count
 			&& !builder->red_out_count && !builder->heredoc_count))
 	{
 		builder->current = NULL;
 		return (1);
 	}
+	first_word_token = builder->tokens_start;
+	while (first_word_token && first_word_token->type != TOKEN_PIPE)
+	{
+		if (first_word_token->type == TOKEN_WORD)
+			break;
+		first_word_token = first_word_token->next;
+	}
+
+	// Check for the "disappearing command" case: a single, expanded, empty
+	// word with no redirections.
+	if (builder->arg_count == 1 && builder->red_in_count == 0
+		&& builder->red_out_count == 0 && builder->heredoc_count == 0
+		&& first_word_token && first_word_token->is_empty_after_expand)
+	{
+		// This is a no-op. We skip populating the command, which will leave
+		// cmd->cmd as NULL. The executor should handle this gracefully.
+		// We then reset the builder for the next potential command.
+		builder->current = NULL;
+		builder->arg_count = 0;
+		return (1);
+	}
+	// --- END OF FIX ---
 	counts.arg_c = builder->arg_count;
 	counts.in_c = builder->red_in_count;
 	counts.out_c = builder->red_out_count;

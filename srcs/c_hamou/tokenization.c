@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/07 10:16:57 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/09 03:51:05 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,14 @@ void	handle_double_quotes(char **start, char **env, t_data *data)
 		*start = end + 1;
 	else
 		*start = end;
+	
+	
 }
 
 t_token	*handle_word(char **start, char **my_env, t_data *data)
 {
 	t_token	*token;
 
-	// Reset all temporary flags for the new word.
 	free(data->accumulator);
 	data->accumulator = NULL;
 	data->is_expanded = 0;
@@ -69,26 +70,13 @@ t_token	*handle_word(char **start, char **my_env, t_data *data)
 	{
 		process_segment(start, my_env, data);
 	}
-
-	// ===================================================================
-	// THIS IS THE NEW, CORRECTED LOGIC:
-	//
-	// Check the state of the accumulator *after* the whole word is processed.
 	if (!data->accumulator)
 	{
-		// If the accumulator is still NULL, it means the word consisted
-		// ONLY of an unset variable (like $dlfkgjdlfkgj).
-		// We know an expansion was attempted because `is_expanded` will be 1.
 		if (data->is_expanded)
-			data->empty_expand = 1; // Set your flag here!
-		
-        // We still need to create an empty string for the token value.
+			data->empty_expand = 1;
 		data->accumulator = ft_strdup("");
 	}
-	// ===================================================================
-	
-	token = new_token(get_token_type(data->accumulator), data);
-			
+	token = new_token(get_token_type(data->accumulator), data);	
 	free(data->accumulator);
 	data->accumulator = NULL;
 	return (token);
@@ -110,7 +98,6 @@ t_token	*tokenize(char *line, char **my_env, t_data *data)
 
 	tokens = NULL;
 	start = line;
-	data->delimiter = 0;
 	if (!line)
 		return (NULL);
 	while (*start)
@@ -131,8 +118,6 @@ t_token	*tokenize(char *line, char **my_env, t_data *data)
 			return (NULL);
 		}
 		add_token(&tokens, token);
-		if (data->delimiter == 1)
-			data->delimiter = 0;
 	}
 	return (tokens);
 }

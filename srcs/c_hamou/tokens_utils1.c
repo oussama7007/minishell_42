@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 23:46:06 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/07 17:10:34 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/09 03:20:04 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ t_token	*handle_operator(char **start, t_data *data)
 	data->empty_expand = 0;
 	
 	token = new_token(get_token_type(data->accumulator), data);
+	if (token->type == T_RED_OUT || token->type == T_APPEND)
+		data->redirect_context = 1;
 	free(operator_str);
 	data->accumulator = NULL;
 	return (token);
