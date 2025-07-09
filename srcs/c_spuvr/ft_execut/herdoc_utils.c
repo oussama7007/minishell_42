@@ -3,33 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 20:34:22 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/07 10:47:58 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/09 23:09:58 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../built_functions.h"
-
-void	expand_heredoc_line(char *line, char **env, t_data *data)
-{
-	char	*current;
-
-	free(data->accumulator);
-	data->accumulator = NULL;
-	current = line;
-	while (*current)
-	{
-		if (*current == '$' && (ft_isalpha(*(current + 1))
-				|| *(current + 1) == '?' || *(current + 1) == '_'))
-			handle_dollar_case(&current, env, data);
-		else
-			handle_normal_char(&current, data);
-	}
-	if (!data->accumulator)
-		data->accumulator = ft_strdup("");
-}
 
 char	*generate_heredoc_filename(void)
 {
@@ -43,4 +24,36 @@ char	*generate_heredoc_filename(void)
 	filename = ft_strjoin("/tmp/minishell-heredoc-", num);
 	free(num);
 	return (filename);
+}
+
+void	handle_heredoc_interrupt(t_heredoc_info *info, int fd_backup)
+{
+	if (g_sig_var == 1)
+	{
+		dup2(fd_backup, STDIN_FILENO);
+		info->data->ex_status = 130;
+	}
+}
+
+void	process_heredoc_line(t_heredoc_info *info, char *line)
+{
+	if (info->fd != -1)
+		re_process_heredoc_line(info, line);
+	free(line);
+}
+
+void	read_heredoc_loop(t_heredoc_info *info)
+{
+	char	*line;
+
+	while (1)
+	{
+		line = readline("> ");
+		if (should_stop_reading(line, info))
+		{
+			free(line);
+			break ;
+		}
+		process_heredoc_line(info, line);
+	}
 }

@@ -6,10 +6,9 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/09 22:57:58 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/09 23:09:51 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef BUILT_FUNCTIONS_H
 # define BUILT_FUNCTIONS_H
@@ -34,12 +33,16 @@ typedef struct s_heredoc_info
 	t_command	*cmd;
 	char		**envp;
 	t_data		*data;
-}	t_heredoc_info;
-
+}				t_heredoc_info;
 
 // heredoc
-void    expand_heredoc_line(char *line, char **env, t_data *data);
+void	expand_heredoc_line(char *line, char **env, t_data *data);
 char	*generate_heredoc_filename(void);
+void	handle_heredoc_interrupt(t_heredoc_info *info, int fd_backup);
+void	process_heredoc_line(t_heredoc_info *info, char *line);
+int		should_stop_reading(char *line, t_heredoc_info *info);
+void	read_heredoc_loop(t_heredoc_info *info);
+//built is
 char	**init_environment(char **system_envp);
 void	free_environment(char **envp_ptr);
 char	*my_getenv(const char *name, char **envp);

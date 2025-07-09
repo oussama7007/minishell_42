@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/07 11:05:44 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/09 23:01:18 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,43 +32,6 @@ void	re_process_heredoc_line(t_heredoc_info *info, char *line)
 	else
 	{
 		ft_putendl_fd(line, info->fd);
-	}
-}
-
-void	handle_heredoc_interrupt(t_heredoc_info *info, int fd_backup)
-{
-	if (g_sig_var == 1)
-	{
-		dup2(fd_backup, STDIN_FILENO);
-		info->data->ex_status = 130;
-	}
-}
-
-void	process_heredoc_line(t_heredoc_info *info, char *line)
-{
-	if (info->fd != -1)
-		re_process_heredoc_line(info, line);
-	free(line);
-}
-
-int	should_stop_reading(char *line, t_heredoc_info *info)
-{
-	return (!line || ft_strcmp(line, info->cmd->heredoc_delimiters[info->i]) == 0);
-}
-
-void	read_heredoc_loop(t_heredoc_info *info)
-{
-	char	*line;
-
-	while (1)
-	{
-		line = readline("> ");
-		if (should_stop_reading(line, info))
-		{
-			free(line);
-			break ;
-		}
-		process_heredoc_line(info, line);
 	}
 }
 
