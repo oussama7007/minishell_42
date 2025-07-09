@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/08 18:28:40 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/09 22:57:05 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int	ft_execute_command_list(t_command *cmd_list, char ***env_ptr, t_data *data)
 		return (0);
 	if (cmd_list->next)
 		return (execute_pipeline(cmd_list, env_ptr, data));
+	if (ft_strcmp(cmd_list->args[0], "exit"))
+		ft_exit();
 	if (cmd_list->cmd && is_parent_only_builtin(cmd_list->cmd)
 		&& !has_redirection(cmd_list))
 		return (is_built_ins(cmd_list->args, env_ptr));

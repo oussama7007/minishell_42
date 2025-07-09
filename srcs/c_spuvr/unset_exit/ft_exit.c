@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:22:45 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/08 15:56:27 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/09 22:36:59 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ static void	cleanup_and_exit(t_data *data, char **env, t_command *cmd, t_token *
 	exit(data->ex_status);
 }
 
-int	ft_exit(char **args, char ***env, t_command *cmd, t_token *tok, t_data *data)
+int	ft_exit(/*i need to include parameters here but ofc >= 4 less equal or less than 4*/)
 {
-	//long long	exit_code;
+	// we need to make it in the builtins , and make it as builtins
 
 	ft_putendl_fd("exit", 1);
 	if (!args[1])
