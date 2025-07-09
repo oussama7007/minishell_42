@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/06 21:15:09 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/10 00:38:21 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "c_spuvr/built_functions.h"
 #include <readline/readline.h>
 #include <readline/history.h>
-
+#include <signal.h>
 
 void debug_tokens(t_token *head)
 {
