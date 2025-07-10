@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:40:41 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/03 15:21:10 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 21:57:32 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,8 @@ void	display_sorted_environment(char **envp)
 	i = 0;
 	while (i < count)
 	{
-		ms_print_one_env_declare(env_copy[i]);
+		if (ft_strncmp(env_copy[i], "_=", 2) != 0)
+			ms_print_one_env_declare(env_copy[i]);
 		free(env_copy[i]);
 		i++;
 	}
