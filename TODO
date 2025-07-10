@@ -44,15 +44,17 @@ minishell: exit: jifjd: numeric argument required
 255
 ➜  minishell_42 git:(main) ✗  -->
 
-Minishell$ exit 9999999999999999999999999999999
+<!-- Minishell$ exit 9999999999999999999999999999999
 exit
 ➜  minishell_42 git:(main) ✗ 
 
 
 oadouz@e1r12p3:~/Desktop/minishell_42$ exit 9999999999999999999999999999999
 exit
-bash: exit: 9999999999999999999999999999999: numeric argument required
-➜  minishell_42 git:(main) ✗  bash
+bash: exit: 9999999999999999999999999999999: numeric argument required -->
+
+
+<!-- ➜  minishell_42 git:(main) ✗  bash
 bash: cannot set terminal process group (-1): Inappropriate ioctl for device
 bash: no job control in this shell
 oadouz@e1r12p3:~/Desktop/minishell_42$ exit jfid 10
@@ -60,6 +62,6 @@ exit
 bash: exit: jfid: numeric argument required
 ➜  minishell_42 git:(main) ✗ echo $?
 2
-➜  minishell_42 git:(main) ✗ 
+➜  minishell_42 git:(main) ✗  -->
 
 
