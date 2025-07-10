@@ -3,7 +3,7 @@ ctrl+\ khass t3tik coredump ....etc. f heredoc
 <!-- display dyal readline b3d lmrat katmjnn ( ana testitha f had l command "sleep 3 | echo hello" + ctrl^C)  -->
 <!-- new line mn b3d ctrl^C (cat + ctrl^C) -->
 <!-- cd ~ had ~ makatbdlhach bl value dyal HOME t9adaaat -->
-had l environment ($_) makhassoch itl3 f export o khasso itl3 gha f env 
+<!-- had l environment ($_) makhassoch itl3 f export o khasso itl3 gha f env  -->
 exit builtin 3ndk makatkhrjch b exit_status li 3ndk db for example :
 ```
 Minishell$ ^C
@@ -35,14 +35,14 @@ Minishell$ echo hello | $gvdffd
 hello
 ```
 fl bash makatprinitich hello 7itach rah deja kayn pipe .
-
+<!-- 
 ➜  minishell_42 git:(main) ✗ ./minishell 
 Minishell$ exit jifjd 10
 exit
 minishell: exit: jifjd: numeric argument required
 ➜  minishell_42 git:(main) ✗ echo $?
 255
-➜  minishell_42 git:(main) ✗ 
+➜  minishell_42 git:(main) ✗  -->
 
 Minishell$ exit 9999999999999999999999999999999
 exit
