@@ -6,33 +6,54 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:04:43 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/08 17:05:53 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 21:38:59 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../built_functions.h"
 
-char	*target_path(char **args, char **envp)
+char *target_path(char **args, char **envp)
 {
 	char	*path;
 	char	*path_val;
+	char	*rest_of_path;
 
+	path = NULL;
 	if (!args[1] || args[1][0] == '\0')
 	{
 		path_val = my_getenv("HOME", envp);
 		if (!path_val)
-			return (ft_putstr_fd("minishell: cd: HOME not set\n", 2), NULL);
+			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 		else if (path_val[0] == '\0')
-			return (ft_strdup("."));
-		path = ft_strdup(path_val);
+			path = ft_strdup(".");
+		else
+			path = ft_strdup(path_val);
 	}
 	else if (ft_strcmp(args[1], "-") == 0)
 	{
 		path_val = my_getenv("OLDPWD", envp);
 		if (!path_val || path_val[0] == '\0')
-			return (ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2), NULL);
-		ft_putendl_fd(path_val, 1);
-		path = ft_strdup(path_val);
+			ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
+		else
+		{
+			ft_putendl_fd(path_val, 1);
+			path = ft_strdup(path_val);
+		}
+	}
+	else if (args[1][0] == '~')
+	{
+		path_val = my_getenv("HOME", envp);
+		if (!path_val || path_val[0] == '\0')
+			path = ft_strdup(args[1]);
+		else
+		{
+			rest_of_path = ft_substr(args[1], 1, ft_strlen(args[1]) - 1);
+			if (rest_of_path)
+			{
+				path = ft_strjoin(path_val, rest_of_path);
+				free(rest_of_path);
+			}
+		}
 	}
 	else
 		path = ft_strdup(args[1]);
