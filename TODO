@@ -1,7 +1,7 @@
-checki b isatty wach minishell input/output dyal tty
+<!-- checki b isatty wach minishell input/output dyal tty -->
 ctrl+\ khass t3tik coredump ....etc. f heredoc
-display dyal readline b3d lmrat katmjnn ( ana testitha f had l command "sleep 3 | echo hello" + ctrl^C) 
-new line mn b3d ctrl^C (cat + ctrl^C)
+<!-- display dyal readline b3d lmrat katmjnn ( ana testitha f had l command "sleep 3 | echo hello" + ctrl^C)  -->
+<!-- new line mn b3d ctrl^C (cat + ctrl^C) -->
 cd ~ had ~ makatbdlhach bl value dyal HOME
 had l environment ($_) makhassoch itl3 f export o khasso itl3 gha f env 
 exit builtin 3ndk makatkhrjch b exit_status li 3ndk db for example :

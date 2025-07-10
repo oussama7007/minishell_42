@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 12:43:39 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 14:04:16 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 21:03:43 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,11 @@ void	setup_child_signals(t_command *cmd)
 	}
 }
 
-
-// int	exit_status(int set, int value)
-// {
-// 	static int l;
-	
-// 	if (set)
-// 		l = value;
-// 	return (l);
-// }
-
+void	sigint_handler_exec(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+}
 
 void	sigint_handler(int sig)
 {

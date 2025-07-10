@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/10 14:04:35 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 21:04:01 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,4 +182,6 @@ int	should_skip_empty_command(t_cmd_builder *builder, t_token *first_word_token)
 static void	main_loop(char ***my_envp, t_data *data);
 t_token	*create_and_add_token(t_token **tokens, t_token *token, t_data *data);
 void	exit_status(int set, int value, t_data *data);
+void	sigint_handler_exec(int sig);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:44:44 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 18:10:26 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 21:07:31 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,12 @@ int	execute_pipeline(t_command *commands, char ***env_ptr, t_data *data)
 	pid_t		pid;
 	pid_t		last_pid;
 	t_command	*cmd;
+	int			last_status;
 
 	prev_pipe = STDIN_FILENO;
 	cmd = commands;
 	last_pid = -1;
+	signal(SIGINT, sigint_handler_exec);
 	while (cmd)
 	{
 		if (cmd->next && pipe(pipe_fds) == -1)
@@ -84,5 +86,7 @@ int	execute_pipeline(t_command *commands, char ***env_ptr, t_data *data)
 		handle_parent_pipes(&prev_pipe, pipe_fds, cmd);
 		cmd = cmd->next;
 	}
-	return (wait_for_pipeline(last_pid));
+	last_status = wait_for_pipeline(last_pid);
+	setup_signal_handlers();
+	return (last_status);
 }
