@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/10 03:25:29 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/10 06:19:07 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,13 @@ void 	terminate_arr_finalize_command(t_cmd_builder *builder);
 void	init_counts(t_counts *counts, t_cmd_builder *builder);
 void	process_operator_data(char *operator_str, t_data *data);
 void	reset_word_data(t_data *data);
+void	sigint_handler(int sig);
+int	handle_quotes(char *line);
+int	check_double_quotes(char *line, int *i);
+t_token	*create_tokens_from_split(char **split_words);
+int	check_invalid_char(char *line);
+int	is_redirection(int token_type);
+void	remove_current_token(t_token **head, t_token **prev, t_token **current);
 int	should_skip_empty_command(t_cmd_builder *builder, t_token *first_word_token);
 t_token	*create_and_add_token(t_token **tokens, t_token *token, t_data *data);
 #endif

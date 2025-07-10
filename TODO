@@ -135,3 +135,36 @@ Minishell$ << $""
 > 
 > 
 herdoc not close
+
+
+Minishell$ < Makefile cat | '' > exit
+minishell: : command not found
+==47616== 
+==47616== FILE DESCRIPTORS: 7 open (4 inherited) at exit.
+==47616== Open file descriptor 3: /tmp/minishell-heredoc-0
+==47616==    at 0x4A14F13: open (in /usr/lib/x86_64-linux-gnu/libc.so.6)
+==47616==    by 0x4007203: setup_heredoc_to_file (in /home/oait-si-/Desktop/minishell_42/minishell)
+==47616==    by 0x40072E2: handle_heredocs_before_execution (in /home/oait-si-/Desktop/minishell_42/minishell)
+==47616==    by 0x40035A2: main_loop (in /home/oait-si-/Desktop/minishell_42/minishell)
+==47616==    by 0x40036CE: main (in /home/oait-si-/Desktop/minishell_42/minishell)
+==47616== 
+==47616== Open file descriptor 1: /home/oait-si-/Desktop/minishell_42/exit
+==47616==    at 0x4A10C1B: dup2 (in /usr/lib/x86_64-linux-gnu/libc.so.6)
+==47616==    by 0x4006B4D: open_and_dup_output (in /home/oait-si-/Desktop/minishell_42/minishell)
+==47616==    by 0x4006C22: handle_output_redirection (in /home/oait-si-/Desktop/minishell_42/minishell)
+==47616==    by 0x4006D0B: handle_redirection_child (in /home/oait-si-/Desktop/minishell_42/minishell)
+==47616==    by 0x400441E: child_process_logic (in /home/oait-si-/Desktop/minishell_42/minishell)
+==47616==    by 0x4006D7E: execute_child (in /home/oait-si-/Desktop/minishell_42/minishell)
+==47616==    by 0x4006F28: execute_pipeline (in /home/oait-si-/Desktop/minishell_42/minishell)
+==47616==    by 0x400461F: ft_execute_command_list (in /home/oait-si-/Desktop/minishell_42/minishell)
+==47616==    by 0x400363C: main_loop (in /home/oait-si-/Desktop/minishell_42/minishell)
+==47616==    by 0x40036CE: main (in /home/oait-si-/Desktop/minishell_42/minishell)
+==47616== 
+==47616== Open file descriptor 0:
+==47616==    at 0x4A10C1B: dup2 (in /usr/lib/x86_64-linux-gnu/libc.so.6)
+==47616==    by 0x4006FA4: setup_child_io (in /home/oait-si-/Desktop/minishell_42/minishell)
+==47616==    by 0x4006D53: execute_child (in /home/oait-si-/Desktop/minishell_42/minishell)
+==47616==    by 0x4006F28: execute_pipeline (in /home/oait-si-/Desktop/minishell_42/minishell)
+==47616==    by 0x400461F: ft_execute_command_list (in /home/oait-si-/Desktop/minishell_42/minishell)
+==47616==    by 0x400363C: main_loop (in /home/oait-si-/Desktop/minishell_42/minishell)
+==47616==    by 0x40036CE: main (in /home/oait-si-/Desktop/minishell_42/minishell)

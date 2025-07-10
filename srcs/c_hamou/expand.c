@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:20:52 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/09 17:37:11 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/10 06:14:02 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,24 @@ void	handle_regular_accumulator(char *var_start, char *end,
 		else
 			data->accumulator = ft_strdup(var_value);
 	}
+}
+
+t_token	*create_tokens_from_split(char **split_words)
+{
+	t_token	*head;
+	int		i;
+	t_data	temp_data;
+
+	head = NULL;
+	i = 0;
+	if (!split_words || !split_words[0])
+		return (NULL);
+	while (split_words[i])
+	{
+		ft_bzero(&temp_data, sizeof(t_data));
+		temp_data.accumulator = split_words[i];
+		add_token(&head, new_token(T_WORD, &temp_data));
+		i++;
+	}
+	return (head);
 }

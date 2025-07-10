@@ -6,15 +6,11 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/10 05:20:35 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/10 06:26:38 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
 #include "c_spuvr/built_functions.h"
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <signal.h>
 
 void debug_tokens(t_token *head)
 {
@@ -38,23 +34,9 @@ void debug_tokens(t_token *head)
     if (index == 0)
         printf("No tokens to display (list is empty).\n");
 }
-void	error(int type)
-{
-	if (type == ERR_PIPE)
-		write(2, "Minishell: syntax error near unexpected token `|'\n", 50);
-	else if (type == ERR_SEMICOLON)
-		write(2, "Minishell: syntax error near unexpected token `;'\n", 51);
-	else if (type == ERR_NEWLINE)
-		write(2, "Minishell: syntax error near unexpected token `newline'\n", 57);
-	else if (type == ERR_SYNTAX)
-		write(2, "Minishell: syntax error \n", 26);
-	else if (type == ERR_AMBIGUOS)
-		write(2, "minishell: $...: ambiguous redirect\n", 36);
-	else
-		write(2, "Minishell: syntax error \n", 26);
-}
 
-static int	is_redirection(int token_type)
+
+int	is_redirection(int token_type)
 {
 	return (token_type == TOKEN_RED_IN
 		|| token_type == TOKEN_RED_OUT
@@ -111,125 +93,15 @@ int	validate_syntax(t_token *tokens)
 	return (1);
 }
 
-int	check_single_quotes(char *line, int *i)
-{
-	(*i)++;
-	while (line[*i])
-	{
-		if (line[*i] == '\'')
-			return (1);
-		(*i)++;
-	}
-	return (0);
-}
 
-int	check_double_quotes(char *line, int *i)
-{
-	(*i)++;
-	while (line[*i])
-	{
-		if (line[*i] == '"')
-			return (1);
-		(*i)++;
-	}
-	return (0);
-}
 
-int	handle_quotes(char *line)
-{
-	int	i;
 
-	i = -1;
-	while (line[++i])
-	{
-		if (line[i] == '\'')
-		{
-			if (!check_single_quotes(line, &i))
-				return (0);
-		}
-		if (line[i] == '"')
-		{
-			if (!check_double_quotes(line, &i))
-				return (0);
-		}
-	}
-	return (1);
-}
 
-int	check_invalid_char(char *line)
-{
-	int	i;
 
-	i = -1;
-	while (line[++i])
-	{
-		if (line[i] == ';' || line[i] == 92)
-			return (0);
-	}
-	return (1);
-}
-
-void	sigint_handler(int sig)
-{
-	(void)sig;
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 1);
-	rl_redisplay();
-	
-}
-void	remove_empty_tokens(t_token **head)
-{
-	t_token	*current;
-	t_token	*prev;
-
-	if (!head || !*head)
-		return ;
-	current = *head;
-	prev = NULL;
-	while (current)
-	{
-		if (current->is_empty_after_expand && current->quotes_type == 0)
-		{
-			if (prev)
-				prev->next = current->next;
-			else
-				*head = current->next;
-			t_token *to_free = current;
-			current = current->next;
-			to_free->next = NULL;
-			free_tokens(to_free);
-		}
-		else
-		{
-			prev = current;
-			current = current->next;
-		}
-	}
-}
 void	setup_signal_handlers(void)
 {
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
-}
-static t_token	*create_tokens_from_split(char **split_words)
-{
-	t_token	*head;
-	int		i;
-	t_data	temp_data;
-
-	head = NULL;
-	i = 0;
-	if (!split_words || !split_words[0])
-		return (NULL);
-	while (split_words[i])
-	{
-		ft_bzero(&temp_data, sizeof(t_data));
-		temp_data.accumulator = split_words[i];
-		add_token(&head, new_token(T_WORD, &temp_data));
-		i++;
-	}
-	return (head);
 }
 
 /**

@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 23:46:06 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/09 17:08:34 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/10 06:18:56 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,39 @@ t_token	*handle_operator(char **start, t_data *data)
 	free(operator_str);
 	data->accumulator = NULL;
 	return (token);
+}
+
+void	remove_current_token(t_token **head, t_token **prev, t_token **current)
+{
+	t_token	*to_free;
+
+	if (*prev)
+		(*prev)->next = (*current)->next;
+	else
+		*head = (*current)->next;
+	to_free = *current;
+	*current = (*current)->next;
+	to_free->next = NULL;
+	free_tokens(to_free);
+}
+
+void	remove_empty_tokens(t_token **head)
+{
+	t_token	*current;
+	t_token	*prev;
+
+	if (!head || !*head)
+		return ;
+	current = *head;
+	prev = NULL;
+	while (current)
+	{
+		if (current->is_empty_after_expand && current->quotes_type == 0)
+			remove_current_token(head, &prev, &current);
+		else
+		{
+			prev = current;
+			current = current->next;
+		}
+	}
 }

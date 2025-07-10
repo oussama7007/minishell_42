@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_functions.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 00:16:38 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 05:56:07 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <errno.h>
 # include <string.h>
 # include <fcntl.h>
+#include <signal.h>
 
 typedef struct s_heredoc_info
 {
