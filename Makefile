@@ -1,6 +1,6 @@
 NAME        := minishell
 CC          := cc
-CFLAGS      := -g #-fsanitize=address -g #-Wall -Wextra -Werror
+CFLAGS      :=  -fsanitize=address -g #-Wall -Wextra -Werror
 LINKER      := -lreadline -lncurses
 INCLUDES    := -I srcs/includes
  
@@ -14,7 +14,7 @@ INCDIR      := srcs/includes
 # === Source files ===
 HAMOU_SRC := \
 	$(C_HAMOU_DIR)/commands.c $(C_HAMOU_DIR)/commands_utils.c $(C_HAMOU_DIR)/commands_utils1.c $(C_HAMOU_DIR)/free.c $(C_HAMOU_DIR)/tokenization.c $(C_HAMOU_DIR)/helper_fuc.c  \
-	$(C_HAMOU_DIR)/utils.c $(C_HAMOU_DIR)/tokens_utils2.c $(C_HAMOU_DIR)/tokens_utils1.c $(C_HAMOU_DIR)/expand.c srcs/main.c srcs/main_utils.c srcs/signal_handler.c
+	$(C_HAMOU_DIR)/utils.c $(C_HAMOU_DIR)/tokens_utils2.c $(C_HAMOU_DIR)/tokens_utils1.c $(C_HAMOU_DIR)/expand.c srcs/main.c srcs/main_utils.c srcs/main_utils2.c srcs/signal_handler.c
 
 SPUVR_SRC := \
 	$(C_SPUVR_DIR)/built-ins.c $(C_SPUVR_DIR)/built-ins1.c $(C_SPUVR_DIR)/env.c $(C_SPUVR_DIR)/execute_heart.c $(C_SPUVR_DIR)/utils.c \

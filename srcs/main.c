@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/10 13:42:39 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 13:44:19 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,12 +290,8 @@ int	main(int ac, char **av, char **env)
 	t_data	data;
    
 	(void)ac;
-	// debug_print_env(env, "Initial 'env' from main");
 	my_envp = init_environment(env);
-	// debug_print_env(my_envp, "After init_environment");
 	ensure_minimal_env(&my_envp);
-	// debug_print_env(my_envp, "After ensure_minimal_env");
-	// my_setenv("_", av[0], &my_envp);
 	data = (t_data){0};
 	main_loop(&my_envp, &data);
 	free_environment(my_envp);

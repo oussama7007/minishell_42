@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/10 06:19:07 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/10 13:06:50 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,5 +179,6 @@ int	check_invalid_char(char *line);
 int	is_redirection(int token_type);
 void	remove_current_token(t_token **head, t_token **prev, t_token **current);
 int	should_skip_empty_command(t_cmd_builder *builder, t_token *first_word_token);
+void	main_loop(char ***my_envp, t_data *data);
 t_token	*create_and_add_token(t_token **tokens, t_token *token, t_data *data);
 #endif
