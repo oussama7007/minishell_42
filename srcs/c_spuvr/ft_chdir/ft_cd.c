@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:04:48 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/08 17:06:25 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 05:15:02 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,11 @@ int	ft_chdir(char **args, char ***env_ptr)
 		return (1);
 	ret = chdir(dest);
 	if (ret == -1)
-		return (cd_err(dest, old_loc, dest));
+	{
+		cd_err(dest, old_loc, dest);
+		free(dest);
+		return (1);
+	}
 	key_arg = args[1];
 	if (!args[1] || (args[1] && ft_strcmp(args[1], "-") == 0))
 		key_arg = dest;

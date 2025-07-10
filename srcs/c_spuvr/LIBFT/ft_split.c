@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 18:14:22 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/04 17:44:01 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/10 03:03:44 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ int	ft_wordcount(const char *str, char delim)
 	in_word = 0;
 	while (*str)
 	{
-		if (*str != delim && in_word == 0)
+		if (*str == delim || *str == '\t')
+			in_word = 0;
+		else if (in_word == 0)
 		{
 			in_word = 1;
 			count++;
 		}
-		else if (*str == delim)
-			in_word = 0;
 		str++;
 	}
 	return (count);
@@ -68,13 +68,13 @@ static int	ft_fill_result(const char *s, char c, char **result)
 	i = 0;
 	while (*s)
 	{
-		while (*s == c)
+		while (*s == c || *s == '\t')
 			s++;
-		start = s;
-		while (*s && *s != c)
-			s++;
-		if (start < s)
+		if (*s)
 		{
+			start = s;
+			while (*s && *s != c && *s != '\t')
+				s++;
 			result[i] = ft_worddup(start, s);
 			if (!result[i])
 			{

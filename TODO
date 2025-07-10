@@ -68,3 +68,70 @@ Minishell$
 
 
 /////////////////////////////////////////////////////////////
+
+
+
+
+
+//////////////////////////////////
+
+
+Minishell$ mkdir -p a/b
+Minishell$ cd a/b/
+Minishell$ cd ..
+minishell: cd: ..: Permission denied
+Minishell$ pwd 
+/home/oait-si-/Desktop/minishell_42/a/b
+
+=================================================================
+==93782==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 3 byte(s) in 1 object(s) allocated from:
+    #0 0x7f447ca9b91f in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:69
+    #1 0x557478c37ef3 in ft_strdup (/home/oait-si-/Desktop/minishell_42/minishell+0x14ef3)
+    #2 0x557478c316f0 in target_path srcs/c_spuvr/ft_chdir/ft_cd_utils.c:38
+    #3 0x557478c312f1 in ft_chdir srcs/c_spuvr/ft_chdir/ft_cd.c:48
+    #4 0x557478c2f647 in is_built_ins srcs/c_spuvr/built-ins1.c:22
+    #5 0x557478c30978 in ft_execute_command_list srcs/c_spuvr/execute_heart.c:102
+    #6 0x557478c2ea9f in main_loop srcs/main.c:379
+    #7 0x557478c2eccb in main srcs/main.c:398
+    #8 0x7f447c760d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+SUMMARY: AddressSanitizer: 3 byte(s) leaked in 1 allocation(s).
+Minishell$ 
+
+
+
+
+
+//////////////////////////////////////////////////////
+
+
+Minishell$ echo $HOME | ls << $"" << /bin/ls 
+> dffdg
+> echo $HOME | ls << $"" << /bin/ls  //history in herdoc 
+
+
+
+////////////////////////////////////////////////////
+
+Minishell$ << $"" 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+herdoc not close

@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/10 00:40:02 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/10 05:20:35 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,8 +174,9 @@ void	sigint_handler(int sig)
 	(void)sig;
 	write(1, "\n", 1);
 	rl_on_new_line();
+	rl_replace_line("", 1);
 	rl_redisplay();
-	rl_replace_line("", 0);
+	
 }
 void	remove_empty_tokens(t_token **head)
 {
@@ -335,12 +336,18 @@ static void	main_loop(char ***my_envp, t_data *data)
 		// This is needed to identify heredocs.
 		commands = build_command(tokens);
 		if (!commands) // Check if command building failed
-		{
+		{	
 			free_tokens(tokens);
 			free(line);
 			continue;
 		}
-
+		if (!validate_syntax(tokens))
+		{
+			free_command(commands);
+			free_tokens(tokens);
+			free(line);
+			continue;
+		}
 		// --- 5. Handle Heredocs ---
 		// This must run before syntax validation.
 		if (!handle_heredocs_before_execution(commands, *my_envp, data))
@@ -353,14 +360,8 @@ static void	main_loop(char ***my_envp, t_data *data)
 
 		// --- 6. Validate Syntax ---
 		// This must run BEFORE removing empty tokens to catch ambiguous redirects.
-		if (!validate_syntax(tokens))
-		{
-			free_command(commands);
-			free_tokens(tokens);
-			free(line);
-			continue;
-		}
 		
+		//debug_tokens(tokens);
 		// --- 7. Post-Validation Processing ---
 		remove_empty_tokens(&tokens);
 		perform_field_splitting(&tokens);
