@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:20:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/04 17:41:27 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/10 11:01:21 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ void	free_command(t_command *cmd)
 	if (cmd->heredoc_quotes)
 		free(cmd->heredoc_quotes);
 	if (cmd->heredoc_tmp_file)
+	{
+		unlink(cmd->heredoc_tmp_file);
 		free(cmd->heredoc_tmp_file);
+	}
 	if (cmd->next)
 		free_command(cmd->next);
 	free(cmd);

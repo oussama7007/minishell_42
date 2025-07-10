@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/10 06:26:38 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/10 10:59:45 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,14 +258,36 @@ static void	main_loop(char ***my_envp, t_data *data)
 	}
 }
 
+void	debug_print_env(char **envp, const char *label)
+{
+	int	i;
+
+	printf("--- DEBUG: %s ---\n", label);
+	if (!envp)
+	{
+		printf(" (null)\n");
+		return;
+	}
+	i = 0;
+	while (envp[i])
+	{
+		printf("[%d]: %s\n", i, envp[i]);
+		i++;
+	}
+	printf("--- END DEBUG ---\n\n");
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char	**my_envp;
 	t_data	data;
    
 	(void)ac;
+	// debug_print_env(env, "Initial 'env' from main");
 	my_envp = init_environment(env);
+	// debug_print_env(my_envp, "After init_environment");
 	ensure_minimal_env(&my_envp);
+	// debug_print_env(my_envp, "After ensure_minimal_env");
 	// my_setenv("_", av[0], &my_envp);
 	data = (t_data){0};
 	main_loop(&my_envp, &data);

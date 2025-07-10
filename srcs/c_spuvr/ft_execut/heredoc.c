@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 05:46:35 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/10 10:34:38 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*setup_heredoc_to_file(t_command *cmd, char **envp, t_data *data)
 		}
 		read_heredoc_input(&info);
 		if (g_sig_var == 1)
-			return (free(filename), NULL);
+			return (unlink(filename), free(filename), NULL);
 		info.i++;
 	}
 	if (info.fd != -1)

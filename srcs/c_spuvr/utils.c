@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 18:08:03 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/03 15:50:11 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 11:04:30 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,7 @@ char	**init_environment(char **system_envp)
 	int		count;
 	char	**copy;
 
-	count = 0;
-	while (system_envp[count])
-		count++;
+	count = ft_arrlen(system_envp);
 	copy = malloc((count + 1) * sizeof(char *));
 	if (!copy)
 		return (NULL);
@@ -93,17 +91,17 @@ char	**init_environment(char **system_envp)
 	return (copy);
 }
 
-void	free_environment(char **envp_ptr)
+void	free_environment(char **envp)
 {
-	int	j;
+    int	i;
 
-	if (!envp_ptr)
-		return ;
-	j = ft_arrlen(envp_ptr);
-	while (j >= 0)
-	{
-		free(envp_ptr[j]);
-		j--;
-	}
-	free(envp_ptr);
+    if (!envp)
+        return;
+    i = 0;
+    while (envp[i])
+    {
+        free(envp[i]);
+        i++;
+    }
+    free(envp);
 }
