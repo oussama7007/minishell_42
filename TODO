@@ -1,5 +1,5 @@
 checki b isatty wach minishell input/output dyal tty
-ctrl+\ khass t3tik coredump ....etc.
+ctrl+\ khass t3tik coredump ....etc. f heredoc
 display dyal readline b3d lmrat katmjnn ( ana testitha f had l command "sleep 3 | echo hello" + ctrl^C) 
 new line mn b3d ctrl^C (cat + ctrl^C)
 cd ~ had ~ makatbdlhach bl value dyal HOME

@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:44:44 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 16:30:18 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 18:10:26 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ int	execute_pipeline(t_command *commands, char ***env_ptr, t_data *data)
 		pid = fork();
 		if (pid == -1)
 		{
+			close(pipe_fds[0]);
 			close(pipe_fds[1]);
-			close(pipe_fds[2]);
 			return (1);
 		}
 		if (pid == 0)
