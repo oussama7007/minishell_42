@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 20:34:22 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/09 23:48:32 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 13:10:39 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*generate_heredoc_filename(void)
 	num = ft_itoa(num_heredocs++);
 	if (!num)
 		return (NULL);
-	filename = ft_strjoin("/tmp/minishell-heredoc-", num);
+	filename = ft_strjoin("/tmp/.baya", num);
 	free(num);
 	return (filename);
 }

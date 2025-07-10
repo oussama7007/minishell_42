@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/10 10:59:45 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 13:42:39 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	is_redirection(int token_type)
 		|| token_type == TOKEN_RED_HEREDOC);
 }
 
-int	validate_syntax(t_token *tokens)
+int	validate_syntax(t_token *tokens,t_data *data)
 {
 	t_token	*current;
 	t_token	*next;
@@ -94,7 +94,14 @@ int	validate_syntax(t_token *tokens)
 }
 
 
-
+// int	exit_status(int set, int value)
+// {
+// 	static int l;
+	
+// 	if (set)
+// 		l = value;
+// 	return (l);
+// }
 
 
 
@@ -222,14 +229,7 @@ static void	main_loop(char ***my_envp, t_data *data)
 		}
 		// --- 5. Handle Heredocs ---
 		// This must run before syntax validation.
-		if (!handle_heredocs_before_execution(commands, *my_envp, data))
-		{
-			free_command(commands);
-			free_tokens(tokens);
-			free(line);
-			continue ;
-		}
-
+		
 		// --- 6. Validate Syntax ---
 		// This must run BEFORE removing empty tokens to catch ambiguous redirects.
 		
@@ -237,7 +237,7 @@ static void	main_loop(char ***my_envp, t_data *data)
 		// --- 7. Post-Validation Processing ---
 		remove_empty_tokens(&tokens);
 		perform_field_splitting(&tokens);
-
+		
 		// --- 8. Re-build Command Structure ---
 		// This is necessary because field splitting may have changed the tokens.
 		free_command(commands);
@@ -247,6 +247,13 @@ static void	main_loop(char ***my_envp, t_data *data)
 			free_tokens(tokens);
 			free(line);
 			continue;
+		}
+		if (!handle_heredocs_before_execution(commands, *my_envp, data))
+		{
+			free_command(commands);
+			free_tokens(tokens);
+			free(line);
+			continue ;
 		}
 		
 		data->ex_status = ft_execute_command_list(commands, tokens, my_envp, data);

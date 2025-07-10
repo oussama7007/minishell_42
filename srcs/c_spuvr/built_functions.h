@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_functions.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 05:56:07 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/10 13:00:50 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int		wait_for_child(pid_t pid);
 int		is_direct_path(const char *cmd_name);
 // execute
 void	read_heredoc_input(t_heredoc_info *info);
-void	read_heredoc_loop(t_heredoc_info *info);
 int		should_stop_reading(char *line, t_heredoc_info *info);
 void	re_process_heredoc_line(t_heredoc_info *info, char *line);
 void	handle_heredoc_interrupt(t_heredoc_info *info, int fd_backup);

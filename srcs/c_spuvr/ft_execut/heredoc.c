@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 10:34:38 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 13:32:17 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,9 @@ int	handle_heredocs_before_execution(t_command *cmds, char **envp, t_data *data)
 			current->heredoc_tmp_file = setup_heredoc_to_file(current,
 					envp, data);
 			if (!current->heredoc_tmp_file)
+			{
 				return (0);
+			}
 		}
 		current = current->next;
 	}
