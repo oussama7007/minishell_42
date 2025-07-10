@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:22:45 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 22:16:54 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 22:36:01 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static void	cleanup_and_exit(t_exit_data *exit_data)
 		free_command(exit_data->commands);
 	if (exit_data->tokens)
 		free_tokens(exit_data->tokens);
-	//rl_clear_history();
 	exit(exit_data->data->ex_status);
 }
 
@@ -48,8 +47,11 @@ int	ft_exit(char **args, t_exit_data *exit_data)
 {
 	ft_putendl_fd("exit", 1);
 	if (!args[1])
+	{
+		exit_data->data->ex_status = 0;
 		cleanup_and_exit(exit_data);
-	if (!is_numeric_arg(args[1]))
+	}
+	if (!is_valid_long_long(args[1]))
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(args[1], 2);
@@ -57,13 +59,13 @@ int	ft_exit(char **args, t_exit_data *exit_data)
 		exit_data->data->ex_status = 2;
 		cleanup_and_exit(exit_data);
 	}
-	if (args[1] && args[2])
+	if (args[2])
 	{
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
 		exit_data->data->ex_status = 1;
 		return (1);
 	}
-	exit_data->data->ex_status = (unsigned char)ft_atoi(args[1]);
+	exit_data->data->ex_status = (unsigned char)ft_atoll(args[1]);
 	cleanup_and_exit(exit_data);
 	return (0);
 }
