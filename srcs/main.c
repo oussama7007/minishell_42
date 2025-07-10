@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/10 13:44:19 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/10 14:04:29 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	validate_syntax(t_token *tokens,t_data *data)
 			if (!next || next->type == TOKEN_PIPE)
 			{
 				error(ERR_SYNTAX);
+				data->ex_status = 2;
 				return (0);
 			}
 		}
@@ -66,6 +67,7 @@ int	validate_syntax(t_token *tokens,t_data *data)
 			// 1. Check for a missing token (e.g., ls >)
 			if (!next)
 			{
+				data->ex_status = 2;
 				error(ERR_NEWLINE);
 				return (0);
 			}
@@ -73,6 +75,7 @@ int	validate_syntax(t_token *tokens,t_data *data)
 			// 2. Check that the following token is a WORD.
 			if (next->type != TOKEN_WORD)
 			{
+				data->ex_status = 2;
 				error(ERR_SYNTAX); // Or a more specific error
 				return (0);
 			}
@@ -83,6 +86,7 @@ int	validate_syntax(t_token *tokens,t_data *data)
 			if (current->type != TOKEN_RED_HEREDOC && next->is_empty_after_expand && next->quotes_type == 0)
 			{
 				error(ERR_AMBIGUOS);
+				data->ex_status = 1;
 				return (0);
 			}
 		}
@@ -94,14 +98,16 @@ int	validate_syntax(t_token *tokens,t_data *data)
 }
 
 
-// int	exit_status(int set, int value)
-// {
-// 	static int l;
+void	exit_status(int set, int value, t_data *data)
+{
+	static int l;
+	static t_data *hh;
 	
-// 	if (set)
-// 		l = value;
-// 	return (l);
-// }
+	if (data)
+		hh = data;
+	if (set)
+		hh->ex_status = value;
+}
 
 
 
@@ -172,6 +178,8 @@ static void	main_loop(char ***my_envp, t_data *data)
 	t_token		*tokens;
 	t_command	*commands;
 
+	setup_signal_handlers();
+	exit_status(0, 0, data);
 	while (1)
 	{
 		// --- 1. Read Input ---
@@ -194,9 +202,15 @@ static void	main_loop(char ***my_envp, t_data *data)
 		if (!handle_quotes(line) || !check_invalid_char(line))
 		{
 			if (!handle_quotes(line))
+			{
+				data->ex_status = 2;
 				write(2, "Minishell: Quotes aren't closed\n", 33);
+			}
 			else
+			{
+				data->ex_status = 2;
 				write(2, "Minishell: Invalid character \n", 30);
+			}
 			free(line);
 			continue ;
 		}
@@ -220,7 +234,7 @@ static void	main_loop(char ***my_envp, t_data *data)
 			free(line);
 			continue;
 		}
-		if (!validate_syntax(tokens))
+		if (!validate_syntax(tokens, data))
 		{
 			free_command(commands);
 			free_tokens(tokens);
