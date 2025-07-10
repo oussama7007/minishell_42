@@ -1,170 +1,65 @@
+checki b isatty wach minishell input/output dyal tty
+ctrl+\ khass t3tik coredump ....etc.
+display dyal readline b3d lmrat katmjnn ( ana testitha f had l command "sleep 3 | echo hello" + ctrl^C) 
+new line mn b3d ctrl^C (cat + ctrl^C)
+cd ~ had ~ makatbdlhach bl value dyal HOME
+had l environment ($_) makhassoch itl3 f export o khasso itl3 gha f env 
+exit builtin 3ndk makatkhrjch b exit_status li 3ndk db for example :
+```
+Minishell$ ^C
+Minishell$ ^C
+Minishell$ exit
+exit
+➜  temp echo $?
+0
+➜  temp 
+```
+3ndk mochkil fl embig :
+```
+Minishell$ export var="file name"
+Minishell$ > $var
+minishell: name: command not found
+```
+ha ki katkon fl bash 
+```
+oadouz@e1r12p3:~/Desktop/temp$ export var="file name"
+oadouz@e1r12p3:~/Desktop/temp$ > $var
+bash: $var: ambiguous redirect
+```
+
+embig hiya ila kan lvariable li ghadi dir lih expanding wra redirection khawi awla fih ktr mn segment w7da b7al lmital li drna hnaya var="file name"
+
+HADI ILA TA7 FIHA CHI 7ED 7AWEL DAF3 3LA RASK O SF 7TA ANA MA9ADITHACH
+```
+Minishell$ echo hello | $gvdffd
+hello
+```
+fl bash makatprinitich hello 7itach rah deja kayn pipe .
+
+➜  minishell_42 git:(main) ✗ ./minishell 
+Minishell$ exit jifjd 10
+exit
+minishell: exit: jifjd: numeric argument required
+➜  minishell_42 git:(main) ✗ echo $?
+255
+➜  minishell_42 git:(main) ✗ 
+
+Minishell$ exit 9999999999999999999999999999999
+exit
+➜  minishell_42 git:(main) ✗ 
 
 
-unset PATH
-bash: sed: No such file or directory
-bash-5.2$ ls
-bash: sed: No such file or directory
-bash: ls: Permission denied
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+oadouz@e1r12p3:~/Desktop/minishell_42$ exit 9999999999999999999999999999999
+exit
+bash: exit: 9999999999999999999999999999999: numeric argument required
+➜  minishell_42 git:(main) ✗  bash
+bash: cannot set terminal process group (-1): Inappropriate ioctl for device
+bash: no job control in this shell
+oadouz@e1r12p3:~/Desktop/minishell_42$ exit jfid 10
+exit
+bash: exit: jfid: numeric argument required
+➜  minishell_42 git:(main) ✗ echo $?
+2
+➜  minishell_42 git:(main) ✗ 
 
 
-Minishell$ export b="ls -la"
-Minishell$ $b
-minishell: ls -la: command not found
-Minishell$ 
-
-Minishell$ << a << b << c >
-Minishell: syntax error 
-Minishell$ << a << b << c >
-
-bash-5.2$ << a  << b  << c ' << r
-> a
-> b
-> c
-> '
-> a
-> b
-> c
-bash: $' << r\na\nb\nc\n': command not found
-bash-5.2$ 
-
-
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-shouldnt expand
-
-Minishell$ cat << $salam""
-> $USER
-> $PATH
-> $salam
-oadouz
-/home/oadouz/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
-
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-handle signlas in minishell inside minishell
-
-//////////////////////////////////////////////////
-
-minishell: c_spuvr/: is a directory
-Minishell$ /
-minishell: /: is a directory
-Minishell$ echo $?
-231
-
-bash-5.2$ /
-bash: /: Is a directory
-bash-5.2$ echo $?
-126
- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
- Minishell$ ls > 1 > 2 < jygdsf | ls > 3 | ls -la
- Minishell$ ls
-3                 bug.txt         fixed     minishell  pout  test.c  TODO
-allahyamoulana.c  en.subject.pdf  Makefile  out        srcs  text.c
-Minishell$ 
-
-
-
-
-
-
-
-/////////////////////////////////////////////////////////////
-
-
-
-
-
-//////////////////////////////////
-
-
-Minishell$ mkdir -p a/b
-Minishell$ cd a/b/
-Minishell$ cd ..
-minishell: cd: ..: Permission denied
-Minishell$ pwd 
-/home/oait-si-/Desktop/minishell_42/a/b
-
-=================================================================
-==93782==ERROR: LeakSanitizer: detected memory leaks
-
-Direct leak of 3 byte(s) in 1 object(s) allocated from:
-    #0 0x7f447ca9b91f in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:69
-    #1 0x557478c37ef3 in ft_strdup (/home/oait-si-/Desktop/minishell_42/minishell+0x14ef3)
-    #2 0x557478c316f0 in target_path srcs/c_spuvr/ft_chdir/ft_cd_utils.c:38
-    #3 0x557478c312f1 in ft_chdir srcs/c_spuvr/ft_chdir/ft_cd.c:48
-    #4 0x557478c2f647 in is_built_ins srcs/c_spuvr/built-ins1.c:22
-    #5 0x557478c30978 in ft_execute_command_list srcs/c_spuvr/execute_heart.c:102
-    #6 0x557478c2ea9f in main_loop srcs/main.c:379
-    #7 0x557478c2eccb in main srcs/main.c:398
-    #8 0x7f447c760d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
-
-SUMMARY: AddressSanitizer: 3 byte(s) leaked in 1 allocation(s).
-Minishell$ 
-
-
-
-
-
-//////////////////////////////////////////////////////
-
-
-Minishell$ echo $HOME | ls << $"" << /bin/ls 
-> dffdg
-> echo $HOME | ls << $"" << /bin/ls  //history in herdoc 
-
-
-
-////////////////////////////////////////////////////
-
-Minishell$ << $"" 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-herdoc not close
-
-
-Minishell$ < Makefile cat | '' > exit
-minishell: : command not found
-==47616== 
-==47616== FILE DESCRIPTORS: 7 open (4 inherited) at exit.
-==47616== Open file descriptor 3: /tmp/minishell-heredoc-0
-==47616==    at 0x4A14F13: open (in /usr/lib/x86_64-linux-gnu/libc.so.6)
-==47616==    by 0x4007203: setup_heredoc_to_file (in /home/oait-si-/Desktop/minishell_42/minishell)
-==47616==    by 0x40072E2: handle_heredocs_before_execution (in /home/oait-si-/Desktop/minishell_42/minishell)
-==47616==    by 0x40035A2: main_loop (in /home/oait-si-/Desktop/minishell_42/minishell)
-==47616==    by 0x40036CE: main (in /home/oait-si-/Desktop/minishell_42/minishell)
-==47616== 
-==47616== Open file descriptor 1: /home/oait-si-/Desktop/minishell_42/exit
-==47616==    at 0x4A10C1B: dup2 (in /usr/lib/x86_64-linux-gnu/libc.so.6)
-==47616==    by 0x4006B4D: open_and_dup_output (in /home/oait-si-/Desktop/minishell_42/minishell)
-==47616==    by 0x4006C22: handle_output_redirection (in /home/oait-si-/Desktop/minishell_42/minishell)
-==47616==    by 0x4006D0B: handle_redirection_child (in /home/oait-si-/Desktop/minishell_42/minishell)
-==47616==    by 0x400441E: child_process_logic (in /home/oait-si-/Desktop/minishell_42/minishell)
-==47616==    by 0x4006D7E: execute_child (in /home/oait-si-/Desktop/minishell_42/minishell)
-==47616==    by 0x4006F28: execute_pipeline (in /home/oait-si-/Desktop/minishell_42/minishell)
-==47616==    by 0x400461F: ft_execute_command_list (in /home/oait-si-/Desktop/minishell_42/minishell)
-==47616==    by 0x400363C: main_loop (in /home/oait-si-/Desktop/minishell_42/minishell)
-==47616==    by 0x40036CE: main (in /home/oait-si-/Desktop/minishell_42/minishell)
-==47616== 
-==47616== Open file descriptor 0:
-==47616==    at 0x4A10C1B: dup2 (in /usr/lib/x86_64-linux-gnu/libc.so.6)
-==47616==    by 0x4006FA4: setup_child_io (in /home/oait-si-/Desktop/minishell_42/minishell)
-==47616==    by 0x4006D53: execute_child (in /home/oait-si-/Desktop/minishell_42/minishell)
-==47616==    by 0x4006F28: execute_pipeline (in /home/oait-si-/Desktop/minishell_42/minishell)
-==47616==    by 0x400461F: ft_execute_command_list (in /home/oait-si-/Desktop/minishell_42/minishell)
-==47616==    by 0x400363C: main_loop (in /home/oait-si-/Desktop/minishell_42/minishell)
-==47616==    by 0x40036CE: main (in /home/oait-si-/Desktop/minishell_42/minishell)

@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 13:31:07 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 16:21:57 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int ft_execute_command_list(t_command *cmd_list, t_token *tokens, char ***env_pt
 	pid = fork();
 	if (pid == -1)
 		return (handle_fork_error(NULL));
-	if (pid == 0)
+		if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
