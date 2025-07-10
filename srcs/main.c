@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/10 14:04:29 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/10 20:46:36 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,8 +302,10 @@ int	main(int ac, char **av, char **env)
 {
 	char	**my_envp;
 	t_data	data;
-   
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
+		exit(1);
 	(void)ac;
+	(void)av;
 	my_envp = init_environment(env);
 	ensure_minimal_env(&my_envp);
 	data = (t_data){0};
