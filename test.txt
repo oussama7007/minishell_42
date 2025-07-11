@@ -226,6 +226,7 @@ bash: $f: ambiguous redirect
 oait-si-@e1r13p1:~/Desktop/minishell_42$ 
 //////////// hadou mazal mahndlithom 
 
+<<<<<<< HEAD
 ---------------------------------------------------------------------------------------------------------------
 
 e2r10p2% bash
@@ -258,3 +259,6 @@ exit
 e2r10p2% echo $?
 0
 e2r10p2% 
+=======
+
+>>>>>>> fec85a511c9669c6bd58293ecd8c2eac929423c1

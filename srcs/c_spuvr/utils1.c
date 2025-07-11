@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 02:19:45 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 16:11:06 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 22:22:53 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,6 @@ void	ensure_minimal_env(char ***env_ptr)
 			free(pwd_buffer);
 		}
 	}
+	if (!my_getenv("OLDPWD", *env_ptr))
+		my_setenv("OLDPWD", NULL, env_ptr);
 }

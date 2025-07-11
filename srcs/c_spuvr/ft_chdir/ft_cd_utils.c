@@ -6,58 +6,67 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:04:43 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 21:38:59 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 22:17:55 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../built_functions.h"
 
-char *target_path(char **args, char **envp)
+static char	*get_path_from_home(char **envp)
 {
-	char	*path;
+	char	*path_val;
+
+	path_val = my_getenv("HOME", envp);
+	if (!path_val)
+	{
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+		return (NULL);
+	}
+	if (path_val[0] == '\0')
+		return (ft_strdup("."));
+	return (ft_strdup(path_val));
+}
+
+static char	*get_path_from_oldpwd(char **envp)
+{
+	char	*path_val;
+
+	path_val = my_getenv("OLDPWD", envp);
+	if (!path_val || path_val[0] == '\0')
+	{
+		ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
+		return (NULL);
+	}
+	ft_putendl_fd(path_val, 1);
+	return (ft_strdup(path_val));
+}
+
+static char	*get_path_from_tilde(const char *arg, char **envp)
+{
 	char	*path_val;
 	char	*rest_of_path;
+	char	*path;
 
-	path = NULL;
-	if (!args[1] || args[1][0] == '\0')
-	{
-		path_val = my_getenv("HOME", envp);
-		if (!path_val)
-			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-		else if (path_val[0] == '\0')
-			path = ft_strdup(".");
-		else
-			path = ft_strdup(path_val);
-	}
-	else if (ft_strcmp(args[1], "-") == 0)
-	{
-		path_val = my_getenv("OLDPWD", envp);
-		if (!path_val || path_val[0] == '\0')
-			ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
-		else
-		{
-			ft_putendl_fd(path_val, 1);
-			path = ft_strdup(path_val);
-		}
-	}
-	else if (args[1][0] == '~')
-	{
-		path_val = my_getenv("HOME", envp);
-		if (!path_val || path_val[0] == '\0')
-			path = ft_strdup(args[1]);
-		else
-		{
-			rest_of_path = ft_substr(args[1], 1, ft_strlen(args[1]) - 1);
-			if (rest_of_path)
-			{
-				path = ft_strjoin(path_val, rest_of_path);
-				free(rest_of_path);
-			}
-		}
-	}
-	else
-		path = ft_strdup(args[1]);
+	path_val = my_getenv("HOME", envp);
+	if (!path_val || path_val[0] == '\0')
+		return (ft_strdup(arg));
+	rest_of_path = ft_substr(arg, 1, ft_strlen(arg) - 1);
+	if (!rest_of_path)
+		return (NULL);
+	path = ft_strjoin(path_val, rest_of_path);
+	free(rest_of_path);
 	return (path);
+}
+
+char	*target_path(char **args, char **envp)
+{
+	if (!args[1] || args[1][0] == '\0')
+		return (get_path_from_home(envp));
+	if (ft_strcmp(args[1], "-") == 0)
+		return (get_path_from_oldpwd(envp));
+	if (args[1][0] == '~')
+		return (get_path_from_tilde(args[1], envp));
+	return (ft_strdup(args[1]));
 }
 
 static char	*join_pwd(const char *base, const char *arg)
@@ -86,30 +95,4 @@ static char	*join_pwd(const char *base, const char *arg)
 	result = ft_strjoin(tmp, arg);
 	free(tmp);
 	return (result);
-}
-
-void	up_env_cd(char *old_pwd_val, const char *path_arg, char ***env_ptr)
-{
-	char	*new_pwd;
-	char	*new_pwd_val;
-
-	if (old_pwd_val)
-		my_setenv("OLDPWD", old_pwd_val, env_ptr);
-	new_pwd = getcwd(NULL, 0);
-	if (new_pwd)
-	{
-		my_setenv("PWD", new_pwd, env_ptr);
-		free(new_pwd);
-	}
-	else
-	{
-		ft_putstr_fd("minishell: cd: error retrieving current directory: ", 2);
-		ft_putendl_fd(strerror(errno), 2);
-		new_pwd_val = join_pwd(old_pwd_val, path_arg);
-		if (new_pwd_val)
-		{
-			my_setenv("PWD", new_pwd_val, env_ptr);
-			free(new_pwd_val);
-		}
-	}
 }

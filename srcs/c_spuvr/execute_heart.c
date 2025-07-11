@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/11 17:45:45 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 22:21:45 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	validate_and_execute(t_command *cmd, char **env)
 	execute_child_process(cmd_path, cmd->args, env);
 }
 
-void    child_process_logic(t_command *cmd, char ***env)
+void	child_process_logic(t_command *cmd, char ***env)
 {
 	int	builtin_status;
 	int	dir_status;
@@ -78,17 +78,18 @@ void    child_process_logic(t_command *cmd, char ***env)
 	validate_and_execute(cmd, *env);
 }
 
-int ft_execute_command_list(t_command *cmd_list, t_token *tokens, char ***env_ptr, t_data *data)
+int	ft_execute_command_list(t_command *cmd_list, t_token *tokens,
+			char ***env_ptr, t_data *data)
 {
-	pid_t	pid;
-	int		status;
+	pid_t		pid;
+	int			status;
+	t_exit_data	exit_data;
 
 	if (!cmd_list)
 		return (0);
-	if (cmd_list->cmd && ft_strcmp(cmd_list->cmd, "exit") == 0 && !cmd_list->next)
+	if (cmd_list->cmd
+		&& ft_strcmp(cmd_list->cmd, "exit") == 0 && !cmd_list->next)
 	{
-		t_exit_data exit_data;
-
 		exit_data.env_ptr = env_ptr;
 		exit_data.commands = cmd_list;
 		exit_data.tokens = tokens;
