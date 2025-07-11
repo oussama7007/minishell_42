@@ -43,3 +43,185 @@ Direct leak of 3 byte(s) in 1 object(s) allocated from:
 SUMMARY: AddressSanitizer: 3 byte(s) leaked in 1 allocation(s).
 sh-5.2$ 
 /////////////////
+==440873== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+Minishell$ export key=k
+Minishell$ export $key=$x
+Minishell$ echo $k
+a b
+ /////////////////////
+ ambiguous  f ga3 redirection exept << 
+////////////////////////////
+==441988== 
+==441988== LEAK SUMMARY:
+==441988==    definitely lost: 0 bytes in 0 blocks
+==441988==    indirectly lost: 0 bytes in 0 blocks
+==441988==      possibly lost: 0 bytes in 0 blocks
+==441988==    still reachable: 212,243 bytes in 344 blocks
+==441988==         suppressed: 0 bytes in 0 blocks
+==441988== Reachable blocks (those to which a pointer was found) are not shown.
+==441988== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==441988== 
+==441988== For lists of detected and suppressed errors, rerun with: -s
+==441988== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+Minishell$ ""
+minishell : command not found
+==441989== 
+==441989== FILE DESCRIPTORS: 3 open (3 std) at exit.
+==441989== 
+==441989== HEAP SUMMARY:
+==441989==     in use at exit: 212,160 bytes in 342 blocks
+==441989==   total heap usage: 1,202 allocs, 860 frees, 246,795 bytes allocated
+==441989== 
+==441989== LEAK SUMMARY:
+==441989==    definitely lost: 0 bytes in 0 blocks
+==441989==    indirectly lost: 0 bytes in 0 blocks
+==441989==      possibly lost: 0 bytes in 0 blocks
+==441989==    still reachable: 212,160 bytes in 342 blocks
+==441989==         suppressed: 0 bytes in 0 blocks
+==441989== Reachable blocks (those to which a pointer was found) are not shown.
+==441989== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==441989== 
+==441989== For lists of detected and suppressed errors, rerun with: -s
+==441989== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+Minishell$ 
+Minishell$ ''
+minishell : command not found
+==441990== 
+==441990== FILE DESCRIPTORS: 3 open (3 std) at exit.
+==441990== 
+==441990== HEAP SUMMARY:
+==441990==     in use at exit: 212,199 bytes in 345 blocks
+==441990==   total heap usage: 1,232 allocs, 887 frees, 247,221 bytes allocated
+==441990== 
+==441990== LEAK SUMMARY:
+==441990==    definitely lost: 0 bytes in 0 blocks
+==441990==    indirectly lost: 0 bytes in 0 blocks
+==441990==      possibly lost: 0 bytes in 0 blocks
+==441990==    still reachable: 212,199 bytes in 345 blocks
+==441990==         suppressed: 0 bytes in 0 blocks
+==441990== Reachable blocks (those to which a pointer was found) are not shown.
+==441990== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==441990== 
+==441990== For lists of detected and suppressed errors, rerun with: -s
+==441990== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+Minishell$ $asdasda
+Minishell$ bash
+oait-si-@e1r13p1:~/Desktop/minishell_42$ $dsd
+oait-si-@e1r13p1:~/Desktop/minishell_42$ 
+exit
+Minishell$ 
+Minishell$ cat < eof
+minishell: open input file: No such file or directory
+==441995== 
+==441995== FILE DESCRIPTORS: 3 open (3 std) at exit.
+==441995== 
+==441995== HEAP SUMMARY:
+==441995==     in use at exit: 212,469 bytes in 359 blocks
+==441995==   total heap usage: 1,325 allocs, 966 frees, 248,788 bytes allocated
+==441995== 
+==441995== LEAK SUMMARY:
+==441995==    definitely lost: 0 bytes in 0 blocks
+==441995==    indirectly lost: 0 bytes in 0 blocks
+==441995==      possibly lost: 0 bytes in 0 blocks
+==441995==    still reachable: 212,469 bytes in 359 blocks
+==441995==         suppressed: 0 bytes in 0 blocks
+==441995== Reachable blocks (those to which a pointer was found) are not shown.
+==441995== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==441995== 
+==441995== For lists of detected and suppressed errors, rerun with: -s
+==441995== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+Minishell$ cat << eof
+> asds
+> eof
+asds
+Minishell$ cat << eof
+> $SHELL
+> eof
+/bin/zsh
+Minishell$ cat << ""eof
+> $SHELL
+> eof
+/bin/zsh
+Minishell$ echo '$SHELL'
+$SHELL
+==442010== 
+==442010== FILE DESCRIPTORS: 3 open (3 std) at exit.
+==442010== 
+==442010== HEAP SUMMARY:
+==442010==     in use at exit: 212,584 bytes in 369 blocks
+==442010==   total heap usage: 1,562 allocs, 1,193 frees, 251,998 bytes allocated
+==442010== 
+==442010== LEAK SUMMARY:
+==442010==    definitely lost: 0 bytes in 0 blocks
+==442010==    indirectly lost: 0 bytes in 0 blocks
+==442010==      possibly lost: 0 bytes in 0 blocks
+==442010==    still reachable: 212,584 bytes in 369 blocks
+==442010==         suppressed: 0 bytes in 0 blocks
+==442010== Reachable blocks (those to which a pointer was found) are not shown.
+==442010== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==442010== 
+==442010== For lists of detected and suppressed errors, rerun with: -s
+==442010== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+Minishell$ cat << eof
+> '$SHELL'
+> eof
+'/bin/zsh'
+Minishell$ cat << ''eof
+> '$SHELL'
+> eof
+'/bin/zsh'
+Minishell$ bash
+oait-si-@e1r13p1:~/Desktop/minishell_42$ cat << ''eof
+> '$SHELL'
+> eof
+'$SHELL'
+oait-si-@e1r13p1:~/Desktop/minishell_42$ cat << ""eof
+> '$SHELL'
+> eof
+'$SHELL'
+oait-si-@e1r13p1:~/Desktop/minishell_42$ 
+exit
+Minishell$ cat << ""eof
+> '$SHELL'
+> eof
+'/bin/zsh'
+Minishell$ cat << ""eof
+> $SHELL
+> eof
+/bin/zsh
+Minishell$ cat << $asdasd
+> 
+> 
+
+Minishell$ bash
+oait-si-@e1r13p1:~/Desktop/minishell_42$ cat << $adsd
+> 
+bash: warning: here-document at line 1 delimited by end-of-file (wanted `$adsd')
+oait-si-@e1r13p1:~/Desktop/minishell_42$ 
+exit
+Minishell$ cat < $asdasd
+Minishell: syntax error near unexpected token `newline'
+Minishell$ cat < ^Cdasd
+Minishell$ bash
+oait-si-@e1r13p1:~/Desktop/minishell_42$ cat < $asda
+bash: $asda: ambiguous redirect
+oait-si-@e1r13p1:~/Desktop/minishell_42$ export f="f1 f2"
+oait-si-@e1r13p1:~/Desktop/minishell_42$ cat < $f
+bash: $f: ambiguous redirect
+oait-si-@e1r13p1:~/Desktop/minishell_42$ 
+exit
+Minishell$ export f="f1 f2"
+Minishell$ cat < $f
+minishell: $...: ambiguous redirect
+Minishell$ cat < $sfdsnfh
+Minishell: syntax error near unexpected token `newline'
+Minishell$ bash
+oait-si-@e1r13p1:~/Desktop/minishell_42$ echo hhh > $asdada
+bash: $asdada: ambiguous redirect
+oait-si-@e1r13p1:~/Desktop/minishell_42$ echo hhh > $f
+bash: $f: ambiguous redirect
+oait-si-@e1r13p1:~/Desktop/minishell_42$ export f="f1 f2"
+oait-si-@e1r13p1:~/Desktop/minishell_42$ echo hhh > $f
+bash: $f: ambiguous redirect
+oait-si-@e1r13p1:~/Desktop/minishell_42$ 
+//////////// hadou mazal mahndlithom 

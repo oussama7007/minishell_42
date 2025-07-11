@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/11 02:38:25 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 15:13:39 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	handle_heredocs_before_execution(t_command *cmds, char **envp, t_data *data)
 		{
 			free(current->heredoc_tmp_file);
 			current->heredoc_tmp_file = setup_heredoc_to_file(current,
-					envp, data);
+ 					envp, data);
 			if (!current->heredoc_tmp_file)
 			{
 				return (0);
