@@ -23,7 +23,7 @@ SPUVR_SRC := \
 	$(C_SPUVR_DIR)/ft_export/utils.c $(C_SPUVR_DIR)/ft_export/utils2.c  $(C_SPUVR_DIR)/unset_exit/ft_exit.c $(C_SPUVR_DIR)/ft_execut/exec_main.c \
 	$(C_SPUVR_DIR)/unset_exit/ft_unset.c $(C_SPUVR_DIR)/ft_env/ft_env.c $(C_SPUVR_DIR)/ft_execut/error.c $(C_SPUVR_DIR)/ft_execut/util.c \
 	$(C_SPUVR_DIR)/ft_execut/redirections.c $(C_SPUVR_DIR)/ft_pipes/pipe_execution.c $(C_SPUVR_DIR)/ft_pipes/pipe_help.c $(C_SPUVR_DIR)/ft_execut/heredoc.c \
-	$(C_SPUVR_DIR)/ft_execut/herdoc_utils.c $(C_SPUVR_DIR)/ft_execut/herdoc_utils1.c
+	$(C_SPUVR_DIR)/ft_execut/herdoc_utils.c $(C_SPUVR_DIR)/ft_execut/herdoc_utils1.c $(C_SPUVR_DIR)/ft_echo.c
 
 SRCS := $(HAMOU_SRC) $(SPUVR_SRC)
 OBJS := $(SRCS:.c=.o)

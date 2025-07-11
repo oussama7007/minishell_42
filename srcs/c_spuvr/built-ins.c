@@ -6,13 +6,13 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:20:01 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 10:49:26 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 02:28:50 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_functions.h"
 
-static int	is_n_option(const char *arg)
+int	is_n_option(const char *arg)
 {
 	int	j;
 
@@ -28,7 +28,7 @@ static int	is_n_option(const char *arg)
 	return (1);
 }
 
-static int	is_nn_option(const char *arg)
+int	is_nn_option(const char *arg)
 {
 	size_t	i;
 
@@ -44,31 +44,6 @@ static int	is_nn_option(const char *arg)
 			return (0);
 		return (1);
 	}
-	return (0);
-}
-
-int	ft_echo(char **args)
-{
-	int	i;
-	int	n;
-
-	i = 1;
-	n = 1;
-	while ((args[i] && is_n_option(args[i]))
-		|| (args[i] && is_nn_option(args[i])))
-	{
-		n = 0;
-		i++;
-	}
-	while (args[i])
-	{
-		ft_putstr_fd(args[i], STDOUT_FILENO);
-		if (args[i + 1])
-			ft_putchar_fd(' ', STDOUT_FILENO);
-		i++;
-	}
-	if (n)
-		ft_putchar_fd('\n', STDOUT_FILENO);
 	return (0);
 }
 
