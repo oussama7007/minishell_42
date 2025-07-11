@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:22:45 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 22:36:01 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 21:37:13 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,19 @@ static void	cleanup_and_exit(t_exit_data *exit_data)
 	exit(exit_data->data->ex_status);
 }
 
-int	ft_exit(char **args, t_exit_data *exit_data)
+static void	handle_exit_error(char *arg, t_exit_data *exit_data)
 {
-	ft_putendl_fd("exit", 1);
-	if (!args[1])
-	{
-		exit_data->data->ex_status = 0;
-		cleanup_and_exit(exit_data);
-	}
-	if (!is_valid_long_long(args[1]))
-	{
-		ft_putstr_fd("minishell: exit: ", 2);
-		ft_putstr_fd(args[1], 2);
-		ft_putendl_fd(": numeric argument required", 2);
-		exit_data->data->ex_status = 2;
-		cleanup_and_exit(exit_data);
-	}
+	ft_putstr_fd("minishell: exit: ", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putendl_fd(": numeric argument required", 2);
+	exit_data->data->ex_status = 2;
+	cleanup_and_exit(exit_data);
+}
+
+static int	handle_exit_args(char **args, t_exit_data *exit_data)
+{
+	if (!is_numeric_arg(args[1]) || !is_valid_long_long(args[1]))
+		handle_exit_error(args[1], exit_data);
 	if (args[2])
 	{
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
@@ -68,4 +65,15 @@ int	ft_exit(char **args, t_exit_data *exit_data)
 	exit_data->data->ex_status = (unsigned char)ft_atoll(args[1]);
 	cleanup_and_exit(exit_data);
 	return (0);
+}
+
+int	ft_exit(char **args, t_exit_data *exit_data)
+{
+	ft_putendl_fd("exit", 1);
+	if (!args[1])
+	{
+		exit_data->data->ex_status = 0;
+		cleanup_and_exit(exit_data);
+	}
+	return (handle_exit_args(args, exit_data));
 }
