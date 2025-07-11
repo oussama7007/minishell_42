@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:04:48 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 05:15:02 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/11 02:45:20 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,22 @@
 
 static char	*get_old_pwd_val(char **envp)
 {
-	char	*pwd;
+	char	*pwd_val;
+	char	*pwd_copy;
 
-	pwd = my_getenv("PWD", envp);
-	if (pwd && pwd[0])
-		return (pwd);
-	pwd = getcwd(NULL, 0);
-	if (!pwd)
+	pwd_val = my_getenv("PWD", envp);
+	if (pwd_val && *pwd_val)
+	{
+		pwd_copy = ft_strdup(pwd_val);
+		return (pwd_copy);
+	}
+	pwd_copy = getcwd(NULL, 0);
+	if (!pwd_copy)
 	{
 		ft_putstr_fd("minishell: cd : error retrieving current directory: ", 2);
 		ft_putendl_fd(strerror(errno), 2);
 	}
-	return (pwd);
+	return (pwd_copy);
 }
 
 static int	cd_err(const char *path, char *old_loc, char *to_free)
