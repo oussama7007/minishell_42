@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:49:05 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/10 10:41:55 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 23:23:33 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,42 +60,25 @@ int	ensure_command_exists(t_cmd_builder *builder, t_token *token)
 	return (1);
 }
 
-void	terminate_arrays(t_command *cmd, t_indices *idx, t_counts counts)
+int	allocate_heredoc_memory(t_command *cmd, int heredoc_count)
 {
-	cmd->args[idx->i] = NULL;
-	cmd->red_in[idx->j] = NULL;
-	cmd->red_out[idx->k] = NULL;
-	if (counts.heredoc_c > 0)
-		cmd->heredoc_delimiters[idx->heredoc_idx] = NULL;
+	if (heredoc_count > 0)
+	{
+		cmd->heredoc_delimiters = malloc(sizeof(char *) * (heredoc_count + 1));
+		cmd->heredoc_quotes = malloc(sizeof(int) * heredoc_count);
+		if (!cmd->heredoc_delimiters || !cmd->heredoc_quotes)
+			return (0);
+	}
+	return (1);
 }
 
-int	allocate_memory(t_command *cmd, t_counts counts)
+int	allocate_primary_memory(t_command *cmd, t_counts counts)
 {
-	cmd->cmd = NULL;
-	cmd->num_heredocs = counts.heredoc_c;
-	cmd->heredoc_delimiters = NULL;
-	cmd->heredoc_quotes = NULL;
 	cmd->args = malloc(sizeof(char *) * (counts.arg_c + 1));
 	cmd->red_in = malloc(sizeof(char *) * (counts.in_c + 1));
 	cmd->red_out = malloc(sizeof(char *) * (counts.out_c + 1));
 	cmd->append = malloc(sizeof(int) * (counts.out_c + 1));
-	if (counts.heredoc_c > 0)
-	{
-		cmd->heredoc_delimiters = malloc(sizeof(char *)
-				* (counts.heredoc_c + 1));
-		cmd->heredoc_quotes = malloc(sizeof(int) * counts.heredoc_c);
-	}
-	if (!cmd->args || !cmd->red_in || !cmd->red_out || !cmd->append
-		|| (counts.heredoc_c > 0
-			&& (!cmd->heredoc_delimiters || !cmd->heredoc_quotes)))
-	{
-		free(cmd->args);
-		free(cmd->red_in);
-		free(cmd->red_out);
-		free(cmd->append);
-		free(cmd->heredoc_delimiters);
-		free(cmd->heredoc_quotes);
+	if (!cmd->args || !cmd->red_in || !cmd->red_out || !cmd->append)
 		return (0);
-	}
 	return (1);
 }

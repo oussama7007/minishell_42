@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 22:45:58 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/11 22:59:18 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/11 23:28:11 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ void	process_word(char *word, t_token **head, int *flag)
 	temp_data.accumulator = word;
 	add_token(head, new_token(T_WORD, &temp_data));
 }
+
 t_token	*create_tokens_from_split(char **split_words)
 {
 	t_token	*head;
 	int		i;
-	t_data	temp_data;
 	int		count_words;
 	int		flag;
 
@@ -56,7 +56,7 @@ t_token	*create_tokens_from_split(char **split_words)
 	flag = (count_words > 1);
 	if (!split_words || !split_words[0])
 		return (NULL);
-    while (split_words[i])
+	while (split_words[i])
 		process_word(split_words[i++], &head, &flag);
 	return (head);
 }

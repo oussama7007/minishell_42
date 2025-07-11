@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands_utils1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 16:49:37 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/09 23:52:50 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 23:24:02 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,32 @@ void	init_counts(t_counts *counts, t_cmd_builder *builder)
 	counts->in_c = builder->red_in_count;
 	counts->out_c = builder->red_out_count;
 	counts->heredoc_c = builder->heredoc_count;
+}
+
+void	terminate_arrays(t_command *cmd, t_indices *idx, t_counts counts)
+{
+	cmd->args[idx->i] = NULL;
+	cmd->red_in[idx->j] = NULL;
+	cmd->red_out[idx->k] = NULL;
+	if (counts.heredoc_c > 0)
+		cmd->heredoc_delimiters[idx->heredoc_idx] = NULL;
+}
+
+int	allocate_memory(t_command *cmd, t_counts counts)
+{
+	cmd->cmd = NULL;
+	cmd->num_heredocs = counts.heredoc_c;
+	cmd->heredoc_delimiters = NULL;
+	cmd->heredoc_quotes = NULL;
+	if (!allocate_primary_memory(cmd, counts))
+	{
+		free_all_allocations(cmd);
+		return (0);
+	}
+	if (!allocate_heredoc_memory(cmd, counts.heredoc_c))
+	{
+		free_all_allocations(cmd);
+		return (0);
+	}
+	return (1);
 }
