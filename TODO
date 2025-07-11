@@ -1,67 +1,129 @@
-<!-- checki b isatty wach minishell input/output dyal tty -->
-ctrl+\ khass t3tik coredump ....etc. f heredoc
-<!-- display dyal readline b3d lmrat katmjnn ( ana testitha f had l command "sleep 3 | echo hello" + ctrl^C)  -->
-<!-- new line mn b3d ctrl^C (cat + ctrl^C) -->
-<!-- cd ~ had ~ makatbdlhach bl value dyal HOME t9adaaat -->
-<!-- had l environment ($_) makhassoch itl3 f export o khasso itl3 gha f env  -->
-exit builtin 3ndk makatkhrjch b exit_status li 3ndk db for example :
-```
-Minishell$ ^C
-Minishell$ ^C
-Minishell$ exit
-exit
-➜  temp echo $?
-0
-➜  temp 
-```
-3ndk mochkil fl embig :
-```
-Minishell$ export var="file name"
-Minishell$ > $var
-minishell: name: command not found
-```
-ha ki katkon fl bash 
-```
-oadouz@e1r12p3:~/Desktop/temp$ export var="file name"
-oadouz@e1r12p3:~/Desktop/temp$ > $var
-bash: $var: ambiguous redirect
-```
-
-embig hiya ila kan lvariable li ghadi dir lih expanding wra redirection khawi awla fih ktr mn segment w7da b7al lmital li drna hnaya var="file name"
-
-HADI ILA TA7 FIHA CHI 7ED 7AWEL DAF3 3LA RASK O SF 7TA ANA MA9ADITHACH
-```
-Minishell$ echo hello | $gvdffd
-hello
-```
-fl bash makatprinitich hello 7itach rah deja kayn pipe .
-<!-- 
 ➜  minishell_42 git:(main) ✗ ./minishell 
-Minishell$ exit jifjd 10
+Minishell$ pwd
+/home/oadouz/Desktop/minishell_42
+Minishell$ mkdit -p 1/2/3/4
+minishell : command not found
+Minishell$ mkdir -p 1/2/3/4
+Minishell$ cd 1/2/3/4/
+Minishell$ pwd
+/home/oadouz/Desktop/minishell_42/1/2/3/4
+
+=================================================================
+==212056==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 34 byte(s) in 1 object(s) allocated from:
+    #0 0x49a28d in malloc (/home/oadouz/Desktop/minishell_42/minishell+0x49a28d)
+    #1 0x4e215f in ft_strdup (/home/oadouz/Desktop/minishell_42/minishell+0x4e215f)
+    #2 0x4d92df in get_old_pwd_val /home/oadouz/Desktop/minishell_42/srcs/c_spuvr/ft_chdir/ft_cd.c:23:14
+    #3 0x4d90a0 in ft_chdir /home/oadouz/Desktop/minishell_42/srcs/c_spuvr/ft_chdir/ft_cd.c:51:12
+    #4 0x4d70e5 in is_built_ins /home/oadouz/Desktop/minishell_42/srcs/c_spuvr/built-ins1.c:22:11
+    #5 0x4d856f in ft_execute_command_list /home/oadouz/Desktop/minishell_42/srcs/c_spuvr/execute_heart.c:102:11
+    #6 0x4d5df7 in main_loop /home/oadouz/Desktop/minishell_42/srcs/main.c:284:21
+    #7 0x4d5341 in main /home/oadouz/Desktop/minishell_42/srcs/main.c:323:2
+    #8 0x7ff80f2ffd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+Direct leak of 32 byte(s) in 1 object(s) allocated from:
+    #0 0x49a28d in malloc (/home/oadouz/Desktop/minishell_42/minishell+0x49a28d)
+    #1 0x7ff80f699bac in xmalloc (/lib/x86_64-linux-gnu/libreadline.so.8+0x39bac)
+
+Indirect leak of 34 byte(s) in 2 object(s) allocated from:
+    #0 0x49a28d in malloc (/home/oadouz/Desktop/minishell_42/minishell+0x49a28d)
+    #1 0x7ff80f699bac in xmalloc (/lib/x86_64-linux-gnu/libreadline.so.8+0x39bac)
+
+SUMMARY: AddressSanitizer: 100 byte(s) leaked in 4 allocation(s).
+Minishell$ 
+
+
+
+Minishell$ la
+minishell : command not found
+
+=================================================================
+==213158==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 34 byte(s) in 1 object(s) allocated from:
+    #0 0x49a28d in malloc (/home/oadouz/Desktop/minishell_42/minishell+0x49a28d)
+    #1 0x4e215f in ft_strdup (/home/oadouz/Desktop/minishell_42/minishell+0x4e215f)
+    #2 0x4d92df in get_old_pwd_val /home/oadouz/Desktop/minishell_42/srcs/c_spuvr/ft_chdir/ft_cd.c:23:14
+    #3 0x4d90a0 in ft_chdir /home/oadouz/Desktop/minishell_42/srcs/c_spuvr/ft_chdir/ft_cd.c:51:12
+    #4 0x4d70e5 in is_built_ins /home/oadouz/Desktop/minishell_42/srcs/c_spuvr/built-ins1.c:22:11
+    #5 0x4d856f in ft_execute_command_list /home/oadouz/Desktop/minishell_42/srcs/c_spuvr/execute_heart.c:102:11
+    #6 0x4d5df7 in main_loop /home/oadouz/Desktop/minishell_42/srcs/main.c:284:21
+    #7 0x4d5341 in main /home/oadouz/Desktop/minishell_42/srcs/main.c:323:2
+    #8 0x7ff80f2ffd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+Direct leak of 32 byte(s) in 1 object(s) allocated from:
+    #0 0x49a28d in malloc (/home/oadouz/Desktop/minishell_42/minishell+0x49a28d)
+    #1 0x7ff80f699bac in xmalloc (/lib/x86_64-linux-gnu/libreadline.so.8+0x39bac)
+
+Indirect leak of 34 byte(s) in 2 object(s) allocated from:
+    #0 0x49a28d in malloc (/home/oadouz/Desktop/minishell_42/minishell+0x49a28d)
+    #1 0x7ff80f699bac in xmalloc (/lib/x86_64-linux-gnu/libreadline.so.8+0x39bac)
+
+SUMMARY: AddressSanitizer: 100 byte(s) leaked in 4 allocation(s).
+Minishell$ 
+
+
+
+
+Minishell$ exit | ls
+
+=================================================================
+==213203==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 34 byte(s) in 1 object(s) allocated from:
+    #0 0x49a28d in malloc (/home/oadouz/Desktop/minishell_42/minishell+0x49a28d)
+    #1 0x4e215f in ft_strdup (/home/oadouz/Desktop/minishell_42/minishell+0x4e215f)
+    #2 0x4d92df in get_old_pwd_val /home/oadouz/Desktop/minishell_42/srcs/c_spuvr/ft_chdir/ft_cd.c:23:14
+    #3 0x4d90a0 in ft_chdir /home/oadouz/Desktop/minishell_42/srcs/c_spuvr/ft_chdir/ft_cd.c:51:12
+    #4 0x4d70e5 in is_built_ins /home/oadouz/Desktop/minishell_42/srcs/c_spuvr/built-ins1.c:22:11
+    #5 0x4d856f in ft_execute_command_list /home/oadouz/Desktop/minishell_42/srcs/c_spuvr/execute_heart.c:102:11
+    #6 0x4d5df7 in main_loop /home/oadouz/Desktop/minishell_42/srcs/main.c:284:21
+    #7 0x4d5341 in main /home/oadouz/Desktop/minishell_42/srcs/main.c:323:2
+    #8 0x7ff80f2ffd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+Direct leak of 32 byte(s) in 1 object(s) allocated from:
+    #0 0x49a28d in malloc (/home/oadouz/Desktop/minishell_42/minishell+0x49a28d)
+    #1 0x7ff80f699bac in xmalloc (/lib/x86_64-linux-gnu/libreadline.so.8+0x39bac)
+
+Indirect leak of 34 byte(s) in 2 object(s) allocated from:
+    #0 0x49a28d in malloc (/home/oadouz/Desktop/minishell_42/minishell+0x49a28d)
+    #1 0x7ff80f699bac in xmalloc (/lib/x86_64-linux-gnu/libreadline.so.8+0x39bac)
+
+SUMMARY: AddressSanitizer: 100 byte(s) leaked in 4 allocation(s).
+Minishell$ 
+
+
+
+
+
+Minishell$ 
 exit
-minishell: exit: jifjd: numeric argument required
-➜  minishell_42 git:(main) ✗ echo $?
-255
-➜  minishell_42 git:(main) ✗  -->
 
-<!-- Minishell$ exit 9999999999999999999999999999999
-exit
-➜  minishell_42 git:(main) ✗ 
+=================================================================
+==212038==ERROR: LeakSanitizer: detected memory leaks
 
+Direct leak of 34 byte(s) in 1 object(s) allocated from:
+    #0 0x49a28d in malloc (/home/oadouz/Desktop/minishell_42/minishell+0x49a28d)
+    #1 0x4e215f in ft_strdup (/home/oadouz/Desktop/minishell_42/minishell+0x4e215f)
+    #2 0x4d92df in get_old_pwd_val /home/oadouz/Desktop/minishell_42/srcs/c_spuvr/ft_chdir/ft_cd.c:23:14
+    #3 0x4d90a0 in ft_chdir /home/oadouz/Desktop/minishell_42/srcs/c_spuvr/ft_chdir/ft_cd.c:51:12
+    #4 0x4d70e5 in is_built_ins /home/oadouz/Desktop/minishell_42/srcs/c_spuvr/built-ins1.c:22:11
+    #5 0x4d856f in ft_execute_command_list /home/oadouz/Desktop/minishell_42/srcs/c_spuvr/execute_heart.c:102:11
+    #6 0x4d5df7 in main_loop /home/oadouz/Desktop/minishell_42/srcs/main.c:284:21
+    #7 0x4d5341 in main /home/oadouz/Desktop/minishell_42/srcs/main.c:323:2
+    #8 0x7ff80f2ffd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
 
-oadouz@e1r12p3:~/Desktop/minishell_42$ exit 9999999999999999999999999999999
-exit
-bash: exit: 9999999999999999999999999999999: numeric argument required -->
+Direct leak of 32 byte(s) in 1 object(s) allocated from:
+    #0 0x49a28d in malloc (/home/oadouz/Desktop/minishell_42/minishell+0x49a28d)
+    #1 0x7ff80f699bac in xmalloc (/lib/x86_64-linux-gnu/libreadline.so.8+0x39bac)
 
+Indirect leak of 34 byte(s) in 2 object(s) allocated from:
+    #0 0x49a28d in malloc (/home/oadouz/Desktop/minishell_42/minishell+0x49a28d)
+    #1 0x7ff80f699bac in xmalloc (/lib/x86_64-linux-gnu/libreadline.so.8+0x39bac)
 
-<!-- ➜  minishell_42 git:(main) ✗  bash
-bash: cannot set terminal process group (-1): Inappropriate ioctl for device
-bash: no job control in this shell
-oadouz@e1r12p3:~/Desktop/minishell_42$ exit jfid 10
-exit
-bash: exit: jfid: numeric argument required
-➜  minishell_42 git:(main) ✗ echo $?
-2
-➜  minishell_42 git:(main) ✗  -->
+SUMMARY: AddressSanitizer: 100 byte(s) leaked in 4 allocation(s).
+➜  minishell_42 git:(main) ✗      
+
 
 

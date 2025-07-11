@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/11 04:01:42 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/11 15:44:36 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ typedef struct s_token
 	int				type;
 	char			*value;
 	int				quotes_type;
-	int 			is_expanded_token;
-	int 			is_empty_after_expand;
-	int     is_assigning_expand_token;
-	int 	has_whit_space;
+	int				is_expanded_token;
+	int				is_empty_after_expand;
+	int				is_assigning_expand_token;
+	int				has_whit_space;
 	struct s_token	*next;
 }	t_token;
 
