@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:04:43 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/11 22:17:55 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 22:34:48 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,32 +67,4 @@ char	*target_path(char **args, char **envp)
 	if (args[1][0] == '~')
 		return (get_path_from_tilde(args[1], envp));
 	return (ft_strdup(args[1]));
-}
-
-static char	*join_pwd(const char *base, const char *arg)
-{
-	char	*tmp;
-	char	*result;
-	size_t	base_len;
-
-	if (!arg && base)
-		return (ft_strdup(base));
-	if (!arg && !base)
-		return (NULL);
-	if (arg[0] == '/')
-		return (ft_strdup(arg));
-	if (!base || base[0] == '\0')
-		return (ft_strdup(arg));
-	base_len = ft_strlen(base);
-	if (base_len > 0 && base[base_len - 1] == '/')
-	{
-		result = ft_strjoin(base, arg);
-		return (result);
-	}
-	tmp = ft_strjoin(base, "/");
-	if (!tmp)
-		return (NULL);
-	result = ft_strjoin(tmp, arg);
-	free(tmp);
-	return (result);
 }

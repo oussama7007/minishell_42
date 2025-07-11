@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 18:08:03 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 11:04:30 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 22:28:06 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,15 +93,15 @@ char	**init_environment(char **system_envp)
 
 void	free_environment(char **envp)
 {
-    int	i;
+	int	i;
 
-    if (!envp)
-        return;
-    i = 0;
-    while (envp[i])
-    {
-        free(envp[i]);
-        i++;
-    }
-    free(envp);
+	if (!envp)
+		return ;
+	i = 0;
+	while (envp[i])
+	{
+		free(envp[i]);
+		i++;
+	}
+	free(envp);
 }

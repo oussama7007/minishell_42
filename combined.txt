@@ -1545,7 +1545,7 @@ int	ft_unset(char **args, char ***env_ptr)
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:22:45 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 22:36:01 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 21:37:13 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1582,22 +1582,19 @@ static void	cleanup_and_exit(t_exit_data *exit_data)
 	exit(exit_data->data->ex_status);
 }
 
-int	ft_exit(char **args, t_exit_data *exit_data)
+static void	handle_exit_error(char *arg, t_exit_data *exit_data)
 {
-	ft_putendl_fd("exit", 1);
-	if (!args[1])
-	{
-		exit_data->data->ex_status = 0;
-		cleanup_and_exit(exit_data);
-	}
-	if (!is_valid_long_long(args[1]))
-	{
-		ft_putstr_fd("minishell: exit: ", 2);
-		ft_putstr_fd(args[1], 2);
-		ft_putendl_fd(": numeric argument required", 2);
-		exit_data->data->ex_status = 2;
-		cleanup_and_exit(exit_data);
-	}
+	ft_putstr_fd("minishell: exit: ", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putendl_fd(": numeric argument required", 2);
+	exit_data->data->ex_status = 2;
+	cleanup_and_exit(exit_data);
+}
+
+static int	handle_exit_args(char **args, t_exit_data *exit_data)
+{
+	if (!is_numeric_arg(args[1]) || !is_valid_long_long(args[1]))
+		handle_exit_error(args[1], exit_data);
 	if (args[2])
 	{
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
@@ -1607,6 +1604,17 @@ int	ft_exit(char **args, t_exit_data *exit_data)
 	exit_data->data->ex_status = (unsigned char)ft_atoll(args[1]);
 	cleanup_and_exit(exit_data);
 	return (0);
+}
+
+int	ft_exit(char **args, t_exit_data *exit_data)
+{
+	ft_putendl_fd("exit", 1);
+	if (!args[1])
+	{
+		exit_data->data->ex_status = 0;
+		cleanup_and_exit(exit_data);
+	}
+	return (handle_exit_args(args, exit_data));
 }
 
 
@@ -1798,58 +1806,67 @@ int	ft_chdir(char **args, char ***env_ptr)
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:04:43 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/11 21:11:33 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 22:11:47 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../built_functions.h"
 
-char *target_path(char **args, char **envp)
+static char	*get_path_from_home(char **envp)
 {
-	char	*path;
+	char	*path_val;
+
+	path_val = my_getenv("HOME", envp);
+	if (!path_val)
+	{
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+		return (NULL);
+	}
+	if (path_val[0] == '\0')
+		return (ft_strdup("."));
+	return (ft_strdup(path_val));
+}
+
+static char	*get_path_from_oldpwd(char **envp)
+{
+	char	*path_val;
+
+	path_val = my_getenv("OLDPWD", envp);
+	if (!path_val || path_val[0] == '\0')
+	{
+		ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
+		return (NULL);
+	}
+	ft_putendl_fd(path_val, 1);
+	return (ft_strdup(path_val));
+}
+
+static char	*get_path_from_tilde(const char *arg, char **envp)
+{
 	char	*path_val;
 	char	*rest_of_path;
+	char	*path;
 
-	path = NULL;
-	if (!args[1] || args[1][0] == '\0')
-	{
-		path_val = my_getenv("HOME", envp);
-		if (!path_val)
-			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-		else if (path_val[0] == '\0')
-			path = ft_strdup(".");
-		else
-			path = ft_strdup(path_val);
-	}
-	else if (ft_strcmp(args[1], "-") == 0)
-	{
-		path_val = my_getenv("OLDPWD", envp);
-		if (!path_val || path_val[0] == '\0')
-			ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
-		else
-		{
-			ft_putendl_fd(path_val, 1);
-			path = ft_strdup(path_val);
-		}
-	}
-	else if (args[1][0] == '~')
-	{
-		path_val = my_getenv("HOME", envp);
-		if (!path_val || path_val[0] == '\0')
-			path = ft_strdup(args[1]);
-		else
-		{
-			rest_of_path = ft_substr(args[1], 1, ft_strlen(args[1]) - 1);
-			if (rest_of_path)
-			{
-				path = ft_strjoin(path_val, rest_of_path);
-				free(rest_of_path);
-			}
-		}
-	}
-	else
-		path = ft_strdup(args[1]);
+	path_val = my_getenv("HOME", envp);
+	if (!path_val || path_val[0] == '\0')
+		return (ft_strdup(arg));
+	rest_of_path = ft_substr(arg, 1, ft_strlen(arg) - 1);
+	if (!rest_of_path)
+		return (NULL);
+	path = ft_strjoin(path_val, rest_of_path);
+	free(rest_of_path);
 	return (path);
+}
+
+char	*target_path(char **args, char **envp)
+{
+	if (!args[1] || args[1][0] == '\0')
+		return (get_path_from_home(envp));
+	if (ft_strcmp(args[1], "-") == 0)
+		return (get_path_from_oldpwd(envp));
+	if (args[1][0] == '~')
+		return (get_path_from_tilde(args[1], envp));
+	return (ft_strdup(args[1]));
 }
 
 static char	*join_pwd(const char *base, const char *arg)
@@ -2313,10 +2330,10 @@ void	read_heredoc_loop(t_heredoc_info *info)
 /*                                                        :::      ::::::::   */
 /*   herdoc_utils1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 23:02:29 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/11 14:54:52 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/11 22:12:57 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2324,7 +2341,8 @@ void	read_heredoc_loop(t_heredoc_info *info)
 
 int	should_stop_reading(char *line, t_heredoc_info *info)
 {
-	return (!line || ft_strcmp(line, info->cmd->heredoc_delimiters[info->i]) == 0);
+	return (!line
+		|| ft_strcmp(line, info->cmd->heredoc_delimiters[info->i]) == 0);
 }
 
 void	expand_heredoc_line(char *line, char **env, t_data *data)
@@ -2346,6 +2364,60 @@ void	expand_heredoc_line(char *line, char **env, t_data *data)
 		data->accumulator = ft_strdup("");
 }
 
+char	*setup_heredoc_to_file(t_command *cmd, char **envp, t_data *data)
+{
+	t_heredoc_info	info;
+	char			*filename;
+
+	filename = generate_heredoc_filename();
+	if (!filename)
+		return (NULL);
+	info = (t_heredoc_info){-1, 0, cmd, envp, data};
+	while (info.i < info.cmd->num_heredocs)
+	{
+		if (process_heredoc_iteration(&info, filename))
+			return (free(filename), NULL);
+		info.i++;
+	}
+	if (info.fd != -1)
+		close(info.fd);
+	return (filename);
+}
+
+void	re_process_heredoc_line(t_heredoc_info *info, char *line)
+{
+	if (info->cmd->heredoc_quotes[info->i] == 0)
+	{
+		expand_heredoc_line(line, info->envp, info->data);
+		ft_putendl_fd(info->data->accumulator, info->fd);
+	}
+	else
+	{
+		ft_putendl_fd(line, info->fd);
+	}
+}
+
+int	handle_heredocs_before_execution(t_command *cmds, char **envp,
+	t_data *data)
+{
+	t_command	*current;
+
+	current = cmds;
+	while (current)
+	{
+		if (current->num_heredocs > 0)
+		{
+			free(current->heredoc_tmp_file);
+			current->heredoc_tmp_file = setup_heredoc_to_file(current,
+					envp, data);
+			if (!current->heredoc_tmp_file)
+				return (0);
+		}
+		current = current->next;
+	}
+	return (1);
+}
+
 
 // Path: ./srcs/c_spuvr/ft_execut/heredoc.c
 /* ************************************************************************** */
@@ -2353,10 +2425,10 @@ void	expand_heredoc_line(char *line, char **env, t_data *data)
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/11 15:13:39 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/11 22:14:30 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2381,19 +2453,6 @@ void	handle_heredoc_interrupt(t_heredoc_info *info, int fd_backup)
 	}
 }
 
-void	re_process_heredoc_line(t_heredoc_info *info, char *line)
-{
-	if (info->cmd->heredoc_quotes[info->i] == 0)
-	{
-		expand_heredoc_line(line, info->envp, info->data);
-		ft_putendl_fd(info->data->accumulator, info->fd);
-	}
-	else
-	{
-		ft_putendl_fd(line, info->fd);
-	}
-}
-
 void	read_heredoc_input(t_heredoc_info *info)
 {
 	int	fd_backup;
@@ -2407,57 +2466,23 @@ void	read_heredoc_input(t_heredoc_info *info)
 	close(fd_backup);
 }
 
-char	*setup_heredoc_to_file(t_command *cmd, char **envp, t_data *data)
+int	process_heredoc_iteration(t_heredoc_info *info, const char *filename)
 {
-	t_heredoc_info	info;
-	char			*filename;
-
-	filename = generate_heredoc_filename();
-	if (!filename)
-		return (NULL);
-	info = (t_heredoc_info){-1, 0, cmd, envp, data};
-	while (info.i < info.cmd->num_heredocs)
+	if (info->i == info->cmd->num_heredocs - 1)
 	{
-		if (info.i == info.cmd->num_heredocs - 1)
-		{
-			info.fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-			if (info.fd == -1)
-				return (free(filename), NULL);
-		}
-		read_heredoc_input(&info);
-		if (g_sig_var == 1)
-		{
-			if (info.fd != -1)
-				close(info.fd);
-			return (unlink(filename), free(filename), NULL);
-		}
-		info.i++;
+		info->fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+		if (info->fd == -1)
+			return (1);
 	}
-	if (info.fd != -1)
-		close(info.fd);
-	return (filename);
-}
-
-int	handle_heredocs_before_execution(t_command *cmds, char **envp, t_data *data)
-{
-	t_command	*current;
-
-	current = cmds;
-	while (current)
+	read_heredoc_input(info);
+	if (g_sig_var == 1)
 	{
-		if (current->num_heredocs > 0)
-		{
-			free(current->heredoc_tmp_file);
-			current->heredoc_tmp_file = setup_heredoc_to_file(current,
- 					envp, data);
-			if (!current->heredoc_tmp_file)
-			{
-				return (0);
-			}
-		}
-		current = current->next;
+		if (info->fd != -1)
+			close(info->fd);
+		unlink(filename);
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 
@@ -3014,7 +3039,7 @@ int	ft_pwd(char ***env_ptr)
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/11 17:51:29 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 22:14:05 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -3056,7 +3081,7 @@ int	is_nn_option(const char *arg);
 void	expand_heredoc_line(char *line, char **env, t_data *data);
 char	*generate_heredoc_filename(void);
 void	handle_heredoc_interrupt(t_heredoc_info *info, int fd_backup);
-void	process_heredoc_line(t_heredoc_info *info, char *line);
+int		process_heredoc_iteration(t_heredoc_info *info, const char *filename);
 int		should_stop_reading(char *line, t_heredoc_info *info);
 void	read_heredoc_loop(t_heredoc_info *info);
 //built is
@@ -3084,7 +3109,6 @@ void	handle_heredoc_interrupt(t_heredoc_info *info, int fd_backup);
 char	*setup_heredoc_to_file(t_command *cmd, char **envp, t_data *data);
 void	heredoc_signals(int sig);
 int		is_parent_only_builtin(char *cmd);
-void	process_heredoc_line(t_heredoc_info *info, char *line);
 int		has_redirection(t_command *cmd);
 int		setup_heredoc(t_command *cmd, char **envp, t_data *data);
 void	try_paths(char **paths, char *cmd, char **cmd_path);

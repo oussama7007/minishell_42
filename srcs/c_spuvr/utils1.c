@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 02:19:45 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/11 22:22:53 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 22:29:05 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,9 @@ void	ensure_minimal_env(char ***env_ptr)
 	char	*pwd_buffer;
 
 	if (!my_getenv("PATH", *env_ptr))
-		my_setenv("PATH", "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", env_ptr);
+		my_setenv("PATH",
+			"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+			env_ptr);
 	handle_shlvl_update(env_ptr);
 	if (!my_getenv("PWD", *env_ptr))
 	{
