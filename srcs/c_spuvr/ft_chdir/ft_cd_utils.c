@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:04:43 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/11 21:03:41 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 21:11:33 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	up_env_cd(char *old_pwd_val, const char *path_arg, char ***env_ptr)
 	char	*new_pwd;
 	char	*new_pwd_val;
 
-	if (old_pwd_val)
+	if (old_pwd_val && my_getenv("OLDPWD", *env_ptr) != NULL)
 		my_setenv("OLDPWD", old_pwd_val, env_ptr);
 	new_pwd = getcwd(NULL, 0);
 	if (new_pwd)
