@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 21:05:05 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 17:45:45 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ int ft_execute_command_list(t_command *cmd_list, t_token *tokens, char ***env_pt
 		signal(SIGQUIT, SIG_DFL);
 		child_process_logic(cmd_list, env_ptr);
 	}
-	signal(SIGINT, sigint_handler_exec);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	status = wait_for_child(pid);
 	setup_signal_handlers();
 	return (status);

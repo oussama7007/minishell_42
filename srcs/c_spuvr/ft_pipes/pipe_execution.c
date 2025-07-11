@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:44:44 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/11 02:48:32 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 17:46:08 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ int	execute_pipeline(t_command *commands, char ***env_ptr, t_data *data)
 
 	(void)data;
 	prev_pipe = STDIN_FILENO;
-	signal(SIGINT, sigint_handler_exec);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	last_pid = pipeline_loop(commands, env_ptr, &prev_pipe);
 	if (last_pid < 0)
 	{
