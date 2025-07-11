@@ -17,3 +17,28 @@ minishell: open input file: No such file or directory
 minishell: open input file: No such file or directory
 Minishell$ 
 ///////////////
+Minishell$ export p="$a""$c"
+Minishell$ 
+exit
+
+=================================================================
+==2126==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 3 byte(s) in 1 object(s) allocated from:
+    #0 0x7fee0b40e3f7 in malloc (/usr/lib/x86_64-linux-gnu/libasan.so.8+0x1033f7) (BuildId: d25e67d2640b00cfc20b3055f750dc7b71017cb3)
+    #1 0x5585bfd8f3be in ft_strjoin (/home/oait-si-/Desktop/minishell_42/minishell+0x153be) (BuildId: 6ed68302ce57f4fd61e29179f541d0b93778b6f4)
+    #2 0x5585bfd82605 in append_char srcs/c_hamou/helper_fuc.c:47
+    #3 0x5585bfd835d9 in handle_normal_char srcs/c_hamou/tokens_utils1.c:18
+    #4 0x5585bfd82c2f in handle_unquoted_part srcs/c_hamou/tokens_utils2.c:28
+    #5 0x5585bfd82f88 in process_segment srcs/c_hamou/tokens_utils2.c:40
+    #6 0x5585bfd81b18 in handle_word srcs/c_hamou/tokenization.c:63
+    #7 0x5585bfd821a4 in tokenize srcs/c_hamou/tokenization.c:101
+    #8 0x5585bfd856ea in main_loop srcs/main.c:219
+    #9 0x5585bfd85d28 in main srcs/main.c:312
+    #10 0x7fee0b0ad187 in __libc_start_call_main (/usr/lib/x86_64-linux-gnu/libc.so.6+0x2a187) (BuildId: 2890b41de26262042831874e91ff2f647c9db3a5)
+    #11 0x7fee0b0ad24a in __libc_start_main (/usr/lib/x86_64-linux-gnu/libc.so.6+0x2a24a) (BuildId: 2890b41de26262042831874e91ff2f647c9db3a5)
+    #12 0x5585bfd7e354 in _start ../sysdeps/x86_64/start.S:115
+
+SUMMARY: AddressSanitizer: 3 byte(s) leaked in 1 allocation(s).
+sh-5.2$ 
+/////////////////

@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:34:08 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/11 00:40:38 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/11 04:02:14 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	reset_word_data(t_data *data)
 	data->is_expanded = 0;
 	data->empty_expand = 0;
 	data->quote_type = 0;
+	data->is_assigning_expand = 0;
+	data->has_whit_space = 0;
 }
 
 t_token	*create_and_add_token(t_token **tokens, t_token *token, t_data *data)

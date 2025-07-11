@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:20:52 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/10 06:14:02 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/11 04:27:19 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,20 +79,43 @@ void	handle_regular_accumulator(char *var_start, char *end,
 			data->accumulator = ft_strdup(var_value);
 	}
 }
-
+int 	count_words_from_split(char **words)
+{
+	int i;
+	
+	i = 0;
+	while(words[i])
+		i++;
+	return i;
+}
+void 	assign_values_to_prevent_ambigu(t_data *data)
+{
+	ft_bzero(data, sizeof(t_data));
+	data->has_whit_space = 1;
+}
 t_token	*create_tokens_from_split(char **split_words)
 {
 	t_token	*head;
 	int		i;
 	t_data	temp_data;
-
+	int 	count_words;
+	int flag;
+	count_words = count_words_from_split(split_words);
 	head = NULL;
 	i = 0;
+	if(count_words > 1)
+		flag = 1;
 	if (!split_words || !split_words[0])
 		return (NULL);
 	while (split_words[i])
 	{
-		ft_bzero(&temp_data, sizeof(t_data));
+		if(flag)
+		{
+			assign_values_to_prevent_ambigu(&temp_data);
+			flag = 0;
+		}
+		else 
+			ft_bzero(&temp_data, sizeof(t_data));
 		temp_data.accumulator = split_words[i];
 		add_token(&head, new_token(T_WORD, &temp_data));
 		i++;

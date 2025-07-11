@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/10 23:28:10 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/11 04:38:44 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void debug_tokens(t_token *head)
         printf("  value: %s\n", current->value ? current->value : "(null)");
         printf("  quotes_type: %d\n", current->quotes_type);
         printf("  is_expanded_token: %d\n", current->is_expanded_token);
+		printf("   has_whit_space %d\n", current->has_whit_space);
         printf("  next: %p\n", (void *)current->next);
         printf("-----------------------\n");
 
@@ -83,7 +84,8 @@ int	validate_syntax(t_token *tokens,t_data *data)
 			// 3. Check for the specific "ambiguous redirect" case.
 			// This occurs if the filename token came from an unquoted variable
 			// expansion that resulted in an empty string.
-			if (current->type != TOKEN_RED_HEREDOC && next->is_empty_after_expand && next->quotes_type == 0)
+			if ((current->type != TOKEN_RED_HEREDOC && next->is_empty_after_expand && next->quotes_type == 0) 
+				|| current->has_whit_space)
 			{
 				error(ERR_AMBIGUOS);
 				data->ex_status = 1;
@@ -135,7 +137,7 @@ void	perform_field_splitting(t_token **tokens)
 		token_to_process = *current_ptr;
 		// This is the crucial condition for field splitting
 		if (token_to_process->is_expanded_token
-			&& token_to_process->quotes_type == 0)
+			&& token_to_process->quotes_type == 0 && !token_to_process->is_assigning_expand_token)
 		{
 			split_words = ft_split(token_to_process->value, ' ');
 			// Only split if there is more than one resulting word
@@ -234,13 +236,7 @@ static void	main_loop(char ***my_envp, t_data *data)
 			free(line);
 			continue;
 		}
-		if (!validate_syntax(tokens, data))
-		{
-			free_command(commands);
-			free_tokens(tokens);
-			free(line);
-			continue;
-		}
+		
 		// --- 5. Handle Heredocs ---
 		// This must run before syntax validation.
 		
@@ -251,7 +247,14 @@ static void	main_loop(char ***my_envp, t_data *data)
 		// --- 7. Post-Validation Processing ---
 		remove_empty_tokens(&tokens);
 		perform_field_splitting(&tokens);
-		
+		//debug_tokens(tokens);
+		if (!validate_syntax(tokens, data))
+		{
+			free_command(commands);
+			free_tokens(tokens);
+			free(line);
+			continue;
+		}
 		// --- 8. Re-build Command Structure ---
 		// This is necessary because field splitting may have changed the tokens.
 		free_command(commands);

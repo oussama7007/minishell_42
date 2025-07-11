@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/11 00:17:01 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/11 04:01:42 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ typedef struct s_data
 	char *accumulator;
 	int 	empty_expand;
 	int is_expanded;
-	// int     redirect_context;
+	int     is_assigning_expand;
+	int 	has_whit_space;
 }	t_data;
 
 typedef struct s_token
@@ -65,6 +66,8 @@ typedef struct s_token
 	int				quotes_type;
 	int 			is_expanded_token;
 	int 			is_empty_after_expand;
+	int     is_assigning_expand_token;
+	int 	has_whit_space;
 	struct s_token	*next;
 }	t_token;
 

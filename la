@@ -1,0 +1,14 @@
+total 248
+drwxr-xr-x 5 oait-si- 2024_khouribga    160 Jul 11 03:24 .
+drwxr-xr-x 5 oait-si- 2024_khouribga     63 Jul 10 23:05 ..
+-rwxrwxrwx 1 oait-si- 2024_khouribga      0 Jul 10 23:06 file.sh
+drwxr-xr-x 7 oait-si- 2024_khouribga   4096 Jul 11 03:22 .git
+-rw-r--r-- 1 oait-si- 2024_khouribga     17 Jul 11 03:21 .gitignore
+-rw-r--r-- 1 oait-si- 2024_khouribga      0 Jul 11 03:24 la
+-rw-r--r-- 1 oait-si- 2024_khouribga   2152 Jul 11 03:21 Makefile
+-rwxr-xr-x 1 oait-si- 2024_khouribga 225160 Jul 11 03:23 minishell
+-rw-r--r-- 1 oait-si- 2024_khouribga     64 Jul 11 00:35 p o
+drwxr-xr-x 5 oait-si- 2024_khouribga   4096 Jul 11 03:22 srcs
+-rw-r--r-- 1 oait-si- 2024_khouribga    687 Jul 10 23:12 test.txt
+-rw-r--r-- 1 oait-si- 2024_khouribga   1975 Jul 10 23:05 TODO
+drwxr-xr-x 2 oait-si- 2024_khouribga     27 Jul 10 23:05 .vscode

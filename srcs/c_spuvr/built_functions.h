@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_functions.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 13:00:50 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 03:23:42 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_exit_data
 	t_token		*tokens;
 	t_data		*data;
 }				t_exit_data;
-
+int	is_nn_option(const char *arg);
 // heredoc
 void	expand_heredoc_line(char *line, char **env, t_data *data);
 char	*generate_heredoc_filename(void);
