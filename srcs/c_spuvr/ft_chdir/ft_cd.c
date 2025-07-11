@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:04:48 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/11 02:45:20 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 17:37:59 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,15 @@ int	ft_chdir(char **args, char ***env_ptr)
 	old_loc = get_old_pwd_val(*env_ptr);
 	dest = target_path(args, *env_ptr);
 	if (!dest)
+	{
+		free(old_loc);
 		return (1);
+	}
 	ret = chdir(dest);
 	if (ret == -1)
 	{
 		cd_err(dest, old_loc, dest);
+		free(old_loc);
 		free(dest);
 		return (1);
 	}
@@ -63,6 +67,5 @@ int	ft_chdir(char **args, char ***env_ptr)
 	if (!args[1] || (args[1] && ft_strcmp(args[1], "-") == 0))
 		key_arg = dest;
 	up_env_cd(old_loc, key_arg, env_ptr);
-	free(dest);
-	return (0);
+	return (free(old_loc), free(dest), 0);
 }
