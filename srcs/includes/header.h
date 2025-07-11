@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/10 21:04:01 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 00:17:01 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct s_data
 	char *accumulator;
 	int 	empty_expand;
 	int is_expanded;
-	int     redirect_context;
+	// int     redirect_context;
 }	t_data;
 
 typedef struct s_token
@@ -155,7 +155,7 @@ void		free_tokens(t_token *tokens);
 int			populate_command(t_command *cmd, t_token *tokens, t_counts counts);
 t_token    *new_token(int type, t_data *data);
 void		add_token(t_token **tokens, t_token *token);
-int			get_token_type(char *line);
+int			get_token_type(char *line, t_data *data);
 char		*expand_value_func(char *value, char **envp);
 t_command	*build_command(t_token *tokens);
 void		add_command(t_command **commands, t_command *command);

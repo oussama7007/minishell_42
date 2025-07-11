@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/09 17:29:33 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/11 00:17:16 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_token	*handle_word(char **start, char **my_env, t_data *data)
 			data->empty_expand = 1;
 		data->accumulator = ft_strdup("");
 	}
-	token = new_token(get_token_type(data->accumulator), data);
+	token = new_token(get_token_type(data->accumulator, data), data);
 	free(data->accumulator);
 	data->accumulator = NULL;
 	return (token);

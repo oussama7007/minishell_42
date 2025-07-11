@@ -1,0 +1,19 @@
+1 ------> export b=$a
+2 ------> Minishell$ ls
+            ls
+            minishell : command not found
+3 ------> env ls
+4 ------> exit 9999999999999999999999999999
+5 -------> ==5154==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000004 (pc 0x55cd82a2fb36 bp 0x7ffc0e6c6e10 sp 0x7ffc0e6c6e00 T0)
+6 -------> ctrl c in minishell inside minishhell new line before prompt
+7 -------> echo "aaaaaaaaaa  a  aaaaaa" >> file | ..... multi time
+8 -------> header  
+9 -------> env >> file multi time
+10 ------> | ls
+
+////////////////
+Minishell$ ls | <b
+minishell: open input file: No such file or directory
+minishell: open input file: No such file or directory
+Minishell$ 
+///////////////

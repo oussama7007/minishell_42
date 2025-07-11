@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:16:02 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/09 02:38:58 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/11 00:16:19 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,17 +71,17 @@ void	add_token(t_token **tokens, t_token *token)
 	tmp->next = token;
 }
 
-int	get_token_type(char *line)
+int	get_token_type(char *line, t_data *data)
 {
-	if (ft_strcmp(line, "|") == 0)
+	if (ft_strcmp(line, "|") == 0 && data->quote_type == 0)
 		return (T_PIPE);
-	if (ft_strcmp(line, "<") == 0)
+	if (ft_strcmp(line, "<") == 0 && data->quote_type == 0)
 		return (T_RED_IN);
-	if (ft_strcmp(line, ">") == 0)
+	if (ft_strcmp(line, ">") == 0 && data->quote_type == 0)
 		return (T_RED_OUT);
-	if (ft_strcmp(line, "<<") == 0)
+	if (ft_strcmp(line, "<<") == 0 && data->quote_type == 0)
 		return (T_HEREDOC);
-	if (ft_strcmp(line, ">>") == 0)
+	if (ft_strcmp(line, ">>") == 0 && data->quote_type == 0)
 		return (T_APPEND);
 	return (T_WORD);
 }
