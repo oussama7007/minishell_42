@@ -65,8 +65,6 @@ Minishell$ cat<<""$USER
 should not expand
 ////////////////////////////////////////
 
-export a="        ls" ==> export > $a
+export a="        ls" ==> export > $a // moul parsing khasso ihandliha
 
 ////////////////////////////////////////
-
-if unset 

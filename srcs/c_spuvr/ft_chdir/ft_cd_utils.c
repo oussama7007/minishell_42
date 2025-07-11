@@ -6,13 +6,13 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:04:43 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/11 21:11:33 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 21:55:32 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../built_functions.h"
 
-char *target_path(char **args, char **envp)
+char	*target_path(char **args, char **envp)
 {
 	char	*path;
 	char	*path_val;
