@@ -127,3 +127,5 @@ SUMMARY: AddressSanitizer: 100 byte(s) leaked in 4 allocation(s).
 
 
 
+///////////////////////////////////////
+valgrind --leak-check=full --track-fds=yes ./minishell
