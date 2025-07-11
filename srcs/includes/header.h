@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/11 21:14:02 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/11 22:59:34 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,5 +186,6 @@ void	main_loop(char ***my_envp, t_data *data);
 t_token	*create_and_add_token(t_token **tokens, t_token *token, t_data *data);
 void	exit_status(int set, int value, t_data *data);
 void	sigint_handler_exec(int sig);
+void	process_word(char *word, t_token **head, int *flag);
 
 #endif

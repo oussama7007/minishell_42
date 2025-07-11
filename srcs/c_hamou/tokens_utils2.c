@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:16:02 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/11 04:01:54 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/11 22:53:08 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	handle_unquoted_part(char **start, char **env, t_data *data)
 	data->quote_type = 0;
 	while (*end && !is_space(*end) && !is_operator(*end) && !is_quotes(*end))
 	{
-		if(*end == '=' && *(end + 1) == '$')
+		if (*end == '=' && *(end + 1) == '$')
 			data->is_assigning_expand = 1;
 		if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '?')
 			&& !data->delimiter)

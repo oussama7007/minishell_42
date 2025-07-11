@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 23:46:06 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/11 04:02:55 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/11 22:54:44 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,6 @@ int	get_operator_length(char **start, t_data *data)
 	return (len);
 }
 
-void	process_operator_data(char *operator_str, t_data *data)
-{
-	data->accumulator = operator_str;
-	data->quote_type = 0;
-	data->is_expanded = 0;
-	data->empty_expand = 0;
-	data->is_assigning_expand = 0;
-	data->has_whit_space = 0;
-}
-
 t_token	*handle_operator(char **start, t_data *data)
 {
 	char	*operator_str;
@@ -59,7 +49,6 @@ t_token	*handle_operator(char **start, t_data *data)
 	*start += len;
 	process_operator_data(operator_str, data);
 	token = new_token(get_token_type(data->accumulator, data), data);
-	
 	free(operator_str);
 	data->accumulator = NULL;
 	return (token);
