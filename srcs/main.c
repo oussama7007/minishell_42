@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/11 04:55:30 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/11 05:57:03 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,14 @@ static void	main_loop(char ***my_envp, t_data *data)
 				free_tokens(tokens);
 			free(line);
 			continue ;
+		}
+		if(tokens && tokens->type == T_PIPE)
+		{
+			error(ERR_PIPE);
+			free_tokens(tokens);
+			free(line);
+			data->ex_status = 2;
+			continue;
 		}
 		// debug_tokens(tokens);
 		// --- 4. Build Initial Command Structure ---

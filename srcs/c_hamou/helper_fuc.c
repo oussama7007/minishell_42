@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:34:08 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/11 04:02:14 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/11 06:01:47 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*join_and_free(char *acc, char *to_add)
 	char	*new;
 
 	new = ft_strjoin(acc, to_add);
-	//free(acc);
+	free(acc);
 	free(to_add);
 	return (new);
 }
