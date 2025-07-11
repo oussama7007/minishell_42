@@ -1,0 +1,72 @@
+bismillah 
+/////////////////////////////////////////////////////////////////////////////////
+bash
+bash: cannot set terminal process group (-1): Inappropriate ioctl for device
+bash: no job control in this shell
+oadouz@e2r5p15:~/Desktop/minishell_42$ export a="ls  -la"
+oadouz@e2r5p15:~/Desktop/minishell_42$ $a'  -la'
+ls: invalid option -- ' '
+Try 'ls --help' for more information.
+oadouz@e2r5p15:~/Desktop/minishell_42$ echo $?
+2
+oadouz@e2r5p15:~/Desktop/minishell_42$ export a="cho   -nnnnnnnn"
+oadouz@e2r5p15:~/Desktop/minishell_42$ e$a' -nnn'   -nnnnn
+-nnnnnnnn -nnn -nnnnn
+oadouz@e2r5p15:~/Desktop/minishell_42$ 
+
+declare -x a="ls   -la"
+Minishell$ $a' -la'
+minishell : command not found
+Minishell$ echo $?
+127
+Minishell$ echo $a'  -la'
+ls   -la  -la
+Minishell$ ls  -la'  -la'
+ls: invalid option -- ' '
+Try 'ls --help' for more information.
+Minishell$ unset a
+Minishell$ export a="cho   -nnnnnnnn"
+Minishell$ e$a' -nnn'   -nnnnn
+minishell : command not found
+Minishell$ 
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+if we fixed this case everything on top will work ^^
+
+Minishell$ export a="ls       -la"
+Minishell$ echo $a
+ls -la
+Minishell$ echo "$a"
+ls       -la
+Minishell$ echo $a''
+ls       -la
+Minishell$ echo $a
+ls -la
+Minishell$ echo $a'p'
+ls       -lap
+Minishell$ 
+
+///////////////////////
+
+ls -la|cat>"<<"|"cat''"<<$''|cd""|cat<<$1USER""|"">>'a'|env""|unset""|echo$USER|exit""|<"Makefile"cat|ls
+
+////////////////////////////////////////////////
+
+exit ""
++++++++++++++++++++++++
+
+exit dyal sliman , wahed exit darha slima nssiha tantfakerha
+
+///////////////////////////////////////
+
+Minishell$ cat<<""$USER
+
+should not expand
+////////////////////////////////////////
+
+export a="        ls" ==> export > $a
+
+////////////////////////////////////////
+
+if unset 

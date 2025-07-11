@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:04:43 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 21:38:59 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 21:03:41 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ void	up_env_cd(char *old_pwd_val, const char *path_arg, char ***env_ptr)
 	new_pwd = getcwd(NULL, 0);
 	if (new_pwd)
 	{
-		my_setenv("PWD", new_pwd, env_ptr);
+		if (my_getenv("PWD", *env_ptr) != NULL)
+			my_setenv("PWD", new_pwd, env_ptr);
 		free(new_pwd);
 	}
 	else
@@ -108,7 +109,8 @@ void	up_env_cd(char *old_pwd_val, const char *path_arg, char ***env_ptr)
 		new_pwd_val = join_pwd(old_pwd_val, path_arg);
 		if (new_pwd_val)
 		{
-			my_setenv("PWD", new_pwd_val, env_ptr);
+			if (my_getenv("PWD", *env_ptr) != NULL)
+				my_setenv("PWD", new_pwd_val, env_ptr);
 			free(new_pwd_val);
 		}
 	}

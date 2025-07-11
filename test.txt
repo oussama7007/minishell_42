@@ -225,3 +225,5 @@ oait-si-@e1r13p1:~/Desktop/minishell_42$ echo hhh > $f
 bash: $f: ambiguous redirect
 oait-si-@e1r13p1:~/Desktop/minishell_42$ 
 //////////// hadou mazal mahndlithom 
+
+
