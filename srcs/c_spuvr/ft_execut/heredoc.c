@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 13:32:17 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 02:38:25 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,11 @@ char	*setup_heredoc_to_file(t_command *cmd, char **envp, t_data *data)
 		}
 		read_heredoc_input(&info);
 		if (g_sig_var == 1)
+		{
+			if (info.fd != -1)
+				close(info.fd);
 			return (unlink(filename), free(filename), NULL);
+		}
 		info.i++;
 	}
 	if (info.fd != -1)
