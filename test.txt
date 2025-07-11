@@ -5,7 +5,7 @@
 3 ------> env ls
 
 5 -------> ==5154==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000004 (pc 0x55cd82a2fb36 bp 0x7ffc0e6c6e10 sp 0x7ffc0e6c6e00 T0)
-6 -------> ctrl c in minishell inside minishhell new line before prompt
+
 
 8 -------> unused header  
 
@@ -225,3 +225,36 @@ oait-si-@e1r13p1:~/Desktop/minishell_42$ echo hhh > $f
 bash: $f: ambiguous redirect
 oait-si-@e1r13p1:~/Desktop/minishell_42$ 
 //////////// hadou mazal mahndlithom 
+
+---------------------------------------------------------------------------------------------------------------
+
+e2r10p2% bash
+oait-si-@e2r10p2:~/Desktop/minishell_42$ exit -
+exit
+bash: exit: -: numeric argument required
+e2r10p2% 
+
+
+Minishell$ exit '-'
+exit
+==166015== 
+==166015== FILE DESCRIPTORS: 3 open (3 std) at exit.
+==166015== 
+==166015== HEAP SUMMARY:
+==166015==     in use at exit: 208,235 bytes in 226 blocks
+==166015==   total heap usage: 522 allocs, 296 frees, 231,841 bytes allocated
+==166015== 
+==166015== LEAK SUMMARY:
+==166015==    definitely lost: 0 bytes in 0 blocks
+==166015==    indirectly lost: 0 bytes in 0 blocks
+==166015==      possibly lost: 0 bytes in 0 blocks
+==166015==    still reachable: 208,235 bytes in 226 blocks
+==166015==         suppressed: 0 bytes in 0 blocks
+==166015== Reachable blocks (those to which a pointer was found) are not shown.
+==166015== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==166015== 
+==166015== For lists of detected and suppressed errors, rerun with: -s
+==166015== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+e2r10p2% echo $?
+0
+e2r10p2% 

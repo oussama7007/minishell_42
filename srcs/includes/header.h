@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/11 15:44:36 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 21:14:02 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ typedef struct s_cmd_builder
 int 	count_char(char *str);
 char	*skip_space(char *str);
 void	setup_signal_handlers(void);
-
+void	main_loop(char ***my_envp, t_data *data);
 int			handle_heredocs_before_execution(t_command *cmds, char **envp,
 				t_data *data);
 t_token		*process_token(t_token *token, t_command *cmd, t_indices *idx);
@@ -182,7 +182,7 @@ int	check_invalid_char(char *line);
 int	is_redirection(int token_type);
 void	remove_current_token(t_token **head, t_token **prev, t_token **current);
 int	should_skip_empty_command(t_cmd_builder *builder, t_token *first_word_token);
-static void	main_loop(char ***my_envp, t_data *data);
+void	main_loop(char ***my_envp, t_data *data);
 t_token	*create_and_add_token(t_token **tokens, t_token *token, t_data *data);
 void	exit_status(int set, int value, t_data *data);
 void	sigint_handler_exec(int sig);
