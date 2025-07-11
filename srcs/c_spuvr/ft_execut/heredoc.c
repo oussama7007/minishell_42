@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/11 21:54:19 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/11 22:14:30 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ void	read_heredoc_input(t_heredoc_info *info)
 	close(fd_backup);
 }
 
-static int	process_heredoc_iteration(t_heredoc_info *info,
-	const char *filename)
+int	process_heredoc_iteration(t_heredoc_info *info, const char *filename)
 {
 	if (info->i == info->cmd->num_heredocs - 1)
 	{
