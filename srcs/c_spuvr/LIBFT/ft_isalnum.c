@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 18:17:50 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/21 15:36:12 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/11 05:01:10 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_isalnum(int c)
 {
-	if (ft_isalpha(c) || ft_isdigit(c) || c == '_')
+	if (ft_isalpha(c) || ft_isdigit(c))
 		return (c);
 	else
 		return (0);

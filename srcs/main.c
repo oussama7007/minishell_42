@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/11 04:38:44 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/11 04:55:30 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	validate_syntax(t_token *tokens,t_data *data)
 			// This occurs if the filename token came from an unquoted variable
 			// expansion that resulted in an empty string.
 			if ((current->type != TOKEN_RED_HEREDOC && next->is_empty_after_expand && next->quotes_type == 0) 
-				|| current->has_whit_space)
+				|| next->has_whit_space)
 			{
 				error(ERR_AMBIGUOS);
 				data->ex_status = 1;

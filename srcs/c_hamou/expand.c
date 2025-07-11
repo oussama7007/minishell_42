@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:20:52 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/11 04:27:19 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/11 05:02:23 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	handle_dollar_case(char **end, char **env, t_data *data)
 	(*end)++;
 	if (**end == '?')
 		handle_question_mark(end, data);
-	else if (ft_isalpha(**end) || **end == '_')
+	else if (ft_isalpha(**end))
 		handle_regular_dollar(end, env, data);
 	else if (ft_isdigit(**end))
 	{
@@ -50,7 +50,7 @@ void	handle_regular_dollar(char **end, char **env, t_data *data)
 	char	*var_start;
 
 	var_start = *end;
-	while (**end && (ft_isalnum(**end) || **end == '_'))
+	while (**end && (ft_isalnum(**end)))
 		(*end)++;
 	handle_regular_accumulator(var_start, *end, env, data);
 }
