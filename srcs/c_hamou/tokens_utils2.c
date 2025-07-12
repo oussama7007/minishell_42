@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:16:02 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 06:59:07 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 09:39:54 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	handle_unquoted_part(char **start, char **env, t_data *data)
 			data->is_assigning_expand = 1;
 		if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '?')
 			&& !data->delimiter)
-		{	
+		{
 			data->has_unquoted_expansion = 1;
 			handle_dollar_case(&end, env, data);
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 07:31:47 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 09:38:35 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,12 @@ void	main_loop(char ***my_envp, t_data *data)
 		if (!process_input(&line, data))
 			continue ;
 		tokens = tokenize(line, *my_envp, data);
-		if (!validate_tokens(&tokens, data, &line))
-			continue ;
-		commands = build_commands(&tokens, data, &line);
-		if (!commands || !execute_commands(&commands, &tokens, my_envp, data))
-			continue ;
+		if (validate_tokens(&tokens, data, &line))
+		{
+			commands = build_commands(&tokens, data, &line);
+			if (commands)
+				execute_commands(&commands, &tokens, my_envp, data);
+		}
 		cleanup(commands, tokens, line);
 	}
 }
