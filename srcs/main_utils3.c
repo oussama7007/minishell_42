@@ -6,11 +6,11 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 03:20:39 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 03:43:20 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 07:42:58 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/header.h"
+#include "c_spuvr/built_functions.h"
 
 int	is_redirection(int token_type)
 {
@@ -22,8 +22,7 @@ int	is_redirection(int token_type)
 
 int	should_split_token(t_token *token)
 {
-	return (token->is_expanded_token
-		&& token->quotes_type == 0
+	return (token->has_unquoted_expansion_token
 		&& !token->is_assigning_expand_token);
 }
 

@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 03:08:20 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 07:31:47 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 void	perform_field_splitting(t_token **tokens)
 {
 	t_token	**current_ptr;
+	t_token	*original_token;
 
 	current_ptr = tokens;
 	while (*current_ptr)
 	{
+		original_token = *current_ptr;
 		process_token_split(current_ptr);
-		if (*current_ptr)
+		if (*current_ptr == original_token)
 			current_ptr = &(*current_ptr)->next;
 	}
 }
@@ -36,7 +38,7 @@ int	execute_commands(t_command **cmds, t_token **tokens,
 	return (1);
 }
 
-int	process_input(char **line, t_data *data, char **env)
+int	process_input(char **line, t_data *data)
 {
 	int	quote_error;
 
@@ -70,7 +72,7 @@ void	main_loop(char ***my_envp, t_data *data)
 			break ;
 		if (*line)
 			add_history(line);
-		if (!process_input(&line, data, *my_envp))
+		if (!process_input(&line, data))
 			continue ;
 		tokens = tokenize(line, *my_envp, data);
 		if (!validate_tokens(&tokens, data, &line))
@@ -87,13 +89,13 @@ int	main(int ac, char **av, char **env)
 	char	**my_envp;
 	t_data	data;
 
+	data = (t_data){0};
 	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
 		exit(1);
 	(void)ac;
 	(void)av;
 	my_envp = init_environment(env);
 	ensure_minimal_env(&my_envp);
-	data = (t_data){0};
 	main_loop(&my_envp, &data);
 	free_environment(my_envp);
 	return (data.ex_status);

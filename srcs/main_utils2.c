@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 12:49:42 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 03:41:23 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 07:02:21 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,33 +33,44 @@ void	replace_token(t_token **current_ptr, t_token *token_to_process,
 	t_token	*end_of_new;
 
 	new_tokens = create_tokens_from_split(split_words);
-	if (new_tokens)
-	{
-		end_of_new = new_tokens;
-		while (end_of_new->next)
-			end_of_new = end_of_new->next;
-		end_of_new->next = token_to_process->next;
-		*current_ptr = new_tokens;
-		token_to_process->next = NULL;
-		free_tokens(token_to_process);
-		*current_ptr = end_of_new;
-	}
+	if (!new_tokens)
+		return ;
+	end_of_new = new_tokens;
+	while (end_of_new->next)
+		end_of_new = end_of_new->next;
+	end_of_new->next = token_to_process->next;
+	*current_ptr = new_tokens;
+	token_to_process->next = NULL;
+	free_tokens(token_to_process);
 }
 
 void	process_token_split(t_token **current_ptr)
 {
 	t_token	*token_to_process;
 	char	**split_words;
+	t_token	*new_tokens;
+	t_token	*next_token;
 
 	token_to_process = *current_ptr;
-	if (should_split_token(token_to_process))
+	if (!should_split_token(token_to_process))
+		return ;
+	split_words = ft_split(token_to_process->value, ' ');
+	if (!split_words)
+		return ;
+	new_tokens = create_tokens_from_split(split_words);
+	next_token = token_to_process->next;
+	if (new_tokens)
 	{
-		split_words = ft_split(token_to_process->value, ' ');
-		if (split_words && split_words[0] && split_words[1])
-			replace_token(current_ptr, token_to_process, split_words);
-		if (split_words)
-			free_double(split_words);
+		*current_ptr = new_tokens;
+		while (new_tokens->next)
+			new_tokens = new_tokens->next;
+		new_tokens->next = next_token;
 	}
+	else
+		*current_ptr = next_token;
+	token_to_process->next = NULL;
+	free_tokens(token_to_process);
+	free_double(split_words);
 }
 
 int	validate_tokens(t_token **tokens, t_data *data, char **line)

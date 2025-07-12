@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/11 03:38:45 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 07:01:30 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ t_token	*handle_word(char **start, char **my_env, t_data *data)
 	reset_word_data(data);
 	while (**start && !is_space(**start) && !is_operator(**start))
 		process_segment(start, my_env, data);
+	if (data->accumulator && ft_strchr(data->accumulator, ' '))
+		data->has_whit_space = 1;
 	if (!data->accumulator)
 	{
 		if (data->is_expanded)
@@ -84,8 +86,8 @@ void	handle_quoted_part(char **start, char **env, t_data *data)
 t_token	*tokenize(char *line, char **my_env, t_data *data)
 {
 	t_token	*tokens;
-	char	*start;
 	t_token	*token;
+	char	*start;
 
 	tokens = NULL;
 	start = line;

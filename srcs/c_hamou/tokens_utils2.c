@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:16:02 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/11 22:53:08 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 06:59:07 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,16 @@ void	handle_unquoted_part(char **start, char **env, t_data *data)
 	char	*end;
 
 	end = *start;
-	data->quote_type = 0;
 	while (*end && !is_space(*end) && !is_operator(*end) && !is_quotes(*end))
 	{
 		if (*end == '=' && *(end + 1) == '$')
 			data->is_assigning_expand = 1;
 		if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '?')
 			&& !data->delimiter)
+		{	
+			data->has_unquoted_expansion = 1;
 			handle_dollar_case(&end, env, data);
+		}
 		else
 		{
 			handle_normal_char(&end, data);
@@ -53,6 +55,7 @@ t_token	*new_token(int type, t_data *data)
 	token->value = ft_strdup(data->accumulator);
 	token->quotes_type = data->quote_type;
 	token->is_expanded_token = data->is_expanded;
+	token->has_unquoted_expansion_token = data->has_unquoted_expansion;
 	token->is_empty_after_expand = data->empty_expand;
 	token->is_assigning_expand_token = data->is_assigning_expand;
 	token->has_whit_space = data->has_whit_space;
