@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:54:48 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/12 18:06:20 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:23:20 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	is_built_ins(char **cmd, char ***env_ptr)
 		return (ft_echo(cmd));
 	return (999);
 }
-void 	set_to_null(t_command	**commands,t_token **tokens, char **line )
+
+void	set_to_null(t_command **commands, t_token **tokens, char **line )
 {
 	*commands = NULL;
 	*tokens = NULL;

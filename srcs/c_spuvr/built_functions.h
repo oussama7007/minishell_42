@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/12 18:16:24 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:22:53 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,7 @@ int		create_append_value(char *name, char *append_val, char ***env_ptr);
 int		is_built_ins(char **cmd, char ***env_ptr);
 int		ft_chdir(char **args, char ***env_ptr);
 void	ensure_minimal_env(char ***env_ptr);
-
-void	set_to_null(t_command	**commands,t_token **tokens, char **line );
+void	set_to_null(t_command **commands, t_token **tokens, char **line );
 void	clean_two_strings(char *str1, char *str2);
 
 #endif
