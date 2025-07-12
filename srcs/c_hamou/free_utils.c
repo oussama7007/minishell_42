@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 23:22:35 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 17:03:31 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 18:39:22 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	cleanup(t_command *cmds, t_token *tokens, char *line)
 	if (cmds)
 		free_command(cmds);
 	if (tokens)
-		free_tokens(tokens);
+		free_tokens(&tokens);
 	if (line)
 		free(line);
 }

@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:22:45 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/12 10:52:55 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 18:39:41 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	cleanup_and_exit(t_exit_data *exit_data)
 	if (exit_data->commands)
 		free_command(exit_data->commands);
 	if (exit_data->tokens)
-		free_tokens(exit_data->tokens);
+		free_tokens(&exit_data->tokens);
 	exit(exit_data->data->ex_status);
 }
 

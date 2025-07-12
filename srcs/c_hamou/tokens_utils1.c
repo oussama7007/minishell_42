@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_utils1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 23:46:06 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 06:37:19 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:39:37 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	remove_current_token(t_token **head, t_token **prev, t_token **current)
 	to_free = *current;
 	*current = (*current)->next;
 	to_free->next = NULL;
-	free_tokens(to_free);
+	free_tokens(&to_free);
 }
 
 void	remove_empty_tokens(t_token **head)

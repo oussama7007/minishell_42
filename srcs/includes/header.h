@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 07:31:52 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:40:54 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int			allocate_memory(t_command *cmd, t_counts counts);
 int			allocate_primary_memory(t_command *cmd, t_counts counts);
 int			allocate_heredoc_memory(t_command *cmd, int heredoc_count);
 void		free_all_allocations(t_command *cmd);
-void		free_tokens(t_token *tokens);
+void		free_tokens(t_token **tokens);
 void		free_command(t_command *cmd);
 void		free_double(char **arr);
 
