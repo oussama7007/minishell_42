@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 03:20:39 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 07:42:58 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 09:56:48 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@ int	should_split_token(t_token *token)
 
 int	handle_exit(char *line, char ***env, t_data *data)
 {
+	(void)env;
+	(void)data;
 	if (!line)
 	{
 		write(1, "exit\n", 5);
-		free_environment(*env);
-		exit(data->ex_status);
+		return (1);
 	}
 	return (0);
 }

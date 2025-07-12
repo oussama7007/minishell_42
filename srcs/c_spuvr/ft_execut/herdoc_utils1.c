@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 23:02:29 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/11 22:12:57 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 10:51:55 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,11 @@ int	handle_heredocs_before_execution(t_command *cmds, char **envp,
 	{
 		if (current->num_heredocs > 0)
 		{
-			free(current->heredoc_tmp_file);
+			if (current->heredoc_tmp_file)
+			{
+				free(current->heredoc_tmp_file);
+				current->heredoc_tmp_file = NULL;
+			}
 			current->heredoc_tmp_file = setup_heredoc_to_file(current,
 					envp, data);
 			if (!current->heredoc_tmp_file)

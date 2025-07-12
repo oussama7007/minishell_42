@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/11 22:33:14 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 10:33:14 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,6 @@ void	child_process_logic(t_command *cmd, char ***env)
 		exit(1);
 	if (!cmd->cmd)
 		exit(0);
-	if (ft_strcmp(cmd->cmd, "exit") == 0)
-	{
-		if (!cmd->args[1])
-			exit(0);
-		if (!is_numeric_arg(cmd->args[1]))
-			exit(255);
-		if (cmd->args[2])
-			exit(1);
-		exit((unsigned char)ft_atoi(cmd->args[1]));
-	}
 	dir_status = handle_directory_command(cmd->args[0]);
 	if (dir_status != 0)
 		exit(dir_status);

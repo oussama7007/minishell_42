@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_functions.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/11 23:11:13 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 10:37:11 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	try_paths(char **paths, char *cmd, char **cmd_path);
 //exit
 int		ft_exit(char **args, t_exit_data *exit_data);
 int		is_numeric_arg(char *str);
+int		ft_exit_child(char **args);
 
 //cd 
 void	up_env_cd(char *old_pwd_val, const char *path_arg, char ***env_ptr);

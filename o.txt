@@ -1,0 +1,61 @@
+➜  minishell_42 git:(main) ✗ env -i valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --verbose --log-file=valgrind-report.txt ./minishell
+Minishell$ env
+LD_LIBRARY_PATH=/usr/lib/debug
+GLIBCPP_FORCE_NEW=1
+PWD=/root/1337/minishell_42
+GLIBCXX_FORCE_NEW=1
+LD_PRELOAD=/usr/libexec/valgrind/vgpreload_core-amd64-linux.so:/usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+SHLVL=1
+Minishell$ export
+declare -x GLIBCPP_FORCE_NEW="1"
+declare -x GLIBCXX_FORCE_NEW="1"
+declare -x LD_LIBRARY_PATH="/usr/lib/debug"
+declare -x LD_PRELOAD="/usr/libexec/valgrind/vgpreload_core-amd64-linux.so:/usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so"
+declare -x OLDPWD
+declare -x PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+declare -x PWD="/root/1337/minishell_42"
+declare -x SHLVL="1"
+Minishell$ cd ..
+Minishell$ export
+declare -x GLIBCPP_FORCE_NEW="1"
+declare -x GLIBCXX_FORCE_NEW="1"
+declare -x LD_LIBRARY_PATH="/usr/lib/debug"
+declare -x LD_PRELOAD="/usr/libexec/valgrind/vgpreload_core-amd64-linux.so:/usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so"
+declare -x OLDPWD
+declare -x PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+declare -x PWD="/root/1337"
+declare -x SHLVL="1"
+Minishell$ cd -
+minishell: cd: OLDPWD not set
+Minishell$ 
+
+OLDPWD IS SETED but without value so it really need to be fixed 
+/////////////////////////////////
+
+and the same here : 
+
+Minishell$ unset PWD
+Minishell$ export
+declare -x GLIBCPP_FORCE_NEW="1"
+declare -x GLIBCXX_FORCE_NEW="1"
+declare -x LD_LIBRARY_PATH="/usr/lib/debug"
+declare -x LD_PRELOAD="/usr/libexec/valgrind/vgpreload_core-amd64-linux.so:/usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so"
+declare -x OLDPWD
+declare -x PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+declare -x SHLVL="1"
+Minishell$ cd ..
+Minishell$ pwd
+/root/1337/minishell_42
+Minishell$ export PWD
+Minishell$ export | grep PWD
+declare -x OLDPWD
+declare -x PWD
+Minishell$ cd srcs/
+Minishell$ pwd
+/root/1337/minishell_42/srcs
+Minishell$ export | grep PWD
+declare -x OLDPWD
+declare -x PWD
+Minishell$ 
+
