@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:16:02 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 20:26:53 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 09:39:54 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,15 @@ void	add_token(t_token **tokens, t_token *token)
 
 int	get_token_type(char *line, t_data *data)
 {
-	if (ft_strcmp(line, "|") == 0 && !data->quote_type)
+	if (ft_strcmp(line, "|") == 0 && data->quote_type == 0)
 		return (T_PIPE);
-	if (ft_strcmp(line, "<") == 0 && !data->quote_type)
+	if (ft_strcmp(line, "<") == 0 && data->quote_type == 0)
 		return (T_RED_IN);
-	if (ft_strcmp(line, ">") == 0 && !data->quote_type)
+	if (ft_strcmp(line, ">") == 0 && data->quote_type == 0)
 		return (T_RED_OUT);
-	if (ft_strcmp(line, "<<") == 0 && !data->quote_type)
+	if (ft_strcmp(line, "<<") == 0 && data->quote_type == 0)
 		return (T_HEREDOC);
-	if (ft_strcmp(line, ">>") == 0 && !data->quote_type)
+	if (ft_strcmp(line, ">>") == 0 && data->quote_type == 0)
 		return (T_APPEND);
 	return (T_WORD);
 }

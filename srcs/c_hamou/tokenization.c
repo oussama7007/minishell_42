@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 21:21:32 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 22:34:33 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	handle_double_quotes(char **start, char **env, t_data *data)
 {
 	char	*end;
 
+	data->quote_type = 2;
 	end = *start + 1;
 	while (*end && *end != '"')
 	{
@@ -59,8 +60,12 @@ t_token	*handle_word(char **start, char **my_env, t_data *data)
 
 	reset_word_data(data);
 	while (**start && !is_space(**start) && !is_operator(**start))
+	{
+		if (is_operator(**start))
+			break ;
 		process_segment(start, my_env, data);
-	if (data->accumulator && ft_strchr(data->accumulator, ' '))
+	}
+	if (data->accumulator && has_multiple_words(data->accumulator))
 		data->has_whit_space = 1;
 	if (!data->accumulator)
 	{

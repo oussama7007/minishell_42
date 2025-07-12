@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 12:49:42 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 18:39:18 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 22:13:04 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,22 @@ void	replace_token(t_token **current_ptr, t_token *token_to_process,
 	free_tokens(&token_to_process);
 }
 
-void	process_token_split(t_token **current_ptr)
+void	process_token_split(t_token **current_ptr, char **my_envp)
 {
 	t_token	*token_to_process;
-	char	**split_words;
 	t_token	*new_tokens;
 	t_token	*next_token;
+	char	*str_to_retokenize;
+	t_data	temp_data;
 
 	token_to_process = *current_ptr;
 	if (!should_split_token(token_to_process))
 		return ;
-	split_words = ft_split(token_to_process->value, ' ');
-	if (!split_words)
-		return ;
-	new_tokens = create_tokens_from_split(split_words);
+	str_to_retokenize = ft_strdup(token_to_process->value);
 	next_token = token_to_process->next;
+	ft_bzero(&temp_data, sizeof(t_data));
+	new_tokens = tokenize(str_to_retokenize, my_envp, &temp_data);
+	free(str_to_retokenize);
 	if (new_tokens)
 	{
 		*current_ptr = new_tokens;
@@ -70,7 +71,6 @@ void	process_token_split(t_token **current_ptr)
 		*current_ptr = next_token;
 	token_to_process->next = NULL;
 	free_tokens(&token_to_process);
-	free_double(split_words);
 }
 
 int	validate_tokens(t_token **tokens, t_data *data, char **line)

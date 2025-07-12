@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:20:52 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 20:50:38 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 07:01:43 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ char	*get_var_value(char *new_word, char **envp)
 
 void	handle_dollar_case(char **end, char **env, t_data *data)
 {
-	data->quote_type = 2;
 	(*end)++;
 	if (**end == '?')
 		handle_question_mark(end, data);
