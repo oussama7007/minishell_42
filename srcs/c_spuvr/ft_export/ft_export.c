@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:44 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/12 03:01:22 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 11:32:49 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	is_standalone_name(const char *arg)
 
 int	exec_export_name_only(const char *name_arg, char ***env_ptr)
 {
+	char	*pwd_buffer;
+
 	if (!name_arg || name_arg[0] == '\0')
 	{
 		print_err_export(NULL, name_arg);
@@ -30,6 +32,16 @@ int	exec_export_name_only(const char *name_arg, char ***env_ptr)
 	{
 		print_err_export(NULL, name_arg);
 		return (1);
+	}
+	if (ft_strcmp((char *)name_arg, "PWD") == 0)
+	{
+		pwd_buffer = getcwd(NULL, 0);
+		if (pwd_buffer)
+		{
+			my_setenv("PWD", pwd_buffer, env_ptr);
+			free(pwd_buffer);
+		}
+		return (0);
 	}
 	if (!my_getenv(name_arg, *env_ptr))
 		return (my_setenv((char *)name_arg, NULL, env_ptr));

@@ -59,3 +59,46 @@ declare -x OLDPWD
 declare -x PWD
 Minishell$ 
 
+
+
+so if i did export PWD 
+and i did that on bash : 
+
+
+root@DESKTOP-USVKH39:~/1337/minishell_42# env -i bash
+root@DESKTOP-USVKH39:/root/1337/minishell_42# unset PWD
+root@DESKTOP-USVKH39:/root/1337/minishell_42# cd ..
+root@DESKTOP-USVKH39:/root/1337# cd -
+bash: cd: OLDPWD not set
+root@DESKTOP-USVKH39:/root/1337# export
+declare -x DISPLAY="172.23.32.1:0"
+declare -x LESSCLOSE="/usr/bin/lesspipe %s %s"
+declare -x LESSOPEN="| /usr/bin/lesspipe %s"
+declare -x LS_COLORS=""
+declare -x OLDPWD
+declare -x PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.local/bin"
+declare -x SHLVL="1"
+root@DESKTOP-USVKH39:/root/1337# export PWD
+root@DESKTOP-USVKH39:/root/1337# ls
+Philosophers  codecrafters-shell-c  combine_files.sh:Zone.Identifier  ft_printf      minishell_42  test
+SVG_exp       combine_files.sh      exam                              get_next_line  my_gnl
+root@DESKTOP-USVKH39:/root/1337# export
+declare -x DISPLAY="172.23.32.1:0"
+declare -x LESSCLOSE="/usr/bin/lesspipe %s %s"
+declare -x LESSOPEN="| /usr/bin/lesspipe %s"
+declare -x LS_COLORS=""
+declare -x OLDPWD
+declare -x PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.local/bin"
+declare -x PWD="/root/1337"
+declare -x SHLVL="1"
+root@DESKTOP-USVKH39:/root/1337# cd minishell_42/
+root@DESKTOP-USVKH39:/root/1337/minishell_42# export
+declare -x DISPLAY="172.23.32.1:0"
+declare -x LESSCLOSE="/usr/bin/lesspipe %s %s"
+declare -x LESSOPEN="| /usr/bin/lesspipe %s"
+declare -x LS_COLORS=""
+declare -x OLDPWD="/root/1337"
+declare -x PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.local/bin"
+declare -x PWD="/root/1337/minishell_42"
+declare -x SHLVL="1"
+root@DESKTOP-USVKH39:/root/1337/minishell_42# 

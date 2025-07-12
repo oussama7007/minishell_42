@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:04:45 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/11 22:34:54 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 11:43:35 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ void	up_env_cd(char *old_pwd_val, const char *path_arg, char ***env_ptr)
 	char	*new_pwd;
 	char	*new_pwd_val;
 
-	if (old_pwd_val && my_getenv("OLDPWD", *env_ptr) != NULL)
+	if (old_pwd_val && find_var_index("OLDPWD", *env_ptr) != -1)
 		my_setenv("OLDPWD", old_pwd_val, env_ptr);
 	new_pwd = getcwd(NULL, 0);
 	if (new_pwd)
 	{
-		if (my_getenv("PWD", *env_ptr) != NULL)
+		if (find_var_index("PWD", *env_ptr) != -1)
 			my_setenv("PWD", new_pwd, env_ptr);
 		free(new_pwd);
 	}
@@ -61,7 +61,7 @@ void	up_env_cd(char *old_pwd_val, const char *path_arg, char ***env_ptr)
 		new_pwd_val = join_pwd(old_pwd_val, path_arg);
 		if (new_pwd_val)
 		{
-			if (my_getenv("PWD", *env_ptr) != NULL)
+			if (find_var_index("PWD", *env_ptr) != -1)
 				my_setenv("PWD", new_pwd_val, env_ptr);
 			free(new_pwd_val);
 		}

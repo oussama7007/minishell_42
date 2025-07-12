@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 12:49:42 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 09:31:30 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 11:44:51 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,9 @@ void	process_token_split(t_token **current_ptr)
 
 int	validate_tokens(t_token **tokens, t_data *data, char **line)
 {
-	if (!*tokens || !**line)
-	{
-		if (*tokens)
-			free_tokens(*tokens);
-		free(*line);
+	(void)line;
+	if (!*tokens)
 		return (0);
-	}
 	if ((*tokens)->type == T_PIPE)
 	{
 		error(ERR_PIPE);
