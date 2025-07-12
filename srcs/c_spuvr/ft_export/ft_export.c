@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:44 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/12 16:00:51 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 17:57:44 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ int	process_export_arguments(char **args, char ***env_ptr)
 	char	*value;
 	int		is_append;
 
-	i = 1;
+	i = -1;
 	ret_status = 0;
-	while (args[i])
+	while (args[++i])
 	{
 		if (parse_export_arg(args[i], &name, &value, &is_append) != 0)
 			return (1);
@@ -105,9 +105,7 @@ int	process_export_arguments(char **args, char ***env_ptr)
 					value, is_append, env_ptr);
 		else
 			ret_status |= exec_export_name_only(name, env_ptr);
-		free(name);
-		free(value);
-		i++;
+		clean_two_strings(name, value);
 	}
 	return (ret_status);
 }

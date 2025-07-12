@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 17:30:29 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:16:48 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,8 @@ void	main_loop(char ***my_envp, t_data *data)
 	t_command	*commands;
 
 	while (1)
-	{
-		commands = NULL;
-		tokens = NULL;
-		line = NULL;
+	{	
+		set_to_null(&commands, &tokens, &line);
 		clean_accumulator(data);
 		line = readline("Minishell$ ");
 		if (handle_exit(line, my_envp, data))

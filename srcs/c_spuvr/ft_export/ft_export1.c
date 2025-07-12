@@ -3,11 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:55 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/12 17:11:00 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 18:16:15 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../built_functions.h"
+
+void	clean_two_strings(char *str1, char *str2)
+{
+	free(str1);
+	free(str2);
+}
