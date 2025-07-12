@@ -6,11 +6,36 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 18:16:48 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 20:45:26 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "c_spuvr/built_functions.h"
+
+void debug_tokens(t_token *head)
+{
+    int index = 0;
+    t_token *current = head;
+
+    while (current != NULL)
+    {
+        printf("Token [%d]:\n", index);
+        printf("  type: %d\n", current->type);
+        printf("  value: %s\n", current->value ? current->value : "(null)");
+        printf("  quotes_type: %d\n", current->quotes_type);
+        printf("  is_expanded_token: %d\n", current->is_expanded_token);
+		printf("   has_whit_space %d\n", current->has_whit_space);
+		printf("has_unquoted_expansion_token %d\n", current->has_unquoted_expansion_token);
+        printf("  next: %p\n", (void *)current->next);
+        printf("-----------------------\n");
+
+        current = current->next;
+        index++;
+    }
+
+    if (index == 0)
+        printf("No tokens to display (list is empty).\n");
+}
 
 void	perform_field_splitting(t_token **tokens)
 {
@@ -32,6 +57,7 @@ int	execute_commands(t_command **cmds, t_token **tokens,
 {
 	remove_empty_tokens(tokens);
 	perform_field_splitting(tokens);
+	debug_tokens(*tokens);
 	if (!prepare_execution(cmds, tokens, env, data))
 		return (0);
 	data->ex_status = ft_execute_command_list(*cmds, *tokens, env, data);

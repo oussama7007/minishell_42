@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 07:01:30 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 20:50:27 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	handle_double_quotes(char **start, char **env, t_data *data)
 {
 	char	*end;
 
-	data->quote_type = 2;
 	end = *start + 1;
 	while (*end && *end != '"')
 	{
