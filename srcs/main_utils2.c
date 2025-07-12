@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 12:49:42 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 17:00:08 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 18:39:18 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	replace_token(t_token **current_ptr, t_token *token_to_process,
 	end_of_new->next = token_to_process->next;
 	*current_ptr = new_tokens;
 	token_to_process->next = NULL;
-	free_tokens(token_to_process);
+	free_tokens(&token_to_process);
 }
 
 void	process_token_split(t_token **current_ptr)
@@ -69,7 +69,7 @@ void	process_token_split(t_token **current_ptr)
 	else
 		*current_ptr = next_token;
 	token_to_process->next = NULL;
-	free_tokens(token_to_process);
+	free_tokens(&token_to_process);
 	free_double(split_words);
 }
 
@@ -95,14 +95,14 @@ int	prepare_execution(t_command **cmds, t_token **tokens,
 	*cmds = build_command(*tokens);
 	if (!*cmds)
 	{
-		free_tokens(*tokens);
+		free_tokens(tokens);
 		return (0);
 	}
 	if (!handle_heredocs_before_execution(*cmds, *env, data))
 	{
 		free_command(*cmds);
 		*cmds = NULL;
-		free_tokens(*tokens);
+		free_tokens(tokens);
 		return (0);
 	}
 	return (1);

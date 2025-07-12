@@ -1,0 +1,9 @@
+declare -x a="  we we"
+declare -x container="flatpak"
+declare -x export
+Minishell$ 
+
+bash-5.2$ valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --verbose --log-file=valgrind-report.txt ./minishell
+Minishell$ export a+="  we we"
+Minishell$ export 
+

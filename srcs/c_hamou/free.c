@@ -6,26 +6,27 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:20:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 17:00:49 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 18:42:10 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	free_tokens(t_token *tokens)
+void	free_tokens(t_token **tokens)
 {
 	t_token	*tmp;
 
-	if (tokens)
+	if (*tokens)
 	{
-		while (tokens)
+		while (*tokens)
 		{
-			tmp = tokens;
-			tokens = tokens->next;
+			tmp = *tokens;
+			*tokens = (*tokens)->next;
 			free(tmp->value);
 			free(tmp);
 		}
 	}
+	tokens = NULL;
 }
 
 void	free_double(char **arr)
@@ -41,6 +42,7 @@ void	free_double(char **arr)
 		i++;
 	}
 	free(arr);
+	arr = NULL;
 }
 
 void	free_command(t_command *cmd)

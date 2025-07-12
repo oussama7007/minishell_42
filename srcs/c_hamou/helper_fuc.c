@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_fuc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:34:08 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 07:00:12 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:39:30 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_token	*create_and_add_token(t_token **tokens, t_token *token, t_data *data)
 	{
 		free(data->accumulator);
 		data->accumulator = NULL;
-		free_tokens(*tokens);
+		free_tokens(tokens);
 		return (NULL);
 	}
 	add_token(tokens, token);
