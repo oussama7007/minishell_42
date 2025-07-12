@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_utils1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 23:46:06 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 18:39:37 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 21:22:30 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_token	*handle_operator(char **start, t_data *data)
 	char	*operator_str;
 	int		len;
 	t_token	*token;
-
+	
 	len = get_operator_length(start, data);
 	operator_str = ft_strndup(*start, len);
 	if (!operator_str)
