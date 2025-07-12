@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:00:09 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/12 12:07:55 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 12:10:42 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,19 +61,20 @@ int	my_setenv(char *name, char *value, char ***env_ptr)
 	return ((*env_ptr = new_data), 0);
 }
 
-static void	copy_indexes(char ***env_ptr, char **new_env, int skip_idx)
+static void	copy_indexes(char **old_env, char **new_env, int skip_idx)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	while ((*env_ptr)[i])
+	while (old_env[i])
 	{
 		if (i != skip_idx)
-			new_env[j++] = (*env_ptr)[i];
-		else
-			free((*env_ptr)[i]);
+		{
+			new_env[j] = old_env[i];
+			j++;
+		}
 		i++;
 	}
 	new_env[j] = NULL;
@@ -94,8 +95,8 @@ int	my_unsetenv(const char *name, char ***env_ptr)
 	new_env = malloc(sizeof(char *) * env_size);
 	if (!new_env)
 		return (-1);
+	copy_indexes(*env_ptr, new_env, var_id);
 	free((*env_ptr)[var_id]);
-	copy_indexes(env_ptr, new_env, var_id);
 	free(*env_ptr);
 	*env_ptr = new_env;
 	return (0);
