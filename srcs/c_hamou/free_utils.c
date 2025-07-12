@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 23:22:35 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 02:10:33 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 03:24:11 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,20 @@ void	clean_accumulator(t_data *data)
 	if (data->accumulator)
 		free(data->accumulator);
 	data->accumulator = NULL;
+}
+
+t_command	*build_commands(t_token **tokens, t_data *data, char **line)
+{
+	t_command	*commands;
+
+	commands = build_command(*tokens);
+	if (!commands || !validate_syntax(*tokens, data))
+	{
+		if (commands)
+			free_command(commands);
+		free_tokens(*tokens);
+		free(*line);
+		return (NULL);
+	}
+	return (commands);
 }

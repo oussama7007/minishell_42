@@ -6,28 +6,11 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 12:49:42 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 02:15:44 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 03:41:23 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "c_spuvr/built_functions.h"
-
-int	is_redirection(int token_type)
-{
-	return (token_type == TOKEN_RED_IN
-		|| token_type == TOKEN_RED_OUT
-		|| token_type == TOKEN_RED_APPEND
-		|| token_type == TOKEN_RED_HEREDOC);
-}
-int	check_pipe_syntax(t_token *current, t_token *next, t_data *data)
-{
-	if (current->type == TOKEN_PIPE)
-	{
-		if (!next || next->type == TOKEN_PIPE)
-			return (error(ERR_SYNTAX), data->ex_status = 2, 0);
-	}
-	return (1);
-}
 
 int	check_redirection_syntax(t_token *current, t_token *next, t_data *data)
 {
@@ -43,52 +26,8 @@ int	check_redirection_syntax(t_token *current, t_token *next, t_data *data)
 	return (1);
 }
 
-int	validate_syntax(t_token *tokens, t_data *data)
-{
-	t_token	*current;
-	t_token	*next;
-
-	current = tokens;
-	while (current)
-	{
-		next = current->next;
-		if (!check_pipe_syntax(current, next, data))
-			return (0);
-		if (is_redirection(current->type)
-			&& !check_redirection_syntax(current, next, data))
-			return (0);
-		current = current->next;
-	}
-	return (1);
-}
-
-
-void	exit_status(int set, int value, t_data *data)
-{
-	
-	static t_data *hh;
-	
-	if (data)
-		hh = data;
-	if (set)
-		hh->ex_status = value;
-}
-
-void	setup_signal_handlers(void)
-{
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-int	should_split_token(t_token *token)
-{
-	return (token->is_expanded_token
-		&& token->quotes_type == 0
-		&& !token->is_assigning_expand_token);
-}
-
 void	replace_token(t_token **current_ptr, t_token *token_to_process,
-			char **split_words)
+		char **split_words)
 {
 	t_token	*new_tokens;
 	t_token	*end_of_new;
@@ -123,31 +62,6 @@ void	process_token_split(t_token **current_ptr)
 	}
 }
 
-void	perform_field_splitting(t_token **tokens)
-{
-	t_token	**current_ptr;
-
-	current_ptr = tokens;
-	while (*current_ptr)
-	{
-		process_token_split(current_ptr);
-		if (*current_ptr)
-			current_ptr = &(*current_ptr)->next;
-	}
-}
-
-int	handle_exit(char *line, char ***env, t_data *data)
-{
-	if (!line)
-	{
-		write(1, "exit\n", 5);
-		free_environment(*env);
-		exit(data->ex_status);
-	}
-	return (0);
-}
-
-
 int	validate_tokens(t_token **tokens, t_data *data, char **line)
 {
 	if (!*tokens || !**line)
@@ -168,24 +82,8 @@ int	validate_tokens(t_token **tokens, t_data *data, char **line)
 	return (1);
 }
 
-t_command	*build_commands(t_token **tokens, t_data *data, char **line)
-{
-	t_command	*commands;
-
-	commands = build_command(*tokens);
-	if (!commands || !validate_syntax(*tokens, data))
-	{
-		if (commands)
-			free_command(commands);
-		free_tokens(*tokens);
-		free(*line);
-		return (NULL);
-	}
-	return (commands);
-}
-
 int	prepare_execution(t_command **cmds, t_token **tokens,
-			char ***env, t_data *data)
+		char ***env, t_data *data)
 {
 	free_command(*cmds);
 	*cmds = build_command(*tokens);
@@ -202,6 +100,3 @@ int	prepare_execution(t_command **cmds, t_token **tokens,
 	}
 	return (1);
 }
-
-
-

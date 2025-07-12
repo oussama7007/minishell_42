@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 02:06:29 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 03:47:08 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <readline/history.h>
 # include "../c_spuvr/LIBFT/libft.h"
 
+/* Token types */
 # define TOKEN_WORD 0
 # define TOKEN_PIPE 1
 # define TOKEN_RED_IN 2
@@ -30,6 +31,7 @@
 # define TOKEN_RED_APPEND 4
 # define TOKEN_RED_HEREDOC 5
 
+/* Error types */
 # define ERR_PIPE 1
 # define ERR_RED 2
 # define ERR_NEWLINE 5
@@ -38,6 +40,7 @@
 # define ERR_SYNTAX 8
 # define ERR_AMBIGUOS 9
 
+/* Alternate token type definitions */
 # define T_WORD 0
 # define T_PIPE 1
 # define T_RED_IN 2
@@ -111,99 +114,127 @@ typedef struct s_cmd_builder
 	int			heredoc_count;
 }	t_cmd_builder;
 
-t_token	*handle_operator(char **start, t_data *data);
-t_token	*tokenize(char *line, char **my_env, t_data *data);
-t_token	*new_token(int type, t_data *data);
-t_token	*process_token(t_token *token, t_command *cmd, t_indices *idx);
-t_token	*handle_redirection(t_token *token, t_command *cmd, t_indices *idx);
+/* Token functions */
+t_token		*handle_operator(char **start, t_data *data);
+t_token		*tokenize(char *line, char **my_env, t_data *data);
+t_token		*new_token(int type, t_data *data);
+t_token		*process_token(t_token *token, t_command *cmd, t_indices *idx);
+t_token		*handle_redirection(t_token *token, t_command *cmd, t_indices *idx);
+t_token		*handle_word(char **start, char **env, t_data *data);
+t_token		*create_tokens_from_split(char **split_words);
+t_token		*create_and_add_token(t_token **tokens,
+				t_token *token, t_data *data);
+
+/* Command functions */
 t_command	*new_command(void);
 t_command	*build_command(t_token *tokens);
-t_token	*handle_word(char **start, char **env, t_data *data);
-t_token	*create_tokens_from_split(char **split_words);
-t_token	*create_and_add_token(t_token **tokens, t_token *token, t_data *data);
-// functions
-int		allocate_memory(t_command *cmd, t_counts counts);
-int		allocate_primary_memory(t_command *cmd, t_counts counts);
-int		allocate_heredoc_memory(t_command *cmd, int heredoc_count);
-int		count_char(char *str);
-char	*skip_space(char *str);
-void	setup_signal_handlers(void);
-void	main_loop(char ***my_envp, t_data *data);
-int		handle_heredocs_before_execution(t_command *cmds, char **envp,
-			t_data *data);
-int		ensure_command_exists(t_cmd_builder *builder, t_token *token);
-char	*append_char(char *str, char c);
-int		finalize_command(t_cmd_builder *builder);
-void	handle_quoted_part(char **start, char **env, t_data *data);
-void	handle_unquoted_part(char **start, char **env, t_data *data);
-void	handle_question_mark(char **end, t_data *data);
-int		is_space(char c);
-int		is_operator(char c);
-int		is_quotes(char c);
-void	handle_regular_dollar(char **end, char **env, t_data *data);
-void	free_all_allocations(t_command *cmd);
-char	*join_and_free(char *acc, char *to_add);
-char	*handle_double_quote_var(char **end, char **env, char *accumulator);
-char	*handle_double_quote_dollar(char **end, char *acc, char **env,
-			t_data *data);
-void	handle_double_quotes(char **start, char **env, t_data *data);
-void	singel_quotes_handler(char **input_start, t_data *data);
-void	free_double(char **arr);
-void	free_args(t_command *command);
-char	*question_mark(int ex_status);
-int		get_quotes_type(char quote_type);
-void	process_segment(char **start, char **env, t_data *data);
-char	*handle_double_quote_var1(char **end, char **env, t_data *data,
-			char *accumulator);
-void	handle_dollar_case(char **end, char **env, t_data *data);
-void	terminate_arrays(t_command *cmd, t_indices *idx, t_counts counts);
-void	handle_normal_char(char **end_ptr, t_data *data);
-void	handle_regular_accumulator(char *var_start, char *end,
-			char **env, t_data *data);
-void	error(int type);
-int		validate_syntax(t_token *tokens, t_data *data);
-void	free_tokens(t_token *tokens);
-int		populate_command(t_command *cmd, t_token *tokens, t_counts counts);
-void	add_token(t_token **tokens, t_token *token);
-int		get_token_type(char *line, t_data *data);
-char	*expand_value_func(char *value, char **envp);
-void	add_command(t_command **commands, t_command *command);
-char	*get_var_value(char *new_word, char **envp);
-void	free_command(t_command *cmd);
-void	setup_child_signals(t_command *cmd);
-int		should_skip_empty_command(t_cmd_builder *builder,
-			t_token *first_word_token);
-void	remove_empty_tokens(t_token **head);
-void	perform_field_splitting(t_token **tokens);
-int		get_operator_length(char **start, t_data *data);
-void	terminate_arr_finalize_command(t_cmd_builder *builder);
-void	init_counts(t_counts *counts, t_cmd_builder *builder);
-void	process_operator_data(char *operator_str, t_data *data);
-void	reset_word_data(t_data *data);
-void	sigint_handler(int sig);
-int		handle_quotes(char *line);
-int		check_double_quotes(char *line, int *i);
-int		check_invalid_char(char *line);
-int		is_redirection(int token_type);
-void	remove_current_token(t_token **head, t_token **prev,
-			t_token **current);
-void	exit_status(int set, int value, t_data *data);
-void	sigint_handler_exec(int sig);
-void	process_word(char *word, t_token **head, int *flag);
-void	cleanup(t_command *cmds, t_token *tokens, char *line);
-int	execute_commands(t_command **cmds, t_token **tokens, 
-			char ***env, t_data *data);
-int	prepare_execution(t_command **cmds, t_token **tokens,
-			char ***env, t_data *data);
 t_command	*build_commands(t_token **tokens, t_data *data, char **line);
-int	validate_tokens(t_token **tokens, t_data *data, char **line);
-int	process_input(char **line, t_data *data, char **env);
-int	handle_exit(char *line, char ***env, t_data *data);
-void	clean_accumulator(t_data *data);
-int	check_redirection_syntax(t_token *current, t_token *next, t_data *data);
-int	check_pipe_syntax(t_token *current, t_token *next, t_data *data);
-void	replace_token(t_token **current_ptr, t_token *token_to_process,
-			char **split_words);
-int	should_split_token(t_token *token);
-void	process_token_split(t_token **current_ptr);
+
+/* Memory management */
+int			allocate_memory(t_command *cmd, t_counts counts);
+int			allocate_primary_memory(t_command *cmd, t_counts counts);
+int			allocate_heredoc_memory(t_command *cmd, int heredoc_count);
+void		free_all_allocations(t_command *cmd);
+void		free_args(t_command *command);
+void		free_tokens(t_token *tokens);
+void		free_command(t_command *cmd);
+void		free_double(char **arr);
+
+/* String handling */
+char		*append_char(char *str, char c);
+char		*join_and_free(char *acc, char *to_add);
+char		*skip_space(char *str);
+int			count_char(char *str);
+char		*expand_value_func(char *value, char **envp);
+char		*get_var_value(char *new_word, char **envp);
+char		*question_mark(int ex_status);
+
+/* Signal handling */
+void		setup_signal_handlers(void);
+void		setup_child_signals(t_command *cmd);
+void		sigint_handler(int sig);
+void		sigint_handler_exec(int sig);
+
+/* Execution */
+int			execute_commands(t_command **cmds, t_token **tokens,
+				char ***env, t_data *data);
+int			prepare_execution(t_command **cmds, t_token **tokens,
+				char ***env, t_data *data);
+int			handle_heredocs_before_execution(t_command *cmds,
+				char **envp, t_data *data);
+
+/* Parsing utilities */
+int			is_space(char c);
+int			is_operator(char c);
+int			is_quotes(char c);
+int			is_redirection(int token_type);
+int			get_quotes_type(char quote_type);
+int			get_token_type(char *line, t_data *data);
+int			get_operator_length(char **start, t_data *data);
+
+/* Command building */
+int			ensure_command_exists(t_cmd_builder *builder, t_token *token);
+int			finalize_command(t_cmd_builder *builder);
+int			should_skip_empty_command(t_cmd_builder *builder,
+				t_token *first_word_token);
+void		init_counts(t_counts *counts, t_cmd_builder *builder);
+void		terminate_arrays(t_command *cmd, t_indices *idx, t_counts counts);
+void		terminate_arr_finalize_command(t_cmd_builder *builder);
+void		add_command(t_command **commands, t_command *command);
+
+/* Quote handling */
+void		handle_quoted_part(char **start, char **env, t_data *data);
+void		handle_unquoted_part(char **start, char **env, t_data *data);
+void		handle_double_quotes(char **start, char **env, t_data *data);
+void		singel_quotes_handler(char **input_start, t_data *data);
+int			handle_quotes(char *line);
+int			check_double_quotes(char *line, int *i);
+
+/* Variable expansion */
+void		handle_question_mark(char **end, t_data *data);
+void		handle_regular_dollar(char **end, char **env, t_data *data);
+void		handle_dollar_case(char **end, char **env, t_data *data);
+char		*handle_double_quote_var(char **end, char **env, char *accumulator);
+char		*handle_double_quote_dollar(char **end, char *acc, char **env,
+				t_data *data);
+char		*handle_double_quote_var1(char **end, char **env, t_data *data,
+				char *accumulator);
+void		handle_regular_accumulator(char *var_start, char *end,
+				char **env, t_data *data);
+
+/* Token processing */
+void		process_segment(char **start, char **env, t_data *data);
+void		process_word(char *word, t_token **head, int *flag);
+void		process_operator_data(char *operator_str, t_data *data);
+void		reset_word_data(t_data *data);
+void		process_token_split(t_token **current_ptr);
+void		replace_token(t_token **current_ptr, t_token *token_to_process,
+				char **split_words);
+int			should_split_token(t_token *token);
+
+/* Syntax validation */
+int			validate_syntax(t_token *tokens, t_data *data);
+int			validate_tokens(t_token **tokens, t_data *data, char **line);
+int			check_redirection_syntax(t_token *current, t_token *next,
+				t_data *data);
+int			check_pipe_syntax(t_token *current, t_token *next, t_data *data);
+int			check_invalid_char(char *line);
+
+/* Main loop functions */
+void		main_loop(char ***my_envp, t_data *data);
+int			process_input(char **line, t_data *data, char **env);
+int			handle_exit(char *line, char ***env, t_data *data);
+void		clean_accumulator(t_data *data);
+void		cleanup(t_command *cmds, t_token *tokens, char *line);
+
+/* Utility functions */
+void		error(int type);
+void		exit_status(int set, int value, t_data *data);
+void		remove_empty_tokens(t_token **head);
+void		perform_field_splitting(t_token **tokens);
+void		remove_current_token(t_token **head, t_token **prev,
+				t_token **current);
+void		add_token(t_token **tokens, t_token *token);
+int			populate_command(t_command *cmd, t_token *tokens, t_counts counts);
+
 #endif

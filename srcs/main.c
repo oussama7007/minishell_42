@@ -6,14 +6,27 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 02:15:54 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 03:08:20 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "c_spuvr/built_functions.h"
 
-int	execute_commands(t_command **cmds, t_token **tokens, 
-			char ***env, t_data *data)
+void	perform_field_splitting(t_token **tokens)
+{
+	t_token	**current_ptr;
+
+	current_ptr = tokens;
+	while (*current_ptr)
+	{
+		process_token_split(current_ptr);
+		if (*current_ptr)
+			current_ptr = &(*current_ptr)->next;
+	}
+}
+
+int	execute_commands(t_command **cmds, t_token **tokens,
+		char ***env, t_data *data)
 {
 	remove_empty_tokens(tokens);
 	perform_field_splitting(tokens);
@@ -54,17 +67,17 @@ void	main_loop(char ***my_envp, t_data *data)
 		clean_accumulator(data);
 		line = readline("Minishell$ ");
 		if (handle_exit(line, my_envp, data))
-			break;
-		if (*line) 
-            add_history(line);
+			break ;
+		if (*line)
+			add_history(line);
 		if (!process_input(&line, data, *my_envp))
-			continue;
+			continue ;
 		tokens = tokenize(line, *my_envp, data);
 		if (!validate_tokens(&tokens, data, &line))
-			continue;
+			continue ;
 		commands = build_commands(&tokens, data, &line);
 		if (!commands || !execute_commands(&commands, &tokens, my_envp, data))
-			continue;
+			continue ;
 		cleanup(commands, tokens, line);
 	}
 }

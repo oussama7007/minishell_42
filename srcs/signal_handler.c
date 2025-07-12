@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 12:43:39 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/12 00:59:35 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 03:43:05 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,20 @@ void	sigint_handler(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 1);
 	rl_redisplay();
+}
+
+void	setup_signal_handlers(void)
+{
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	exit_status(int set, int value, t_data *data)
+{
+	static t_data	*hh;
+
+	if (data)
+		hh = data;
+	if (set)
+		hh->ex_status = value;
 }
