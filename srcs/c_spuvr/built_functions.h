@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_functions.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/12 18:22:53 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 23:43:17 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,12 @@ typedef struct s_exit_data
 }				t_exit_data;
 
 int		is_nn_option(const char *arg);
-// heredoc
 void	expand_heredoc_line(char *line, char **env, t_data *data);
 char	*generate_heredoc_filename(void);
 void	handle_heredoc_interrupt(t_heredoc_info *info, int fd_backup);
 int		process_heredoc_iteration(t_heredoc_info *info, const char *filename);
 int		should_stop_reading(char *line, t_heredoc_info *info);
 void	read_heredoc_loop(t_heredoc_info *info);
-//built is
 char	**init_environment(char **system_envp);
 void	free_environment(char **envp_ptr);
 char	*my_getenv(const char *name, char **envp);
@@ -69,7 +67,6 @@ int		ft_execute_command_list(t_command *command_list, t_token *tokens,
 char	*find_executable_path(char *cmd, char **envp);
 int		wait_for_child(pid_t pid);
 int		is_direct_path(const char *cmd_name);
-// execute
 void	read_heredoc_input(t_heredoc_info *info);
 int		should_stop_reading(char *line, t_heredoc_info *info);
 void	re_process_heredoc_line(t_heredoc_info *info, char *line);
@@ -80,23 +77,16 @@ int		is_parent_only_builtin(char *cmd);
 int		has_redirection(t_command *cmd);
 int		setup_heredoc(t_command *cmd, char **envp, t_data *data);
 void	try_paths(char **paths, char *cmd, char **cmd_path);
-//exit
 int		ft_exit(char **args, t_exit_data *exit_data);
 int		is_numeric_arg(char *str);
 int		ft_exit_child(char **args);
-
-//cd 
 void	up_env_cd(char *old_pwd_val, const char *path_arg, char ***env_ptr);
 char	*target_path(char **args, char **envp);
-// redirection
 int		handle_redirection_child(t_command *cmd_node);
-// pipe
 int		execute_pipeline(t_command *commands, char ***env_ptr, t_data *data);
 void	execute_single_cmd(t_command *cmd, char **envp);
 void	setup_child_io(int prev_pipe, int *pipe_fds, t_command *cmd);
 void	child_process_logic(t_command *cmd, char ***env);
-
-// erro.c
 void	ft_free_array(char **array);
 int		handle_command_not_found(char *cmd);
 void	execute_child_process(char *cmd_path, char **args, char **envp);
