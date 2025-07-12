@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:20:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/10 13:24:33 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 17:00:49 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,15 @@ void	free_tokens(t_token *tokens)
 {
 	t_token	*tmp;
 
-	while (tokens)
+	if (tokens)
 	{
-		tmp = tokens;
-		tokens = tokens->next;
-		free(tmp->value);
-		free(tmp);
+		while (tokens)
+		{
+			tmp = tokens;
+			tokens = tokens->next;
+			free(tmp->value);
+			free(tmp);
+		}
 	}
 }
 
@@ -56,7 +59,8 @@ void	free_command(t_command *cmd)
 		free(cmd->heredoc_quotes);
 	if (cmd->heredoc_tmp_file)
 	{
-		unlink(cmd->heredoc_tmp_file);
+		if (access(cmd->heredoc_tmp_file, F_OK) == 0)
+			unlink(cmd->heredoc_tmp_file);
 		free(cmd->heredoc_tmp_file);
 	}
 	if (cmd->next)

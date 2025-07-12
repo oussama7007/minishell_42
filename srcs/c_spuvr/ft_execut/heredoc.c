@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 21:34:06 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/11 22:14:30 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 16:49:35 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,12 @@ int	process_heredoc_iteration(t_heredoc_info *info, const char *filename)
 	if (g_sig_var == 1)
 	{
 		if (info->fd != -1)
+		{
 			close(info->fd);
-		unlink(filename);
+			info->fd = -1;
+		}
+		if (access(filename, F_OK) == 0)
+			unlink(filename);
 		return (1);
 	}
 	return (0);

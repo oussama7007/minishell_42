@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:44 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/12 15:26:23 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 16:00:51 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ int	process_export_arguments(char **args, char ***env_ptr)
 			ret_status = 1;
 		}
 		else if (value)
-			ret_status |= execute_export_assignment(name, value, is_append, env_ptr);
+			ret_status |= execute_export_assignment(name,
+					value, is_append, env_ptr);
 		else
 			ret_status |= exec_export_name_only(name, env_ptr);
 		free(name);

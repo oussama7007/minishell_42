@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 23:22:35 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 15:33:52 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 17:03:31 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,28 @@
 
 void	free_all_allocations(t_command *cmd)
 {
-	free(cmd->args);
-	free(cmd->red_in);
-	free(cmd->red_out);
-	free(cmd->append);
-	free(cmd->heredoc_delimiters);
-	free(cmd->heredoc_quotes);
+	if (cmd->args)
+		free(cmd->args);
+	if (cmd->red_in)
+		free(cmd->red_in);
+	if (cmd->red_out)
+		free(cmd->red_out);
+	if (cmd->append)
+		free(cmd->append);
+	if (cmd->heredoc_delimiters)
+		free(cmd->heredoc_delimiters);
+	if (cmd->heredoc_quotes)
+		free(cmd->heredoc_quotes);
 }
 
 void	cleanup(t_command *cmds, t_token *tokens, char *line)
 {
-	free_command(cmds);
-	free_tokens(tokens);
-	free(line);
+	if (cmds)
+		free_command(cmds);
+	if (tokens)
+		free_tokens(tokens);
+	if (line)
+		free(line);
 }
 
 void	clean_accumulator(t_data *data)
@@ -41,12 +50,10 @@ t_command	*build_commands(t_token **tokens, t_data *data, char **line)
 	t_command	*commands;
 
 	(void)line;
-	commands = build_command(*tokens);
-	if (!commands || !validate_syntax(*tokens, data))
-	{
-		if (commands)
-			free_command(commands);
+	if (!validate_syntax(*tokens, data))
 		return (NULL);
-	}
+	commands = build_command(*tokens);
+	if (!commands)
+		return (NULL);
 	return (commands);
 }

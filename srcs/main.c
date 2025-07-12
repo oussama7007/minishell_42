@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 09:47:13 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 17:10:04 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	main_loop(char ***my_envp, t_data *data)
 	while (1)
 	{
 		commands = NULL;
+		tokens = NULL;
+		line = NULL;
 		clean_accumulator(data);
 		line = readline("Minishell$ ");
 		if (handle_exit(line, my_envp, data))
@@ -74,7 +76,7 @@ void	main_loop(char ***my_envp, t_data *data)
 		if (!process_input(&line, data))
 			continue ;
 		tokens = tokenize(line, *my_envp, data);
-		if (validate_tokens(&tokens, data, &line))
+		if (tokens && validate_tokens(&tokens, data, &line))
 		{
 			commands = build_commands(&tokens, data, &line);
 			if (commands)

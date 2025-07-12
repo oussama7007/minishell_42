@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 12:49:42 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 11:44:51 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 17:00:08 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ int	validate_tokens(t_token **tokens, t_data *data, char **line)
 	if ((*tokens)->type == T_PIPE)
 	{
 		error(ERR_PIPE);
-		free_tokens(*tokens);
-		free(*line);
 		data->ex_status = 2;
 		return (0);
 	}
@@ -92,7 +90,8 @@ int	validate_tokens(t_token **tokens, t_data *data, char **line)
 int	prepare_execution(t_command **cmds, t_token **tokens,
 		char ***env, t_data *data)
 {
-	free_command(*cmds);
+	if (*cmds)
+		free_command(*cmds);
 	*cmds = build_command(*tokens);
 	if (!*cmds)
 	{
@@ -102,6 +101,7 @@ int	prepare_execution(t_command **cmds, t_token **tokens,
 	if (!handle_heredocs_before_execution(*cmds, *env, data))
 	{
 		free_command(*cmds);
+		*cmds = NULL;
 		free_tokens(*tokens);
 		return (0);
 	}
