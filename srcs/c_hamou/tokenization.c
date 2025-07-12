@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:12:47 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 21:21:32 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 21:46:52 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,42 @@ void	handle_double_quotes(char **start, char **env, t_data *data)
 	else
 		*start = end;
 }
+int has_multiple_words(char *str)
+{
+	int i = 0;
+	int in_word = 0;
+	int word_count = 0;
 
+	while (str[i])
+	{
+		if (!is_space(str[i]))
+		{
+			if (!in_word)
+			{
+				in_word = 1;
+				word_count++;
+			}
+		}
+		else
+		{
+			in_word = 0;
+		}
+		i++;
+	}
+	return (word_count > 1);
+}
 t_token	*handle_word(char **start, char **my_env, t_data *data)
 {
 	t_token	*token;
 
 	reset_word_data(data);
 	while (**start && !is_space(**start) && !is_operator(**start))
+	{
+		if (is_operator(**start))
+            break;
 		process_segment(start, my_env, data);
-	if (data->accumulator && ft_strchr(data->accumulator, ' '))
+	}
+	if (data->accumulator && has_multiple_words(data->accumulator))
 		data->has_whit_space = 1;
 	if (!data->accumulator)
 	{
