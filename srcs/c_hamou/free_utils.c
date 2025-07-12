@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 23:22:35 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 18:39:22 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 22:34:48 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,32 @@ t_command	*build_commands(t_token **tokens, t_data *data, char **line)
 	if (!commands)
 		return (NULL);
 	return (commands);
+}
+
+int	has_multiple_words(char *str)
+{
+	int	i;
+	int	in_word;
+	int	word_count;
+
+	i = 0;
+	in_word = 0;
+	word_count = 0;
+	while (str[i])
+	{
+		if (!is_space(str[i]))
+		{
+			if (!in_word)
+			{
+				in_word = 1;
+				word_count++;
+			}
+		}
+		else
+		{
+			in_word = 0;
+		}
+		i++;
+	}
+	return (word_count > 1);
 }
