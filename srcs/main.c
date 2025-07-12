@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 09:38:35 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 09:47:13 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,9 @@ void	main_loop(char ***my_envp, t_data *data)
 	t_token		*tokens;
 	t_command	*commands;
 
-	setup_signal_handlers();
-	exit_status(0, 0, data);
 	while (1)
 	{
+		commands = NULL;
 		clean_accumulator(data);
 		line = readline("Minishell$ ");
 		if (handle_exit(line, my_envp, data))
@@ -90,13 +89,15 @@ int	main(int ac, char **av, char **env)
 	char	**my_envp;
 	t_data	data;
 
-	data = (t_data){0};
 	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
 		exit(1);
+	data = (t_data){0};
 	(void)ac;
 	(void)av;
 	my_envp = init_environment(env);
 	ensure_minimal_env(&my_envp);
+	setup_signal_handlers();
+	exit_status(0, 0, &data);
 	main_loop(&my_envp, &data);
 	free_environment(my_envp);
 	return (data.ex_status);
