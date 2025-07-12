@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 23:22:35 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/11 23:28:21 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/12 02:10:33 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,18 @@ void	free_all_allocations(t_command *cmd)
 	free(cmd->append);
 	free(cmd->heredoc_delimiters);
 	free(cmd->heredoc_quotes);
+}
+
+void	cleanup(t_command *cmds, t_token *tokens, char *line)
+{
+	free_command(cmds);
+	free_tokens(tokens);
+	free(line);
+}
+
+void	clean_accumulator(t_data *data)
+{
+	if (data->accumulator)
+		free(data->accumulator);
+	data->accumulator = NULL;
 }

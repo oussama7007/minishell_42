@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 05:53:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/10 13:35:58 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 01:13:08 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	error(int type)
 	else if (type == ERR_SEMICOLON)
 		write(2, "Minishell: syntax error near unexpected token `;'\n", 51);
 	else if (type == ERR_NEWLINE)
-		write(2, "Minishell: syntax error near unexpected token `newline'\n", 57);
+		write(2,
+			"Minishell: syntax error near unexpected token `newline'\n", 57);
 	else if (type == ERR_SYNTAX)
 		write(2, "Minishell: syntax error \n", 26);
 	else if (type == ERR_AMBIGUOS)

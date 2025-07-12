@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 12:43:39 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 21:03:43 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 00:59:35 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	setup_child_signals(t_command *cmd)
 	else
 	{
 		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);	
+		signal(SIGQUIT, SIG_DFL);
 	}
 }
 
