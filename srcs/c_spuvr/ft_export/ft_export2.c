@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:37:18 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/12 16:51:07 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 17:40:07 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ int	create_append_value(char *name, char *append_val, char ***env_ptr)
 	if (!new_val_str)
 		return (1);
 	status = my_setenv(name, new_val_str, env_ptr);
+	free(new_val_str);
 	return (status);
 }
