@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:00:09 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 10:16:48 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 12:07:55 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int	my_unsetenv(const char *name, char ***env_ptr)
 	new_env = malloc(sizeof(char *) * env_size);
 	if (!new_env)
 		return (-1);
+	free((*env_ptr)[var_id]);
 	copy_indexes(env_ptr, new_env, var_id);
 	free(*env_ptr);
 	*env_ptr = new_env;
