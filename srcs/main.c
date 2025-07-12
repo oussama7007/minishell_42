@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:26:38 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 22:14:09 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 23:44:48 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int	main(int ac, char **av, char **env)
 	setup_signal_handlers();
 	exit_status(0, 0, &data);
 	main_loop(&my_envp, &data);
+	rl_clear_history();
 	free_environment(my_envp);
 	return (data.ex_status);
 }

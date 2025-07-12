@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:22:45 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/12 18:39:41 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 23:44:21 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	is_numeric_arg(char *str)
 
 static void	cleanup_and_exit(t_exit_data *exit_data)
 {
+	rl_clear_history();
 	if (exit_data->env_ptr && *exit_data->env_ptr)
 		free_environment(*(exit_data->env_ptr));
 	if (exit_data->commands)
