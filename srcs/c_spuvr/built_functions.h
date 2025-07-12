@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/12 10:37:11 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 15:14:07 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,13 +104,10 @@ int		handle_fork_error(char *cmd_to_free);
 int		ft_echo(char **args);
 void	display_sorted_environment(char **envp);
 int		process_export_arguments(char **args, char ***env_ptr);
-int		is_standalone_name(const char *arg);
-int		exec_export_plus_equal(const char *arg, char ***env_ptr);
 int		exec_export_value(const char *arg, char ***env_ptr);
 int		exec_export_name_only(const char *name_arg, char ***env_ptr);
 void	print_err_export(const char *context, const char *specific_arg);
 int		is_valid_identifier(const char *name);
-int		handle_plus_equal_error(const char *plus_equal_ptr, char *name);
 char	*strip_outer_quotes(const char *str);
 int		create_append_value(char *name, char *append_val, char ***env_ptr);
 int		is_built_ins(char **cmd, char ***env_ptr);

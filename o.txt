@@ -1,104 +1,33 @@
-➜  minishell_42 git:(main) ✗ env -i valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --verbose --log-file=valgrind-report.txt ./minishell
-Minishell$ env
-LD_LIBRARY_PATH=/usr/lib/debug
-GLIBCPP_FORCE_NEW=1
-PWD=/root/1337/minishell_42
-GLIBCXX_FORCE_NEW=1
-LD_PRELOAD=/usr/libexec/valgrind/vgpreload_core-amd64-linux.so:/usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-SHLVL=1
-Minishell$ export
-declare -x GLIBCPP_FORCE_NEW="1"
-declare -x GLIBCXX_FORCE_NEW="1"
-declare -x LD_LIBRARY_PATH="/usr/lib/debug"
-declare -x LD_PRELOAD="/usr/libexec/valgrind/vgpreload_core-amd64-linux.so:/usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so"
-declare -x OLDPWD
-declare -x PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-declare -x PWD="/root/1337/minishell_42"
-declare -x SHLVL="1"
-Minishell$ cd ..
-Minishell$ export
-declare -x GLIBCPP_FORCE_NEW="1"
-declare -x GLIBCXX_FORCE_NEW="1"
-declare -x LD_LIBRARY_PATH="/usr/lib/debug"
-declare -x LD_PRELOAD="/usr/libexec/valgrind/vgpreload_core-amd64-linux.so:/usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so"
-declare -x OLDPWD
-declare -x PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-declare -x PWD="/root/1337"
-declare -x SHLVL="1"
-Minishell$ cd -
-minishell: cd: OLDPWD not set
+//////////////////////////////////////////////////
+
+Minishell$ export HOME="/home/oadouz"
+Minishell$ "$HOMEdskjhfkdshfsd"
+Minishell$ echo $?
+0
 Minishell$ 
 
-OLDPWD IS SETED but without value so it really need to be fixed 
-/////////////////////////////////
+Should Be like: 
 
-and the same here : 
+bash-5.2$ export HOME="/home/oadouz"
+bash-5.2$ "$HOMEdskjhfkdshfsd"
+bash: : command not found
+bash-5.2$ echo $?
+127
+bash-5.2$ 
 
-Minishell$ unset PWD
-Minishell$ export
-declare -x GLIBCPP_FORCE_NEW="1"
-declare -x GLIBCXX_FORCE_NEW="1"
-declare -x LD_LIBRARY_PATH="/usr/lib/debug"
-declare -x LD_PRELOAD="/usr/libexec/valgrind/vgpreload_core-amd64-linux.so:/usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so"
-declare -x OLDPWD
-declare -x PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-declare -x SHLVL="1"
-Minishell$ cd ..
-Minishell$ pwd
-/root/1337/minishell_42
-Minishell$ export PWD
-Minishell$ export | grep PWD
-declare -x OLDPWD
-declare -x PWD
-Minishell$ cd srcs/
-Minishell$ pwd
-/root/1337/minishell_42/srcs
-Minishell$ export | grep PWD
-declare -x OLDPWD
-declare -x PWD
+//////////////////////////////////////////////////
+
+Minishell$ cat
+^CMinishell$ echo $?
+130
 Minishell$ 
 
 
+bash-5.2$ cat
+^C
+bash-5.2$ echo $?
+130
+bash-5.2$ 
 
-so if i did export PWD 
-and i did that on bash : 
 
-
-root@DESKTOP-USVKH39:~/1337/minishell_42# env -i bash
-root@DESKTOP-USVKH39:/root/1337/minishell_42# unset PWD
-root@DESKTOP-USVKH39:/root/1337/minishell_42# cd ..
-root@DESKTOP-USVKH39:/root/1337# cd -
-bash: cd: OLDPWD not set
-root@DESKTOP-USVKH39:/root/1337# export
-declare -x DISPLAY="172.23.32.1:0"
-declare -x LESSCLOSE="/usr/bin/lesspipe %s %s"
-declare -x LESSOPEN="| /usr/bin/lesspipe %s"
-declare -x LS_COLORS=""
-declare -x OLDPWD
-declare -x PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.local/bin"
-declare -x SHLVL="1"
-root@DESKTOP-USVKH39:/root/1337# export PWD
-root@DESKTOP-USVKH39:/root/1337# ls
-Philosophers  codecrafters-shell-c  combine_files.sh:Zone.Identifier  ft_printf      minishell_42  test
-SVG_exp       combine_files.sh      exam                              get_next_line  my_gnl
-root@DESKTOP-USVKH39:/root/1337# export
-declare -x DISPLAY="172.23.32.1:0"
-declare -x LESSCLOSE="/usr/bin/lesspipe %s %s"
-declare -x LESSOPEN="| /usr/bin/lesspipe %s"
-declare -x LS_COLORS=""
-declare -x OLDPWD
-declare -x PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.local/bin"
-declare -x PWD="/root/1337"
-declare -x SHLVL="1"
-root@DESKTOP-USVKH39:/root/1337# cd minishell_42/
-root@DESKTOP-USVKH39:/root/1337/minishell_42# export
-declare -x DISPLAY="172.23.32.1:0"
-declare -x LESSCLOSE="/usr/bin/lesspipe %s %s"
-declare -x LESSOPEN="| /usr/bin/lesspipe %s"
-declare -x LS_COLORS=""
-declare -x OLDPWD="/root/1337"
-declare -x PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.local/bin"
-declare -x PWD="/root/1337/minishell_42"
-declare -x SHLVL="1"
-root@DESKTOP-USVKH39:/root/1337/minishell_42# 
+//////////////////////////////////////////////////
