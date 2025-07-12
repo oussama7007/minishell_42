@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:33:39 by oadouz            #+#    #+#             */
-/*   Updated: 2025/06/21 17:30:20 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 09:03:48 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	ft_env(char **args, char ***env_ptr)
 	int		i;
 	char	*eq_pos;
 
+	(void)args;
 	if (!env_ptr || !(*env_ptr))
 		return (1);
 	i = 0;

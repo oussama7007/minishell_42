@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:04:48 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/11 17:37:59 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/12 09:02:48 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	*get_old_pwd_val(char **envp)
 	return (pwd_copy);
 }
 
-static int	cd_err(const char *path, char *old_loc, char *to_free)
+static int	cd_err(const char *path)
 {
 	ft_putstr_fd("minishell: cd: ", 2);
 	ft_putstr_fd((char *)path, 2);
@@ -58,7 +58,7 @@ int	ft_chdir(char **args, char ***env_ptr)
 	ret = chdir(dest);
 	if (ret == -1)
 	{
-		cd_err(dest, old_loc, dest);
+		cd_err(dest);
 		free(old_loc);
 		free(dest);
 		return (1);
