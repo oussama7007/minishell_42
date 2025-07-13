@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:05:44 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/12 17:57:44 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/13 00:56:25 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,43 +81,49 @@ int	exec_export_name_only(const char *name_arg, char ***env_ptr)
 	return (0);
 }
 
-int	process_export_arguments(char **args, char ***env_ptr)
+static int	handle_single_export_arg(char *arg, char ***env_ptr)
 {
-	int		i;
-	int		ret_status;
 	char	*name;
 	char	*value;
 	int		is_append;
+	int		status;
 
-	i = -1;
-	ret_status = 0;
-	while (args[++i])
+	if (ft_strcmp(arg, "export") == 0)
 	{
-		if (parse_export_arg(args[i], &name, &value, &is_append) != 0)
-			return (1);
-		if (!is_valid_identifier(name))
-		{
-			print_err_export(NULL, args[i]);
-			ret_status = 1;
-		}
-		else if (value)
-			ret_status |= execute_export_assignment(name,
-					value, is_append, env_ptr);
-		else
-			ret_status |= exec_export_name_only(name, env_ptr);
-		clean_two_strings(name, value);
+		print_err_export(NULL, arg);
+		return (1);
 	}
-	return (ret_status);
+	if (parse_export_arg(arg, &name, &value, &is_append) != 0)
+		return (2);
+	status = 0;
+	if (!is_valid_identifier(name))
+	{
+		print_err_export(NULL, arg);
+		status = 1;
+	}
+	else if (value)
+		status = execute_export_assignment(name, value, is_append, env_ptr);
+	else
+		status = exec_export_name_only(name, env_ptr);
+	clean_two_strings(name, value);
+	return (status);
 }
 
-int	ft_export(char **args, char ***env_ptr)
+int	process_export_arguments(char **args, char ***env_ptr)
 {
-	if (!env_ptr || !(*env_ptr))
-		return (1);
-	if (!args[1])
+	int	i;
+	int	ret_status;
+	int	arg_status;
+
+	i = 1;
+	ret_status = 0;
+	while (args[i])
 	{
-		display_sorted_environment(*env_ptr);
-		return (0);
+		arg_status = handle_single_export_arg(args[i], env_ptr);
+		if (arg_status == 2)
+			return (1);
+		ret_status |= arg_status;
+		i++;
 	}
-	return (process_export_arguments(args, env_ptr));
+	return (ret_status);
 }

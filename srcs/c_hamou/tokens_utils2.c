@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:16:02 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 09:39:54 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/13 00:54:23 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	handle_unquoted_part(char **start, char **env, t_data *data)
 		if (*end == '$' && (ft_isalpha(*(end + 1)) || *(end + 1) == '?')
 			&& !data->delimiter)
 		{
-			data->has_unquoted_expansion = 1;
 			handle_dollar_case(&end, env, data);
 		}
 		else

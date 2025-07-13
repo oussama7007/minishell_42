@@ -3,3 +3,4 @@
 minishell
 combined.txt
 combine_files.sh
+valgrind-report.txt

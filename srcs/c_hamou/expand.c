@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:20:52 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 07:01:43 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/13 00:54:14 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	handle_regular_accumulator(char *var_start, char *end,
 	data->is_expanded = 1;
 	if (var_value)
 	{
+		data->has_unquoted_expansion = 1;
 		data->is_expanded = 1;
 		if (data->accumulator)
 		{
