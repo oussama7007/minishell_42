@@ -6,26 +6,21 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:18:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/12 23:43:17 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/13 01:49:11 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILT_FUNCTIONS_H
 # define BUILT_FUNCTIONS_H
 
-# include <stdio.h>    
-# include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../includes/header.h"
 # include "../c_spuvr/LIBFT/libft.h"
 # include "../includes/header.h"
-# include <unistd.h>
-# include <stdbool.h>
 # include <errno.h>
-# include <string.h>
 # include <fcntl.h>
-# include <signal.h>
+# include <sys/stat.h>
 
 typedef struct s_heredoc_info
 {

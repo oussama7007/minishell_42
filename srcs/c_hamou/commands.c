@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 02:22:51 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/09 17:17:17 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/13 03:19:53 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,29 +77,26 @@ int	finalize_command(t_cmd_builder *builder)
 	return (1);
 }
 
-t_command	*build_command(t_token *tokens)
+t_command	*build_command(t_token *tokens, t_data *data)
 {
 	t_cmd_builder	builder;
+	int				total_heredoc_count;
 
 	builder = (t_cmd_builder){0};
+	total_heredoc_count = 0;
 	if (!tokens)
 		return (NULL);
 	while (tokens)
 	{
 		if (!ensure_command_exists(&builder, tokens))
 			return (free_command(builder.commands), NULL);
-		if (tokens->type == TOKEN_WORD)
-			builder.arg_count++;
-		else if (tokens->type == TOKEN_RED_IN && tokens->next)
-			builder.red_in_count++;
-		else if (tokens->type == TOKEN_RED_HEREDOC && tokens->next)
-			builder.heredoc_count++;
-		else if ((tokens->type == TOKEN_RED_OUT
-				|| tokens->type == TOKEN_RED_APPEND) && tokens->next)
-			builder.red_out_count++;
+		if (!process_tokens(&builder, tokens, data, &total_heredoc_count))
+			return (free_command(builder.commands), NULL);
 		if (tokens->type == TOKEN_PIPE || !tokens->next)
+		{
 			if (!finalize_command(&builder))
 				return (free_command(builder.commands), NULL);
+		}
 		tokens = tokens->next;
 	}
 	return (builder.commands);

@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 12:49:42 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 22:13:04 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/13 02:44:41 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	prepare_execution(t_command **cmds, t_token **tokens,
 {
 	if (*cmds)
 		free_command(*cmds);
-	*cmds = build_command(*tokens);
+	*cmds = build_command(*tokens, data);
 	if (!*cmds)
 	{
 		free_tokens(tokens);

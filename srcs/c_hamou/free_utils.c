@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 23:22:35 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 22:34:48 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/13 02:45:07 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_command	*build_commands(t_token **tokens, t_data *data, char **line)
 	(void)line;
 	if (!validate_syntax(*tokens, data))
 		return (NULL);
-	commands = build_command(*tokens);
+	commands = build_command(*tokens, data);
 	if (!commands)
 		return (NULL);
 	return (commands);

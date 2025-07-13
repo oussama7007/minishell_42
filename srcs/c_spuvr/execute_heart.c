@@ -6,12 +6,11 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:31:37 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/12 10:33:14 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/13 01:49:04 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_functions.h"
-#include <sys/stat.h>
 
 static int	is_directory(const char *path)
 {

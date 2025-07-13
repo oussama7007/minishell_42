@@ -6,12 +6,11 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 22:22:27 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/10 22:39:47 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/13 01:49:39 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <limits.h>
 
 static int	check_overflow(unsigned long long res, int digit, int sign)
 {

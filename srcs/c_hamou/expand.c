@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:20:52 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/13 00:54:14 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/13 02:47:31 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,18 @@ void	handle_regular_accumulator(char *var_start, char *end,
 		else
 			data->accumulator = ft_strdup(var_value);
 	}
+}
+
+int	check_heredoc_limit(t_cmd_builder *builder, t_data *data,
+		int *total_heredocs)
+{
+	builder->heredoc_count++;
+	(*total_heredocs)++;
+	if (*total_heredocs > 16)
+	{
+		write(2, "minishell: maximum here-document count exceeded\n", 48);
+		data->ex_status = 2;
+		return (0);
+	}
+	return (1);
 }

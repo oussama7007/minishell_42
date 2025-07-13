@@ -6,7 +6,7 @@
 /*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 18:06:01 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 22:35:01 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/13 03:19:26 by oadouz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ t_token		*create_tokens_from_split(char **split_words);
 t_token		*create_and_add_token(t_token **tokens,
 				t_token *token, t_data *data);
 t_command	*new_command(void);
-t_command	*build_command(t_token *tokens);
+t_command	*build_command(t_token *tokens, t_data *data);
 t_command	*build_commands(t_token **tokens, t_data *data, char **line);
 int			allocate_memory(t_command *cmd, t_counts counts);
 int			allocate_primary_memory(t_command *cmd, t_counts counts);
@@ -202,5 +202,9 @@ void		remove_current_token(t_token **head, t_token **prev,
 void		add_token(t_token **tokens, t_token *token);
 int			populate_command(t_command *cmd, t_token *tokens, t_counts counts);
 int			has_multiple_words(char *str);
+int			check_heredoc_limit(t_cmd_builder *builder, t_data *data,
+				int *total_heredocs);
+int			process_tokens(t_cmd_builder *builder, t_token *token,
+				t_data *data, int *heredoc_count);
 
 #endif
