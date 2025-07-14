@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 03:20:39 by oait-si-          #+#    #+#             */
-/*   Updated: 2025/07/12 23:02:52 by oait-si-         ###   ########.fr       */
+/*   Updated: 2025/07/14 08:24:18 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	is_redirection(int token_type)
 int	should_split_token(t_token *token)
 {
 	return (token->has_unquoted_expansion_token
-		&& !token->is_assigning_expand_token);
+		&& !token->is_assigning_expand_token && !token->quotes_type);
 }
 
 int	handle_exit(char *line, char ***env, t_data *data)

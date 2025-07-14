@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oadouz <oadouz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:44:44 by oadouz            #+#    #+#             */
-/*   Updated: 2025/07/11 17:46:08 by oadouz           ###   ########.fr       */
+/*   Updated: 2025/07/14 08:27:00 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ static pid_t	pipeline_loop(t_command *cmd, char ***env_ptr, int *prev_pipe)
 		}
 		pid = fork();
 		if (pid < 0)
-			return (perror("minishell: fork"), -1);
+		{
+			close(pipe_fds[0]);
+			return (close(pipe_fds[1]),close(*prev_pipe),perror("minishell: fork"), -1);
+		}
 		if (pid == 0)
 			execute_child(cmd, env_ptr, *prev_pipe, pipe_fds);
 		last_pid = pid;
